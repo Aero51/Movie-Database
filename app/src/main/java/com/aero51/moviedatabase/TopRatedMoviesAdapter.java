@@ -33,6 +33,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
         Top_Rated_Results currentResult = mresultsList.get(position);
 
+        holder.textViewPosition.setText(String.valueOf(position+1));
         holder.textViewtitle.setText(currentResult.getTitle());
         holder.textViewVoteAverage.setText(String.valueOf(currentResult.getVote_average()));
         holder.textViewOverview.setText(currentResult.getOverview());
@@ -40,7 +41,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
         String baseUrl = "https://image.tmdb.org/t/p/w92";
         String imageUrl = baseUrl + currentResult.getPoster_path();
-        Log.d("moviesadapter", "imageUrl: " + imageUrl);
+    //    Log.d("moviesadapter", "imageUrl: " + imageUrl);
         Picasso.get().load(imageUrl).into(holder.imageView);
 
     }
@@ -56,13 +57,14 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
     }
 
     public void setResults(List<Top_Rated_Results> results) {
-        this.mresultsList = results;
-        notifyDataSetChanged();
+        //this.mresultsList = results;
+        mresultsList.addAll(results);
     }
 
 
     class NoteHolder extends RecyclerView.ViewHolder {
         private ImageView imageView;
+        private TextView textViewPosition;
         private TextView textViewtitle;
         private TextView textViewVoteAverage;
         private TextView textViewOverview;
@@ -70,6 +72,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
         public NoteHolder(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view);
+            textViewPosition=itemView.findViewById(R.id.text_view_position);
             textViewtitle = itemView.findViewById(R.id.text_view_title);
             textViewVoteAverage = itemView.findViewById(R.id.text_view_vote_average);
             textViewOverview = itemView.findViewById(R.id.text_view_overview);

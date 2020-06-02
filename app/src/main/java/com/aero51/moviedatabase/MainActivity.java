@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -25,11 +26,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String API_KEY = "8ba72532be79fd82366e924e791e0c71";
+    public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;
 
     private TheMovieDbApi theMovieDbApi;
     private TopRatedMoviesAdapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private TextView textView;
+    private List<Top_Rated_Movies> top_rated_movies_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,11 +49,11 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.text_view_top_rated_movies);
 
 
-        scrollListener=new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d("EndlessRecyclerViewScro", "page: " + page+" total items count: "+totalItemsCount);
-                loadNextDataFromApi(page);
+                Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener   page: " + page + " total items count: " + totalItemsCount);
+                getTopRatedMovies(page + 1);
             }
         };
         // Adds the scroll listener to RecyclerView
@@ -73,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         theMovieDbApi = retrofit.create(TheMovieDbApi.class);
-        getTopRatedMovies();
+        getTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
     }
 
     private void loadNextDataFromApi(int page) {
@@ -85,29 +88,43 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void getTopRatedMovies() {
-        Call<Top_Rated_Movies> call = theMovieDbApi.getTopRatedMovies(API_KEY,2);
+    private void getTopRatedMovies(int page) {
+        Call<Top_Rated_Movies> call = theMovieDbApi.getTopRatedMovies(API_KEY, page);
         call.enqueue(new Callback<Top_Rated_Movies>() {
             @Override
             public void onResponse(Call<Top_Rated_Movies> call, Response<Top_Rated_Movies> response) {
                 if (!response.isSuccessful()) {
 
                     Toast.makeText(MainActivity.this, "Response unsuccesful: " + response.code(), Toast.LENGTH_SHORT).show();
-                    Log.d("moviedatabase", "Response unsuccesful: " + response.code());
+                    Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
                     return;
                 }
                 Top_Rated_Movies mTopRatedMovies = response.body();
-                Log.d("moviedatabase", "Response succesful: " + response.code() + " " + mTopRatedMovies.getResults_list().size());
+                top_rated_movies_list.add(mTopRatedMovies);
+
+                Log.d("moviedatabaselog", "Response succesful: " + response.code() + " " + mTopRatedMovies.getResults_list().size());
                 String text = " Total pages: " + mTopRatedMovies.getTotal_pages() + " Total reults: " + mTopRatedMovies.getTotal_results();
                 textView.setText(text);
+
+
                 adapter.setResults(mTopRatedMovies.getResults_list());
+                Log.d("moviedatabaselog", "adapter.setResults: adapter.getItemCount():  " + adapter.getItemCount() + " ,page: " + page);
+
+                if (page == 1) {
+                    adapter.notifyDataSetChanged();
+                } else {
+                    int position_start = adapter.getItemCount() + 1;
+                    int itemCount = mTopRatedMovies.getResults_list().size();
+                    adapter.notifyItemRangeInserted(position_start, itemCount);
+                }
+
 
             }
 
             @Override
             public void onFailure(Call<Top_Rated_Movies> call, Throwable t) {
                 Toast.makeText(MainActivity.this, "onFailure: " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                Log.d("moviedatabase", "onFailure: " + t.getMessage());
+                Log.d("moviedatabaselog", "onFailure: " + t.getMessage());
             }
         });
 
