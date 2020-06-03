@@ -1,9 +1,18 @@
 package com.aero51.moviedatabase;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Date;
 import java.util.List;
 
-public class Top_Rated_Results {
+@Entity(tableName = "top_rated_result")
+public class Top_Rated_Result {
+
+
+    @PrimaryKey(autoGenerate = true)
+    private int db_id;
+    private Integer pages_number;
     private Double popularity;
     private Integer vote_count;
     private boolean video;
@@ -19,7 +28,8 @@ public class Top_Rated_Results {
     private String overview;
     private Date release_date;
 
-    public Top_Rated_Results(Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
+    public Top_Rated_Result(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
+        this.pages_number = pages_number;
         this.popularity = popularity;
         this.vote_count = vote_count;
         this.video = video;
@@ -34,6 +44,17 @@ public class Top_Rated_Results {
         this.vote_average = vote_average;
         this.overview = overview;
         this.release_date = release_date;
+
+    }
+
+
+
+    public int getDb_id() {
+        return db_id;
+    }
+
+    public Integer getPages_number() {
+        return pages_number;
     }
 
     public Double getPopularity() {
@@ -92,5 +113,12 @@ public class Top_Rated_Results {
         return release_date;
     }
 
+    public void setDb_id(int db_id) {
+        this.db_id = db_id;
+    }
+
+    public void setPages_number(Integer pages_number) {
+        this.pages_number = pages_number;
+    }
 
 }
