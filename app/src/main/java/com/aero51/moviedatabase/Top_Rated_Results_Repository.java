@@ -25,7 +25,6 @@ public class Top_Rated_Results_Repository {
 
     private TheMovieDbApi theMovieDbApi;
 
-
     public Top_Rated_Results_Repository(Application application) {
         Top_Rated_Results_Database database = Top_Rated_Results_Database.getInstance(application);
         top_rated_result_dao = database.top_rated_results_dao();
@@ -34,9 +33,6 @@ public class Top_Rated_Results_Repository {
         //allResults=  top_rated_result_dao.getAllResults();
 
         top_rated_result_list = new ArrayList<>();
-        // allResults.setValue(top_rated_result_dao.getAllResults());
-        // allResults = new MutableLiveData<>();
-
 
         theMovieDbApi = RetrofitInstance.getApiService();
         getTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
@@ -54,18 +50,11 @@ public class Top_Rated_Results_Repository {
                     Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
                     return;
                 }
-
                 Top_Rated_Movies_Page mTopRatedMovies = response.body();
 
-                if(page!=1)
-                {
-                    top_rated_result_list=allResults.getValue();
-                }
-                top_rated_result_list.addAll(mTopRatedMovies.getResults_list());
-                allResults.setValue(top_rated_result_list);
-
-                //  Log.d("moviedatabaselog", "Response succesful: " + response.code() + " " + mTopRatedMovies.getResults_list().size());
-                String text = " Total pages: " + mTopRatedMovies.getTotal_pages() + " Total results: " + mTopRatedMovies.getTotal_results();
+                List<Top_Rated_Result> list_of_results=mTopRatedMovies.getResults_list();
+                top_rated_result_list.addAll(list_of_results);
+                allResults.setValue(list_of_results);
             }
 
             @Override
@@ -97,8 +86,6 @@ public class Top_Rated_Results_Repository {
     public LiveData<List<Top_Rated_Result>> getAllResults() {
         return allResults;
     }
-
-
 
 
     private static class InsertNoteAsyncTask extends AsyncTask<Top_Rated_Result, Void, Void> {

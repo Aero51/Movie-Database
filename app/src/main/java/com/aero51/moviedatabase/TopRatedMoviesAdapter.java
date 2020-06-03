@@ -17,8 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAdapter.NoteHolder> {
-    private AdapterView.OnItemClickListener listener;
-    private List<Top_Rated_Result> mresultsList = new ArrayList<>();
+    private OnItemClickListener listener;
+    private List<Top_Rated_Result> mlist;
+
+    public TopRatedMoviesAdapter() {
+        mlist=new ArrayList<>();
+    }
 
 
     @NonNull
@@ -32,7 +36,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
     @Override
     public void onBindViewHolder(@NonNull NoteHolder holder, int position) {
 
-        Top_Rated_Result currentResult = mresultsList.get(position);
+        Top_Rated_Result currentResult = mlist.get(position);
 
         holder.textViewPosition.setText(String.valueOf(position + 1));
         holder.textViewtitle.setText(currentResult.getTitle());
@@ -57,24 +61,16 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
 
     @Override
     public int getItemCount() {
-        //  return  mresultsList == null ? 0 : mresultsList.size();
-        if (mresultsList == null)
-            return 0;
-        else
-            return mresultsList.size();
+       // return  mlist == null ? 0 : mlist.size();
 
+       // if (mlist == null) return 0;
+        //else return  mlist.size();
+        return mlist.size();
     }
-
-    public void setResults(List<Top_Rated_Result> results) {
-        //this.mresultsList = results;
-        int cached_size = mresultsList.size();
-        mresultsList.addAll(results);
-        if (cached_size == 0) {
-            notifyDataSetChanged();
-        } else {
-            notifyItemRangeInserted(cached_size,results.size());
-        }
-
+    public void addData(List<Top_Rated_Result> list){
+        final int positionStart = mlist.size() ;
+        mlist.addAll(list);
+        notifyItemRangeInserted(positionStart, mlist.size());
     }
 
 
@@ -98,12 +94,21 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMoviesAd
                 public void onClick(View v) {
                     int position = getAdapterPosition();
                     if (listener != null && position != RecyclerView.NO_POSITION) {
-                        // listener.onItemClick(mresultsList.get(position));
+                         listener.onItemClick(mlist.get(position));
+                        Log.d("moviedatabaselog", " Item clicked inside adapter : " + position);
 
 
                     }
                 }
             });
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Top_Rated_Result result);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 }

@@ -20,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
     private TopRatedMoviesAdapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private TextView textView;
-    private List<Top_Rated_Movies_Page> top_rated_movies_Page_list = new ArrayList<>();
     private TopRatedResultViewModel viewModel;
 
     @Override
@@ -41,18 +40,8 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getAllResults().observe(this, new Observer<List<Top_Rated_Result>>() {
             @Override
             public void onChanged(List<Top_Rated_Result> top_rated_results) {
-                Log.d("moviedatabaselog", "onChanged "  + " top_rated_results.size: " + top_rated_results.size());
-
-                adapter.setResults(top_rated_results);
-
-         /*       if (page == 1) {
-                    adapter.notifyDataSetChanged();
-                } else {
-                    int position_start = adapter.getItemCount() + 1;
-                    int itemCount = mTopRatedMovies.getResults_list().size();
-                    adapter.notifyItemRangeInserted(position_start, itemCount);
-                }
-*/
+               // Log.d("moviedatabaselog", "onChanged " + " top_rated_results.size: " + top_rated_results.size());
+                    adapter.addData(top_rated_results);
             }
         });
 
@@ -60,17 +49,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener   page: " + page + " total items count: " + totalItemsCount);
-                viewModel.fetchNewPage(page+1);
+                viewModel.fetchNewPage(page + 1);
             }
         };
         // Adds the scroll listener to RecyclerView
         recyclerView.addOnScrollListener(scrollListener);
+        adapter.setOnItemClickListener(new TopRatedMoviesAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Top_Rated_Result result) {
+            }
+        });
 
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                Toast.makeText(MainActivity.this, "onMove", Toast.LENGTH_SHORT).show();
                 return false;
             }
 
@@ -79,12 +74,8 @@ public class MainActivity extends AppCompatActivity {
                 //  noteViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
                 Toast.makeText(MainActivity.this, "Result deleted", Toast.LENGTH_SHORT).show();
             }
-        }).attachToRecyclerView(recyclerView);
+        });//.attachToRecyclerView(recyclerView);
     }
-
-    private void loadNextDataFromApi(int page) {
-    }
-
 
 }
 

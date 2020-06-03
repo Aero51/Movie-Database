@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+
+//Room cannot store lists and Date among others  so type converters must be implemented
 public class Converters {
     @TypeConverter
     public static Date fromTimestamp(Long value) {

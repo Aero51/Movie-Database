@@ -11,7 +11,7 @@ import java.util.List;
 public class TopRatedResultViewModel extends AndroidViewModel {
     private Top_Rated_Results_Repository repository;
     private LiveData<List<Top_Rated_Result>> allResults;
-    private LiveData<List<Top_Rated_Movies_Page>> allMovies;
+
 
     public TopRatedResultViewModel(@NonNull Application application) {
         super(application);
@@ -20,12 +20,6 @@ public class TopRatedResultViewModel extends AndroidViewModel {
 
     }
 
-  /*  public NoteViewModel() {
-        //super(application);
-        repository = new NoteRepository(application);
-        allNotes = repository.getAllNotes();
-    }
-    */
 
 
     public void insert(Top_Rated_Result result) {
@@ -45,12 +39,11 @@ public class TopRatedResultViewModel extends AndroidViewModel {
     }
 
     public LiveData<List<Top_Rated_Result>> getAllResults(){
+        if(allResults==null){
+
+        }
         return  allResults;
     }
-    public LiveData<List<Top_Rated_Movies_Page>> getAllTopRatedMovies(){
-        return  allMovies;
-    }
-
 
     public void fetchNewPage(int pageNumber){repository.getTopRatedMovies(pageNumber);}
 
