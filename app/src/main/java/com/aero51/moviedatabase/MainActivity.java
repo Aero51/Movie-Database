@@ -16,7 +16,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ItemClickListener {
     private TopRatedMoviesAdapter adapter;
     private EndlessRecyclerViewScrollListener scrollListener;
     private TextView textView;
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
 
-        adapter = new TopRatedMoviesAdapter();
+        adapter = new TopRatedMoviesAdapter(this);
         recyclerView.setAdapter(adapter);
         textView = findViewById(R.id.text_view_top_rated_movies);
 
@@ -54,11 +54,6 @@ public class MainActivity extends AppCompatActivity {
         };
         // Adds the scroll listener to RecyclerView
         recyclerView.addOnScrollListener(scrollListener);
-        adapter.setOnItemClickListener(new TopRatedMoviesAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Top_Rated_Result result) {
-            }
-        });
 
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -77,5 +72,10 @@ public class MainActivity extends AppCompatActivity {
         });//.attachToRecyclerView(recyclerView);
     }
 
+
+    @Override
+    public void OnItemClick(Top_Rated_Result result, int position) {
+
+    }
 }
 
