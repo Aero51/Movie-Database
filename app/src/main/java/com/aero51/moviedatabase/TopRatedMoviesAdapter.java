@@ -3,19 +3,13 @@ package com.aero51.moviedatabase;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMovieHolder> {
-    //RecyclerView.ViewHolder
-
+    //RecyclerView.ViewHolde
     private List<Top_Rated_Result> mlist;
     private ItemClickListener itemClickListener;
 
@@ -23,7 +17,6 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMovieHol
         mlist = new ArrayList<>();
         this.itemClickListener = itemClickListener;
     }
-
 
     @NonNull
     @Override
@@ -39,18 +32,10 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMovieHol
         Top_Rated_Result currentResult = mlist.get(position);
         //  ((TopRatedMovieHolder) holder).bindTo(currentResult,position);
         holder.bindTo(currentResult, position);
-/*
-        switch (getItemViewType(position)) {
-            case R.layout.movie_item:
-                ((MovieViewHolder) holder).bindTo(getItem(position));
-                break;
-            case R.layout.network_state_item:
-                ((NetworkStateItemViewHolder) holder).bindView(networkState);
-                break;
-        }
-*/
-    }
 
+        // ((MovieViewHolder) holder).bindTo(getItem(position));
+
+    }
 
     @Override
     public int getItemCount() {
