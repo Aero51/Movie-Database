@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase;
+package com.aero51.moviedatabase.repository;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

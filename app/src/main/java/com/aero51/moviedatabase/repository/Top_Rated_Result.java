@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase;
+package com.aero51.moviedatabase.repository;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

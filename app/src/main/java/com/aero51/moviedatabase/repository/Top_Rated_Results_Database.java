@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase;
+package com.aero51.moviedatabase.repository;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,6 +9,8 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
+
+import com.aero51.moviedatabase.utils.Converters;
 
 @Database(entities = Top_Rated_Result.class, version = 1)
 @TypeConverters({Converters.class})

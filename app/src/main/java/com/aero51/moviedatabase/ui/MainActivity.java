@@ -1,26 +1,27 @@
-package com.aero51.moviedatabase;
+package com.aero51.moviedatabase.ui;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.PagedList;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.utils.ItemClickListener;
 
 public class MainActivity extends AppCompatActivity implements ItemClickListener {
-    private TopRatedMoviesAdapter adapter;
-    private EndlessRecyclerViewScrollListener scrollListener;
+
+    private TopRatedMoviesPagedListAdapter adapter;
+
     private TextView textView;
-    private TopRatedResultViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,29 +32,18 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-
-        adapter = new TopRatedMoviesAdapter(this);
+        adapter =new TopRatedMoviesPagedListAdapter(this);
         recyclerView.setAdapter(adapter);
+
         textView = findViewById(R.id.text_view_top_rated_movies);
 
-        viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(TopRatedResultViewModel.class);
-        viewModel.getAllResults().observe(this, new Observer<List<Top_Rated_Result>>() {
+        TopRatedResultViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(TopRatedResultViewModel.class);
+        viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
             @Override
-            public void onChanged(List<Top_Rated_Result> top_rated_results) {
-               // Log.d("moviedatabaselog", "onChanged " + " top_rated_results.size: " + top_rated_results.size());
-                    adapter.addData(top_rated_results);
+            public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
+                adapter.submitList(top_rated_results);
             }
         });
-
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener   page: " + page + " total items count: " + totalItemsCount);
-                viewModel.fetchNewPage(page + 1);
-            }
-        };
-        // Adds the scroll listener to RecyclerView
-        recyclerView.addOnScrollListener(scrollListener);
 
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,

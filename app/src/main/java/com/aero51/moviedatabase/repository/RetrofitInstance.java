@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase;
+package com.aero51.moviedatabase.repository;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -12,7 +12,7 @@ public class RetrofitInstance {
     private static final String BASE_URL = "https://api.themoviedb.org/3/";
     private static Retrofit retrofit = null;
 
-    public static TheMovieDbApi getApiService() {
+    public static synchronized TheMovieDbApi getApiService() {
         if (retrofit == null) {
             Gson gson = new GsonBuilder().serializeNulls().create();
 

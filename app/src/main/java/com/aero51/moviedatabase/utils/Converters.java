@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase;
+package com.aero51.moviedatabase.utils;
 
 import androidx.room.TypeConverter;
 

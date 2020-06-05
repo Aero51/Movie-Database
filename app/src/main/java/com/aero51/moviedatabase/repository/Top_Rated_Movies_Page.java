@@ -1,6 +1,4 @@
-package com.aero51.moviedatabase;
-
-import androidx.lifecycle.LiveData;
+package com.aero51.moviedatabase.repository;
 
 import java.util.List;
 
