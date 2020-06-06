@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
+                Log.d("moviedatabaselog", "onChanged list size: " + top_rated_results.size());
                 adapter.submitList(top_rated_results);
             }
         });

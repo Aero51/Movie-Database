@@ -3,6 +3,7 @@ package com.aero51.moviedatabase.repository;
 import android.app.Application;
 import android.os.AsyncTask;
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
@@ -13,7 +14,7 @@ public class Top_Rated_Results_Repository {
 
     //creating livedata for PagedList  and PagedKeyedDataSource
     private LiveData<PagedList<Top_Rated_Result>> topRatedResultsPagedList;
-    private LiveData<PageKeyedDataSource<Integer, Top_Rated_Result>> liveDataSource;
+
 
     public Top_Rated_Results_Repository(Application application) {
         Top_Rated_Results_Database database = Top_Rated_Results_Database.getInstance(application);
@@ -21,18 +22,19 @@ public class Top_Rated_Results_Repository {
 
         //getting our data source factory
         TopRatedResultDataSourceFactory topRatedResultDataSourceFactory = new TopRatedResultDataSourceFactory();
-
         //getting the live data source from data source factory
-        liveDataSource = topRatedResultDataSourceFactory.getTopRatedResultLiveDataSource();
+       DataSource<Integer, Top_Rated_Result>  mostRecentDataSource = topRatedResultDataSourceFactory.create();
+
 
         //Getting PagedList config
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
+                        .setPrefetchDistance(60)
                         .setPageSize(TopRatedResultDataSource.PAGE_SIZE).build();
 
         //Building the paged list
-        topRatedResultsPagedList = new LivePagedListBuilder(topRatedResultDataSourceFactory, pagedListConfig).build();
+        topRatedResultsPagedList = (new LivePagedListBuilder(topRatedResultDataSourceFactory, pagedListConfig)).build();
     }
 
     public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {

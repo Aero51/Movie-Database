@@ -5,21 +5,19 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
 
-public class TopRatedResultDataSourceFactory extends DataSource.Factory {
+public class TopRatedResultDataSourceFactory extends DataSource.Factory<Integer, Top_Rated_Result> {
 
-    private MutableLiveData<PageKeyedDataSource<Integer, Top_Rated_Result>> topRatedResultLiveDataSource;
 
     @NonNull
     @Override
-    public DataSource create() {
-        topRatedResultLiveDataSource = new MutableLiveData<>();
+    public DataSource<Integer, Top_Rated_Result> create() {
+        MutableLiveData<PageKeyedDataSource> topRatedResultLiveDataSource = new MutableLiveData<>();
         TopRatedResultDataSource topRatedResultDataSource = new TopRatedResultDataSource();
         topRatedResultLiveDataSource.postValue(topRatedResultDataSource);
         return topRatedResultDataSource;
     }
 
-    //getter for topRatedResultLiveDataSource
-    public MutableLiveData<PageKeyedDataSource<Integer, Top_Rated_Result>> getTopRatedResultLiveDataSource() {
-        return topRatedResultLiveDataSource;
-    }
+
+
+
 }
