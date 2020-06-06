@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -13,18 +14,18 @@ import com.aero51.moviedatabase.repository.Top_Rated_Results_Repository;
 
 public class TopRatedResultViewModel extends AndroidViewModel {
     private Top_Rated_Results_Repository repository;
-    private LiveData<PagedList<Top_Rated_Result>> topRatedResultsPagedList;
-
 
     public TopRatedResultViewModel(@NonNull Application application) {
         super(application);
+        Log.d("moviedatabaselog", "TopRatedResultViewModel ");
         repository = new Top_Rated_Results_Repository(application);
-        topRatedResultsPagedList = repository.getTopRatedResultsPagedList();
+        // topRatedResultsPagedList = repository.getTopRatedResultsPagedList();
 
     }
 
     public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
-        return topRatedResultsPagedList;
+        Log.d("moviedatabaselog", "TopRatedResultViewModel getTopRatedResultsPagedList ");
+        return repository.getTopRatedResultsPagedList();
     }
 
 

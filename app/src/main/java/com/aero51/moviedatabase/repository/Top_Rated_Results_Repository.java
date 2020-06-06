@@ -23,7 +23,7 @@ public class Top_Rated_Results_Repository {
         //getting our data source factory
         TopRatedResultDataSourceFactory topRatedResultDataSourceFactory = new TopRatedResultDataSourceFactory();
         //getting the live data source from data source factory
-       DataSource<Integer, Top_Rated_Result>  mostRecentDataSource = topRatedResultDataSourceFactory.create();
+       //DataSource<Integer, Top_Rated_Result>  mostRecentDataSource = topRatedResultDataSourceFactory.create();
 
 
         //Getting PagedList config

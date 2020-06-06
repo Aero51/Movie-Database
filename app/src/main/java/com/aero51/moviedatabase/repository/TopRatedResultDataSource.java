@@ -33,8 +33,7 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Top_Rated_Result> callback) {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
         Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, params.key);
-
-        Log.d("moviedatabaselog", "load after ");
+        Log.d("moviedatabaselog", "load after:params.key "+params.key);
         List<Top_Rated_Result> list_of_results= fetchTopRatedMovies(call);
             callback.onResult(list_of_results, params.key + 1);
     }
@@ -48,7 +47,6 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
                 return null;
             }
             Top_Rated_Movies_Page mTopRatedMovies = response.body();
-            Log.d("moviedatabaselog", "load initial ");
              list_of_results = mTopRatedMovies.getResults_list();
         } catch (IOException e) {
             e.printStackTrace();

@@ -33,12 +33,11 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
-        adapter =new TopRatedMoviesPagedListAdapter(this);
-        recyclerView.setAdapter(adapter);
 
         textView = findViewById(R.id.text_view_top_rated_movies);
+        TopRatedResultViewModel viewModel =new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(TopRatedResultViewModel.class);
 
-        TopRatedResultViewModel viewModel = new ViewModelProvider.AndroidViewModelFactory(getApplication()).create(TopRatedResultViewModel.class);
+        adapter =new TopRatedMoviesPagedListAdapter(this);
         viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
                 adapter.submitList(top_rated_results);
             }
         });
-
+        recyclerView.setAdapter(adapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
