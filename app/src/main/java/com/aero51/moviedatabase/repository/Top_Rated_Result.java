@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.repository;
 
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.Date;
@@ -47,6 +48,12 @@ public class Top_Rated_Result {
 
     }
 
+    //for testing purposes
+    @Ignore
+    public Top_Rated_Result(Integer id, String title) {
+        this.id = id;
+        this.title = title;
+    }
 
 
     public int getDb_id() {

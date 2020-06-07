@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.NetworkState;
 import com.aero51.moviedatabase.repository.Top_Rated_Result;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 
@@ -38,13 +39,22 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         TopRatedResultViewModel viewModel =new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(TopRatedResultViewModel.class);
 
         adapter =new TopRatedMoviesPagedListAdapter(this);
+
+        viewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
+            @Override
+            public void onChanged(NetworkState networkState) {
+                adapter.setNetworkState(networkState);
+            }
+        });
         viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
                 Log.d("moviedatabaselog", "onChanged list size: " + top_rated_results.size());
                 adapter.submitList(top_rated_results);
+
             }
         });
+
         recyclerView.setAdapter(adapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,

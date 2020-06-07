@@ -2,11 +2,13 @@ package com.aero51.moviedatabase.repository;
 
 import android.app.Application;
 import android.os.AsyncTask;
+
+import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
-import androidx.paging.DataSource;
+import androidx.lifecycle.Transformations;
 import androidx.paging.LivePagedListBuilder;
-import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PagedList;
+
 
 
 public class Top_Rated_Results_Repository {
@@ -14,6 +16,7 @@ public class Top_Rated_Results_Repository {
 
     //creating livedata for PagedList  and PagedKeyedDataSource
     private LiveData<PagedList<Top_Rated_Result>> topRatedResultsPagedList;
+    private LiveData<NetworkState> networkState;
 
 
     public Top_Rated_Results_Repository(Application application) {
@@ -25,6 +28,13 @@ public class Top_Rated_Results_Repository {
         //getting the live data source from data source factory
        //DataSource<Integer, Top_Rated_Result>  mostRecentDataSource = topRatedResultDataSourceFactory.create();
 
+        networkState = Transformations.switchMap(topRatedResultDataSourceFactory.getNetworkStatus(),
+                new Function<TopRatedResultDataSource, LiveData<NetworkState>>() {
+                    @Override
+                    public LiveData<NetworkState> apply(TopRatedResultDataSource dataSource) {
+                        return dataSource.getNetworkState();
+                    }
+                });
 
         //Getting PagedList config
         PagedList.Config pagedListConfig =
@@ -32,10 +42,18 @@ public class Top_Rated_Results_Repository {
                         .setEnablePlaceholders(false)
                         .setPrefetchDistance(60)
                         .setPageSize(TopRatedResultDataSource.PAGE_SIZE).build();
-
         //Building the paged list
-        topRatedResultsPagedList = (new LivePagedListBuilder(topRatedResultDataSourceFactory, pagedListConfig)).build();
+        topRatedResultsPagedList = (new LivePagedListBuilder(topRatedResultDataSourceFactory, pagedListConfig))
+                .build();
     }
+    /*
+     * Getter method for the network state
+     */
+    public LiveData<NetworkState> getNetworkState() {
+        return networkState;
+    }
+
+
 
     public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
         return topRatedResultsPagedList;

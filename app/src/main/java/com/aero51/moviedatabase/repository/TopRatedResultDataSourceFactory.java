@@ -10,22 +10,27 @@ import androidx.paging.PageKeyedDataSource;
 //public class TopRatedResultDataSourceFactory extends DataSource.Factory<Integer, Top_Rated_Result> {
 public class TopRatedResultDataSourceFactory extends DataSource.Factory{
 
-    private  MutableLiveData<PageKeyedDataSource> topRatedResultLiveDataSource;
+   // private  MutableLiveData<PageKeyedDataSource> topRatedResultLiveDataSource;
+    private MutableLiveData<TopRatedResultDataSource> networkStatus;
 
     public TopRatedResultDataSourceFactory() {
-        topRatedResultLiveDataSource = new MutableLiveData<>();
+       // topRatedResultLiveDataSource = new MutableLiveData<>();
+        this.networkStatus = new MutableLiveData<>();
     }
 
     @NonNull
     @Override
     public DataSource create() {
-        Log.d("moviedatabaselog", "TopRatedResultDataSourceFactory  create() ");
         TopRatedResultDataSource topRatedResultDataSource = new TopRatedResultDataSource();
-        topRatedResultLiveDataSource.postValue(topRatedResultDataSource);
+        networkStatus.postValue(topRatedResultDataSource);
+      //  topRatedResultLiveDataSource.postValue(topRatedResultDataSource);
+
         return topRatedResultDataSource;
     }
 
-
+    public MutableLiveData<TopRatedResultDataSource> getNetworkStatus() {
+        return networkStatus;
+    }
 
 
 }

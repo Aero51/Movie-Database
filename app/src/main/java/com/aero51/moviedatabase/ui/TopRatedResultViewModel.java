@@ -8,6 +8,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
+import com.aero51.moviedatabase.repository.NetworkState;
 import com.aero51.moviedatabase.repository.Top_Rated_Result;
 import com.aero51.moviedatabase.repository.Top_Rated_Results_Repository;
 
@@ -17,17 +18,17 @@ public class TopRatedResultViewModel extends AndroidViewModel {
 
     public TopRatedResultViewModel(@NonNull Application application) {
         super(application);
-        Log.d("moviedatabaselog", "TopRatedResultViewModel ");
         repository = new Top_Rated_Results_Repository(application);
         // topRatedResultsPagedList = repository.getTopRatedResultsPagedList();
 
     }
 
     public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
-        Log.d("moviedatabaselog", "TopRatedResultViewModel getTopRatedResultsPagedList ");
         return repository.getTopRatedResultsPagedList();
     }
-
+    public LiveData<NetworkState> getNetworkState() {
+        return repository.getNetworkState();
+    }
 
     public void insert(Top_Rated_Result result) {
         repository.insert(result);
