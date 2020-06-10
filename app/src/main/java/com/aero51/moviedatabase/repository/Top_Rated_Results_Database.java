@@ -18,7 +18,7 @@ public abstract class Top_Rated_Results_Database extends RoomDatabase {
 
     private static Top_Rated_Results_Database instance;
 
-    public abstract Top_Rated_Result_Dao top_rated_results_dao();
+    public abstract Top_Rated_Result_Dao get_top_rated_results_dao();
 
     public static synchronized Top_Rated_Results_Database getInstance(Context context) {
         if (instance == null) {
@@ -36,7 +36,7 @@ public abstract class Top_Rated_Results_Database extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            new PopulateDbAsyncTask(instance).execute();
+            //new PopulateDbAsyncTask(instance).execute();
         }
     };
 
@@ -44,7 +44,7 @@ public abstract class Top_Rated_Results_Database extends RoomDatabase {
     {
         private Top_Rated_Result_Dao top_rated_result_dao;
         private PopulateDbAsyncTask(Top_Rated_Results_Database db){
-            top_rated_result_dao =db.top_rated_results_dao();
+            top_rated_result_dao =db.get_top_rated_results_dao();
         }
         @Override
         protected Void doInBackground(Void... voids) {

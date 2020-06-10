@@ -1,13 +1,21 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.networkonly;
 
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
+
+import com.aero51.moviedatabase.repository.NetworkState;
+import com.aero51.moviedatabase.repository.RetrofitInstance;
+import com.aero51.moviedatabase.repository.TheMovieDbApi;
+import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
+import com.aero51.moviedatabase.repository.Top_Rated_Result;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -40,8 +48,8 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
         Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, TOP_RATED_MOVIES_FIRST_PAGE);
         Log.d("moviedatabaselog", "load initial ");
-        List<Top_Rated_Result> list_of_results= fetchTopRatedMovies(call);
-        callback.onResult(list_of_results,null,TOP_RATED_MOVIES_FIRST_PAGE+1);
+        List<Top_Rated_Result> list_of_results = fetchTopRatedMovies(call);
+        callback.onResult(list_of_results, null, TOP_RATED_MOVIES_FIRST_PAGE + 1);
     }
 
     @Override
@@ -54,12 +62,12 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
         Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, params.key);
-        Log.d("moviedatabaselog", "load after:params.key "+params.key);
-         List<Top_Rated_Result> list_of_results= fetchTopRatedMovies(call);
-            callback.onResult(list_of_results, params.key + 1);
+        Log.d("moviedatabaselog", "load after:params.key " + params.key);
+        List<Top_Rated_Result> list_of_results = fetchTopRatedMovies(call);
+        callback.onResult(list_of_results, params.key + 1);
     }
 
-    private List<Top_Rated_Result> fetchTopRatedMovies(Call<Top_Rated_Movies_Page> call){
+    private List<Top_Rated_Result> fetchTopRatedMovies(Call<Top_Rated_Movies_Page> call) {
         List<Top_Rated_Result> list_of_results = new ArrayList<>();
         try {
             Response<Top_Rated_Movies_Page> response = call.execute();
@@ -70,7 +78,7 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
             }
             networkState.postValue(NetworkState.LOADED);
             Top_Rated_Movies_Page mTopRatedMovies = response.body();
-             list_of_results = mTopRatedMovies.getResults_list();
+            list_of_results = mTopRatedMovies.getResults_list();
         } catch (IOException e) {
             e.printStackTrace();
             Log.d("moviedatabaselog", "call failure  IOException : " + e.getMessage());

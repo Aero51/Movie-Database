@@ -24,6 +24,15 @@
         tools:listitem="@layout/movie_item"
         />
 
+    <TextView
+        android:id="@+id/empty_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:text="No data available" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/button_add_note"
         android:layout_width="wrap_content"

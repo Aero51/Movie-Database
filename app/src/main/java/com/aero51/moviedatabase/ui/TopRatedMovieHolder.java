@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.Top_Rated_Result;
 import com.aero51.moviedatabase.utils.ItemClickListener;
+import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -23,6 +24,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
     private TextView textViewVoteAverage;
     private TextView textViewOverview;
     private ItemClickListener itemClickListener;
+
 
     public TopRatedMovieHolder(@NonNull View itemView, ItemClickListener itemClickListener) {
         super(itemView);

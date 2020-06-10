@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
     private TopRatedMoviesPagedListAdapter adapter;
 
     private TextView textView;
+    private TextView emptyViewText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,9 +38,11 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         recyclerView.setHasFixedSize(true);
 
         textView = findViewById(R.id.text_view_top_rated_movies);
-        TopRatedResultViewModel viewModel =new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(TopRatedResultViewModel.class);
+        emptyViewText = findViewById(R.id.empty_view);
 
-        adapter =new TopRatedMoviesPagedListAdapter(this);
+        TopRatedResultViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(TopRatedResultViewModel.class);
+        adapter = new TopRatedMoviesPagedListAdapter(this);
+
 
         viewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
             @Override
@@ -46,14 +50,23 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
                 adapter.setNetworkState(networkState);
             }
         });
-        viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
-            @Override
-            public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
-                Log.d("moviedatabaselog", "onChanged list size: " + top_rated_results.size());
-                adapter.submitList(top_rated_results);
 
-            }
-        });
+       viewModel.getNewTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
+           @Override
+           public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
+               Log.d("moviedatabaselog", "MainActivity onChanged list size: "+top_rated_results.size());
+               adapter.submitList(top_rated_results);
+               if (top_rated_results.isEmpty()) {
+                   recyclerView.setVisibility(View.GONE);
+                   emptyViewText.setVisibility(View.VISIBLE);
+               }
+               else {
+                   recyclerView.setVisibility(View.VISIBLE);
+                   emptyViewText.setVisibility(View.GONE);
+               }
+           }
+       });
+
 
         recyclerView.setAdapter(adapter);
 

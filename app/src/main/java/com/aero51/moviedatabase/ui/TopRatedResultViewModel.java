@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -19,13 +18,12 @@ public class TopRatedResultViewModel extends AndroidViewModel {
     public TopRatedResultViewModel(@NonNull Application application) {
         super(application);
         repository = new Top_Rated_Results_Repository(application);
-        // topRatedResultsPagedList = repository.getTopRatedResultsPagedList();
-
     }
 
-    public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
-        return repository.getTopRatedResultsPagedList();
+    public LiveData<PagedList<Top_Rated_Result>> getNewTopRatedResultsPagedList() {
+        return repository.getNewTopRatedResultsPagedList();
     }
+
     public LiveData<NetworkState> getNetworkState() {
         return repository.getNetworkState();
     }
