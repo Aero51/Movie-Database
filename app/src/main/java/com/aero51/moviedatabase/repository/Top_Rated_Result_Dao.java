@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.repository;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PositionalDataSource;
@@ -32,7 +33,7 @@ public interface Top_Rated_Result_Dao {
 
     //@Transaction
     @Insert
-    void insertList(List<Top_Rated_Result> top_rated_results);
+    void insertList(Top_Rated_Movies_Page page,List<Top_Rated_Result> top_rated_results);
 
 
 
@@ -54,9 +55,14 @@ public interface Top_Rated_Result_Dao {
     LiveData<List<Top_Rated_Result>> getAllResultsLiveData();
 
 
-
-    @Query("SELECT * FROM Top_Rated_Result")
+    @Query("SELECT * FROM top_rated_result")
     DataSource.Factory<Integer, Top_Rated_Result> getAllResultsNew();
+
+   // @Query("SELECT MAX(page) FROM top_rated_movie_page")
+    @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
+    LiveData<Top_Rated_Movies_Page> getMoviePage();
+
+   // LiveData<Top_Rated_Movies_Page> getMoviePage();
 
 
 

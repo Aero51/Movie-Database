@@ -10,7 +10,6 @@ import java.util.List;
 @Entity(tableName = "top_rated_result")
 public class Top_Rated_Result {
 
-
     @PrimaryKey(autoGenerate = true)
     private int db_id;
     private Integer pages_number;

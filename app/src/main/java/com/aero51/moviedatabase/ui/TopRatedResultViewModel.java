@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -44,5 +45,12 @@ public class TopRatedResultViewModel extends AndroidViewModel {
         repository.deleteAllResults();
     }
 
+
+    @Override
+    protected void onCleared() {
+        Log.d("moviedatabaselog", "view model on cleared ");
+        repository.getMoviePageLd().removeObserver(repository.getObserver());
+        super.onCleared();
+    }
 
 }

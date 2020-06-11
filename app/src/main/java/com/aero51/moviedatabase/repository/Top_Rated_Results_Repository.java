@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
@@ -29,23 +30,32 @@ public class Top_Rated_Results_Repository {
     private Top_Rated_Result_Dao dao;
 
     private LiveData<PagedList<Top_Rated_Result>> newTopRatedResultsPagedList;
-    private MutableLiveData<Top_Rated_Movies_Page> liveMoviesPage;
     private PagedList.BoundaryCallback<Top_Rated_Result> newBoundaryCallback;
-    private int page_number;
+
+
+
+    private LiveData<Top_Rated_Movies_Page> moviePageLd;
+    private Integer page_number;
+
+
+
+    private Observer<Top_Rated_Movies_Page> observer;
 
     public Top_Rated_Results_Repository(Application application) {
         Top_Rated_Results_Database database = Top_Rated_Results_Database.getInstance(application);
         dao = database.get_top_rated_results_dao();
-        networkState=new MutableLiveData<>();
-        liveMoviesPage=new MutableLiveData<>();
-        page_number=TOP_RATED_MOVIES_FIRST_PAGE;
+        networkState = new MutableLiveData<>();
+
+
         newBoundaryCallback = new PagedList.BoundaryCallback<Top_Rated_Result>() {
             @Override
             public void onZeroItemsLoaded() {
                 super.onZeroItemsLoaded();
                 Log.d("moviedatabaselog", "onzeroitemsloaded");
 
-
+                if (page_number == null) {
+                    page_number = TOP_RATED_MOVIES_FIRST_PAGE;
+                }
                 fetchTopRatedMovies(page_number);
 
             }
@@ -59,8 +69,8 @@ public class Top_Rated_Results_Repository {
             @Override
             public void onItemAtEndLoaded(@NonNull Top_Rated_Result itemAtEnd) {
                 super.onItemAtEndLoaded(itemAtEnd);
-                Log.d("moviedatabaselog", "onItemAtEndLoaded,item:" + itemAtEnd.getTitle());
-                if(page_number<3)fetchTopRatedMovies(page_number);
+                Log.d("moviedatabaselog", "onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,pageNmbr: " + page_number);
+                fetchTopRatedMovies(page_number);
             }
         };
 
@@ -68,7 +78,8 @@ public class Top_Rated_Results_Repository {
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setPrefetchDistance(20)
+                        .setPrefetchDistance(40)
+                        .setInitialLoadSizeHint(60)
                         .setPageSize(20).build();
 
         Executor executor = Executors.newFixedThreadPool(5);
@@ -76,6 +87,27 @@ public class Top_Rated_Results_Repository {
                 .setBoundaryCallback(newBoundaryCallback).setFetchExecutor(executor)
                 .build();
 
+        observer= new Observer<Top_Rated_Movies_Page>() {
+            @Override
+            public void onChanged(Top_Rated_Movies_Page top_rated_movies_page) {
+                if (top_rated_movies_page == null) {
+                    page_number = TOP_RATED_MOVIES_FIRST_PAGE;
+                }else{
+                    page_number=top_rated_movies_page.getPage()+1;
+                }
+
+                Log.d("moviedatabaselog", "observeForever page number: " + page_number);
+            }
+        };
+        moviePageLd=dao.getMoviePage();
+        moviePageLd.observeForever(observer);
+
+    }
+    public Observer<Top_Rated_Movies_Page> getObserver() {
+        return observer;
+    }
+    public LiveData<Top_Rated_Movies_Page> getMoviePageLd() {
+        return moviePageLd;
     }
 
     public void fetchTopRatedMovies(int pageNumber) {
@@ -90,9 +122,8 @@ public class Top_Rated_Results_Repository {
                 }
                 Log.d("moviedatabaselog", "Response ok: " + response.code());
                 Top_Rated_Movies_Page mTopRatedMovies = response.body();
-                List<Top_Rated_Result> list_of_results = mTopRatedMovies.getResults_list();
-                insertListToDb(list_of_results);
-                page_number++;
+                insertListToDb(mTopRatedMovies);
+
             }
 
             @Override
@@ -113,8 +144,8 @@ public class Top_Rated_Results_Repository {
         return newTopRatedResultsPagedList;
     }
 
-    public void insertListToDb(List<Top_Rated_Result> top_rated_result) {
-        new InsertListOfResultsAsyncTask(dao).execute(top_rated_result);
+    public void insertListToDb(Top_Rated_Movies_Page page) {
+        new InsertListOfResultsAsyncTask(dao).execute(page);
     }
 
     public void insert(Top_Rated_Result top_rated_result) {
@@ -133,7 +164,8 @@ public class Top_Rated_Results_Repository {
         new DeleteAllNotesAsyncTask(dao).execute();
     }
 
-    private static class InsertListOfResultsAsyncTask extends AsyncTask<List<Top_Rated_Result>, Void, Void> {
+
+    private static class InsertListOfResultsAsyncTask extends AsyncTask<Top_Rated_Movies_Page, Void, Void> {
         private Top_Rated_Result_Dao top_rated_result_dao;
 
         private InsertListOfResultsAsyncTask(Top_Rated_Result_Dao top_rated_result_dao) {
@@ -141,8 +173,10 @@ public class Top_Rated_Results_Repository {
         }
 
         @Override
-        protected Void doInBackground(List<Top_Rated_Result>... lists) {
-            top_rated_result_dao.insertList(lists[0]);
+        protected Void doInBackground(Top_Rated_Movies_Page... top_rated_page) {
+            Top_Rated_Movies_Page page = top_rated_page[0];
+            List<Top_Rated_Result> listOfResults = page.getResults_list();
+            top_rated_result_dao.insertList(page, listOfResults);
             return null;
         }
     }
