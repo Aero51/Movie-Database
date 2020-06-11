@@ -56,3 +56,32 @@ public class Top_Rated_Results_Repository {
                return list_of_results;
 
            }
+
+
+Im implementing Paged List. have some unboxing issues probably.
+
+areItemsTheSame method gets called 237 times when the list changes from 20 to 40.
+If the initial list size was 20 and new list size 40, shouldnt diffing be made for only first 20 items in the new list?
+
+
+
+My diff callback inside paged list adapter:
+
+    private static DiffUtil.ItemCallback<Top_Rated_Result> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Top_Rated_Result>() {
+                @Override
+                public boolean areItemsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
+                    int a = oldItem.getId();
+                    int b = newItem.getId();
+                    boolean c = (a == b);
+                    Log.d("moviedatabaselog", c + " ,oldid: " + a + " ,newid: " + b);
+                    return c;
+                }
+                @Override
+                public boolean areContentsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
+                    Log.d("moviedatabaselog", "areContentsTheSame: oldItem Title: " + oldItem.getTitle() + " ,newItem Title: " + newItem.getTitle());
+                    return oldItem.getTitle().equals(newItem.getTitle());
+                }
+            };
+
+ `oldItem.getId()` returns Integer.Im just learning about unboxing so tried it like above.
