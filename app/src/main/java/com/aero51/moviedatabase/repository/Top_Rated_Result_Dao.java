@@ -3,10 +3,12 @@ package com.aero51.moviedatabase.repository;
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.paging.PageKeyedDataSource;
+import androidx.paging.PositionalDataSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 import androidx.room.Update;
 
 import java.util.List;
@@ -17,8 +19,8 @@ public interface Top_Rated_Result_Dao {
     /**
      * Get the top rated Movies from the table.
      * -------------------------------
-     * Since the DB use as caching, we don't return LiveData.
-     * We don't need to get update every time the database update.
+     * Since the DB use as caching, we  return LiveData.
+     * We  get update every time the database update.
      * We using the get query when application start. So, we able to display
      * data fast and in case we don't have connection to work offline.
      *
@@ -28,6 +30,7 @@ public interface Top_Rated_Result_Dao {
     @Insert
     void insert(Top_Rated_Result top_rated_result);
 
+    //@Transaction
     @Insert
     void insertList(List<Top_Rated_Result> top_rated_results);
 
@@ -57,7 +60,8 @@ public interface Top_Rated_Result_Dao {
 
 
 
-
+    @Query("SELECT * FROM top_rated_result")
+    PositionalDataSource<Top_Rated_Result> getAllpiResultsNew();
 
 }
 

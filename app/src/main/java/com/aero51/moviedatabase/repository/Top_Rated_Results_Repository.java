@@ -11,8 +11,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
-import com.aero51.moviedatabase.repository.networkonly.TopRatedResultDataSourceFactory;
-
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -26,29 +24,30 @@ public class Top_Rated_Results_Repository {
     public static final String API_KEY = "8ba72532be79fd82366e924e791e0c71";
     public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;
 
-
     //creating livedata for PagedList
     private MutableLiveData<NetworkState> networkState;
     private Top_Rated_Result_Dao dao;
 
     private LiveData<PagedList<Top_Rated_Result>> newTopRatedResultsPagedList;
+    private MutableLiveData<Top_Rated_Movies_Page> liveMoviesPage;
     private PagedList.BoundaryCallback<Top_Rated_Result> newBoundaryCallback;
+    private int page_number;
 
     public Top_Rated_Results_Repository(Application application) {
         Top_Rated_Results_Database database = Top_Rated_Results_Database.getInstance(application);
         dao = database.get_top_rated_results_dao();
-
-
+        networkState=new MutableLiveData<>();
+        liveMoviesPage=new MutableLiveData<>();
+        page_number=TOP_RATED_MOVIES_FIRST_PAGE;
         newBoundaryCallback = new PagedList.BoundaryCallback<Top_Rated_Result>() {
             @Override
             public void onZeroItemsLoaded() {
                 super.onZeroItemsLoaded();
                 Log.d("moviedatabaselog", "onzeroitemsloaded");
 
-                TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-                Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, TOP_RATED_MOVIES_FIRST_PAGE);
-                // List<Top_Rated_Result> list_of_results = fetchTopRatedMovies(call);
-                fetchTopRatedMovies(call);
+
+                fetchTopRatedMovies(page_number);
+
             }
 
             @Override
@@ -61,6 +60,7 @@ public class Top_Rated_Results_Repository {
             public void onItemAtEndLoaded(@NonNull Top_Rated_Result itemAtEnd) {
                 super.onItemAtEndLoaded(itemAtEnd);
                 Log.d("moviedatabaselog", "onItemAtEndLoaded,item:" + itemAtEnd.getTitle());
+                if(page_number<3)fetchTopRatedMovies(page_number);
             }
         };
 
@@ -68,7 +68,7 @@ public class Top_Rated_Results_Repository {
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
                         .setEnablePlaceholders(false)
-                        .setPrefetchDistance(60)
+                        .setPrefetchDistance(20)
                         .setPageSize(20).build();
 
         Executor executor = Executors.newFixedThreadPool(5);
@@ -78,24 +78,25 @@ public class Top_Rated_Results_Repository {
 
     }
 
-    public void fetchTopRatedMovies(Call<Top_Rated_Movies_Page> call) {
+    public void fetchTopRatedMovies(int pageNumber) {
+        TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
+        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber);
         call.enqueue(new Callback<Top_Rated_Movies_Page>() {
             @Override
             public void onResponse(Call<Top_Rated_Movies_Page> call, Response<Top_Rated_Movies_Page> response) {
                 if (!response.isSuccessful()) {
-
                     Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
                     return;
                 }
                 Log.d("moviedatabaselog", "Response ok: " + response.code());
                 Top_Rated_Movies_Page mTopRatedMovies = response.body();
                 List<Top_Rated_Result> list_of_results = mTopRatedMovies.getResults_list();
-                insertList(list_of_results);
+                insertListToDb(list_of_results);
+                page_number++;
             }
 
             @Override
             public void onFailure(Call<Top_Rated_Movies_Page> call, Throwable t) {
-
                 Log.d("moviedatabaselog", "onFailure: " + t.getMessage());
             }
         });
@@ -112,7 +113,7 @@ public class Top_Rated_Results_Repository {
         return newTopRatedResultsPagedList;
     }
 
-    public void insertList(List<Top_Rated_Result> top_rated_result) {
+    public void insertListToDb(List<Top_Rated_Result> top_rated_result) {
         new InsertListOfResultsAsyncTask(dao).execute(top_rated_result);
     }
 

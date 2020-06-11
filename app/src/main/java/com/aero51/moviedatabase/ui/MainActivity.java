@@ -51,21 +51,22 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
             }
         });
 
-       viewModel.getNewTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
-           @Override
-           public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
-               Log.d("moviedatabaselog", "MainActivity onChanged list size: "+top_rated_results.size());
-               adapter.submitList(top_rated_results);
-               if (top_rated_results.isEmpty()) {
-                   recyclerView.setVisibility(View.GONE);
-                   emptyViewText.setVisibility(View.VISIBLE);
-               }
-               else {
-                   recyclerView.setVisibility(View.VISIBLE);
-                   emptyViewText.setVisibility(View.GONE);
-               }
-           }
-       });
+        viewModel.getNewTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
+            @Override
+            public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
+                Log.d("moviedatabaselog", "MainActivity onChanged list size: " + top_rated_results.size());
+                adapter.submitList(top_rated_results);
+
+                if (top_rated_results.isEmpty()) {
+                    recyclerView.setVisibility(View.GONE);
+                    emptyViewText.setVisibility(View.VISIBLE);
+                } else {
+                    recyclerView.setVisibility(View.VISIBLE);
+                    emptyViewText.setVisibility(View.GONE);
+                }
+
+            }
+        });
 
 
         recyclerView.setAdapter(adapter);

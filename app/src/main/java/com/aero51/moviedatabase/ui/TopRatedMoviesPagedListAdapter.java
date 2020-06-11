@@ -60,7 +60,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
     public int getItemViewType(int position) {
 
         if (hasExtraRow() && position == getItemCount() - 1) {
-            Log.d("moviedatabaselog", "position: "+position+" itemcount: "+getItemCount());
+            Log.d("moviedatabaselog", "position: " + position + " itemcount: " + getItemCount());
             return R.layout.network_state_item;
         } else {
             return R.layout.movie_item;
@@ -69,7 +69,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
 
 
     public void setNetworkState(NetworkState newNetworkState) {
-        Log.d("moviedatabaselog", "setNetworkState status: "+newNetworkState.getStatus()+" ,msg: "+newNetworkState.getMsg());
+        Log.d("moviedatabaselog", "setNetworkState status: " + newNetworkState.getStatus() + " ,msg: " + newNetworkState.getMsg());
         NetworkState previousState = this.networkState;
         boolean previousExtraRow = hasExtraRow();
         this.networkState = newNetworkState;
@@ -98,15 +98,26 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
             new DiffUtil.ItemCallback<Top_Rated_Result>() {
                 @Override
                 public boolean areItemsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
-                    Log.d("moviedatabaselog", "areItemsTheSame: oldItem.getId(): " + oldItem.getId()+" ,newItem.getId(): "+newItem.getId());
-                    return oldItem.getId() == newItem.getId();
+
+                    // Log.d("moviedatabaselog", "areItemsTheSame: oldItem.getId(): " + oldI+" ,newItem.getId(): "+newI);
+                    //  Log.d("moviedatabaselog",String.valueOf(oldItem.getId().equals(newItem.getId())) );
+                    // Log.d("moviedatabaselog",String.valueOf(oldItem.getId()==newItem.getId() ));
+                    // return oldItem.getId().equals(newItem.getId());
+                    int a = oldItem.getId();
+                    int b = newItem.getId();
+                    boolean c = (a == b);
+                    Log.d("moviedatabaselog", c + " ,oldid: " + a + " ,newid: " + b);
+                    return c;
                 }
 
                 @Override
                 public boolean areContentsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
-                    Log.d("moviedatabaselog", "areContentsTheSame: oldItem.getTitle: " + oldItem.getTitle()+" ,newItem.getTitle: "+newItem.getTitle());
-                    return oldItem.getTitle()==newItem.getTitle();
-                  // return oldItem.equals(newItem);
+                    Log.d("moviedatabaselog", "areContentsTheSame: oldItem.getTitle: " + oldItem.getTitle() + " ,newItem.getTitle: " + newItem.getTitle());
+                    return oldItem.getTitle().equals(newItem.getTitle());
+                    // return oldItem.equals(newItem);
                 }
             };
+
+
+
 }
