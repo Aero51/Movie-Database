@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.NetworkState;
+import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
 import com.aero51.moviedatabase.repository.Top_Rated_Result;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 
@@ -67,7 +68,20 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
 
             }
         });
-
+        viewModel.getLiveMoviePage().observe(this, new Observer<Top_Rated_Movies_Page>() {
+            @Override
+            public void onChanged(Top_Rated_Movies_Page top_rated_movies_page) {
+                Integer page_number;
+                if(top_rated_movies_page==null)
+                {
+                    page_number=0;
+                }
+                else{
+                    page_number=top_rated_movies_page.getPage();
+                }
+                Log.d("moviedatabaselog", "MainActivity onChanged movie_page: "+page_number );
+            }
+        });
 
         recyclerView.setAdapter(adapter);
 

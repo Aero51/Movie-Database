@@ -12,6 +12,8 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 import androidx.room.Update;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 @Dao
@@ -33,7 +35,7 @@ public interface Top_Rated_Result_Dao {
 
     //@Transaction
     @Insert
-    void insertList(Top_Rated_Movies_Page page,List<Top_Rated_Result> top_rated_results);
+    void insertList(List<Top_Rated_Result> top_rated_results);
 
 
 
@@ -55,19 +57,27 @@ public interface Top_Rated_Result_Dao {
     LiveData<List<Top_Rated_Result>> getAllResultsLiveData();
 
 
-    @Query("SELECT * FROM top_rated_result")
+    @Query("SELECT * FROM Top_Rated_Result")
     DataSource.Factory<Integer, Top_Rated_Result> getAllResultsNew();
 
-   // @Query("SELECT MAX(page) FROM top_rated_movie_page")
-    @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
-    LiveData<Top_Rated_Movies_Page> getMoviePage();
+   // @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
+   // LiveData<Top_Rated_Movies_Page> getLatestMoviePage();
 
-   // LiveData<Top_Rated_Movies_Page> getMoviePage();
+   @Query("SELECT * FROM top_rated_movie_page LIMIT 1")
+   Top_Rated_Movies_Page getMoviePage();
 
+    @Query("SELECT * FROM top_rated_movie_page LIMIT 1")
+    LiveData<Top_Rated_Movies_Page> getLiveDataMoviePage();
+
+   @Query("DELETE FROM top_rated_movie_page")
+    void deleteAllMoviePages();
+
+    @Insert
+    void insertMoviePage(Top_Rated_Movies_Page top_rated_movies_page);
 
 
     @Query("SELECT * FROM top_rated_result")
-    PositionalDataSource<Top_Rated_Result> getAllpiResultsNew();
+    PositionalDataSource<Top_Rated_Result> getAlltestResultsNew();
 
 }
 

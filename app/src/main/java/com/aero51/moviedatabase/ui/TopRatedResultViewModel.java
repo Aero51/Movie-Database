@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.NetworkState;
+import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
 import com.aero51.moviedatabase.repository.Top_Rated_Result;
 import com.aero51.moviedatabase.repository.Top_Rated_Results_Repository;
 
@@ -25,31 +26,19 @@ public class TopRatedResultViewModel extends AndroidViewModel {
         return repository.getNewTopRatedResultsPagedList();
     }
 
+
     public LiveData<NetworkState> getNetworkState() {
         return repository.getNetworkState();
     }
 
-    public void insert(Top_Rated_Result result) {
-        repository.insert(result);
+    public LiveData<Top_Rated_Movies_Page> getLiveMoviePage() {
+        return repository.getCurrent_movie_page();
     }
-
-    public void update(Top_Rated_Result result) {
-        repository.update(result);
-    }
-
-    public void delete(Top_Rated_Result result) {
-        repository.delete(result);
-    }
-
-    public void deleteAllResults() {
-        repository.deleteAllResults();
-    }
-
 
     @Override
     protected void onCleared() {
         Log.d("moviedatabaselog", "view model on cleared ");
-        repository.getMoviePageLd().removeObserver(repository.getObserver());
+       // repository.getMoviePageLd().removeObserver(repository.getObserver());
         super.onCleared();
     }
 

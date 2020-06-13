@@ -85,3 +85,30 @@ My diff callback inside paged list adapter:
             };
 
  `oldItem.getId()` returns Integer.Im just learning about unboxing so tried it like above.
+
+
+
+
+
+stack overflow answer  :
+Paging2 has been superseded by Paging3 (though just launched alpha01), here is the Paging3 sample which solves this use-case: https://github.com/android/architecture-components-samples/blob/master/PagingWithNetworkSample/app/src/main/java/com/android/example/paging/pagingwithnetwork/reddit/repository/inDb/PageKeyedRemoteMediator.kt
+
+Through BoundaryCallback you can just read / write your next page key to db directly since i guess thats the only place where you need it.
+
+So in your onItemAtEndLoad() implementation there should be something like:
+
+RemoteKey remoteKey = db.runInTransaction(() -> {
+dao.nextRemoteKey();
+});
+
+
+NetworkResponse response = networkApi.fetchNextPage(remoteKey);
+
+db.runInTransaction(() -> {
+dao.clearKey(); // Remove previous key
+dao.insertKey(response.nextPageKey); // Insert new key
+dao.insertAll(response.data); // Update DataSource + invalidate()
+});
+I copied it from response to my question here
+
+
