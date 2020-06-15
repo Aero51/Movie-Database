@@ -12,7 +12,6 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
@@ -43,6 +42,7 @@ public class Top_Rated_Results_Repository {
         dao = database.get_top_rated_results_dao();
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();
+
         newBoundaryCallback = new PagedList.BoundaryCallback<Top_Rated_Result>() {
             @Override
             public void onZeroItemsLoaded() {
@@ -77,7 +77,7 @@ public class Top_Rated_Results_Repository {
                         .setPageSize(20).build();
 
         Executor executor = Executors.newFixedThreadPool(5);
-        newTopRatedResultsPagedList = new LivePagedListBuilder<>(dao.getAllResultsNew(), pagedListConfig)
+        newTopRatedResultsPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
                 .setBoundaryCallback(newBoundaryCallback).setFetchExecutor(executor)
                 .build();
     }
@@ -108,53 +108,7 @@ public class Top_Rated_Results_Repository {
         });
     }
 
-    public void fetchTopRatedMoviesNew() {
-        Top_Rated_Movies_Page movies_page = database.runInTransaction(new Callable<Top_Rated_Movies_Page>() {
-            @Override
-            public Top_Rated_Movies_Page call() throws Exception {
-                Top_Rated_Movies_Page page = dao.getMoviePage();
-                if (page != null) {
-                    return page;
-                } else {
-                    Log.d("moviedatabaselog", "dao movie page null");
-                    return null;
-                }
-            }
-        });
-        Integer page_number;
-        if (movies_page == null) {
-            page_number = TOP_RATED_MOVIES_FIRST_PAGE;
-        } else {
-            page_number = movies_page.getPage();
-        }
 
-        TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, page_number);
-        call.enqueue(new Callback<Top_Rated_Movies_Page>() {
-            @Override
-            public void onResponse(Call<Top_Rated_Movies_Page> call, Response<Top_Rated_Movies_Page> response) {
-                if (!response.isSuccessful()) {
-                    Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
-                    return;
-                }
-                Log.d("moviedatabaselog", "Response ok: " + response.code());
-                Top_Rated_Movies_Page mTopRatedMovies = response.body();
-                database.runInTransaction(new Runnable() {
-                    @Override
-                    public void run() {
-                        dao.deleteAllMoviePages();
-                        dao.insertMoviePage(mTopRatedMovies);
-                        dao.insertList(mTopRatedMovies.getResults_list());
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<Top_Rated_Movies_Page> call, Throwable t) {
-                Log.d("moviedatabaselog", "onFailure: " + t.getMessage());
-            }
-        });
-    }
 
     public LiveData<Top_Rated_Movies_Page> getCurrent_movie_page() {
         return current_movie_page;
@@ -190,7 +144,7 @@ public class Top_Rated_Results_Repository {
         return networkState;
     }
 
-    public LiveData<PagedList<Top_Rated_Result>> getNewTopRatedResultsPagedList() {
+    public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
         return newTopRatedResultsPagedList;
     }
 

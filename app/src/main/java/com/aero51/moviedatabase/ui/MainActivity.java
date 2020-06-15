@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         adapter = new TopRatedMoviesPagedListAdapter(this);
 
 
-        viewModel.getNewTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
+        viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
                 Log.d("moviedatabaselog", "MainActivity onChanged list size: " + top_rated_results.size());

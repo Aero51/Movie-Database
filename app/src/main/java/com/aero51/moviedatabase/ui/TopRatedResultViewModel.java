@@ -22,8 +22,8 @@ public class TopRatedResultViewModel extends AndroidViewModel {
         repository = new Top_Rated_Results_Repository(application);
     }
 
-    public LiveData<PagedList<Top_Rated_Result>> getNewTopRatedResultsPagedList() {
-        return repository.getNewTopRatedResultsPagedList();
+    public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
+        return repository.getTopRatedResultsPagedList();
     }
     //used to get the page number by adding observer
     public LiveData<Top_Rated_Movies_Page> getLiveMoviePage() {
