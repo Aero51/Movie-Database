@@ -1,18 +1,14 @@
 package com.aero51.moviedatabase.repository;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
-import androidx.paging.PageKeyedDataSource;
 import androidx.paging.PositionalDataSource;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 import androidx.room.Update;
 
-import com.google.gson.annotations.Expose;
 
 import java.util.List;
 
@@ -37,16 +33,12 @@ public interface Top_Rated_Result_Dao {
     @Insert
     void insertList(List<Top_Rated_Result> top_rated_results);
 
-
-
     @Update
     void update(Top_Rated_Result top_rated_result);
 
     @Delete
     void delete(Top_Rated_Result top_rated_result);
 
-    @Query("DELETE FROM Top_Rated_Result")
-    void deleteAllNotes();
 
    // @Query("SELECT * FROM top_rated_result")
    // List<Top_Rated_Result> getTopRatedResultMovies();

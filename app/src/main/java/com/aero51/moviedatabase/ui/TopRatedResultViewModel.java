@@ -25,15 +25,17 @@ public class TopRatedResultViewModel extends AndroidViewModel {
     public LiveData<PagedList<Top_Rated_Result>> getNewTopRatedResultsPagedList() {
         return repository.getNewTopRatedResultsPagedList();
     }
+    //used to get the page number by adding observer
+    public LiveData<Top_Rated_Movies_Page> getLiveMoviePage() {
+        return repository.getCurrent_movie_page();
+    }
 
 
     public LiveData<NetworkState> getNetworkState() {
         return repository.getNetworkState();
     }
 
-    public LiveData<Top_Rated_Movies_Page> getLiveMoviePage() {
-        return repository.getCurrent_movie_page();
-    }
+
 
     @Override
     protected void onCleared() {

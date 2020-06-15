@@ -46,14 +46,10 @@ public class Top_Rated_Results_Repository {
         newBoundaryCallback = new PagedList.BoundaryCallback<Top_Rated_Result>() {
             @Override
             public void onZeroItemsLoaded() {
-
                 super.onZeroItemsLoaded();
                 Log.d("moviedatabaselog", "onzeroitemsloaded");
-                //   Log.d("moviedatabaselog", "livedata value: " + moviePageLd.getValue().getPage());
-                if (page_number == null) {
-                    page_number = TOP_RATED_MOVIES_FIRST_PAGE;
-                }
-                fetchTopRatedMovies(page_number);
+
+                fetchTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
             }
 
             @Override
@@ -65,7 +61,6 @@ public class Top_Rated_Results_Repository {
             @Override
             public void onItemAtEndLoaded(@NonNull Top_Rated_Result itemAtEnd) {
                 super.onItemAtEndLoaded(itemAtEnd);
-
                 page_number = current_movie_page.getValue().getPage() + 1;
                 Log.d("moviedatabaselog", "onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
                 fetchTopRatedMovies(page_number);
@@ -88,6 +83,7 @@ public class Top_Rated_Results_Repository {
     }
 
     public void fetchTopRatedMovies(int pageNumber) {
+        networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
         Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber);
         call.enqueue(new Callback<Top_Rated_Movies_Page>() {
@@ -95,22 +91,24 @@ public class Top_Rated_Results_Repository {
             public void onResponse(Call<Top_Rated_Movies_Page> call, Response<Top_Rated_Movies_Page> response) {
                 if (!response.isSuccessful()) {
                     Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
+                    networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
                 Log.d("moviedatabaselog", "Response ok: " + response.code());
                 Top_Rated_Movies_Page mTopRatedMovies = response.body();
                 insertListToDb(mTopRatedMovies);
+                networkState.postValue(NetworkState.LOADED);
             }
 
             @Override
             public void onFailure(Call<Top_Rated_Movies_Page> call, Throwable t) {
                 Log.d("moviedatabaselog", "onFailure: " + t.getMessage());
+                networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });
     }
 
     public void fetchTopRatedMoviesNew() {
-
         Top_Rated_Movies_Page movies_page = database.runInTransaction(new Callable<Top_Rated_Movies_Page>() {
             @Override
             public Top_Rated_Movies_Page call() throws Exception {
@@ -149,7 +147,6 @@ public class Top_Rated_Results_Repository {
                         dao.insertList(mTopRatedMovies.getResults_list());
                     }
                 });
-
             }
 
             @Override
@@ -178,6 +175,7 @@ public class Top_Rated_Results_Repository {
         protected Void doInBackground(Top_Rated_Movies_Page... top_rated_page) {
             Top_Rated_Movies_Page page = top_rated_page[0];
             List<Top_Rated_Result> listOfResults = page.getResults_list();
+            //perhaps implement run in transaction
             top_rated_result_dao.deleteAllMoviePages();
             top_rated_result_dao.insertMoviePage(page);
             top_rated_result_dao.insertList(listOfResults);

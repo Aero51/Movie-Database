@@ -69,7 +69,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
 
 
     public void setNetworkState(NetworkState newNetworkState) {
-        Log.d("moviedatabaselog", "setNetworkState status: " + newNetworkState.getStatus() + " ,msg: " + newNetworkState.getMsg());
+        Log.d("moviedatabaselog", "NetworkState status: " + newNetworkState.getStatus() + " ,msg: " + newNetworkState.getMsg());
         NetworkState previousState = this.networkState;
         boolean previousExtraRow = hasExtraRow();
         this.networkState = newNetworkState;

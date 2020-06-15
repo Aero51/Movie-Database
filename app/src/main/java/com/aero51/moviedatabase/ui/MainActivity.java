@@ -45,13 +45,6 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
         adapter = new TopRatedMoviesPagedListAdapter(this);
 
 
-        viewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
-            @Override
-            public void onChanged(NetworkState networkState) {
-                adapter.setNetworkState(networkState);
-            }
-        });
-
         viewModel.getNewTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
@@ -80,6 +73,13 @@ public class MainActivity extends AppCompatActivity implements ItemClickListener
                     page_number=top_rated_movies_page.getPage();
                 }
                 Log.d("moviedatabaselog", "MainActivity onChanged movie_page: "+page_number );
+            }
+        });
+        viewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
+            @Override
+            public void onChanged(NetworkState networkState) {
+               // Log.d("moviedatabaselog", "MainActivity onChanged network state: "+networkState.getMsg());
+                adapter.setNetworkState(networkState);
             }
         });
 
