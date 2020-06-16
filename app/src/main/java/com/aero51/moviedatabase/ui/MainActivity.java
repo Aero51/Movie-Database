@@ -1,110 +1,39 @@
 package com.aero51.moviedatabase.ui;
 
-import androidx.annotation.NonNull;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-import androidx.paging.PagedList;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.NetworkState;
-import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
-import com.aero51.moviedatabase.utils.ItemClickListener;
 
-public class MainActivity extends AppCompatActivity implements ItemClickListener {
 
-    private TopRatedMoviesPagedListAdapter adapter;
-
-    private TextView textView;
-    private TextView emptyViewText;
+public class MainActivity extends AppCompatActivity  {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Check that the activity is using the layout version with
+        // the fragment_container FrameLayout
+        if (findViewById(R.id.fragmentsContainer) != null) {
 
-        RecyclerView recyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setHasFixedSize(true);
-
-        textView = findViewById(R.id.text_view_top_rated_movies);
-        emptyViewText = findViewById(R.id.empty_view);
-
-        TopRatedResultViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(TopRatedResultViewModel.class);
-        adapter = new TopRatedMoviesPagedListAdapter(this);
-
-
-        viewModel.getTopRatedResultsPagedList().observe(this, new Observer<PagedList<Top_Rated_Result>>() {
-            @Override
-            public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
-                Log.d("moviedatabaselog", "MainActivity onChanged list size: " + top_rated_results.size());
-                adapter.submitList(top_rated_results);
-
-                if (top_rated_results.isEmpty()) {
-                    recyclerView.setVisibility(View.GONE);
-                    emptyViewText.setVisibility(View.VISIBLE);
-                } else {
-                    recyclerView.setVisibility(View.VISIBLE);
-                    emptyViewText.setVisibility(View.GONE);
-                }
-
+            // However, if we're being restored from a previous state,
+            // then we don't need to do anything and should return or else
+            // we could end up with overlapping fragments.
+            if (savedInstanceState != null) {
+                return;
             }
-        });
-        viewModel.getLiveMoviePage().observe(this, new Observer<Top_Rated_Movies_Page>() {
-            @Override
-            public void onChanged(Top_Rated_Movies_Page top_rated_movies_page) {
-                Integer page_number;
-                if(top_rated_movies_page==null)
-                {
-                    page_number=0;
-                }
-                else{
-                    page_number=top_rated_movies_page.getPage();
-                }
-                Log.d("moviedatabaselog", "MainActivity onChanged movie_page: "+page_number );
-            }
-        });
-        viewModel.getNetworkState().observe(this, new Observer<NetworkState>() {
-            @Override
-            public void onChanged(NetworkState networkState) {
-               // Log.d("moviedatabaselog", "MainActivity onChanged network state: "+networkState.getMsg());
-                adapter.setNetworkState(networkState);
-            }
-        });
+            // Create a new Fragment to be placed in the activity layout
+            TopRatedMoviesFragment moviesListFragment = TopRatedMoviesFragment.newInstance("","");
 
-        recyclerView.setAdapter(adapter);
+            // In case this activity was started with special instructions from an
+            // Intent, pass the Intent's extras to the fragment as arguments
+            moviesListFragment.setArguments(getIntent().getExtras());
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
-                ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                Toast.makeText(MainActivity.this, "onMove", Toast.LENGTH_SHORT).show();
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                //  noteViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
-                Toast.makeText(MainActivity.this, "Result deleted", Toast.LENGTH_SHORT).show();
-            }
-        });//.attachToRecyclerView(recyclerView);
+            // Add the fragment to the 'fragmentsContainer' FrameLayout
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragmentsContainer, moviesListFragment).commit();
+        }
     }
 
-
-    @Override
-    public void OnItemClick(Top_Rated_Result result, int position) {
-
-    }
 }
 

@@ -31,9 +31,6 @@ public class Top_Rated_Results_Repository {
 
     private LiveData<PagedList<Top_Rated_Result>> newTopRatedResultsPagedList;
     private PagedList.BoundaryCallback<Top_Rated_Result> newBoundaryCallback;
-    private Integer page_number;
-
-
 
     private LiveData<Top_Rated_Movies_Page> current_movie_page;
 
@@ -61,7 +58,7 @@ public class Top_Rated_Results_Repository {
             @Override
             public void onItemAtEndLoaded(@NonNull Top_Rated_Result itemAtEnd) {
                 super.onItemAtEndLoaded(itemAtEnd);
-                page_number = current_movie_page.getValue().getPage() + 1;
+                Integer page_number = current_movie_page.getValue().getPage() + 1;
                 Log.d("moviedatabaselog", "onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
                 fetchTopRatedMovies(page_number);
             }
@@ -108,8 +105,6 @@ public class Top_Rated_Results_Repository {
         });
     }
 
-
-
     public LiveData<Top_Rated_Movies_Page> getCurrent_movie_page() {
         return current_movie_page;
     }
@@ -147,6 +142,4 @@ public class Top_Rated_Results_Repository {
     public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
         return newTopRatedResultsPagedList;
     }
-
-
 }

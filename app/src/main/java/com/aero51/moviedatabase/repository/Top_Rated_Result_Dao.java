@@ -39,7 +39,7 @@ public interface Top_Rated_Result_Dao {
     @Delete
     void delete(Top_Rated_Result top_rated_result);
 
-    
+
     //  @Query("SELECT * FROM note_table ORDER BY priority DESC")
     @Query("SELECT * FROM Top_Rated_Result")
     LiveData<List<Top_Rated_Result>> getAllResultsLiveData();
