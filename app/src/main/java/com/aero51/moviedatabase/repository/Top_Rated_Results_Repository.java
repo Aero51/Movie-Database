@@ -34,8 +34,9 @@ public class Top_Rated_Results_Repository {
     public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;
 
     private Top_Rated_Results_Database database;
-    private MutableLiveData<NetworkState> networkState;
     private Top_Rated_Result_Dao dao;
+    private MutableLiveData<NetworkState> networkState;
+
 
     private LiveData<PagedList<Top_Rated_Result>> newTopRatedResultsPagedList;
     private PagedList.BoundaryCallback<Top_Rated_Result> newBoundaryCallback;
@@ -45,6 +46,7 @@ public class Top_Rated_Results_Repository {
     public Top_Rated_Results_Repository(Application application) {
         database = Top_Rated_Results_Database.getInstance(application);
         dao = database.get_top_rated_results_dao();
+
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();
 
@@ -90,7 +92,7 @@ public class Top_Rated_Results_Repository {
     public void fetchTopRatedMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber);
+        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber, "us");
         call.enqueue(new Callback<Top_Rated_Movies_Page>() {
             @Override
             public void onResponse(Call<Top_Rated_Movies_Page> call, Response<Top_Rated_Movies_Page> response) {
@@ -118,13 +120,16 @@ public class Top_Rated_Results_Repository {
     }
 
     public void insertListToDb(Top_Rated_Movies_Page page) {
-        new InsertListOfResultsAsyncTask(dao).execute(page);
+        new InsertListOfResultsAsyncTask(database, dao).execute(page);
     }
 
     private static class InsertListOfResultsAsyncTask extends AsyncTask<Top_Rated_Movies_Page, Void, Void> {
+        private Top_Rated_Results_Database database;
         private Top_Rated_Result_Dao top_rated_result_dao;
 
-        private InsertListOfResultsAsyncTask(Top_Rated_Result_Dao top_rated_result_dao) {
+
+        private InsertListOfResultsAsyncTask(Top_Rated_Results_Database database, Top_Rated_Result_Dao top_rated_result_dao) {
+            this.database = database;
             this.top_rated_result_dao = top_rated_result_dao;
         }
 
@@ -132,10 +137,14 @@ public class Top_Rated_Results_Repository {
         protected Void doInBackground(Top_Rated_Movies_Page... top_rated_page) {
             Top_Rated_Movies_Page page = top_rated_page[0];
             List<Top_Rated_Result> listOfResults = page.getResults_list();
-            //perhaps implement run in transaction
-            top_rated_result_dao.deleteAllMoviePages();
-            top_rated_result_dao.insertMoviePage(page);
-            top_rated_result_dao.insertList(listOfResults);
+            database.runInTransaction(new Runnable() {
+                @Override
+                public void run() {
+                    top_rated_result_dao.deleteAllMoviePages();
+                    top_rated_result_dao.insertMoviePage(page);
+                    top_rated_result_dao.insertList(listOfResults);
+                }
+            });
             return null;
         }
     }

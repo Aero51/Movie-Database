@@ -46,7 +46,7 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
         networkState.postValue(NetworkState.LOADING);
 
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, TOP_RATED_MOVIES_FIRST_PAGE);
+        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, TOP_RATED_MOVIES_FIRST_PAGE,"us");
         Log.d("moviedatabaselog", "load initial ");
         List<Top_Rated_Result> list_of_results = fetchTopRatedMovies(call);
         callback.onResult(list_of_results, null, TOP_RATED_MOVIES_FIRST_PAGE + 1);
@@ -61,7 +61,7 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, Top_R
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, Top_Rated_Result> callback) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, params.key);
+        Call<Top_Rated_Movies_Page> call = theMovieDbApi.getTopRatedMovies(API_KEY, params.key,"us");
         Log.d("moviedatabaselog", "load after:params.key " + params.key);
         List<Top_Rated_Result> list_of_results = fetchTopRatedMovies(call);
         callback.onResult(list_of_results, params.key + 1);

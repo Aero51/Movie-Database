@@ -21,7 +21,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
     private ItemClickListener itemClickListener;
     private NetworkState networkState;
 
-    protected TopRatedMoviesPagedListAdapter(ItemClickListener itemClickListener) {
+    public TopRatedMoviesPagedListAdapter(ItemClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }
