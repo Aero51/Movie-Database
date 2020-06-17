@@ -9,24 +9,24 @@ import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
-import com.aero51.moviedatabase.repository.Top_Rated_Results_Repository;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.TopRatedMoviesRepository;
 
 
 public class TopRatedResultViewModel extends AndroidViewModel {
-    private Top_Rated_Results_Repository repository;
+    private TopRatedMoviesRepository repository;
 
     public TopRatedResultViewModel(@NonNull Application application) {
         super(application);
-        repository = new Top_Rated_Results_Repository(application);
+        repository = new TopRatedMoviesRepository(application);
     }
 
-    public LiveData<PagedList<Top_Rated_Result>> getTopRatedResultsPagedList() {
+    public LiveData<PagedList<TopRatedMovie>> getTopRatedResultsPagedList() {
         return repository.getTopRatedResultsPagedList();
     }
     //used to get the page number by adding observer
-    public LiveData<Top_Rated_Movies_Page> getLiveMoviePage() {
+    public LiveData<TopRatedMoviesPage> getLiveMoviePage() {
         return repository.getCurrent_movie_page();
     }
 

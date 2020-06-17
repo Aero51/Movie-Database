@@ -10,13 +10,13 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 
-import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
 
 import java.util.List;
 
 @Dao
-public interface Top_Rated_Result_Dao {
+public interface TopRatedMoviesDao {
 
     /**
      * Get the top rated Movies from the table.
@@ -30,45 +30,45 @@ public interface Top_Rated_Result_Dao {
      */
 
     @Insert
-    void insert(Top_Rated_Result top_rated_result);
+    void insert(TopRatedMovie top_rated_result);
 
     //@Transaction
     @Insert
-    void insertList(List<Top_Rated_Result> top_rated_results);
+    void insertList(List<TopRatedMovie> top_rated_results);
 
     @Update
-    void update(Top_Rated_Result top_rated_result);
+    void update(TopRatedMovie top_rated_result);
 
     @Delete
-    void delete(Top_Rated_Result top_rated_result);
+    void delete(TopRatedMovie top_rated_result);
 
 
     //  @Query("SELECT * FROM note_table ORDER BY priority DESC")
     @Query("SELECT * FROM Top_Rated_Result")
-    LiveData<List<Top_Rated_Result>> getAllResultsLiveData();
+    LiveData<List<TopRatedMovie>> getAllResultsLiveData();
 
 
     @Query("SELECT * FROM Top_Rated_Result")
-    DataSource.Factory<Integer, Top_Rated_Result> getAllResults();
+    DataSource.Factory<Integer, TopRatedMovie> getAllResults();
 
    // @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
    // LiveData<Top_Rated_Movies_Page> getLatestMoviePage();
 
-   @Query("SELECT * FROM top_rated_movie_page LIMIT 1")
-   Top_Rated_Movies_Page getMoviePage();
+   @Query("SELECT * FROM TopRatedMoviesPage LIMIT 1")
+   TopRatedMoviesPage getMoviePage();
 
-    @Query("SELECT * FROM top_rated_movie_page LIMIT 1")
-    LiveData<Top_Rated_Movies_Page> getLiveDataMoviePage();
+    @Query("SELECT * FROM TopRatedMoviesPage LIMIT 1")
+    LiveData<TopRatedMoviesPage> getLiveDataMoviePage();
 
-   @Query("DELETE FROM top_rated_movie_page")
+   @Query("DELETE FROM TopRatedMoviesPage")
     void deleteAllMoviePages();
 
     @Insert
-    void insertMoviePage(Top_Rated_Movies_Page top_rated_movies_page);
+    void insertMoviePage(TopRatedMoviesPage top_rated_movies_page);
 
 
     @Query("SELECT * FROM top_rated_result")
-    PositionalDataSource<Top_Rated_Result> getAlltestResultsNew();
+    PositionalDataSource<TopRatedMovie> getAlltestResultsNew();
 
 }
 

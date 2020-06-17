@@ -3,16 +3,16 @@ package com.aero51.moviedatabase.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 
 public class MovieDetailsViewModel extends ViewModel {
-    final private MutableLiveData<Top_Rated_Result> movie = new MutableLiveData<Top_Rated_Result>();
+    final private MutableLiveData<TopRatedMovie> movie = new MutableLiveData<TopRatedMovie>();
 
-    public void select(Top_Rated_Result item) {
+    public void select(TopRatedMovie item) {
         movie.setValue(item);
     }
 
-    public MutableLiveData<Top_Rated_Result> getMovie() {
+    public MutableLiveData<TopRatedMovie> getMovie() {
         return movie;
     }
 }

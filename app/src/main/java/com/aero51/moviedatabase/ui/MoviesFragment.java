@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
@@ -77,17 +77,17 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        textViewMovieCategory=view.findViewById(R.id.text_view_movie_category);
+        textViewMovieCategory = view.findViewById(R.id.text_view_movie_category);
         recyclerView = view.findViewById(R.id.home_recycler_view_horizontal);
 
         textViewMovieCategory.setText("Top rated movies:");
+
         recyclerView.setHasFixedSize(true);
         emptyViewText = view.findViewById(R.id.empty_view);
         homeAdapter = new TopRatedMoviesPagedListAdapter(this);
         recyclerView.setAdapter(homeAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
-
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -109,18 +109,12 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         return view;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-
     private void registerObservers() {
         TopRatedResultViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TopRatedResultViewModel.class);
 
-        viewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<Top_Rated_Result>>() {
+        viewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
             @Override
-            public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
+            public void onChanged(PagedList<TopRatedMovie> top_rated_results) {
                 Log.d("moviedatabaselog", "MoviesFragment onChanged list size: " + top_rated_results.size());
 
                 homeAdapter.submitList(top_rated_results);
@@ -134,9 +128,9 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
                 }
             }
         });
-        viewModel.getLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<Top_Rated_Movies_Page>() {
+        viewModel.getLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<TopRatedMoviesPage>() {
             @Override
-            public void onChanged(Top_Rated_Movies_Page top_rated_movies_page) {
+            public void onChanged(TopRatedMoviesPage top_rated_movies_page) {
                 Integer page_number;
                 if (top_rated_movies_page == null) {
                     page_number = 0;
@@ -158,7 +152,7 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
 
 
     @Override
-    public void OnItemClick(Top_Rated_Result result, int position) {
+    public void OnItemClick(TopRatedMovie result, int position) {
         detailsViewModel.select(result);
         if (!detailsViewModel.getMovie().hasActiveObservers()) {
             // Create fragment and give it an argument specifying the article it should show

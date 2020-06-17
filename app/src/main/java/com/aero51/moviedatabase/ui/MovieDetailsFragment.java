@@ -15,7 +15,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 
@@ -41,9 +41,9 @@ public class MovieDetailsFragment extends Fragment {
         overview_text_view = view.findViewById(R.id.overview);
 
 
-        viewModel.getMovie().observe(this, new Observer<Top_Rated_Result>() {
+        viewModel.getMovie().observe(this, new Observer<TopRatedMovie>() {
             @Override
-            public void onChanged(Top_Rated_Result top_rated_result) {
+            public void onChanged(TopRatedMovie top_rated_result) {
                 Log.d("moviedatabaselog", "MovieDetailsFragment onChanged movie_page: title: " +top_rated_result.getTitle());
                 title_text_view.setText(top_rated_result.getTitle());
                 release_date_text_view.setText(top_rated_result.getRelease_date().toString());

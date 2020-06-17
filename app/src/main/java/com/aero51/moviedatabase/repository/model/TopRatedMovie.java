@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 import java.util.Date;
 import java.util.List;
 
-@Entity(tableName = "top_rated_result")
-public class Top_Rated_Result {
+@Entity(tableName = "top_rated_movie")
+public class TopRatedMovie {
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
@@ -28,7 +28,7 @@ public class Top_Rated_Result {
     private String overview;
     private Date release_date;
 
-    public Top_Rated_Result(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
+    public TopRatedMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
         this.pages_number = pages_number;
         this.popularity = popularity;
         this.vote_count = vote_count;
@@ -49,7 +49,7 @@ public class Top_Rated_Result {
 
     //for testing purposes
     @Ignore
-    public Top_Rated_Result(Integer id, String title) {
+    public TopRatedMovie(Integer id, String title) {
         this.id = id;
         this.title = title;
     }

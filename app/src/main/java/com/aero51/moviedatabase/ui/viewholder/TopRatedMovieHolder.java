@@ -9,12 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 import com.squareup.picasso.Picasso;
 
 public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private Top_Rated_Result result;
+    private TopRatedMovie result;
     private int position;
 
     private ImageView imageView;
@@ -37,7 +37,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
 
     }
 
-    public void bindTo(Top_Rated_Result result,int position) {
+    public void bindTo(TopRatedMovie result, int position) {
         this.result = result;
         this.position=position;
 

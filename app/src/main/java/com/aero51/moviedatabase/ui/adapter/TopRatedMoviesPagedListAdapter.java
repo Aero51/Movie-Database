@@ -12,12 +12,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
 import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 
-public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_Result, RecyclerView.ViewHolder> {
+public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMovie, RecyclerView.ViewHolder> {
     private ItemClickListener itemClickListener;
     private NetworkState networkState;
 
@@ -45,7 +45,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Top_Rated_Result currentResult = getItem(position);
+        TopRatedMovie currentResult = getItem(position);
         //  ((TopRatedMovieHolder) holder).bindTo(currentResult,position);
         switch (getItemViewType(position)) {
             case R.layout.movie_item:
@@ -96,16 +96,16 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_R
     }
 
 
-    private static DiffUtil.ItemCallback<Top_Rated_Result> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<Top_Rated_Result>() {
+    private static DiffUtil.ItemCallback<TopRatedMovie> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TopRatedMovie>() {
                 @Override
-                public boolean areItemsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
+                public boolean areItemsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
                     Log.d("moviedatabaselog", "areItemsTheSame");
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
+                public boolean areContentsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
                     Log.d("moviedatabaselog", "areContentsTheSame");
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
