@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -57,13 +58,13 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("moviedatabaselog", "MoviesFragment onCreate ");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -73,7 +74,6 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d("moviedatabaselog", "MoviesFragment onCreateView ");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         recyclerView = view.findViewById(R.id.main_recycler_view);
@@ -81,7 +81,6 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         recyclerView.setHasFixedSize(true);
         emptyViewText = view.findViewById(R.id.empty_view);
         homeAdapter = new HomeAdapter(getContext(), this);
-
         recyclerView.setAdapter(homeAdapter);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
@@ -102,11 +101,16 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         });//.attachToRecyclerView(recyclerView);
 
         registerObservers();
-
         detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
 
         return view;
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
 
     private void registerObservers() {
         TopRatedResultViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TopRatedResultViewModel.class);
