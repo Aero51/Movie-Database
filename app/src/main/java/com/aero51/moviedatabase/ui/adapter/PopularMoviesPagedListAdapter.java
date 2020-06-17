@@ -12,27 +12,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.PopularMovie;
 import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
-import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
-import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
+import com.aero51.moviedatabase.ui.viewholder.PopularMovieHolder;
+import com.aero51.moviedatabase.utils.PopularItemClickListener;
 
-public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMovie, RecyclerView.ViewHolder> {
-    private TopRatedItemClickListener itemClickListener;
+
+public class PopularMoviesPagedListAdapter extends PagedListAdapter<PopularMovie, RecyclerView.ViewHolder> {
+    private PopularItemClickListener itemClickListener;
     private NetworkState networkState;
 
-    public TopRatedMoviesPagedListAdapter(TopRatedItemClickListener itemClickListener) {
+    public PopularMoviesPagedListAdapter(PopularItemClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }
-
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         if (viewType == R.layout.movie_item) {
             View view = layoutInflater.inflate(R.layout.movie_item, parent, false);
-            TopRatedMovieHolder viewHolder = new TopRatedMovieHolder(view, itemClickListener);
+            PopularMovieHolder viewHolder = new PopularMovieHolder(view, itemClickListener);
             return viewHolder;
         } else if (viewType == R.layout.network_state_item) {
             View view = layoutInflater.inflate(R.layout.network_state_item, parent, false);
@@ -40,24 +40,21 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
         } else {
             throw new IllegalArgumentException("unknown view type");
         }
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TopRatedMovie currentResult = getItem(position);
+        PopularMovie currentResult = getItem(position);
         //  ((TopRatedMovieHolder) holder).bindTo(currentResult,position);
         switch (getItemViewType(position)) {
             case R.layout.movie_item:
-                ((TopRatedMovieHolder) holder).bindTo(currentResult, position);
+                ((PopularMovieHolder) holder).bindTo(currentResult, position);
                 break;
             case R.layout.network_state_item:
                 ((NetworkStateItemViewHolder) holder).bindView(networkState);
                 break;
         }
-
     }
-
     @Override
     public int getItemViewType(int position) {
 
@@ -76,39 +73,17 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
         }
     }
 
-    public void setNetworkState(NetworkState newNetworkState) {
-        Log.d("moviedatabaselog", "NetworkState status: " + newNetworkState.getStatus() + " ,msg: " + newNetworkState.getMsg());
-        NetworkState previousState = this.networkState;
-        boolean previousExtraRow = hasExtraRow();
-        this.networkState = newNetworkState;
-        boolean newExtraRow = hasExtraRow();
-        if (previousExtraRow != newExtraRow) {
-            if (previousExtraRow) {
-                notifyItemRemoved(getItemCount());
-            } else {
-                notifyItemInserted(getItemCount());
-            }
-        } else if (newExtraRow && previousState != newNetworkState) {
-            notifyItemChanged(getItemCount() - 1);
-        }
-    }
 
-
-    private static DiffUtil.ItemCallback<TopRatedMovie> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<TopRatedMovie>() {
+    private static DiffUtil.ItemCallback<PopularMovie> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<PopularMovie>() {
                 @Override
-                public boolean areItemsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
-                    Log.d("moviedatabaselog", "areItemsTheSame");
+                public boolean areItemsTheSame(PopularMovie oldItem, PopularMovie newItem) {
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
-                    Log.d("moviedatabaselog", "areContentsTheSame");
+                public boolean areContentsTheSame(PopularMovie oldItem, PopularMovie newItem) {
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };
-
-
-
 }

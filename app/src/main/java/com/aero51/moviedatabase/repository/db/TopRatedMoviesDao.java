@@ -23,7 +23,7 @@ public interface TopRatedMoviesDao {
      * -------------------------------
      * Since the DB use as caching, we  return LiveData.
      * We  get update every time the database update.
-     * We using the get query when application start. So, we able to display
+     * We are using the get query when application start. So, we able to display
      * data fast and in case we don't have connection to work offline.
      *
      * @return the top rated  movies from the table
@@ -44,30 +44,30 @@ public interface TopRatedMoviesDao {
 
 
     //  @Query("SELECT * FROM note_table ORDER BY priority DESC")
-    @Query("SELECT * FROM Top_Rated_Result")
+    @Query("SELECT * FROM top_rated_movie")
     LiveData<List<TopRatedMovie>> getAllResultsLiveData();
 
 
-    @Query("SELECT * FROM Top_Rated_Result")
+    @Query("SELECT * FROM top_rated_movie")
     DataSource.Factory<Integer, TopRatedMovie> getAllResults();
 
    // @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
    // LiveData<Top_Rated_Movies_Page> getLatestMoviePage();
 
-   @Query("SELECT * FROM TopRatedMoviesPage LIMIT 1")
+   @Query("SELECT * FROM top_rated_movies_page LIMIT 1")
    TopRatedMoviesPage getMoviePage();
 
-    @Query("SELECT * FROM TopRatedMoviesPage LIMIT 1")
+    @Query("SELECT * FROM top_rated_movies_page LIMIT 1")
     LiveData<TopRatedMoviesPage> getLiveDataMoviePage();
 
-   @Query("DELETE FROM TopRatedMoviesPage")
+   @Query("DELETE FROM top_rated_movies_page")
     void deleteAllMoviePages();
 
     @Insert
     void insertMoviePage(TopRatedMoviesPage top_rated_movies_page);
 
 
-    @Query("SELECT * FROM top_rated_result")
+    @Query("SELECT * FROM top_rated_movie")
     PositionalDataSource<TopRatedMovie> getAlltestResultsNew();
 
 }

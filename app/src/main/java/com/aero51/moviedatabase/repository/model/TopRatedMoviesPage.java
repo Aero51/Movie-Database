@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 
-@Entity(tableName = "top_rated_movie_page")
+@Entity(tableName = "top_rated_movies_page")
 public class TopRatedMoviesPage {
 
     @PrimaryKey(autoGenerate = true)

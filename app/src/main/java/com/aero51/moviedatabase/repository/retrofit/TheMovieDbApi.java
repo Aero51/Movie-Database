@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.repository.retrofit;
 
+import com.aero51.moviedatabase.repository.model.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
 
 import retrofit2.Call;
@@ -12,6 +13,12 @@ public interface TheMovieDbApi {
     @GET("movie/top_rated")
     Call<TopRatedMoviesPage> getTopRatedMovies(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("region") String region);
+
+    //region is optional
+    @GET("movie/popular")
+    Call<PopularMoviesPage> getPopularMovies(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("region") String region);
+
 
     // https://api.themoviedb.org/3/movie/top_rated?api_key=8ba72532be79fd82366e924e791e0c71&language=en-US&page=1
 

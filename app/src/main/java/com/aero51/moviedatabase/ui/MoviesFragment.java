@@ -20,14 +20,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.PopularMovie;
+import com.aero51.moviedatabase.repository.model.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
+import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
-import com.aero51.moviedatabase.utils.ItemClickListener;
+import com.aero51.moviedatabase.utils.PopularItemClickListener;
+import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
-import com.aero51.moviedatabase.viewmodel.TopRatedResultViewModel;
+import com.aero51.moviedatabase.viewmodel.MoviesViewModel;
 
-public class MoviesFragment extends Fragment implements ItemClickListener {
+public class MoviesFragment extends Fragment implements TopRatedItemClickListener, PopularItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -37,11 +41,15 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
     private String mParam1;
     private String mParam2;
 
-    private TextView textViewMovieCategory;
-    private RecyclerView recyclerView;
+    private TextView textViewTopRatedMovie;
+    private TextView textViewPopularMovie;
+    private RecyclerView topRatedRecyclerView;
+    private RecyclerView popularRecyclerView;
     private TextView emptyViewText;
+    private MoviesViewModel moviesViewModel;
     private MovieDetailsViewModel detailsViewModel;
-    private TopRatedMoviesPagedListAdapter homeAdapter;
+    private TopRatedMoviesPagedListAdapter topRatedAdapter;
+    private PopularMoviesPagedListAdapter popularAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -77,17 +85,30 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
 
-        textViewMovieCategory = view.findViewById(R.id.text_view_movie_category);
-        recyclerView = view.findViewById(R.id.home_recycler_view_horizontal);
+        textViewTopRatedMovie = view.findViewById(R.id.text_view_top_rated_movie);
+        textViewPopularMovie = view.findViewById(R.id.text_view_popular_movie);
 
-        textViewMovieCategory.setText("Top rated movies:");
+        topRatedRecyclerView = view.findViewById(R.id.top_rated_movies_recycler_view_horizontal);
+        popularRecyclerView = view.findViewById(R.id.popular_movies_recycler_view_horizontal);
 
-        recyclerView.setHasFixedSize(true);
+        textViewTopRatedMovie.setText("Top rated movies:");
+        textViewPopularMovie.setText("Popular movies:");
+
+        topRatedRecyclerView.setHasFixedSize(true);
+        popularRecyclerView.setHasFixedSize(true);
         emptyViewText = view.findViewById(R.id.empty_view);
-        homeAdapter = new TopRatedMoviesPagedListAdapter(this);
-        recyclerView.setAdapter(homeAdapter);
+
+        topRatedAdapter = new TopRatedMoviesPagedListAdapter(this);
+        topRatedRecyclerView.setAdapter(topRatedAdapter);
+        popularAdapter = new PopularMoviesPagedListAdapter(this);
+        popularRecyclerView.setAdapter(popularAdapter);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        topRatedRecyclerView.setLayoutManager(linearLayoutManager);
+
+        LinearLayoutManager newlinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        popularRecyclerView.setLayoutManager(newlinearLayoutManager);
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -103,32 +124,32 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
             }
         });//.attachToRecyclerView(recyclerView);
 
-        registerObservers();
-        detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+        moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
+        registerTopRatedMoviesObservers();
 
+        detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+        registerPopularMoviesObservers();
         return view;
     }
 
-    private void registerObservers() {
-        TopRatedResultViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TopRatedResultViewModel.class);
-
-        viewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
+    private void registerTopRatedMoviesObservers() {
+        moviesViewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
             @Override
             public void onChanged(PagedList<TopRatedMovie> top_rated_results) {
-                Log.d("moviedatabaselog", "MoviesFragment onChanged list size: " + top_rated_results.size());
+                Log.d("moviedatabaselog", "MoviesFragment,topRated  onChanged list size: " + top_rated_results.size());
 
-                homeAdapter.submitList(top_rated_results);
+                topRatedAdapter.submitList(top_rated_results);
 
                 if (top_rated_results.isEmpty()) {
-                    recyclerView.setVisibility(View.GONE);
+                    topRatedRecyclerView.setVisibility(View.GONE);
                     emptyViewText.setVisibility(View.VISIBLE);
                 } else {
-                    recyclerView.setVisibility(View.VISIBLE);
+                    topRatedRecyclerView.setVisibility(View.VISIBLE);
                     emptyViewText.setVisibility(View.GONE);
                 }
             }
         });
-        viewModel.getLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<TopRatedMoviesPage>() {
+        moviesViewModel.getTopRatedLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<TopRatedMoviesPage>() {
             @Override
             public void onChanged(TopRatedMoviesPage top_rated_movies_page) {
                 Integer page_number;
@@ -137,17 +158,40 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
                 } else {
                     page_number = top_rated_movies_page.getPage();
                 }
-                Log.d("moviedatabaselog", "MoviesFragment onChanged movie_page: " + page_number);
+                Log.d("moviedatabaselog", "MoviesFragment,topRated onChanged movie_page: " + page_number);
             }
         });
-        viewModel.getNetworkState().observe(getViewLifecycleOwner(), new Observer<NetworkState>() {
+        moviesViewModel.getTopRatedMoviesNetworkState().observe(getViewLifecycleOwner(), new Observer<NetworkState>() {
             @Override
             public void onChanged(NetworkState networkState) {
                 // Log.d("moviedatabaselog", "MainActivity onChanged network state: "+networkState.getMsg());
-                homeAdapter.setNetworkState(networkState);
+                topRatedAdapter.setNetworkState(networkState);
             }
         });
 
+    }
+
+    private void registerPopularMoviesObservers() {
+        moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMovie>>() {
+            @Override
+            public void onChanged(PagedList<PopularMovie> popularMovies) {
+                Log.d("moviedatabaselog", "MoviesFragment,popular  onChanged list size: " + popularMovies.size());
+                popularAdapter.submitList(popularMovies);
+            }
+        });
+        moviesViewModel.getPopularLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<PopularMoviesPage>() {
+            @Override
+            public void onChanged(PopularMoviesPage popularMoviesPage) {
+                Integer page_number;
+                if (popularMoviesPage == null) {
+                    page_number = 0;
+                } else {
+                    page_number = popularMoviesPage.getPage();
+                }
+                Log.d("moviedatabaselog", "MoviesFragment,popular onChanged movie_page: " + page_number);
+            }
+
+        });
     }
 
 
@@ -166,5 +210,10 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
             transaction.commit();
 
         }
+    }
+
+    @Override
+    public void OnItemClick(PopularMovie result, int position) {
+
     }
 }

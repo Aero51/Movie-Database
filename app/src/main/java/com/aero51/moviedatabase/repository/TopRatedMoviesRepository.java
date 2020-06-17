@@ -28,10 +28,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class TopRatedMoviesRepository {
+import static com.aero51.moviedatabase.utils.Constants.API_KEY;
+import static com.aero51.moviedatabase.utils.Constants.TOP_RATED_MOVIES_FIRST_PAGE;
 
-    public static final String API_KEY = "8ba72532be79fd82366e924e791e0c71";
-    public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;
+public class TopRatedMoviesRepository {
 
     private MoviesDatabase database;
     private TopRatedMoviesDao dao;
@@ -44,7 +44,7 @@ public class TopRatedMoviesRepository {
 
     public TopRatedMoviesRepository(Application application) {
         database = MoviesDatabase.getInstance(application);
-        dao = database.get_top_rated_results_dao();
+        dao = database.get_top_rated_movies_dao();
 
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();
@@ -53,7 +53,7 @@ public class TopRatedMoviesRepository {
             @Override
             public void onZeroItemsLoaded() {
                 super.onZeroItemsLoaded();
-                Log.d("moviedatabaselog", "onzeroitemsloaded");
+                Log.d("moviedatabaselog", "topRatedMovies onzeroitemsloaded");
 
                 fetchTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
             }
@@ -61,14 +61,14 @@ public class TopRatedMoviesRepository {
             @Override
             public void onItemAtFrontLoaded(@NonNull TopRatedMovie itemAtFront) {
                 super.onItemAtFrontLoaded(itemAtFront);
-                Log.d("moviedatabaselog", "onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
+                Log.d("moviedatabaselog", "topRatedMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
             }
 
             @Override
             public void onItemAtEndLoaded(@NonNull TopRatedMovie itemAtEnd) {
                 super.onItemAtEndLoaded(itemAtEnd);
                 Integer page_number = current_movie_page.getValue().getPage() + 1;
-                Log.d("moviedatabaselog", "onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+                Log.d("moviedatabaselog", "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
                 fetchTopRatedMovies(page_number);
             }
 
@@ -96,11 +96,11 @@ public class TopRatedMoviesRepository {
             @Override
             public void onResponse(Call<TopRatedMoviesPage> call, Response<TopRatedMoviesPage> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
+                    Log.d("moviedatabaselog", "topRatedMovies Response unsuccesful: " + response.code());
                     networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
-                Log.d("moviedatabaselog", "Response ok: " + response.code());
+                Log.d("moviedatabaselog", "topRatedMovies Response ok: " + response.code());
                 TopRatedMoviesPage mTopRatedMovies = response.body();
                 insertListToDb(mTopRatedMovies);
                 networkState.postValue(NetworkState.LOADED);
@@ -108,7 +108,7 @@ public class TopRatedMoviesRepository {
 
             @Override
             public void onFailure(Call<TopRatedMoviesPage> call, Throwable t) {
-                Log.d("moviedatabaselog", "onFailure: " + t.getMessage());
+                Log.d("moviedatabaselog", "topRatedMovies onFailure: " + t.getMessage());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });
