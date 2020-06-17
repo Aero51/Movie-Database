@@ -63,7 +63,7 @@ public class MovieDetailsFragment extends Fragment {
                 //      "w500",
                 //      "w780",
                 //      "original"
-                
+
                 String baseUrl = "https://image.tmdb.org/t/p/w780";
                 String imageUrl = baseUrl + top_rated_result.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
