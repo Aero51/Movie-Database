@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
         this.context = context;
         this.itemClickListener = itemClickListener;
         recycledViewPool = new RecyclerView.RecycledViewPool();
-
+        Log.d("moviedatabaselog", "HomeAdapter constructor");
 
     }
 
@@ -43,7 +44,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
     @NonNull
     @Override
     public HomeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+        Log.d("moviedatabaselog", "onCreateViewHolder");
         View theView = LayoutInflater.from(context).inflate(R.layout.row_layout_home, parent, false);
 
 
@@ -52,7 +53,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull HomeViewHolder holder, final int position) {
-
+        Log.d("moviedatabaselog", "onBindViewHolder");
         holder.textViewCategory.setText("Top rated movies:");
 
         horizontal_top_rated_adapter = new TopRatedMoviesPagedListAdapter(itemClickListener);
@@ -65,11 +66,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeViewHolder
 
     @Override
     public int getItemCount() {
-
+        Log.d("moviedatabaselog", "getItemCount");
         return 1;
 
     }
-public void submitList(PagedList<Top_Rated_Result> top_rated_results_list){
+
+public void submitInsideList(PagedList<Top_Rated_Result> top_rated_results_list){
         horizontal_top_rated_adapter.submitList(top_rated_results_list);
 }
 

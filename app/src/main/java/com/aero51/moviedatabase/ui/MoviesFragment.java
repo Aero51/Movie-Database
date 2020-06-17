@@ -63,6 +63,7 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d("moviedatabaselog", "MoviesFragment onCreate ");
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -72,15 +73,18 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d("moviedatabaselog", "MoviesFragment onCreateView ");
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
         recyclerView = view.findViewById(R.id.main_recycler_view);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
+
         recyclerView.setHasFixedSize(true);
         emptyViewText = view.findViewById(R.id.empty_view);
         homeAdapter = new HomeAdapter(getContext(), this);
+
         recyclerView.setAdapter(homeAdapter);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -110,8 +114,9 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
         viewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
-                Log.d("moviedatabaselog", "MainActivity onChanged list size: " + top_rated_results.size());
-                homeAdapter.submitList(top_rated_results);
+                Log.d("moviedatabaselog", "MoviesFragment onChanged list size: " + top_rated_results.size());
+
+                homeAdapter.submitInsideList(top_rated_results);
 
                 if (top_rated_results.isEmpty()) {
                     recyclerView.setVisibility(View.GONE);
@@ -131,7 +136,7 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
                 } else {
                     page_number = top_rated_movies_page.getPage();
                 }
-                Log.d("moviedatabaselog", "MainActivity onChanged movie_page: " + page_number);
+                Log.d("moviedatabaselog", "MoviesFragment onChanged movie_page: " + page_number);
             }
         });
         viewModel.getNetworkState().observe(getViewLifecycleOwner(), new Observer<NetworkState>() {
