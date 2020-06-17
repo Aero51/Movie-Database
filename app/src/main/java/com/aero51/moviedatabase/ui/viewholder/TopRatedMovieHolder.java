@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.ui.viewholder;
 
 import android.util.Log;
 import android.view.View;
@@ -9,9 +9,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
 import com.aero51.moviedatabase.utils.ItemClickListener;
-import com.squareup.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

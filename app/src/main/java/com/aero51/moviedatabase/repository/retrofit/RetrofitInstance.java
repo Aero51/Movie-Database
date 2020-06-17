@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.retrofit;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

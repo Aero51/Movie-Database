@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.db;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
@@ -9,6 +9,9 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+
+import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
 
 import java.util.List;
 

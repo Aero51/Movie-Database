@@ -1,4 +1,6 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.retrofit;
+
+import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

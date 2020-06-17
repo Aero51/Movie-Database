@@ -1,12 +1,10 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.model;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
-
-import kotlin.jvm.Transient;
 
 
 @Entity(tableName = "top_rated_movie_page")

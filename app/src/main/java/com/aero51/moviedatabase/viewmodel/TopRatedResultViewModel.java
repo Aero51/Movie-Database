@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.viewmodel;
 
 import android.app.Application;
 import android.util.Log;
@@ -8,9 +8,9 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.paging.PagedList;
 
-import com.aero51.moviedatabase.repository.NetworkState;
-import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
 import com.aero51.moviedatabase.repository.Top_Rated_Results_Repository;
 
 

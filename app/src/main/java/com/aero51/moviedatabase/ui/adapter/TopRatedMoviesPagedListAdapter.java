@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.ui.adapter;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,8 +11,10 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.NetworkState;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
+import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 
 public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<Top_Rated_Result, RecyclerView.ViewHolder> {

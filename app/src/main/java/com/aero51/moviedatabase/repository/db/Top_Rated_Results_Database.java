@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.db;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -10,9 +10,11 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
 import com.aero51.moviedatabase.utils.Converters;
 
-@Database(entities = {Top_Rated_Result.class,Top_Rated_Movies_Page.class}, version = 1)
+@Database(entities = {Top_Rated_Result.class, Top_Rated_Movies_Page.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Top_Rated_Results_Database extends RoomDatabase {
 

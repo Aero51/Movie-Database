@@ -15,7 +15,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 
 public class MovieDetailsFragment extends Fragment {

@@ -20,10 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.NetworkState;
-import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
+import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.ItemClickListener;
+import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
+import com.aero51.moviedatabase.viewmodel.TopRatedResultViewModel;
 
 /**
  * A simple {@link Fragment} subclass.

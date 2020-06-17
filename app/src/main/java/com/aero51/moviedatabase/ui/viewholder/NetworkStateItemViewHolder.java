@@ -1,14 +1,13 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.ui.viewholder;
 
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.NetworkState;
+import com.aero51.moviedatabase.repository.model.NetworkState;
 
 public class NetworkStateItemViewHolder extends RecyclerView.ViewHolder {
 

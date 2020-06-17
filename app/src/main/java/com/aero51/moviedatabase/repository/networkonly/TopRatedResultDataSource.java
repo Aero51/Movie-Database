@@ -6,11 +6,11 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
-import com.aero51.moviedatabase.repository.NetworkState;
-import com.aero51.moviedatabase.repository.RetrofitInstance;
-import com.aero51.moviedatabase.repository.TheMovieDbApi;
-import com.aero51.moviedatabase.repository.Top_Rated_Movies_Page;
-import com.aero51.moviedatabase.repository.Top_Rated_Result;
+import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
+import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
+import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
 
 import java.io.IOException;
 import java.util.ArrayList;
