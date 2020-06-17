@@ -50,7 +50,9 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
         String baseUrl = "https://image.tmdb.org/t/p/w92";
         String imageUrl = baseUrl + result.getPoster_path();
         //    Log.d("moviesadapter", "imageUrl: " + imageUrl);
-        Picasso.get().load(imageUrl).into(imageView);
+           Picasso.get().load(imageUrl).into(imageView);
+
+
 /*
         poster
         https://image.tmdb.org/t/p/w92/5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg

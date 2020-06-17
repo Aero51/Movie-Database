@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
@@ -42,6 +43,7 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
 
     private RecyclerView recyclerView;
     private TextView emptyViewText;
+    private MovieDetailsViewModel detailsViewModel;
 
     /**
      * Use this factory method to create a new instance of
@@ -96,6 +98,9 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
             }
         });//.attachToRecyclerView(recyclerView);
         registerObservers();
+
+        detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+
         return view;
     }
 
@@ -142,6 +147,18 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
 
     @Override
     public void OnItemClick(Top_Rated_Result result, int position) {
+        detailsViewModel.select(result);
+        if (!detailsViewModel.getMovie().hasActiveObservers()) {
+            // Create fragment and give it an argument specifying the article it should show
+            MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragmentsContainer, detailsFragment);
+            transaction.addToBackStack(null);
+            // Commit the transaction
+            transaction.commit();
 
+        }
     }
 }
