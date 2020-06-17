@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMovieHol
     @NonNull
     @Override
     public TopRatedMovieHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        Log.d("moviedatabaselog", "onCreateViewHolder ");
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.movie_item, parent, false);
         return new TopRatedMovieHolder(itemView, itemClickListener);
@@ -28,7 +30,7 @@ public class TopRatedMoviesAdapter extends RecyclerView.Adapter<TopRatedMovieHol
 
     @Override
     public void onBindViewHolder(@NonNull TopRatedMovieHolder holder, int position) {
-
+        Log.d("moviedatabaselog", "onBindViewHolder ");
         Top_Rated_Result currentResult = mlist.get(position);
         //  ((TopRatedMovieHolder) holder).bindTo(currentResult,position);
         holder.bindTo(currentResult, position);
