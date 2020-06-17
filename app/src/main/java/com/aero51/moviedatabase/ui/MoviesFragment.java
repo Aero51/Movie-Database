@@ -9,7 +9,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -23,7 +22,7 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
 import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
-import com.aero51.moviedatabase.ui.adapter.HomeAdapter;
+import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.TopRatedResultViewModel;
@@ -38,10 +37,11 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
     private String mParam1;
     private String mParam2;
 
+    private TextView textViewMovieCategory;
     private RecyclerView recyclerView;
     private TextView emptyViewText;
     private MovieDetailsViewModel detailsViewModel;
-    private HomeAdapter homeAdapter;
+    private TopRatedMoviesPagedListAdapter homeAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -76,13 +76,16 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
-        recyclerView = view.findViewById(R.id.main_recycler_view);
 
+        textViewMovieCategory=view.findViewById(R.id.text_view_movie_category);
+        recyclerView = view.findViewById(R.id.home_recycler_view_horizontal);
+
+        textViewMovieCategory.setText("Top rated movies:");
         recyclerView.setHasFixedSize(true);
         emptyViewText = view.findViewById(R.id.empty_view);
-        homeAdapter = new HomeAdapter(getContext(), this);
+        homeAdapter = new TopRatedMoviesPagedListAdapter(this);
         recyclerView.setAdapter(homeAdapter);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
@@ -120,7 +123,7 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
                 Log.d("moviedatabaselog", "MoviesFragment onChanged list size: " + top_rated_results.size());
 
-                homeAdapter.submitInsideList(top_rated_results);
+                homeAdapter.submitList(top_rated_results);
 
                 if (top_rated_results.isEmpty()) {
                     recyclerView.setVisibility(View.GONE);
@@ -147,7 +150,7 @@ public class MoviesFragment extends Fragment implements ItemClickListener {
             @Override
             public void onChanged(NetworkState networkState) {
                 // Log.d("moviedatabaselog", "MainActivity onChanged network state: "+networkState.getMsg());
-                // adapter.setNetworkState(networkState);
+                homeAdapter.setNetworkState(networkState);
             }
         });
 
