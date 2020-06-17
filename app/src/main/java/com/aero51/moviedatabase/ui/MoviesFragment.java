@@ -1,6 +1,12 @@
 package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -12,29 +18,16 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.Top_Rated_Movies_Page;
 import com.aero51.moviedatabase.repository.model.Top_Rated_Result;
-import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
+import com.aero51.moviedatabase.ui.adapter.HomeAdapter;
 import com.aero51.moviedatabase.utils.ItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.TopRatedResultViewModel;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link TopRatedMoviesFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TopRatedMoviesFragment extends Fragment implements ItemClickListener {
-
+public class MoviesFragment extends Fragment implements ItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -47,6 +40,7 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
     private RecyclerView recyclerView;
     private TextView emptyViewText;
     private MovieDetailsViewModel detailsViewModel;
+    private HomeAdapter homeAdapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -57,8 +51,8 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
      * @return A new instance of fragment top_rated_movies_fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static TopRatedMoviesFragment newInstance(String param1, String param2) {
-        TopRatedMoviesFragment fragment = new TopRatedMoviesFragment();
+    public static MoviesFragment newInstance(String param1, String param2) {
+        MoviesFragment fragment = new MoviesFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,12 +73,14 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_top_rated_movies_fragment, container, false);
-        recyclerView = view.findViewById(R.id.recycler_view);
+        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+        recyclerView = view.findViewById(R.id.main_recycler_view);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setHasFixedSize(true);
         emptyViewText = view.findViewById(R.id.empty_view);
+        homeAdapter = new HomeAdapter(getContext(), this);
+        recyclerView.setAdapter(homeAdapter);
 
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
                 ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
@@ -100,6 +96,7 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
                 Toast.makeText(view.getContext(), "Result deleted", Toast.LENGTH_SHORT).show();
             }
         });//.attachToRecyclerView(recyclerView);
+
         registerObservers();
 
         detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
@@ -109,12 +106,12 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
 
     private void registerObservers() {
         TopRatedResultViewModel viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TopRatedResultViewModel.class);
-        TopRatedMoviesPagedListAdapter adapter = new TopRatedMoviesPagedListAdapter(this);
+
         viewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<Top_Rated_Result>>() {
             @Override
             public void onChanged(PagedList<Top_Rated_Result> top_rated_results) {
                 Log.d("moviedatabaselog", "MainActivity onChanged list size: " + top_rated_results.size());
-                adapter.submitList(top_rated_results);
+                homeAdapter.submitList(top_rated_results);
 
                 if (top_rated_results.isEmpty()) {
                     recyclerView.setVisibility(View.GONE);
@@ -141,10 +138,10 @@ public class TopRatedMoviesFragment extends Fragment implements ItemClickListene
             @Override
             public void onChanged(NetworkState networkState) {
                 // Log.d("moviedatabaselog", "MainActivity onChanged network state: "+networkState.getMsg());
-                adapter.setNetworkState(networkState);
+                // adapter.setNetworkState(networkState);
             }
         });
-        recyclerView.setAdapter(adapter);
+
     }
 
 

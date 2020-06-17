@@ -23,15 +23,21 @@ public class MainActivity extends AppCompatActivity  {
                 return;
             }
             // Create a new Fragment to be placed in the activity layout
-            TopRatedMoviesFragment moviesListFragment = TopRatedMoviesFragment.newInstance("","");
+
+           // TopRatedMoviesFragment moviesListFragment = TopRatedMoviesFragment.newInstance("","");
+            MoviesFragment moviesFragment=MoviesFragment.newInstance("","");
+
 
             // In case this activity was started with special instructions from an
             // Intent, pass the Intent's extras to the fragment as arguments
-            moviesListFragment.setArguments(getIntent().getExtras());
+
+          //  moviesListFragment.setArguments(getIntent().getExtras());
+            moviesFragment.setArguments(getIntent().getExtras());
 
             // Add the fragment to the 'fragmentsContainer' FrameLayout
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragmentsContainer, moviesListFragment).commit();
+
+          //  getSupportFragmentManager().beginTransaction().add(R.id.fragmentsContainer, moviesListFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.fragmentsContainer, moviesFragment).commit();
         }
     }
 

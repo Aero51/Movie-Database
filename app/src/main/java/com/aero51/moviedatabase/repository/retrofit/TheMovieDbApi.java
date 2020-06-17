@@ -8,6 +8,7 @@ import retrofit2.http.Query;
 
 public interface TheMovieDbApi {
 
+    //region is optional
     @GET("movie/top_rated")
     Call<Top_Rated_Movies_Page> getTopRatedMovies(@Query("api_key") String api_key
             , @Query("page") Integer page,@Query("region") String region);

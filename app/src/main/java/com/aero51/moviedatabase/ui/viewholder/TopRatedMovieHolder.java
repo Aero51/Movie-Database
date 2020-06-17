@@ -31,7 +31,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
         textViewPosition = itemView.findViewById(R.id.text_view_position);
         textViewtitle = itemView.findViewById(R.id.text_view_title);
         textViewVoteAverage = itemView.findViewById(R.id.text_view_vote_average);
-        textViewOverview = itemView.findViewById(R.id.text_view_overview);
+
         this.itemClickListener = itemClickListener;
         itemView.setOnClickListener(this);
 
@@ -44,7 +44,6 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
         textViewPosition.setText(String.valueOf(position + 1));
         textViewtitle.setText(result.getTitle());
         textViewVoteAverage.setText(String.valueOf(result.getVote_average()));
-        textViewOverview.setText(result.getOverview());
 
         String baseUrl = "https://image.tmdb.org/t/p/w92";
         String imageUrl = baseUrl + result.getPoster_path();
