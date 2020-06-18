@@ -14,7 +14,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.PopularMovie;
+import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 

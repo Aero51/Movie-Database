@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
 import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;

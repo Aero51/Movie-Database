@@ -6,24 +6,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.PopularMovie;
-import com.aero51.moviedatabase.repository.model.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;

@@ -6,8 +6,8 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.aero51.moviedatabase.repository.model.PopularMovie;
-import com.aero51.moviedatabase.repository.model.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
 
 import java.util.List;
 

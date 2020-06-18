@@ -1,7 +1,7 @@
 package com.aero51.moviedatabase.utils;
 
 
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 
 public interface TopRatedItemClickListener {
     void OnItemClick(TopRatedMovie result, int position);

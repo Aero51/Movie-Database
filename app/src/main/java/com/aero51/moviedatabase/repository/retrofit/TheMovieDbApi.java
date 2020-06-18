@@ -1,7 +1,7 @@
 package com.aero51.moviedatabase.repository.retrofit;
 
-import com.aero51.moviedatabase.repository.model.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

@@ -3,8 +3,8 @@ package com.aero51.moviedatabase.viewmodel;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-import com.aero51.moviedatabase.repository.model.PopularMovie;
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 
 public class MovieDetailsViewModel extends ViewModel {
     final private MutableLiveData<TopRatedMovie> topRatedmovie = new MutableLiveData<TopRatedMovie>();

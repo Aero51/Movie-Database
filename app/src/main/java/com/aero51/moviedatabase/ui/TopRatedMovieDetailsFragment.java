@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,14 +14,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.PopularMovie;
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 
 import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
-import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
 public class TopRatedMovieDetailsFragment extends Fragment {
     private MovieDetailsViewModel viewModel;
