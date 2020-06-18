@@ -28,6 +28,7 @@ import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.API_KEY;
 import static com.aero51.moviedatabase.utils.Constants.POPULAR_MOVIES_FIRST_PAGE;
+import static com.aero51.moviedatabase.utils.Constants.REGION;
 
 public class PopularMoviesRepository {
 
@@ -89,7 +90,7 @@ public class PopularMoviesRepository {
     public void fetchPopularMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<PopularMoviesPage> call = theMovieDbApi.getPopularMovies(API_KEY, pageNumber, "us");
+        Call<PopularMoviesPage> call = theMovieDbApi.getPopularMovies(API_KEY, pageNumber, REGION);
         call.enqueue(new Callback<PopularMoviesPage>() {
             @Override
             public void onResponse(Call<PopularMoviesPage> call, Response<PopularMoviesPage> response) {

@@ -18,6 +18,9 @@ import com.aero51.moviedatabase.repository.model.PopularMovie;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 
+import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
+import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
+
 public class PopularMovieDetailsFragment extends Fragment {
     private MovieDetailsViewModel viewModel;
 
@@ -47,8 +50,7 @@ public class PopularMovieDetailsFragment extends Fragment {
                 release_date_text_view.setText(popularMovie.getRelease_date().toString());
                 overview_text_view.setText(popularMovie.getOverview());
 
-                String baseUrl = "https://image.tmdb.org/t/p/w780";
-                String imageUrl = baseUrl + popularMovie.getBackdrop_path();
+                String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
             }
         });

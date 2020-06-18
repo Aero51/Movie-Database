@@ -116,7 +116,6 @@ I copied it from response to my question here
 
 //method to directly fetch page number from db but get cannot acess database on main thread error
 
-
   public void fetchTopRatedMoviesNew() {
         Top_Rated_Movies_Page movies_page = database.runInTransaction(new Callable<Top_Rated_Movies_Page>() {
             @Override
@@ -164,3 +163,21 @@ I copied it from response to my question here
             }
         });
     }
+
+
+
+    // for swiping
+            new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0,
+                    ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+                @Override
+                public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+                   Toast.makeText(view.getContext(), "onMove", Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+
+                @Override
+                public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+                    //  noteViewModel.delete(adapter.getNoteAt(viewHolder.getAdapterPosition()));
+                    Toast.makeText(view.getContext(), "Result deleted", Toast.LENGTH_SHORT).show();
+                }
+            });//.attachToRecyclerView(recyclerView);

@@ -13,6 +13,9 @@ import com.aero51.moviedatabase.repository.model.PopularMovie;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.squareup.picasso.Picasso;
 
+import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
+import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
+
 public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
     private PopularMovie result;
     private int position;
@@ -40,8 +43,7 @@ public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.
         textViewPosition.setText(String.valueOf(position + 1));
         textViewtitle.setText(result.getTitle());
 
-        String baseUrl = "https://image.tmdb.org/t/p/w92";
-        String imageUrl = baseUrl + result.getPoster_path();
+        String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + result.getPoster_path();
         Picasso.get().load(imageUrl).into(imageView);
 
     }

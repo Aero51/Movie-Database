@@ -20,6 +20,10 @@ import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 
+import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
+import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
+import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
+
 public class TopRatedMovieDetailsFragment extends Fragment {
     private MovieDetailsViewModel viewModel;
 
@@ -49,24 +53,7 @@ public class TopRatedMovieDetailsFragment extends Fragment {
                 release_date_text_view.setText(top_rated_movie.getRelease_date().toString());
                 overview_text_view.setText(top_rated_movie.getOverview());
 
-                //poster
-                //  String baseUrl = "https://image.tmdb.org/t/p/w92";
-                //backdrop  "backdrop_sizes": [
-                //      "w300",
-                //      "w780",
-                //      "w1280",
-                //      "original"
-                // "poster_sizes": [
-                //      "w92",
-                //      "w154",
-                //      "w185",
-                //      "w342",
-                //      "w500",
-                //      "w780",
-                //      "original"
-
-                String baseUrl = "https://image.tmdb.org/t/p/w780";
-                String imageUrl = baseUrl + top_rated_movie.getBackdrop_path();
+                String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + top_rated_movie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
 
             }

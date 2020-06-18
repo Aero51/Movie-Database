@@ -29,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.API_KEY;
+import static com.aero51.moviedatabase.utils.Constants.REGION;
 import static com.aero51.moviedatabase.utils.Constants.TOP_RATED_MOVIES_FIRST_PAGE;
 
 public class TopRatedMoviesRepository {
@@ -91,7 +92,7 @@ public class TopRatedMoviesRepository {
     public void fetchTopRatedMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber, "us");
+        Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber, REGION);
         call.enqueue(new Callback<TopRatedMoviesPage>() {
             @Override
             public void onResponse(Call<TopRatedMoviesPage> call, Response<TopRatedMoviesPage> response) {

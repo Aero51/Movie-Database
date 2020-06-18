@@ -13,6 +13,9 @@ import com.aero51.moviedatabase.repository.model.TopRatedMovie;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.squareup.picasso.Picasso;
 
+import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
+import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
+
 public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private TopRatedMovie result;
     private int position;
@@ -42,22 +45,9 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
         textViewPosition.setText(String.valueOf(position + 1));
         textViewtitle.setText(result.getTitle());
 
-
-        String baseUrl = "https://image.tmdb.org/t/p/w92";
-        String imageUrl = baseUrl + result.getPoster_path();
-        //    Log.d("moviesadapter", "imageUrl: " + imageUrl);
+        String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + result.getPoster_path();
            Picasso.get().load(imageUrl).into(imageView);
 
-
-/*
-        poster
-        https://image.tmdb.org/t/p/w92/5KCVkau1HEl7ZzfPsKAPM0sMiKc.jpg
-
-        backdrop
-        w300
-        /avedvodAZUcwqevBfm8p4G2NziQ.jpg
-        https://image.tmdb.org/t/p/w300/avedvodAZUcwqevBfm8p4G2NziQ.jpg
- */
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository.networkonly;
+package com.aero51.moviedatabase.repository.networkonlynotused;
 
 import android.util.Log;
 
