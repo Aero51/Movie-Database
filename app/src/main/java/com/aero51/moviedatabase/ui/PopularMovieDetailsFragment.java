@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,11 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.PopularMovie;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
 
-public class MovieDetailsFragment extends Fragment {
+public class PopularMovieDetailsFragment extends Fragment {
     private MovieDetailsViewModel viewModel;
 
     private ImageView cover_image_view;
@@ -41,44 +40,25 @@ public class MovieDetailsFragment extends Fragment {
         overview_text_view = view.findViewById(R.id.overview);
 
 
-        viewModel.getMovie().observe(this, new Observer<TopRatedMovie>() {
+        viewModel.getPopularMovie().observe(this, new Observer<PopularMovie>() {
             @Override
-            public void onChanged(TopRatedMovie top_rated_result) {
-                Log.d("moviedatabaselog", "MovieDetailsFragment onChanged movie_page: title: " +top_rated_result.getTitle());
-                title_text_view.setText(top_rated_result.getTitle());
-                release_date_text_view.setText(top_rated_result.getRelease_date().toString());
-                overview_text_view.setText(top_rated_result.getOverview());
-
-                //poster
-                //  String baseUrl = "https://image.tmdb.org/t/p/w92";
-                //backdrop  "backdrop_sizes": [
-                //      "w300",
-                //      "w780",
-                //      "w1280",
-                //      "original"
-                // "poster_sizes": [
-                //      "w92",
-                //      "w154",
-                //      "w185",
-                //      "w342",
-                //      "w500",
-                //      "w780",
-                //      "original"
+            public void onChanged(PopularMovie popularMovie) {
+                title_text_view.setText(popularMovie.getTitle());
+                release_date_text_view.setText(popularMovie.getRelease_date().toString());
+                overview_text_view.setText(popularMovie.getOverview());
 
                 String baseUrl = "https://image.tmdb.org/t/p/w780";
-                String imageUrl = baseUrl + top_rated_result.getBackdrop_path();
+                String imageUrl = baseUrl + popularMovie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
-
             }
         });
-
 
         return view;
     }
 
     public static void setImageUrl(ImageView view, String url) {
         if (url != null) {
-           // Picasso.get().load(BIG_IMAGE_URL_PREFIX + url).into(view);
+            // Picasso.get().load(BIG_IMAGE_URL_PREFIX + url).into(view);
         }
     }
 }

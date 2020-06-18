@@ -194,13 +194,36 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         });
     }
 
-
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
-        detailsViewModel.select(result);
-        if (!detailsViewModel.getMovie().hasActiveObservers()) {
+        detailsViewModel.selectTopRatedMovie(result);
+        launchTopRatedMovieDetailsFragment();
+    }
+
+    @Override
+    public void OnItemClick(PopularMovie result, int position) {
+        detailsViewModel.selectPopularMovie(result);
+        launchPopularMovieDetailsFragment();
+    }
+
+    public void launchTopRatedMovieDetailsFragment() {
+        if (!detailsViewModel.getTopRatedMovie().hasActiveObservers()) {
             // Create fragment and give it an argument specifying the article it should show
-            MovieDetailsFragment detailsFragment = new MovieDetailsFragment();
+            TopRatedMovieDetailsFragment detailsFragment = new TopRatedMovieDetailsFragment();
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            // Replace whatever is in the fragment_container view with this fragment,
+            // and add the transaction to the back stack so the user can navigate back
+            transaction.replace(R.id.fragmentsContainer, detailsFragment);
+            transaction.addToBackStack(null);
+            // Commit the transaction
+            transaction.commit();
+
+        }
+    }
+    public void launchPopularMovieDetailsFragment() {
+        if (!detailsViewModel.getPopularMovie().hasActiveObservers()) {
+            // Create fragment and give it an argument specifying the article it should show
+            PopularMovieDetailsFragment detailsFragment = new PopularMovieDetailsFragment();
             FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
             // Replace whatever is in the fragment_container view with this fragment,
             // and add the transaction to the back stack so the user can navigate back
@@ -212,8 +235,5 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         }
     }
 
-    @Override
-    public void OnItemClick(PopularMovie result, int position) {
 
-    }
 }
