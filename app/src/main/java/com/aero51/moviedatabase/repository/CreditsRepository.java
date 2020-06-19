@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 
 import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
@@ -39,19 +38,36 @@ public class CreditsRepository {
         return new NetworkBoundResource<MovieCredits, MovieCredits>(executors) {
             @Override
             protected void saveCallResult(@NonNull MovieCredits item) {
+                database.runInTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                        dao.insertCredits(item);
+                    }
+                });
                 Log.d("moviedatabaselog", "saveCallResult id: " + item.getId()+" ,cast size: "+item.getCast().size());
             }
 
             @Override
             protected boolean shouldFetch(@Nullable MovieCredits data) {
-                return true;
+                return data==null;
             }
 
             @NonNull
             @Override
             protected LiveData<MovieCredits> loadFromDb() {
+             /*   MutableLiveData<MovieCredits> data=new MutableLiveData<>();
+                database.runInTransaction(new Runnable() {
+                    @Override
+                    public void run() {
+                       MovieCredits credits=dao.getMovieCredits(movie_id);
+                       credits.setCast(dao.getTitleCast(movie_id));
+                       credits.setCrew(dao.getTitleCrew(movie_id));
+                       data.setValue(credits);
+                    }
+                });
 
-                return dao.getMovieCredits(movie_id);
+                return data;     */
+             return dao.getLiveMovieCredits(movie_id);
             }
 
             @NonNull

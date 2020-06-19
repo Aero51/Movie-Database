@@ -6,12 +6,14 @@ import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-@Entity(tableName = "movie_credits")
+@Entity(tableName = "movie_credit")
 public class MovieCredits {
     @PrimaryKey(autoGenerate = false)
     private Integer id;
+
     @Ignore
     private List<Cast> cast;
+
     @Ignore
     private List<Crew> crew;
 
@@ -37,4 +39,8 @@ public class MovieCredits {
     public List<Crew> getCrew() {
         return crew;
     }
+
+    public void setCast(List<Cast> cast) { this.cast = cast; }
+
+    public void setCrew(List<Crew> crew) { this.crew = crew; }
 }

@@ -45,7 +45,7 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     }
 
    public LiveData<Resource<MovieCredits>> getMovieCredits() {
-        //setting movie_id before this method gets called by adding observer which will send movie_id as null
+        //setting movie_id before this method gets called by adding observer which would otherwise send movie_id as null
         return creditsRepository.loadMovieCredits(movie_id);
     }
 

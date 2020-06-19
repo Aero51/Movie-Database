@@ -16,8 +16,7 @@ public class Crew {
     private String job;
     private String name;
     private String profile_path;
-
-
+    private Integer movie_id;
 
 
     public String getDepartment() {
@@ -28,9 +27,7 @@ public class Crew {
         return gender;
     }
 
-    public Integer getId() {
-        return id;
-    }
+    public Integer getId() { return id; }
 
     public String getJob() {
         return job;
@@ -43,7 +40,6 @@ public class Crew {
     public String getProfile_path() {
         return profile_path;
     }
-
 
     public void setDepartment(String department) {
         this.department = department;
@@ -68,6 +64,7 @@ public class Crew {
     public void setProfile_path(String profile_path) {
         this.profile_path = profile_path;
     }
+
     public Integer getDb_id() {
         return db_id;
     }
@@ -79,7 +76,12 @@ public class Crew {
     public void setCredit_id(String credit_id) {
         this.credit_id = credit_id;
     }
+
     public String getCredit_id() {
         return credit_id;
     }
+
+    public Integer getMovie_id() { return movie_id; }
+
+    public void setMovie_id(Integer movie_id) { this.movie_id = movie_id; }
 }

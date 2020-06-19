@@ -14,6 +14,7 @@ public class Cast {
     private String name;
     private Integer order;
     private String profile_path;
+    private Integer movie_id;
 
 
     public Integer getCast_id() {
@@ -79,4 +80,8 @@ public class Cast {
     public void setProfile_path(String profile_path) {
         this.profile_path = profile_path;
     }
+
+    public Integer getMovie_id() { return movie_id; }
+
+    public void setMovie_id(Integer movie_id) { this.movie_id = movie_id; }
 }
