@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.aero51.moviedatabase.repository.CreditsRepository;
 import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
@@ -20,6 +19,7 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     final private MutableLiveData<PopularMovie> popularmovie ;
     private CreditsRepository creditsRepository;
     private AppExecutors executors;
+    private Integer movie_id;
 
     public MovieDetailsViewModel(@NonNull Application application) {
         super(application);
@@ -34,6 +34,7 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         topRatedmovie.setValue(item);
     }
     public void selectPopularMovie(PopularMovie item) {
+        movie_id =item.getId();
         popularmovie.setValue(item);
     }
     public MutableLiveData<TopRatedMovie> getTopRatedMovie() {
@@ -43,7 +44,8 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         return popularmovie;
     }
 
-   public LiveData<Resource<MovieCredits>> getMovieCredits(Integer movie_id) {
+   public LiveData<Resource<MovieCredits>> getMovieCredits() {
+        //setting movie_id before this method gets called by adding observer which will send movie_id as null
         return creditsRepository.loadMovieCredits(movie_id);
     }
 

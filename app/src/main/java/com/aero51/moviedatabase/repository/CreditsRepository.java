@@ -39,7 +39,7 @@ public class CreditsRepository {
         return new NetworkBoundResource<MovieCredits, MovieCredits>(executors) {
             @Override
             protected void saveCallResult(@NonNull MovieCredits item) {
-                Log.d("moviedatabaselog", "saveCallResult id: " + item.getId());
+                Log.d("moviedatabaselog", "saveCallResult id: " + item.getId()+" ,cast size: "+item.getCast().size());
             }
 
             @Override

@@ -1,5 +1,7 @@
 package com.aero51.moviedatabase.utils;
 
+import android.util.Log;
+
 import androidx.annotation.MainThread;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

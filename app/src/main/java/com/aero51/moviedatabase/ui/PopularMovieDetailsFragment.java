@@ -62,10 +62,17 @@ public class PopularMovieDetailsFragment extends Fragment {
             }
         });
 
-        viewModel.getMovieCredits(movie_id).observe(this, new Observer<Resource<MovieCredits>>() {
+        viewModel.getMovieCredits().observe(this, new Observer<Resource<MovieCredits>>() {
             @Override
             public void onChanged(Resource<MovieCredits> movieCreditsResource) {
-                Log.d("moviedatabaselog", "popularMovie  ");
+                if (movieCreditsResource.data != null)
+                {
+                    Log.d("moviedatabaselog", "popularMovie id: "+movieCreditsResource.data.getId());
+                }
+                else{
+                    Log.d("moviedatabaselog", "popularMovie  movie credits = null, code: "+movieCreditsResource.code+" , "+movieCreditsResource.message);
+                }
+
             }
         });
 
