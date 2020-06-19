@@ -23,7 +23,6 @@ import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 
 public class TopRatedMovieDetailsFragment extends Fragment {
     private MovieDetailsViewModel viewModel;
-
     private ImageView cover_image_view;
     private TextView title_text_view;
     private TextView release_date_text_view;
@@ -34,7 +33,8 @@ public class TopRatedMovieDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate view and obtain an instance of the binding class.
-        viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+       // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+        viewModel= new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         cover_image_view = view.findViewById(R.id.cover);

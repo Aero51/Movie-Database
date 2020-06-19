@@ -103,7 +103,8 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
         moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
         registerTopRatedMoviesObservers();
-        detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+       // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+        detailsViewModel= new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         registerPopularMoviesObservers();
 
         return view;
