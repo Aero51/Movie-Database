@@ -25,6 +25,7 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 public abstract class MoviesDatabase extends RoomDatabase {
 
     private static MoviesDatabase instance;
+    private static MoviesDatabase instanceOnMainThread;
 
     public abstract TopRatedMoviesDao get_top_rated_movies_dao();
     public abstract PopularMoviesDao get_popular_movies_dao();
@@ -38,8 +39,22 @@ public abstract class MoviesDatabase extends RoomDatabase {
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build();
+
         }
         return instance;
+
+    }
+    public static synchronized MoviesDatabase getInstanceAllowOnMainThread(Context context) {
+        if (instanceOnMainThread == null) {
+            instanceOnMainThread = Room.databaseBuilder(context.getApplicationContext(),
+                    MoviesDatabase.class, DATABASE_NAME)
+                    .fallbackToDestructiveMigration()
+                    .allowMainThreadQueries()
+                    .addCallback(roomCallback)
+                    .build();
+
+        }
+        return instanceOnMainThread;
 
     }
 

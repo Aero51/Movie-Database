@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
@@ -28,13 +29,14 @@ public class CreditsRepository {
 
 
     public CreditsRepository(Application application, AppExecutors executors) {
-        database = MoviesDatabase.getInstance(application);
+        database = MoviesDatabase.getInstanceAllowOnMainThread(application);
         dao = database.get_credits_dao();
         this.executors = executors;
 
     }
 
     public LiveData<Resource<MovieCredits>> loadMovieCredits(Integer movie_id) {
+        Log.d("moviedatabaselog", "loadMovieCredits id: " + movie_id);
         return new NetworkBoundResource<MovieCredits, MovieCredits>(executors) {
             @Override
             protected void saveCallResult(@NonNull MovieCredits item) {
@@ -55,7 +57,7 @@ public class CreditsRepository {
             @NonNull
             @Override
             protected LiveData<MovieCredits> loadFromDb() {
-             /*   MutableLiveData<MovieCredits> data=new MutableLiveData<>();
+                MutableLiveData<MovieCredits> data=new MutableLiveData<>();
                 database.runInTransaction(new Runnable() {
                     @Override
                     public void run() {
@@ -66,8 +68,8 @@ public class CreditsRepository {
                     }
                 });
 
-                return data;     */
-             return dao.getLiveMovieCredits(movie_id);
+                return data;
+            // return dao.getLiveMovieCredits(movie_id);
             }
 
             @NonNull
