@@ -46,37 +46,39 @@ public class CreditsRepository {
                         dao.insertCredits(item);
                     }
                 });
-                Log.d("moviedatabaselog", "saveCallResult id: " + item.getId()+" ,cast size: "+item.getCast().size());
+                Log.d("moviedatabaselog", "saveCallResult id: " + item.getId() + " ,cast size: " + item.getCast().size());
             }
 
             @Override
             protected boolean shouldFetch(@Nullable MovieCredits data) {
-                return data==null;
+                return data == null;
             }
 
             @NonNull
             @Override
             protected LiveData<MovieCredits> loadFromDb() {
-                MutableLiveData<MovieCredits> data=new MutableLiveData<>();
+                MutableLiveData<MovieCredits> data = new MutableLiveData<>();
                 database.runInTransaction(new Runnable() {
                     @Override
                     public void run() {
-                       MovieCredits credits=dao.getMovieCredits(movie_id);
-                       credits.setCast(dao.getTitleCast(movie_id));
-                       credits.setCrew(dao.getTitleCrew(movie_id));
-                       data.setValue(credits);
+                        MovieCredits credits = dao.getMovieCredits(movie_id);
+                        if (credits != null) {
+                            credits.setCast(dao.getTitleCast(movie_id));
+                            credits.setCrew(dao.getTitleCrew(movie_id));
+                            data.setValue(credits);
+                        }
                     }
                 });
 
                 return data;
-            // return dao.getLiveMovieCredits(movie_id);
+                // return dao.getLiveMovieCredits(movie_id);
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<MovieCredits>> createCall() {
                 TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-                return theMovieDbApi.getLiveMovieCredits(movie_id,API_KEY);
+                return theMovieDbApi.getLiveMovieCredits(movie_id, API_KEY);
             }
         }.asLiveData();
 
