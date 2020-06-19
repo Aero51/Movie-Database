@@ -13,4 +13,37 @@ public class ActionError {
     public ActionError(String message) {
         this.message = message;
     }
+
+    public int getCode() {
+        return code;
+    }
+
+    public void setCode(int code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public boolean isError() {
+        return error;
+    }
+
+    public void setError(boolean error) {
+        this.error = error;
+    }
+
+    public HashMap<String, List<String>> getErrors() {
+        return errors;
+    }
+
+    public void setErrors(HashMap<String, List<String>> errors) {
+        this.errors = errors;
+    }
+
 }
