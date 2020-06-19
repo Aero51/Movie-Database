@@ -28,6 +28,8 @@ public abstract class MoviesDatabase extends RoomDatabase {
 
     public abstract TopRatedMoviesDao get_top_rated_movies_dao();
     public abstract PopularMoviesDao get_popular_movies_dao();
+    public abstract CreditsDao get_credits_dao();
+
 
     public static synchronized MoviesDatabase getInstance(Context context) {
         if (instance == null) {

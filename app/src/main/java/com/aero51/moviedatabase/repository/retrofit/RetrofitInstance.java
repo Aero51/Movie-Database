@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.repository.retrofit;
 
+import com.aero51.moviedatabase.utils.LiveDataCallAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -28,6 +29,7 @@ public class RetrofitInstance {
                     .Builder()
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
+                    .addCallAdapterFactory(new LiveDataCallAdapterFactory())
                     .client(okHttpClient)
                     .build();
         }

@@ -7,6 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
+import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 
@@ -23,13 +24,13 @@ import static com.aero51.moviedatabase.utils.Constants.API_KEY;
 
 public class CreditsRepository {
     private MoviesDatabase database;
-    private PopularMoviesDao dao;
+    private CreditsDao dao;
     private AppExecutors executors;
 
 
     public CreditsRepository(Application application, AppExecutors executors) {
         database = MoviesDatabase.getInstance(application);
-        dao = database.get_popular_movies_dao();
+        dao = database.get_credits_dao();
         this.executors = executors;
 
     }
@@ -49,14 +50,15 @@ public class CreditsRepository {
             @NonNull
             @Override
             protected LiveData<MovieCredits> loadFromDb() {
-                return null;
+
+                return dao.getMovieCredits(movie_id);
             }
 
             @NonNull
             @Override
             protected LiveData<ApiResponse<MovieCredits>> createCall() {
                 TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-                return theMovieDbApi.getLiveMovieCredits(API_KEY,movie_id);
+                return theMovieDbApi.getLiveMovieCredits(movie_id,API_KEY);
             }
         }.asLiveData();
 

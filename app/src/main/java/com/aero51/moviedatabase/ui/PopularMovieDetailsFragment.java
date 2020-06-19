@@ -39,7 +39,7 @@ public class PopularMovieDetailsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate view and obtain an instance of the binding class.
         //viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-        viewModel= new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        viewModel = new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         cover_image_view = view.findViewById(R.id.cover);
@@ -58,14 +58,14 @@ public class PopularMovieDetailsFragment extends Fragment {
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
-               movie_id= popularMovie.getId();
+                movie_id = popularMovie.getId();
             }
         });
 
         viewModel.getMovieCredits(movie_id).observe(this, new Observer<Resource<MovieCredits>>() {
             @Override
             public void onChanged(Resource<MovieCredits> movieCreditsResource) {
-                Log.d("moviedatabaselog", "popularMovie" );
+                Log.d("moviedatabaselog", "popularMovie  ");
             }
         });
 
