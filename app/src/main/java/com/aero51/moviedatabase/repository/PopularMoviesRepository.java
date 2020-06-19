@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -17,10 +16,9 @@ import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
+import com.aero51.moviedatabase.utils.AppExecutors;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -40,8 +38,10 @@ public class PopularMoviesRepository {
     private PagedList.BoundaryCallback<PopularMovie> popularMoviesBoundaryCallback;
 
     private LiveData<PopularMoviesPage> current_movie_page;
+    private AppExecutors executors;
 
-    public PopularMoviesRepository(Application application) {
+    public PopularMoviesRepository(Application application, AppExecutors executors) {
+        this.executors = executors;
         database = MoviesDatabase.getInstance(application);
         dao = database.get_popular_movies_dao();
 
@@ -81,9 +81,8 @@ public class PopularMoviesRepository {
                         .setInitialLoadSizeHint(60)
                         .setPageSize(20).build();
 
-        Executor executor = Executors.newFixedThreadPool(5);
         popularMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
-                .setBoundaryCallback(popularMoviesBoundaryCallback).setFetchExecutor(executor)
+                .setBoundaryCallback(popularMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
     }
 
@@ -118,33 +117,16 @@ public class PopularMoviesRepository {
     }
 
     public void insertListToDb(PopularMoviesPage page) {
-        new InsertListOfResultsAsyncTask(database, dao).execute(page);
-    }
+        List<PopularMovie> listOfResults = page.getResults_list();
 
-    private static class InsertListOfResultsAsyncTask extends AsyncTask<PopularMoviesPage, Void, Void> {
-        private MoviesDatabase database;
-        private PopularMoviesDao popularMoviesDao;
+        Runnable runnable = () -> {
+            dao.deleteAllMoviePages();
+            dao.insertMoviePage(page);
+            dao.insertList(listOfResults);
+        };
+        Runnable diskRunnable = () -> database.runInTransaction(runnable);
+        executors.diskIO().execute(diskRunnable);
 
-
-        private InsertListOfResultsAsyncTask(MoviesDatabase database, PopularMoviesDao popularMoviesDao) {
-            this.database = database;
-            this.popularMoviesDao = popularMoviesDao;
-        }
-
-        @Override
-        protected Void doInBackground(PopularMoviesPage... popular_page) {
-            PopularMoviesPage page = popular_page[0];
-            List<PopularMovie> listOfResults = page.getResults_list();
-            database.runInTransaction(new Runnable() {
-                @Override
-                public void run() {
-                    popularMoviesDao.deleteAllMoviePages();
-                    popularMoviesDao.insertMoviePage(page);
-                    popularMoviesDao.insertList(listOfResults);
-                }
-            });
-            return null;
-        }
     }
 
     /*

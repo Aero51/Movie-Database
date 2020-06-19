@@ -45,4 +45,10 @@ public interface PopularMoviesDao {
     @Insert
     void insertMoviePage(PopularMoviesPage popular_movies_page);
 
+   // @Query("SELECT * FROM `Cast` WHERE titleId = :titleId ORDER BY `order` ASC")
+   // LiveData<List<Cast>> getTitleCast(long titleId);
+
+   // @Query("SELECT first_name, last_name FROM user WHERE region IN (:regions)")
+    //public LiveData<List<User>> loadUsersFromRegionsSync(List<String> regions);
+
 }

@@ -15,16 +15,19 @@ import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.TopRatedMoviesRepository;
+import com.aero51.moviedatabase.utils.AppExecutors;
 
 
 public class MoviesViewModel extends AndroidViewModel {
     private TopRatedMoviesRepository topRatedMoviesRepository;
     private PopularMoviesRepository popularMoviesRepository;
+    private AppExecutors executors;
 
     public MoviesViewModel(@NonNull Application application) {
         super(application);
-        topRatedMoviesRepository = new TopRatedMoviesRepository(application);
-        popularMoviesRepository= new PopularMoviesRepository(application);
+        executors=new AppExecutors();
+        topRatedMoviesRepository = new TopRatedMoviesRepository(application,executors);
+        popularMoviesRepository= new PopularMoviesRepository(application,executors);
     }
 
     public LiveData<PagedList<TopRatedMovie>> getTopRatedResultsPagedList() {

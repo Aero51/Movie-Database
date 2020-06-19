@@ -2,6 +2,7 @@ package com.aero51.moviedatabase.utils;
 
 public class Constants {
     public static final String API_KEY = "8ba72532be79fd82366e924e791e0c71";
+    public static final String BASE_URL = "https://api.themoviedb.org/3/";
     public static final String REGION = "us";
     public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
     public static final String BACKDROP_SIZE_W300 = "w300";
@@ -17,7 +18,7 @@ public class Constants {
     public static final String POSTER_SIZE_ORIGINAL = "original";
 
 
-
+    public static final String DATABASE_NAME = "Movie.db";
     public static final int POPULAR_MOVIES_FIRST_PAGE = 1;
     public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;
 

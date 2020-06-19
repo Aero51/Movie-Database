@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.repository;
 
 import android.app.Application;
-import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -18,10 +17,9 @@ import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
+import com.aero51.moviedatabase.utils.AppExecutors;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 
 import retrofit2.Call;
@@ -42,8 +40,10 @@ public class TopRatedMoviesRepository {
     private PagedList.BoundaryCallback<TopRatedMovie> topRatedMoviesBoundaryCallback;
 
     private LiveData<TopRatedMoviesPage> current_movie_page;
+    private AppExecutors executors;
 
-    public TopRatedMoviesRepository(Application application) {
+    public TopRatedMoviesRepository(Application application, AppExecutors executors) {
+        this.executors = executors;
         database = MoviesDatabase.getInstance(application);
         dao = database.get_top_rated_movies_dao();
 
@@ -83,9 +83,9 @@ public class TopRatedMoviesRepository {
                         .setInitialLoadSizeHint(60)
                         .setPageSize(20).build();
 
-        Executor executor = Executors.newFixedThreadPool(5);
+        //  Executor executor = Executors.newFixedThreadPool(5);
         topRatedMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
-                .setBoundaryCallback(topRatedMoviesBoundaryCallback).setFetchExecutor(executor)
+                .setBoundaryCallback(topRatedMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
     }
 
@@ -120,33 +120,16 @@ public class TopRatedMoviesRepository {
     }
 
     public void insertListToDb(TopRatedMoviesPage page) {
-        new InsertListOfResultsAsyncTask(database, dao).execute(page);
-    }
 
-    private static class InsertListOfResultsAsyncTask extends AsyncTask<TopRatedMoviesPage, Void, Void> {
-        private MoviesDatabase database;
-        private TopRatedMoviesDao top_rated_result_dao;
+        List<TopRatedMovie> listOfResults = page.getResults_list();
 
-
-        private InsertListOfResultsAsyncTask(MoviesDatabase database, TopRatedMoviesDao top_rated_result_dao) {
-            this.database = database;
-            this.top_rated_result_dao = top_rated_result_dao;
-        }
-
-        @Override
-        protected Void doInBackground(TopRatedMoviesPage... top_rated_page) {
-            TopRatedMoviesPage page = top_rated_page[0];
-            List<TopRatedMovie> listOfResults = page.getResults_list();
-            database.runInTransaction(new Runnable() {
-                @Override
-                public void run() {
-                    top_rated_result_dao.deleteAllMoviePages();
-                    top_rated_result_dao.insertMoviePage(page);
-                    top_rated_result_dao.insertList(listOfResults);
-                }
-            });
-            return null;
-        }
+        Runnable runnable = () -> {
+            dao.deleteAllMoviePages();
+            dao.insertMoviePage(page);
+            dao.insertList(listOfResults);
+        };
+        Runnable diskRunnable = () -> database.runInTransaction(runnable);
+        executors.diskIO().execute(diskRunnable);
     }
 
     /*

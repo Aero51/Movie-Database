@@ -8,8 +8,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static com.aero51.moviedatabase.utils.Constants.BASE_URL;
+
 public class RetrofitInstance {
-    private static final String BASE_URL = "https://api.themoviedb.org/3/";
+
     private static Retrofit retrofit = null;
 
     public static synchronized TheMovieDbApi getApiService() {

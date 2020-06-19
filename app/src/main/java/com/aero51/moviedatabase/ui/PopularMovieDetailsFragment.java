@@ -52,6 +52,7 @@ public class PopularMovieDetailsFragment extends Fragment {
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
+                popularMovie.getId();
             }
         });
 
