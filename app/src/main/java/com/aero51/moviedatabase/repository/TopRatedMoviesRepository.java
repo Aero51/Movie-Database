@@ -19,13 +19,18 @@ public class TopRatedMoviesRepository {
 
     private LiveData<PagedList<TopRatedMovie>> topRatedMoviesPagedList;
     private TopRatedMoviesBoundaryCallback boundaryCallback;
+    private AppExecutors executors;
 
     public TopRatedMoviesRepository(Application application, AppExecutors executors) {
+        this.executors = executors;
         MoviesDatabase database = MoviesDatabase.getInstance(application);
         TopRatedMoviesDao dao = database.get_top_rated_movies_dao();
         boundaryCallback = new TopRatedMoviesBoundaryCallback(application, executors);
+        createTopRatedMoviesPagedList(dao);
 
 
+    }
+    private void createTopRatedMoviesPagedList(TopRatedMoviesDao dao){
         //Getting PagedList config
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
@@ -38,18 +43,15 @@ public class TopRatedMoviesRepository {
         topRatedMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
                 .setBoundaryCallback(boundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
-    }
 
-
-    /*
-     * Getter method for the network state
-     */
-    public LiveData<NetworkState> getNetworkState() {
-        return boundaryCallback.getNetworkState();
     }
 
     public LiveData<PagedList<TopRatedMovie>> getTopRatedResultsPagedList() {
         return topRatedMoviesPagedList;
+    }
+
+    public LiveData<NetworkState> getNetworkState() {
+        return boundaryCallback.getNetworkState();
     }
 
     public LiveData<TopRatedMoviesPage> getCurrent_movie_page() {

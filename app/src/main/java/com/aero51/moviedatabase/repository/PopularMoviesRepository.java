@@ -14,18 +14,22 @@ import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
 
 import com.aero51.moviedatabase.utils.AppExecutors;
 
-
 public class PopularMoviesRepository {
 
     private LiveData<PagedList<PopularMovie>> popularMoviesPagedList;
-    private PopularMoviesBoundaryCallback boundaryCallback;
+    private PopularMoviesBoundaryCallback popularMoviesBoundaryCallback;
+    private AppExecutors executors;
 
     public PopularMoviesRepository(Application application, AppExecutors executors) {
-
-        boundaryCallback = new PopularMoviesBoundaryCallback(application, executors);
+        this.executors = executors;
+        popularMoviesBoundaryCallback = new PopularMoviesBoundaryCallback(application, executors);
         MoviesDatabase database = MoviesDatabase.getInstance(application);
         PopularMoviesDao dao = database.get_popular_movies_dao();
+        createPopularMoviesPagedList(dao);
 
+    }
+
+    private void createPopularMoviesPagedList(PopularMoviesDao dao) {
         //Getting PagedList config
         PagedList.Config pagedListConfig =
                 (new PagedList.Config.Builder())
@@ -35,23 +39,21 @@ public class PopularMoviesRepository {
                         .setPageSize(20).build();
 
         popularMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
-                .setBoundaryCallback(boundaryCallback).setFetchExecutor(executors.networkIO())
+                .setBoundaryCallback(popularMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
-    }
 
-
-    /*
-     * Getter method for the network state
-     */
-    public LiveData<NetworkState> getNetworkState() {
-        return boundaryCallback.getNetworkState();
-    }
-
-    public LiveData<PopularMoviesPage> getCurrent_movie_page() {
-        return boundaryCallback.getCurrent_movie_page();
     }
 
     public LiveData<PagedList<PopularMovie>> getPopularResultsPagedList() {
         return popularMoviesPagedList;
     }
+
+    public LiveData<NetworkState> getNetworkState() {
+        return popularMoviesBoundaryCallback.getNetworkState();
+    }
+
+    public LiveData<PopularMoviesPage> getCurrent_movie_page() {
+        return popularMoviesBoundaryCallback.getCurrent_movie_page();
+    }
+
 }
