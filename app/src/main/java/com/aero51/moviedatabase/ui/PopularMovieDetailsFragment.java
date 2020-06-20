@@ -48,7 +48,7 @@ public class PopularMovieDetailsFragment extends Fragment {
         overview_text_view = view.findViewById(R.id.overview);
 
 
-        viewModel.getPopularMovie().observe(this, new Observer<PopularMovie>() {
+        viewModel.getPopularMovie().observe(getViewLifecycleOwner(), new Observer<PopularMovie>() {
             @Override
             public void onChanged(PopularMovie popularMovie) {
 
@@ -65,6 +65,7 @@ public class PopularMovieDetailsFragment extends Fragment {
         viewModel.getMovieCredits().observe(this, new Observer<Resource<MovieCredits>>() {
             @Override
             public void onChanged(Resource<MovieCredits> movieCreditsResource) {
+                Log.d("moviedatabaselog", "popularMovie onChanged ");
                 if (movieCreditsResource.data != null)
                 {
                     Log.d("moviedatabaselog", "popularMovie id: "+movieCreditsResource.data.getId());

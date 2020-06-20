@@ -23,14 +23,14 @@ import static com.aero51.moviedatabase.utils.Constants.API_KEY;
 
 
 public class CreditsRepository {
-    private MoviesDatabase database;
+    private MoviesDatabase databaseCanQueryOnMainThread;
     private CreditsDao dao;
     private AppExecutors executors;
 
 
     public CreditsRepository(Application application, AppExecutors executors) {
-        database = MoviesDatabase.getInstanceAllowOnMainThread(application);
-        dao = database.get_credits_dao();
+        databaseCanQueryOnMainThread = MoviesDatabase.getInstanceAllowOnMainThread(application);
+        dao = databaseCanQueryOnMainThread.get_credits_dao();
         this.executors = executors;
 
     }
@@ -40,7 +40,8 @@ public class CreditsRepository {
         return new NetworkBoundResource<MovieCredits, MovieCredits>(executors) {
             @Override
             protected void saveCallResult(@NonNull MovieCredits item) {
-                database.runInTransaction(new Runnable() {
+                //this is executed in background thread
+                databaseCanQueryOnMainThread.runInTransaction(new Runnable() {
                     @Override
                     public void run() {
                         dao.insertCredits(item);
@@ -58,9 +59,11 @@ public class CreditsRepository {
             @Override
             protected LiveData<MovieCredits> loadFromDb() {
                 MutableLiveData<MovieCredits> data = new MutableLiveData<>();
-                database.runInTransaction(new Runnable() {
+                //warning  transaction runs on main thread!
+                databaseCanQueryOnMainThread.runInTransaction(new Runnable() {
                     @Override
                     public void run() {
+
                         MovieCredits credits = dao.getMovieCredits(movie_id);
                         if (credits != null) {
                             credits.setCast(dao.getTitleCast(movie_id));
@@ -69,8 +72,8 @@ public class CreditsRepository {
                         }
                     }
                 });
-
                 return data;
+
                 // return dao.getLiveMovieCredits(movie_id);
             }
 

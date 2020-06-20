@@ -43,7 +43,7 @@ public class TopRatedMovieDetailsFragment extends Fragment {
         overview_text_view = view.findViewById(R.id.overview);
 
 
-        viewModel.getTopRatedMovie().observe(this, new Observer<TopRatedMovie>() {
+        viewModel.getTopRatedMovie().observe(getViewLifecycleOwner(), new Observer<TopRatedMovie>() {
             @Override
             public void onChanged(TopRatedMovie top_rated_movie) {
                 title_text_view.setText(top_rated_movie.getTitle());

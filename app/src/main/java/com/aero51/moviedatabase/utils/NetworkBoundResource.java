@@ -31,6 +31,7 @@ public abstract class NetworkBoundResource<RequestType,ResultType> {
                 result.addSource(dbSource, new Observer<ResultType>() {
                     @Override
                     public void onChanged(ResultType data) {
+                        Log.d("moviedatabaselog", "dbSource onChanged: " );
                         result.removeSource(dbSource);
                         if (NetworkBoundResource.this.shouldFetch(data)) {
                             NetworkBoundResource.this.preNetworkOperations();
