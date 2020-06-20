@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +15,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
+import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
@@ -33,8 +38,8 @@ public class TopRatedMovieDetailsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // Inflate view and obtain an instance of the binding class.
-       // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-        viewModel= new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
+        viewModel = new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         cover_image_view = view.findViewById(R.id.cover);
@@ -47,7 +52,7 @@ public class TopRatedMovieDetailsFragment extends Fragment {
             @Override
             public void onChanged(TopRatedMovie top_rated_movie) {
                 title_text_view.setText(top_rated_movie.getTitle());
-                release_date_text_view.setText(top_rated_movie.getRelease_date().toString());
+                release_date_text_view.setText(String.valueOf(top_rated_movie.getId()));
                 overview_text_view.setText(top_rated_movie.getOverview());
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + top_rated_movie.getBackdrop_path();
@@ -55,6 +60,13 @@ public class TopRatedMovieDetailsFragment extends Fragment {
 
             }
         });
+        viewModel.getTopRatedMovieCast().observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+            @Override
+            public void onChanged(Resource<List<Cast>> listResource) {
+                Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
+            }
+        });
+
 
         return view;
     }

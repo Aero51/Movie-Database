@@ -6,6 +6,8 @@ import androidx.lifecycle.LiveData;
 import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
+import com.aero51.moviedatabase.repository.boundarycallbacks.PopularMoviesBoundaryCallback;
+import com.aero51.moviedatabase.repository.boundarycallbacks.TopRatedMoviesBoundaryCallback;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
@@ -43,15 +45,13 @@ public class MoviesRepository {
     }
 
     private void createTopRatedMoviesPagedList(TopRatedMoviesDao dao){
-        PagedList.Config pagedListConfig = getPagedListConfig();
-        topRatedMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
+        topRatedMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), getPagedListConfig())
                 .setBoundaryCallback(topRatedMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
 
     }
     private void createPopularMoviesPagedList(PopularMoviesDao dao) {
-        PagedList.Config pagedListConfig = getPagedListConfig();
-        popularMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), pagedListConfig)
+        popularMoviesPagedList = new LivePagedListBuilder<>(dao.getAllResults(), getPagedListConfig())
                 .setBoundaryCallback(popularMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
     }

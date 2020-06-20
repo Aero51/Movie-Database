@@ -15,11 +15,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
@@ -53,7 +55,7 @@ public class PopularMovieDetailsFragment extends Fragment {
             public void onChanged(PopularMovie popularMovie) {
 
                 title_text_view.setText(popularMovie.getTitle());
-                release_date_text_view.setText(popularMovie.getRelease_date().toString());
+                release_date_text_view.setText(String.valueOf(popularMovie.getId()));
                 overview_text_view.setText(popularMovie.getOverview());
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
@@ -62,20 +64,12 @@ public class PopularMovieDetailsFragment extends Fragment {
             }
         });
 
-        viewModel.getMovieCredits().observe(this, new Observer<Resource<MovieCredits>>() {
-            @Override
-            public void onChanged(Resource<MovieCredits> movieCreditsResource) {
-                Log.d("moviedatabaselog", "popularMovie onChanged ");
-                if (movieCreditsResource.data != null)
-                {
-                    Log.d("moviedatabaselog", "popularMovie id: "+movieCreditsResource.data.getId());
-                }
-                else{
-                    Log.d("moviedatabaselog", "popularMovie  movie credits = null, code: "+movieCreditsResource.code+" , "+movieCreditsResource.message);
-                }
-
-            }
-        });
+      viewModel.getPopularMovieCast().observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+          @Override
+          public void onChanged(Resource<List<Cast>> listResource) {
+              Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
+          }
+      });
 
 
         return view;

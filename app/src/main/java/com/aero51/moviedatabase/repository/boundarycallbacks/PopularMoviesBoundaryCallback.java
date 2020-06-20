@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository;
+package com.aero51.moviedatabase.repository.boundarycallbacks;
 
 import android.app.Application;
 import android.util.Log;
@@ -9,10 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
+import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.AppExecutors;
@@ -24,21 +24,22 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.API_KEY;
+import static com.aero51.moviedatabase.utils.Constants.POPULAR_MOVIES_FIRST_PAGE;
 import static com.aero51.moviedatabase.utils.Constants.REGION;
-import static com.aero51.moviedatabase.utils.Constants.TOP_RATED_MOVIES_FIRST_PAGE;
 
-public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<TopRatedMovie> {
+public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<PopularMovie> {
     private AppExecutors executors;
     private MoviesDatabase database;
-    private TopRatedMoviesDao dao;
+    private PopularMoviesDao dao;
     private MutableLiveData<NetworkState> networkState;
-    private LiveData<TopRatedMoviesPage> current_movie_page;
+    private LiveData<PopularMoviesPage> current_movie_page;
 
-    public TopRatedMoviesBoundaryCallback(Application application, AppExecutors executors) {
-        //super();
+
+    public PopularMoviesBoundaryCallback(Application application, AppExecutors executors) {
+        // super();
         this.executors = executors;
         database = MoviesDatabase.getInstance(application);
-        dao = database.get_top_rated_movies_dao();
+        dao = database.get_popular_movies_dao();
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();
     }
@@ -46,53 +47,53 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        Log.d("moviedatabaselog", "topRatedMovies onzeroitemsloaded");
-        fetchTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
+        Log.d("moviedatabaselog", "popularMovies onzeroitemsloaded");
+        fetchPopularMovies(POPULAR_MOVIES_FIRST_PAGE);
     }
 
     @Override
-    public void onItemAtFrontLoaded(@NonNull TopRatedMovie itemAtFront) {
+    public void onItemAtFrontLoaded(@NonNull PopularMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
-        Log.d("moviedatabaselog", "topRatedMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
+        Log.d("moviedatabaselog", "popularMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
-    public void onItemAtEndLoaded(@NonNull TopRatedMovie itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull PopularMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        Log.d("moviedatabaselog", "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
-        fetchTopRatedMovies(page_number);
+        Log.d("moviedatabaselog", "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        fetchPopularMovies(page_number);
     }
 
-    public void fetchTopRatedMovies(int pageNumber) {
+    public void fetchPopularMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber, REGION);
-        call.enqueue(new Callback<TopRatedMoviesPage>() {
+        Call<PopularMoviesPage> call = theMovieDbApi.getPopularMovies(API_KEY, pageNumber, REGION);
+        call.enqueue(new Callback<PopularMoviesPage>() {
             @Override
-            public void onResponse(Call<TopRatedMoviesPage> call, Response<TopRatedMoviesPage> response) {
+            public void onResponse(Call<PopularMoviesPage> call, Response<PopularMoviesPage> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("moviedatabaselog", "topRatedMovies Response unsuccesful: " + response.code());
+                    Log.d("moviedatabaselog", "popularMovies Response unsuccesful: " + response.code());
                     networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
-                Log.d("moviedatabaselog", "topRatedMovies Response ok: " + response.code());
-                TopRatedMoviesPage mTopRatedMovies = response.body();
-                insertListToDb(mTopRatedMovies);
+                Log.d("moviedatabaselog", "popularMovies Response ok: " + response.code());
+                PopularMoviesPage mPopularMovies = response.body();
+                insertListToDb(mPopularMovies);
                 networkState.postValue(NetworkState.LOADED);
             }
 
             @Override
-            public void onFailure(Call<TopRatedMoviesPage> call, Throwable t) {
-                Log.d("moviedatabaselog", "topRatedMovies onFailure: " + t.getMessage());
+            public void onFailure(Call<PopularMoviesPage> call, Throwable t) {
+                Log.d("moviedatabaselog", "popularMovies onFailure: " + t.getMessage());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });
     }
 
+    public void insertListToDb(PopularMoviesPage page) {
+        List<PopularMovie> listOfResults = page.getResults_list();
 
-    public void insertListToDb(TopRatedMoviesPage page) {
-        List<TopRatedMovie> listOfResults = page.getResults_list();
         Runnable runnable = () -> {
             dao.deleteAllMoviePages();
             dao.insertMoviePage(page);
@@ -100,18 +101,14 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
         };
         Runnable diskRunnable = () -> database.runInTransaction(runnable);
         executors.diskIO().execute(diskRunnable);
+
     }
 
-    /*
-     * Getter method for the network state
-     */
     public LiveData<NetworkState> getNetworkState() {
         return networkState;
     }
 
-    public LiveData<TopRatedMoviesPage> getCurrent_movie_page() {
+    public LiveData<PopularMoviesPage> getCurrent_movie_page() {
         return current_movie_page;
     }
-
-
 }
