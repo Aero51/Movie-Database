@@ -12,10 +12,10 @@ import com.aero51.moviedatabase.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link PeopleFragment#newInstance} factory method to
+ * Use the {@link ActorFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class PeopleFragment extends Fragment {
+public class ActorFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -25,7 +25,7 @@ public class PeopleFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
 
-    public PeopleFragment() {
+    public ActorFragment() {
         // Required empty public constructor
     }
 
@@ -38,8 +38,8 @@ public class PeopleFragment extends Fragment {
      * @return A new instance of fragment PeopleFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static PeopleFragment newInstance(String param1) {
-        PeopleFragment fragment = new PeopleFragment();
+    public static ActorFragment newInstance(String param1) {
+        ActorFragment fragment = new ActorFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         fragment.setArguments(args);
@@ -58,6 +58,6 @@ public class PeopleFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_people, container, false);
+        return inflater.inflate(R.layout.fragment_actor, container, false);
     }
 }
