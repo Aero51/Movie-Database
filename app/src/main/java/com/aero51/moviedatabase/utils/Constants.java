@@ -16,6 +16,11 @@ public class Constants {
     public static final String POSTER_SIZE_W500 = "w500";
     public static final String POSTER_SIZE_W780 = "w780";
     public static final String POSTER_SIZE_ORIGINAL = "original";
+    public static final String PROFILE_SIZE_ORIGINAL = "original";
+    public static final String PROFILE_SIZE_W45 = "w45";
+    public static final String PROFILE_SIZE_W185 = "w185";
+    public static final String PROFILE_SIZE_H632 = "h632";
+
 
 
     public static final String DATABASE_NAME = "Movie.db";

@@ -20,16 +20,17 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     final private MutableLiveData<TopRatedMovie> topRatedmovie;
     final private MutableLiveData<PopularMovie> popularmovie;
     private CreditsRepository creditsRepository;
-    private AppExecutors executors;
-    private Integer popular_movie_id;
+
     private Integer top_rated_movie_id;
+    private Integer popular_movie_id;
 
     public MovieDetailsViewModel(@NonNull Application application) {
         super(application);
-        executors = new AppExecutors();
+        AppExecutors executors = new AppExecutors();
         topRatedmovie = new MutableLiveData<TopRatedMovie>();
         popularmovie = new MutableLiveData<PopularMovie>();
         creditsRepository = new CreditsRepository(application, executors);
+
     }
 
 
@@ -39,7 +40,7 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     }
 
     public void selectPopularMovie(PopularMovie item) {
-        popular_movie_id = item.getId();
+        popular_movie_id=item.getId();
         popularmovie.setValue(item);
     }
 

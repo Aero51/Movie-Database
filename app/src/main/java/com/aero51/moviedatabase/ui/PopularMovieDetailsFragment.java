@@ -13,10 +13,13 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.ui.adapter.CastAdapter;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.squareup.picasso.Picasso;
@@ -26,14 +29,16 @@ import java.util.List;
 import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 
-public class PopularMovieDetailsFragment extends Fragment {
+public class PopularMovieDetailsFragment extends Fragment implements CastAdapter.ItemClickListener {
     private MovieDetailsViewModel viewModel;
 
     private ImageView cover_image_view;
     private TextView title_text_view;
     private TextView release_date_text_view;
     private TextView overview_text_view;
-    private Integer movie_id;
+
+    private RecyclerView castRecyclerView;
+    private CastAdapter castAdapter;
 
 
     @Nullable
@@ -49,6 +54,9 @@ public class PopularMovieDetailsFragment extends Fragment {
         release_date_text_view = view.findViewById(R.id.releaseDate);
         overview_text_view = view.findViewById(R.id.overview);
 
+        castRecyclerView = view.findViewById(R.id.cast_recycler_view);
+        castRecyclerView.setHasFixedSize(true);
+        castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
 
         viewModel.getPopularMovie().observe(getViewLifecycleOwner(), new Observer<PopularMovie>() {
             @Override
@@ -60,18 +68,19 @@ public class PopularMovieDetailsFragment extends Fragment {
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
-                movie_id = popularMovie.getId();
+
             }
         });
+        viewModel.getPopularMovieCast().observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+            @Override
+            public void onChanged(Resource<List<Cast>> listResource) {
+                Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
 
-      viewModel.getPopularMovieCast().observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
-          @Override
-          public void onChanged(Resource<List<Cast>> listResource) {
-              Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
-          }
-      });
-
-
+                castAdapter=new CastAdapter(getContext(),listResource.data);
+                castAdapter.setClickListener(PopularMovieDetailsFragment.this::onItemClick);
+                castRecyclerView.setAdapter(castAdapter);
+            }
+        });
         return view;
     }
 
@@ -79,5 +88,11 @@ public class PopularMovieDetailsFragment extends Fragment {
         if (url != null) {
             // Picasso.get().load(BIG_IMAGE_URL_PREFIX + url).into(view);
         }
+    }
+
+    @Override
+    public void onItemClick(View view, int position) {
+        Log.d("moviedatabaselog", "Cast item: " +position);
+
     }
 }
