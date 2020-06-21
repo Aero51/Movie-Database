@@ -2,7 +2,7 @@ package com.aero51.moviedatabase.repository.model.credits;
 
 import java.util.List;
 
-public class ActorImagesRequest {
+public class ActorImagesResponse {
 
     private List<ActorImage> profiles;
 

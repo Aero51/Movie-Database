@@ -44,7 +44,6 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     private RecyclerView popularRecyclerView;
     private TextView emptyViewText;
     private MoviesViewModel moviesViewModel;
-    private MovieDetailsViewModel detailsViewModel;
     private TopRatedMoviesPagedListAdapter topRatedAdapter;
     private PopularMoviesPagedListAdapter popularAdapter;
 
@@ -103,8 +102,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
         moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
         registerTopRatedMoviesObservers();
-       // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-        detailsViewModel= new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
         registerPopularMoviesObservers();
 
         return view;
@@ -173,35 +171,32 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
-        detailsViewModel.selectTopRatedMovie(result);
-        if (!detailsViewModel.getTopRatedMovie().hasActiveObservers()) {
-            // Create fragment and give it an argument specifying the article it should show
-            TopRatedMovieDetailsFragment detailsFragment = new TopRatedMovieDetailsFragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragmentsContainer, detailsFragment);
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
-
-        }
+        TopRatedMovieDetailsFragment detailsFragment = new TopRatedMovieDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("TopRatedMovie", result);
+        detailsFragment.setArguments(bundle);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragmentsContainer, detailsFragment);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
 
     @Override
     public void OnItemClick(PopularMovie result, int position) {
-        detailsViewModel.selectPopularMovie(result);
-        if (!detailsViewModel.getPopularMovie().hasActiveObservers()) {
-            // Create fragment and give it an argument specifying the article it should show
-            PopularMovieDetailsFragment detailsFragment = new PopularMovieDetailsFragment();
-            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-            // Replace whatever is in the fragment_container view with this fragment,
-            // and add the transaction to the back stack so the user can navigate back
-            transaction.replace(R.id.fragmentsContainer, detailsFragment);
-            transaction.addToBackStack(null);
-            // Commit the transaction
-            transaction.commit();
+        PopularMovieDetailsFragment detailsFragment = new PopularMovieDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("PopularMovie", result);
+        detailsFragment.setArguments(bundle);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragmentsContainer, detailsFragment);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
 
-        }
     }
 }

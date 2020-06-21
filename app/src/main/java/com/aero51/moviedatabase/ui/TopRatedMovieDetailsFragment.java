@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
+import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
 import com.aero51.moviedatabase.utils.Resource;
@@ -39,12 +40,22 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     private RecyclerView castRecyclerView;
     private CastAdapter castAdapter;
 
+    private TopRatedMovie topRatedMovie;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            topRatedMovie = (TopRatedMovie) getArguments().getSerializable("TopRatedMovie");
+        }
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-        viewModel = new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         cover_image_view = view.findViewById(R.id.cover);
@@ -56,18 +67,14 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         castRecyclerView.setHasFixedSize(true);
         castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
 
-        viewModel.getTopRatedMovie().observe(getViewLifecycleOwner(), new Observer<TopRatedMovie>() {
-            @Override
-            public void onChanged(TopRatedMovie top_rated_movie) {
-                title_text_view.setText(top_rated_movie.getTitle());
-                release_date_text_view.setText(String.valueOf(top_rated_movie.getId()));
-                overview_text_view.setText(top_rated_movie.getOverview());
+        title_text_view.setText(topRatedMovie.getTitle());
+        release_date_text_view.setText(String.valueOf(topRatedMovie.getId()));
+        overview_text_view.setText(topRatedMovie.getOverview());
 
-                String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + top_rated_movie.getBackdrop_path();
-                Picasso.get().load(imageUrl).into(cover_image_view);
-            }
-        });
-        viewModel.getTopRatedMovieCast().observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+        String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + topRatedMovie.getBackdrop_path();
+        Picasso.get().load(imageUrl).into(cover_image_view);
+
+        viewModel.getTopRatedMovieCast(topRatedMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());

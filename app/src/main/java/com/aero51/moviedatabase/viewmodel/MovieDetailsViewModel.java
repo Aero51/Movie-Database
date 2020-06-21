@@ -21,8 +21,6 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     final private MutableLiveData<PopularMovie> popularmovie;
     private CreditsRepository creditsRepository;
 
-    private Integer top_rated_movie_id;
-    private Integer popular_movie_id;
 
     public MovieDetailsViewModel(@NonNull Application application) {
         super(application);
@@ -34,31 +32,13 @@ public class MovieDetailsViewModel extends AndroidViewModel {
     }
 
 
-    public void selectTopRatedMovie(TopRatedMovie item) {
-        top_rated_movie_id = item.getId();
-        topRatedmovie.setValue(item);
-    }
 
-    public void selectPopularMovie(PopularMovie item) {
-        popular_movie_id=item.getId();
-        popularmovie.setValue(item);
-    }
 
-    public MutableLiveData<TopRatedMovie> getTopRatedMovie() {
-        return topRatedmovie;
-    }
-
-    public MutableLiveData<PopularMovie> getPopularMovie() {
-        return popularmovie;
-    }
-
-    public LiveData<Resource<List<Cast>>> getPopularMovieCast() {
-        //setting movie_id before this method gets called by adding observer which would otherwise send movie_id as null
+    public LiveData<Resource<List<Cast>>> getPopularMovieCast( Integer popular_movie_id) {
         return creditsRepository.loadCastById(popular_movie_id);
     }
 
-    public LiveData<Resource<List<Cast>>> getTopRatedMovieCast() {
-        //setting movie_id before this method gets called by adding observer which would otherwise send movie_id as null
+    public LiveData<Resource<List<Cast>>> getTopRatedMovieCast(Integer top_rated_movie_id) {
         return creditsRepository.loadCastById(top_rated_movie_id);
     }
 

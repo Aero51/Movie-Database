@@ -40,12 +40,25 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
     private RecyclerView castRecyclerView;
     private CastAdapter castAdapter;
 
+    private PopularMovie popularMovie;
+
+    public PopularMovieDetailsFragment() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            popularMovie = (PopularMovie) getArguments().getSerializable("PopularMovie");
+        }
+    }
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         //viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-        viewModel = new ViewModelProvider(getActivity(), ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         cover_image_view = view.findViewById(R.id.cover);
@@ -57,20 +70,14 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
         castRecyclerView.setHasFixedSize(true);
         castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
 
-        viewModel.getPopularMovie().observe(getViewLifecycleOwner(), new Observer<PopularMovie>() {
-            @Override
-            public void onChanged(PopularMovie popularMovie) {
+        title_text_view.setText(popularMovie.getTitle());
+        release_date_text_view.setText(String.valueOf(popularMovie.getId()));
+        overview_text_view.setText(popularMovie.getOverview());
 
-                title_text_view.setText(popularMovie.getTitle());
-                release_date_text_view.setText(String.valueOf(popularMovie.getId()));
-                overview_text_view.setText(popularMovie.getOverview());
+        String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
+        Picasso.get().load(imageUrl).into(cover_image_view);
 
-                String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
-                Picasso.get().load(imageUrl).into(cover_image_view);
-
-            }
-        });
-        viewModel.getPopularMovieCast().observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+        viewModel.getPopularMovieCast(popularMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);

@@ -2,6 +2,8 @@ package com.aero51.moviedatabase.repository.retrofit;
 
 import androidx.lifecycle.LiveData;
 
+import com.aero51.moviedatabase.repository.model.credits.Actor;
+import com.aero51.moviedatabase.repository.model.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
@@ -31,5 +33,10 @@ public interface TheMovieDbApi {
     LiveData<ApiResponse<MovieCredits>> getLiveMovieCredits(@Path("movie_id")Integer movie_id,@Query("api_key") String api_key );
 
     @GET ("person/{person_id}")
-  LiveData<ApiResponse<MovieCredits>> getLivePerson(@Path("person_id")Integer person_id,@Query("api_key") String api_key );
+  LiveData<ApiResponse<Actor>> getLivePerson(@Path("person_id")Integer person_id, @Query("api_key") String api_key );
+
+   // GET /person/{person_id}/images
+   @GET ("person/{person_id}/images")
+   LiveData<ApiResponse<ActorImagesResponse>> getLivePersonImages(@Path("person_id")Integer person_id, @Query("api_key") String api_key );
+
 }
