@@ -27,8 +27,9 @@ public interface TheMovieDbApi {
     @GET("movie/{movie_id}/credits")
     Call<MovieCredits> getMovieCredits(@Query("api_key") String api_key,@Path("movie_id")Integer movie_id);
 
-
     @GET("movie/{movie_id}/credits")
     LiveData<ApiResponse<MovieCredits>> getLiveMovieCredits(@Path("movie_id")Integer movie_id,@Query("api_key") String api_key );
 
+    @GET ("person/{person_id}")
+  LiveData<ApiResponse<MovieCredits>> getLivePerson(@Path("person_id")Integer person_id,@Query("api_key") String api_key );
 }

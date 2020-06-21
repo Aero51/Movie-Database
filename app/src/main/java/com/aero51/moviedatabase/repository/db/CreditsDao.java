@@ -8,6 +8,7 @@ import androidx.room.Query;
 import androidx.room.Transaction;
 
 
+import com.aero51.moviedatabase.repository.model.credits.Actor;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.credits.Crew;
 import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
@@ -57,4 +58,11 @@ public abstract class CreditsDao {
 
     @Query("SELECT * FROM `Crew` WHERE movie_id = :movie_id ORDER BY `id` ASC")
     public abstract List<Crew> getTitleCrew(Integer movie_id);
+
+    @Query("SELECT * FROM actor WHERE id = :id LIMIT 1")
+    public  abstract LiveData<List<Cast>> getActor(Integer id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertActor(Actor actor);
+
 }
