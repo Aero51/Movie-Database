@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -8,6 +9,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.aero51.moviedatabase.repository.CreditsRepository;
+import com.aero51.moviedatabase.repository.model.credits.Actor;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
@@ -25,11 +27,13 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         creditsRepository = new CreditsRepository(application, executors);
     }
 
-    public LiveData<Resource<List<Cast>>> getPopularMovieCast(Integer popular_movie_id) {
-        return creditsRepository.loadCastById(popular_movie_id);
+    public LiveData<Resource<List<Cast>>> getMovieCast(Integer movie_id) {
+        return creditsRepository.loadCastById(movie_id);
     }
 
-    public LiveData<Resource<List<Cast>>> getTopRatedMovieCast(Integer top_rated_movie_id) {
-        return creditsRepository.loadCastById(top_rated_movie_id);
+
+    public LiveData<Resource<Actor>> getActorDetails(Integer actor_id) {
+        Log.d("moviedatabaselog", "MovieDetailsViewModel getActorDetails id: " + actor_id);
+        return creditsRepository.loadActorById(actor_id);
     }
 }

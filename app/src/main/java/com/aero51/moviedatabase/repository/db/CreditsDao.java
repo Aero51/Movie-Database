@@ -60,7 +60,7 @@ public abstract class CreditsDao {
     public abstract List<Crew> getTitleCrew(Integer movie_id);
 
     @Query("SELECT * FROM actor WHERE id = :id LIMIT 1")
-    public  abstract LiveData<List<Cast>> getActor(Integer id);
+    public  abstract LiveData<Actor> getActor(Integer id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertActor(Actor actor);

@@ -72,12 +72,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) mClickListener.onItemClick(view,getItem(getAdapterPosition()), getAdapterPosition());
         }
     }
 
     // convenience method for getting data at click position
-    Cast getItem(int id) {
+   private Cast getItem(int id) {
         return castList.get(id);
     }
 
@@ -88,6 +88,6 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(View view, int position);
+        void onItemClick(View view,Cast cast, int position);
     }
 }

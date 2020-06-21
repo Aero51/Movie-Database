@@ -9,58 +9,51 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.credits.Actor;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
-import java.util.List;
-
 import static com.aero51.moviedatabase.utils.Constants.API_KEY;
 
-public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits, List<Cast>> {
-    private Integer movie_id;
+public class ActorNetworkBoundResource extends NetworkBoundResource<Actor, Actor> {
+    private Integer actor_id;
     private MoviesDatabase database;
     private CreditsDao creditsDao;
 
-    public CastNetworkBoundResource(AppExecutors appExecutors, Application application, Integer movie_id) {
+    public ActorNetworkBoundResource(AppExecutors appExecutors, Application application, Integer actor_id) {
         super(appExecutors);
         database = MoviesDatabase.getInstance(application);
         creditsDao = database.get_credits_dao();
-        this.movie_id = movie_id;
+        this.actor_id = actor_id;
     }
 
-
     @Override
-    protected void saveCallResult(@NonNull MovieCredits item) {
+    protected void saveCallResult(@NonNull Actor item) {
         //this is executed on background thread
-        database.runInTransaction(new Runnable() {
-            @Override
-            public void run() {
-                creditsDao.insertCredits(item);
-            }
-        });
-        Log.d("moviedatabaselog", "saveCallResult movie id: " + item.getId() + " ,cast size: " + item.getCast().size());
+        creditsDao.insertActor(item);
+        Log.d("moviedatabaselog", "saveCallResult actor id: " + item.getId() );
     }
 
+
     @Override
-    protected boolean shouldFetch(@Nullable List<Cast> data) {
-        return data.size() == 0;
+    protected boolean shouldFetch(@Nullable Actor data) {
+        Log.d("moviedatabaselog", "shouldFetch data==null: "+String.valueOf(data==null) );
+        return  data==null;
     }
 
     @NonNull
     @Override
-    protected LiveData<List<Cast>> loadFromDb() {
-        return creditsDao.getTitleCast(movie_id);
+    protected LiveData<Actor> loadFromDb() {
+        return creditsDao.getActor(actor_id);
     }
 
     @NonNull
     @Override
-    protected LiveData<ApiResponse<MovieCredits>> createCall() {
+    protected LiveData<ApiResponse<Actor>> createCall() {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        return theMovieDbApi.getLiveMovieCredits(movie_id, API_KEY);
+        return theMovieDbApi.getLivePerson(actor_id,API_KEY);
     }
 }

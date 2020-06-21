@@ -3,8 +3,10 @@ package com.aero51.moviedatabase.repository.model.credits;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "cast")
-public class Cast {
+public class Cast implements Serializable {
     @PrimaryKey(autoGenerate = false)
     private Integer cast_id;
     private String character;

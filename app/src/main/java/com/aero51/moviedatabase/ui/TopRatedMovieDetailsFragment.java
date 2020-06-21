@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -74,7 +75,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + topRatedMovie.getBackdrop_path();
         Picasso.get().load(imageUrl).into(cover_image_view);
 
-        viewModel.getTopRatedMovieCast(topRatedMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+        viewModel.getMovieCast(topRatedMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
@@ -93,7 +94,18 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     }
 
     @Override
-    public void onItemClick(View view, int position) {
+    public void onItemClick(View view,Cast cast, int position) {
         Log.d("moviedatabaselog", "Cast item: " +position);
+        ActorFragment actorFragment=ActorFragment.newInstance("test");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("Cast", cast);
+        actorFragment.setArguments(bundle);
+        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        // Replace whatever is in the fragment_container view with this fragment,
+        // and add the transaction to the back stack so the user can navigate back
+        transaction.replace(R.id.fragmentsContainer, actorFragment);
+        transaction.addToBackStack(null);
+        // Commit the transaction
+        transaction.commit();
     }
 }
