@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,11 +16,15 @@ import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.credits.Actor;
+import com.aero51.moviedatabase.repository.model.credits.ActorImage;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +46,7 @@ public class ActorFragment extends Fragment {
     private TextView text_view_actor_homepage;
     private TextView text_view_imdb;
     private TextView text_view_biography;
+    private RecyclerView recycler_view_actor_images;
 
     public ActorFragment() {
         // Required empty public constructor
@@ -83,6 +90,10 @@ public class ActorFragment extends Fragment {
         text_view_imdb = view.findViewById(R.id.text_view_imdb);
         text_view_biography = view.findViewById(R.id.text_view_biography);
 
+        recycler_view_actor_images=view.findViewById(R.id.actor_images_recycler_view);
+        recycler_view_actor_images.setHasFixedSize(true);
+        recycler_view_actor_images.setLayoutManager(new GridLayoutManager(getContext(),2));
+
         viewModel.getActorDetails(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {
@@ -100,6 +111,14 @@ public class ActorFragment extends Fragment {
             }
         });
 
+        viewModel.getActorImages(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImage>>>() {
+            @Override
+            public void onChanged(Resource<List<ActorImage>> listResource) {
+                Log.d("moviedatabaselog", "getActorImages code: " + listResource.code + " , status: " + listResource.status + " list size: "+listResource.data.size() + " ,message: " + listResource.message);
+                ActorImagesAdapter adapter= new ActorImagesAdapter(getContext(),listResource.data);
+                recycler_view_actor_images.setAdapter(adapter);
+            }
+        });
 
         return view;
     }

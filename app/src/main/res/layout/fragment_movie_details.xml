@@ -19,7 +19,7 @@
         android:background="#66000000"
         android:visibility="gone" />
 
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -93,5 +93,5 @@
 
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </RelativeLayout>

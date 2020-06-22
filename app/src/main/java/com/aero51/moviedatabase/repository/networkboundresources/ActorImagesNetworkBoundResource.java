@@ -9,8 +9,8 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -21,46 +21,45 @@ import java.util.List;
 
 import static com.aero51.moviedatabase.utils.Constants.API_KEY;
 
-public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits, List<Cast>> {
-    private Integer movie_id;
+public class ActorImagesNetworkBoundResource extends NetworkBoundResource<ActorImagesResponse, List<ActorImage>> {
+    private Integer actor_id;
     private MoviesDatabase database;
     private CreditsDao creditsDao;
 
-    public CastNetworkBoundResource(AppExecutors appExecutors, Application application, Integer movie_id) {
+    public ActorImagesNetworkBoundResource(AppExecutors appExecutors, Application application, Integer actor_id) {
         super(appExecutors);
         database = MoviesDatabase.getInstance(application);
         creditsDao = database.get_credits_dao();
-        this.movie_id = movie_id;
+        this.actor_id = actor_id;
     }
 
-
     @Override
-    protected void saveCallResult(@NonNull MovieCredits item) {
+    protected void saveCallResult(@NonNull ActorImagesResponse response) {
         //this is executed on background thread
         database.runInTransaction(new Runnable() {
             @Override
             public void run() {
-                creditsDao.insertCredits(item);
+                creditsDao.insertActorImagesResponse(response);
             }
         });
-        Log.d("moviedatabaselog", "saveCallResult movie id: " + item.getId() + " ,cast size: " + item.getCast().size());
+        Log.d("moviedatabaselog", "saveCallResult actor id: " + response.getId() + " ,images list  size: " + response.getImages().size());
     }
 
     @Override
-    protected boolean shouldFetch(@Nullable List<Cast> data) {
+    protected boolean shouldFetch(@Nullable List<ActorImage> data) {
         return data.size() == 0;
     }
 
     @NonNull
     @Override
-    protected LiveData<List<Cast>> loadFromDb() {
-        return creditsDao.getTitleCast(movie_id);
+    protected LiveData<List<ActorImage>> loadFromDb() {
+        return creditsDao.getActorImages(actor_id);
     }
 
     @NonNull
     @Override
-    protected LiveData<ApiResponse<MovieCredits>> createCall() {
+    protected LiveData<ApiResponse<ActorImagesResponse>> createCall() {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
-        return theMovieDbApi.getLiveMovieCredits(movie_id, API_KEY);
+        return theMovieDbApi.getLivePersonImages(actor_id,API_KEY);
     }
 }

@@ -10,6 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.aero51.moviedatabase.repository.model.credits.ActorImage;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.credits.Crew;
 import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
@@ -22,7 +23,9 @@ import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
-@Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class, PopularMoviesPage.class, MovieCredits.class, Cast.class, Crew.class, Actor.class}, version = 1)
+@Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class,
+                      PopularMoviesPage.class, MovieCredits.class, Cast.class, Crew.class,
+                      Actor.class, ActorImage.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class MoviesDatabase extends RoomDatabase {
 

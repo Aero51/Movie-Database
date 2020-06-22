@@ -5,10 +5,12 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
-import androidx.room.Transaction;
+
 
 
 import com.aero51.moviedatabase.repository.model.credits.Actor;
+import com.aero51.moviedatabase.repository.model.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.credits.Cast;
 import com.aero51.moviedatabase.repository.model.credits.Crew;
 import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
@@ -37,6 +39,15 @@ public abstract class CreditsDao {
        }
        insertCrewList(crewList);
    }
+    public  void insertActorImagesResponse(ActorImagesResponse response){
+      List<ActorImage>  actorImageList= response.getImages();
+        for(int i=0;i<actorImageList.size();i++){
+          actorImageList.get(i).setActor_id(response.getId());
+        }
+        insertActorImages(actorImageList);
+    }
+
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertCastList(List<Cast> castList);
@@ -64,5 +75,11 @@ public abstract class CreditsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertActor(Actor actor);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertActorImages(List<ActorImage> imageList);
+
+    @Query("SELECT * FROM actor_image WHERE actor_id = :actor_id ")
+    public abstract LiveData<List<ActorImage>> getActorImages(Integer actor_id);
 
 }
