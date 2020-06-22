@@ -53,7 +53,7 @@ public abstract class CreditsDao {
     @Query("SELECT * FROM movie_credit WHERE id = :movie_id LIMIT 1")
     public abstract LiveData<MovieCredits> getLiveMovieCredits(Integer movie_id);
 
-    @Query("SELECT * FROM `Cast` WHERE movie_id = :movie_id ORDER BY `order` ASC")
+    @Query("SELECT * FROM `cast` WHERE movie_id =:movie_id ORDER BY `order` ASC")   //"SELECT * FROM Movie WHERE id =:id"
     public  abstract LiveData<List<Cast>> getTitleCast(Integer movie_id);
 
     @Query("SELECT * FROM `Crew` WHERE movie_id = :movie_id ORDER BY `id` ASC")

@@ -7,7 +7,10 @@ import java.io.Serializable;
 
 @Entity(tableName = "cast")
 public class Cast implements Serializable {
-    @PrimaryKey(autoGenerate = false)
+
+
+    @PrimaryKey(autoGenerate = true)
+    private Integer db_id;
     private Integer cast_id;
     private String character;
     private String credit_id;
@@ -86,4 +89,12 @@ public class Cast implements Serializable {
     public Integer getMovie_id() { return movie_id; }
 
     public void setMovie_id(Integer movie_id) { this.movie_id = movie_id; }
+
+    public Integer getDb_id() {
+        return db_id;
+    }
+
+    public void setDb_id(Integer db_id) {
+        this.db_id = db_id;
+    }
 }

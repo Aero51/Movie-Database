@@ -54,6 +54,7 @@ public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits,
     @NonNull
     @Override
     protected LiveData<List<Cast>> loadFromDb() {
+        Log.d("moviedatabaselog", "loadFromDb movie_id: "+movie_id);
         return creditsDao.getTitleCast(movie_id);
     }
 

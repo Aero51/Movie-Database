@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.repository.db;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -63,6 +64,8 @@ public abstract class MoviesDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
+            Log.d("moviedatabaselog","RoomDatabase.Callback roomCallback onCreate  ");
+
         }
     };
 
