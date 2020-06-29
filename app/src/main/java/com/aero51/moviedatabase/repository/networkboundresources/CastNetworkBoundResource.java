@@ -9,8 +9,8 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -60,7 +60,7 @@ public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits,
     @NonNull
     @Override
     protected LiveData<ApiResponse<MovieCredits>> createCall() {
-        TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
+        TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
         return theMovieDbApi.getLiveMovieCredits(movie_id, API_KEY);
     }
 }

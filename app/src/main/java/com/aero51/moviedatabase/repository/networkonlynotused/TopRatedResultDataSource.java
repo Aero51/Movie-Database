@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 
@@ -45,7 +45,7 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, TopRa
         initialLoading.postValue(NetworkState.LOADING);
         networkState.postValue(NetworkState.LOADING);
 
-        TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
+        TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
         Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(API_KEY, TOP_RATED_MOVIES_FIRST_PAGE,"us");
         Log.d("moviedatabaselog", "load initial ");
         List<TopRatedMovie> list_of_results = fetchTopRatedMovies(call);
@@ -60,7 +60,7 @@ public class TopRatedResultDataSource extends PageKeyedDataSource<Integer, TopRa
     @Override
     public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TopRatedMovie> callback) {
         networkState.postValue(NetworkState.LOADING);
-        TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
+        TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
         Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(API_KEY, params.key,"us");
         Log.d("moviedatabaselog", "load after:params.key " + params.key);
         List<TopRatedMovie> list_of_results = fetchTopRatedMovies(call);

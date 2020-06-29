@@ -10,15 +10,15 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.aero51.moviedatabase.repository.model.credits.ActorImage;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.credits.Crew;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
-import com.aero51.moviedatabase.repository.model.credits.Actor;
-import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Crew;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;

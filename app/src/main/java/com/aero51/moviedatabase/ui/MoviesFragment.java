@@ -17,15 +17,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
-import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel;
 
 public class MoviesFragment extends Fragment implements TopRatedItemClickListener, PopularItemClickListener {
@@ -178,7 +177,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragmentsContainer, detailsFragment);
+       // transaction.replace(R.id.fragmentsContainer, detailsFragment);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
@@ -193,7 +192,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragmentsContainer, detailsFragment);
+     //   transaction.replace(R.id.fragmentsContainer, detailsFragment);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();

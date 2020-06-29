@@ -6,14 +6,11 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 import com.aero51.moviedatabase.repository.CreditsRepository;
-import com.aero51.moviedatabase.repository.model.credits.Actor;
-import com.aero51.moviedatabase.repository.model.credits.ActorImage;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Resource;
 

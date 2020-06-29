@@ -18,9 +18,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
@@ -103,7 +102,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-        transaction.replace(R.id.fragmentsContainer, actorFragment);
+       // transaction.replace(R.id.fragmentsContainer, actorFragment);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();

@@ -12,10 +12,10 @@ import com.aero51.moviedatabase.repository.db.MoviesDatabase;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.utils.AppExecutors;
 
 public class MoviesRepository {

@@ -10,8 +10,8 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 
 import java.util.List;
 

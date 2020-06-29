@@ -9,14 +9,13 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_H632;
-import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 
 public class ActorImagesAdapter extends RecyclerView.Adapter<ActorImagesAdapter.ViewHolder> {
 

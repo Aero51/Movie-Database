@@ -2,7 +2,8 @@ package com.aero51.moviedatabase.utils;
 
 public class Constants {
     public static final String API_KEY = "8ba72532be79fd82366e924e791e0c71";
-    public static final String BASE_URL = "https://api.themoviedb.org/3/";
+    public static final String TMDB_BASE_URL = "https://api.themoviedb.org/3/";
+    public static final String EPG_BASE_URL = "https://springbootepd.herokuapp.com/";
     public static final String REGION = "us";
     public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/";
     public static final String BACKDROP_SIZE_W300 = "w300";

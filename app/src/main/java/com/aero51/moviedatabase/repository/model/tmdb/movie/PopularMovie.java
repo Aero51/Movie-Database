@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository.model.movie;
+package com.aero51.moviedatabase.repository.model.tmdb.movie;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Entity(tableName = "top_rated_movie")
-public class TopRatedMovie implements Serializable {
+@Entity(tableName = "popular_movie")
+public class PopularMovie implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
@@ -29,7 +29,7 @@ public class TopRatedMovie implements Serializable {
     private String overview;
     private Date release_date;
 
-    public TopRatedMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
+    public PopularMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
         this.pages_number = pages_number;
         this.popularity = popularity;
         this.vote_count = vote_count;
@@ -50,7 +50,7 @@ public class TopRatedMovie implements Serializable {
 
     //for testing purposes
     @Ignore
-    public TopRatedMovie(Integer id, String title) {
+    public PopularMovie(Integer id, String title) {
         this.id = id;
         this.title = title;
     }

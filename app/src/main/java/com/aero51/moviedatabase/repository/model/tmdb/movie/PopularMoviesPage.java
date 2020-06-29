@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.repository.model.movie;
+package com.aero51.moviedatabase.repository.model.tmdb.movie;
 
 import androidx.room.Entity;
 import androidx.room.Ignore;

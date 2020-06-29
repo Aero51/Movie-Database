@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,7 +18,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
-import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W45;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 

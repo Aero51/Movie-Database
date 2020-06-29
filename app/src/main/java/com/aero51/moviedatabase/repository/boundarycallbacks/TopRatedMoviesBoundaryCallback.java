@@ -11,8 +11,8 @@ import androidx.paging.PagedList;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
 import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.AppExecutors;
@@ -66,7 +66,7 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
 
     public void fetchTopRatedMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
-        TheMovieDbApi theMovieDbApi = RetrofitInstance.getApiService();
+        TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
         Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(API_KEY, pageNumber, REGION);
         call.enqueue(new Callback<TopRatedMoviesPage>() {
             @Override

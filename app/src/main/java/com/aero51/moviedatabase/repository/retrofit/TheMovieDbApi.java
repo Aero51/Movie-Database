@@ -2,11 +2,11 @@ package com.aero51.moviedatabase.repository.retrofit;
 
 import androidx.lifecycle.LiveData;
 
-import com.aero51.moviedatabase.repository.model.credits.Actor;
-import com.aero51.moviedatabase.repository.model.credits.ActorImagesResponse;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
-import com.aero51.moviedatabase.repository.model.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
 import retrofit2.Call;

@@ -5,9 +5,9 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.aero51.moviedatabase.repository.model.credits.Actor;
-import com.aero51.moviedatabase.repository.model.credits.ActorImage;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.networkboundresources.ActorImagesNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.ActorNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.CastNetworkBoundResource;

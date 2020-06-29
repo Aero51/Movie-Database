@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.squareup.picasso.Picasso;
 

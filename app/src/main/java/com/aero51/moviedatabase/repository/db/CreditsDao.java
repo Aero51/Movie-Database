@@ -8,12 +8,12 @@ import androidx.room.Query;
 
 
 
-import com.aero51.moviedatabase.repository.model.credits.Actor;
-import com.aero51.moviedatabase.repository.model.credits.ActorImage;
-import com.aero51.moviedatabase.repository.model.credits.ActorImagesResponse;
-import com.aero51.moviedatabase.repository.model.credits.Cast;
-import com.aero51.moviedatabase.repository.model.credits.Crew;
-import com.aero51.moviedatabase.repository.model.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Crew;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 
 
 import java.util.List;

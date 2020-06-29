@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
 import com.aero51.moviedatabase.ui.viewholder.PopularMovieHolder;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
