@@ -10,8 +10,6 @@ import androidx.lifecycle.LiveData;
 import com.aero51.moviedatabase.repository.db.EpgTvDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.retrofit.EpgApi;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -51,6 +49,7 @@ public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<E
     @NonNull
     @Override
     protected LiveData<ApiResponse<List<EpgChannel>>> createCall() {
+        Log.d("moviedatabaselog", "EpgTv createCall " );
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
         return epgApi.getLiveChannels();
     }

@@ -10,9 +10,7 @@ public class EpgChannel {
 
     @PrimaryKey(autoGenerate = true)
     private Integer channel_db_id;
-
     private String id;
-
     private String display_name;
 
     public String getId() {

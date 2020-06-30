@@ -15,7 +15,6 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
-import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 
 import java.util.List;
 

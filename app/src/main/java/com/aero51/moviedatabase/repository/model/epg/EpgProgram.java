@@ -12,13 +12,9 @@ public class EpgProgram {
     private Integer db_id;
     private String title;
     private String subTitle;
-
-
-
     private String description;
     private String credits;
     private Integer date;
-
     private String category;
     private String icon;
     private String channel;
@@ -96,6 +92,7 @@ public class EpgProgram {
     public void setStop(String stop) {
         this.stop = stop;
     }
+
     public String getDescription() {
         return description;
     }

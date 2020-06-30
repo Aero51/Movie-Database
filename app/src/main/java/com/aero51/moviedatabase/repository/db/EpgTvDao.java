@@ -5,7 +5,6 @@ import androidx.room.Dao;
 import androidx.room.Query;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 
 import java.util.List;
 

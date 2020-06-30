@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgChannelsNetworkBoundResource;
-import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Resource;
 
