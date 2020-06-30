@@ -31,7 +31,7 @@ import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 
 public class PopularMovieDetailsFragment extends Fragment implements CastAdapter.ItemClickListener {
-    private MovieDetailsViewModel viewModel;
+    private MovieDetailsViewModel movieDetailsViewModel;
 
     private ImageView cover_image_view;
     private TextView title_text_view;
@@ -52,7 +52,7 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
         if (getArguments() != null) {
             popularMovie = (PopularMovie) getArguments().getSerializable("PopularMovie");
         }
-        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        movieDetailsViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
     }
 
 
@@ -79,7 +79,7 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
         String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
         Picasso.get().load(imageUrl).into(cover_image_view);
 
-        viewModel.getMovieCast(popularMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+        movieDetailsViewModel.getMovieCast(popularMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);

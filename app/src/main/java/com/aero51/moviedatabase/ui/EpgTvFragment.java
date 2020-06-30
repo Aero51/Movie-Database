@@ -3,12 +3,21 @@ package com.aero51.moviedatabase.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.utils.Resource;
+import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
+import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +34,8 @@ public class EpgTvFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private EpgTvViewModel epgTvViewModel;
 
     public EpgTvFragment() {
         // Required empty public constructor
@@ -55,12 +66,23 @@ public class EpgTvFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+    epgTvViewModel= new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgTvViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
+            @Override
+            public void onChanged(Resource<List<EpgChannel>> listResource) {
+                Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+
+            }
+        });
+
         return inflater.inflate(R.layout.fragment_epg_tv, container, false);
     }
 }

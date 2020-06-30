@@ -31,7 +31,7 @@ import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 
 public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapter.ItemClickListener{
-    private MovieDetailsViewModel viewModel;
+    private MovieDetailsViewModel movieDetailsViewModel;
     private ImageView cover_image_view;
     private TextView title_text_view;
     private TextView release_date_text_view;
@@ -55,7 +55,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        movieDetailsViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
         cover_image_view = view.findViewById(R.id.cover);
@@ -74,7 +74,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + topRatedMovie.getBackdrop_path();
         Picasso.get().load(imageUrl).into(cover_image_view);
 
-        viewModel.getMovieCast(topRatedMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+        movieDetailsViewModel.getMovieCast(topRatedMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());

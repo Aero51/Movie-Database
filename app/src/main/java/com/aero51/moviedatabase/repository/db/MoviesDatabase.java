@@ -10,6 +10,8 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Crew;
@@ -25,7 +27,7 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
 @Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class,
                       PopularMoviesPage.class, MovieCredits.class, Cast.class, Crew.class,
-                      Actor.class, ActorImage.class}, version = 1)
+                      Actor.class, ActorImage.class, EpgChannel.class, EpgProgram.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class MoviesDatabase extends RoomDatabase {
 
@@ -35,6 +37,7 @@ public abstract class MoviesDatabase extends RoomDatabase {
     public abstract TopRatedMoviesDao get_top_rated_movies_dao();
     public abstract PopularMoviesDao get_popular_movies_dao();
     public abstract CreditsDao get_credits_dao();
+    public abstract EpgTvDao get_epg_tv_dao();
 
 
     public static synchronized MoviesDatabase getInstance(Context context) {

@@ -1,8 +1,11 @@
 package com.aero51.moviedatabase.repository.retrofit;
 
 
+import androidx.lifecycle.LiveData;
+
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.ApiResponse;
 
 
 import java.util.List;
@@ -16,10 +19,14 @@ public interface EpgApi {
 
 
     @GET("program/{channel_id}")
-    Call<List<EpgProgram>> getProgramsForChannel(@Path("channel_id")String channel_id);
+    Call<List<EpgProgram>> getProgramsForChannel(@Path("channel_id") String channel_id);
     //LiveData<ApiResponse<Actor>> getLivePerson(@Path("person_id")Integer person_id, @Query("api_key") String api_key );
 
     @GET("channels")
     Call<List<EpgChannel>> getChannels();
+
+
+    @GET("channels")
+    LiveData<ApiResponse<List<EpgChannel>>> getLiveChannels();
 
 }

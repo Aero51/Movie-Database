@@ -7,98 +7,108 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "epg_program")
 public class EpgProgram {
 
-	@PrimaryKey(autoGenerate = true)
-	private Integer db_id;
-	private String title;
-	private String subTitle;
-	private String description;
-	private String credits;
-	private Integer date;
 
-	private String category;
-	private String icon;
-	private String channel;
-	private String start;
-	private String stop;
+    @PrimaryKey(autoGenerate = true)
+    private Integer db_id;
+    private String title;
+    private String subTitle;
 
-	public String getTitle() {
-		return title;
-	}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
 
-	public String getSubTitle() {
-		return subTitle;
-	}
+    private String description;
+    private String credits;
+    private Integer date;
 
-	public void setSubTitle(String subTitle) {
-		this.subTitle = subTitle;
-	}
+    private String category;
+    private String icon;
+    private String channel;
+    private String start;
+    private String stop;
 
-	public String getDesc() {
-		return description;
-	}
+    public String getTitle() {
+        return title;
+    }
 
-	public void setDesc(String desc) {
-		this.description = desc;
-	}
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
-	public String getCredits() {
-		return credits;
-	}
+    public String getSubTitle() {
+        return subTitle;
+    }
 
-	public void setCredits(String credits) {
-		this.credits = credits;
-	}
+    public void setSubTitle(String subTitle) {
+        this.subTitle = subTitle;
+    }
 
-	public Integer getDate() {
-		return date;
-	}
+    public String getCredits() {
+        return credits;
+    }
 
-	public void setDate(Integer date) {
-		this.date = date;
-	}
+    public void setCredits(String credits) {
+        this.credits = credits;
+    }
 
-	public String getCategory() {
-		return category;
-	}
+    public Integer getDate() {
+        return date;
+    }
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+    public void setDate(Integer date) {
+        this.date = date;
+    }
 
-	public String getIcon() {
-		return icon;
-	}
+    public String getCategory() {
+        return category;
+    }
 
-	public void setIcon(String icon) {
-		this.icon = icon;
-	}
+    public void setCategory(String category) {
+        this.category = category;
+    }
 
-	public String getChannel() {
-		return channel;
-	}
+    public String getIcon() {
+        return icon;
+    }
 
-	public void setChannel(String channel) {
-		this.channel = channel;
-	}
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
 
-	public String getStart() {
-		return start;
-	}
+    public String getChannel() {
+        return channel;
+    }
 
-	public void setStart(String start) {
-		this.start = start;
-	}
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 
-	public String getStop() {
-		return stop;
-	}
+    public String getStart() {
+        return start;
+    }
 
-	public void setStop(String stop) {
-		this.stop = stop;
-	}
+    public void setStart(String start) {
+        this.start = start;
+    }
 
+    public String getStop() {
+        return stop;
+    }
+
+    public void setStop(String stop) {
+        this.stop = stop;
+    }
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getDb_id() {
+        return db_id;
+    }
+
+    public void setDb_id(Integer db_id) {
+        this.db_id = db_id;
+    }
 }
