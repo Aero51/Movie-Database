@@ -5,6 +5,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.ui.adapter.EpgTvCroChannelsAdapter;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
 
@@ -36,6 +39,7 @@ public class EpgTvFragment extends Fragment {
     private String mParam2;
 
     private EpgTvViewModel epgTvViewModel;
+    private RecyclerView recycler_view_epg_tv_cro_channels;
 
     public EpgTvFragment() {
         // Required empty public constructor
@@ -67,15 +71,23 @@ public class EpgTvFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-    epgTvViewModel= new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgTvViewModel.class);
+        epgTvViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgTvViewModel.class);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_epg_tv, container, false);
 
-        /*
+        recycler_view_epg_tv_cro_channels= view.findViewById(R.id.rv_parent);
+        recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
+        recycler_view_epg_tv_cro_channels.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        EpgTvCroChannelsAdapter epgTvCroChannelsAdapter=new EpgTvCroChannelsAdapter(getContext());
+        recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
+        epgTvCroChannelsAdapter.notifyDataSetChanged();
+/*
         epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
             @Override
             public void onChanged(Resource<List<EpgChannel>> listResource) {
@@ -84,6 +96,8 @@ public class EpgTvFragment extends Fragment {
             }
         });
 */
+
+/*
         epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
@@ -91,6 +105,7 @@ public class EpgTvFragment extends Fragment {
             }
         });
 
-        return inflater.inflate(R.layout.fragment_epg_tv, container, false);
+*/
+        return view;
     }
 }

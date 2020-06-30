@@ -36,7 +36,7 @@ public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<E
 
     @Override
     protected boolean shouldFetch(@Nullable List<EpgChannel> data) {
-        return true;
+        return data.size() == 0;
     }
 
     @NonNull

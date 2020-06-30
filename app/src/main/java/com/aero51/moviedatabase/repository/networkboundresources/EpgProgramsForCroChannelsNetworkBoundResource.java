@@ -30,12 +30,12 @@ public class EpgProgramsForCroChannelsNetworkBoundResource extends NetworkBoundR
 
     @Override
     protected void saveCallResult(@NonNull List<EpgProgram> item) {
-        Log.d("moviedatabaselog", "EpgTv cro programs saveCallResult channels list size: " + item.size());
+        Log.d("moviedatabaselog", "EpgTv cro programs saveCallResult  list size: " + item.size());
     }
 
     @Override
     protected boolean shouldFetch(@Nullable List<EpgProgram> data) {
-        return true;
+        return data.size() == 0;
     }
 
     @NonNull
