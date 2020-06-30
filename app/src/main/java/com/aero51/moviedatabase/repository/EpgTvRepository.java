@@ -6,7 +6,9 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgChannelsNetworkBoundResource;
+import com.aero51.moviedatabase.repository.networkboundresources.EpgProgramsForCroChannelsNetworkBoundResource;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Resource;
 
@@ -26,5 +28,9 @@ public class EpgTvRepository {
         return new EpgChannelsNetworkBoundResource(executors,application).asLiveData();
     }
 
+    public LiveData<Resource<List<EpgProgram>>> loadCroPrograms(){
+        Log.d("moviedatabaselog", "EpgTvRepository load Cro programs ");
+        return new EpgProgramsForCroChannelsNetworkBoundResource(executors,application).asLiveData();
+    }
 
 }

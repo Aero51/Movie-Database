@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.EpgTvDao;
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.retrofit.EpgApi;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -18,39 +18,37 @@ import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import java.util.List;
 
-public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<EpgChannel>, List<EpgChannel>> {
+public class EpgProgramsForCroChannelsNetworkBoundResource extends NetworkBoundResource<List<EpgProgram>, List<EpgProgram>> {
     private MoviesDatabase database;
     private EpgTvDao epgTvDao;
 
-    public EpgChannelsNetworkBoundResource(AppExecutors appExecutors, Application application) {
+    public EpgProgramsForCroChannelsNetworkBoundResource(AppExecutors appExecutors, Application application) {
         super(appExecutors);
         database = MoviesDatabase.getInstance(application);
         epgTvDao=database.get_epg_tv_dao();
     }
 
     @Override
-    protected void saveCallResult(@NonNull List<EpgChannel> item) {
-        Log.d("moviedatabaselog", "EpgTv channels saveCallResult channels list size: " + item.size());
-
+    protected void saveCallResult(@NonNull List<EpgProgram> item) {
+        Log.d("moviedatabaselog", "EpgTv cro programs saveCallResult channels list size: " + item.size());
     }
 
     @Override
-    protected boolean shouldFetch(@Nullable List<EpgChannel> data) {
+    protected boolean shouldFetch(@Nullable List<EpgProgram> data) {
         return true;
     }
 
     @NonNull
     @Override
-    protected LiveData<List<EpgChannel>> loadFromDb() {
-
-        return epgTvDao.getLiveDataChannels();
+    protected LiveData<List<EpgProgram>> loadFromDb() {
+        return epgTvDao.getLiveDataPrograms();
     }
 
     @NonNull
     @Override
-    protected LiveData<ApiResponse<List<EpgChannel>>> createCall() {
-        Log.d("moviedatabaselog", "EpgTv channels createCall " );
+    protected LiveData<ApiResponse<List<EpgProgram>>> createCall() {
+        Log.d("moviedatabaselog", "EpgTv cro programs createCall " );
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
-        return epgApi.getLiveChannels();
+        return epgApi.getLiveCroPrograms();
     }
 }

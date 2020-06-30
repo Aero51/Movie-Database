@@ -29,4 +29,6 @@ public interface EpgApi {
     @GET("channels")
     LiveData<ApiResponse<List<EpgChannel>>> getLiveChannels();
 
+    @GET("programs/cro")
+    LiveData<ApiResponse<List<EpgProgram>>> getLiveCroPrograms();
 }

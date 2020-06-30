@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.EpgTvRepository;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Resource;
 
@@ -25,4 +26,7 @@ public class EpgTvViewModel extends AndroidViewModel {
         return epgTvRepository.loadChannels();
     }
 
+    public LiveData<Resource<List<EpgProgram>>> getCroPrograms(){
+        return epgTvRepository.loadCroPrograms();
+    }
 }
