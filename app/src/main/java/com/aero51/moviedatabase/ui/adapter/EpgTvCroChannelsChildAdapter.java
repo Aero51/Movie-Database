@@ -9,12 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+
+import java.util.List;
 
 public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroChannelsChildAdapter.ViewHolder> {
+    private List<EpgProgram> epgPrograms;
 
-
-    public EpgTvCroChannelsChildAdapter() {
-
+    public EpgTvCroChannelsChildAdapter(List<EpgProgram> epgPrograms) {
+        this.epgPrograms = epgPrograms;
 
     }
 
@@ -28,12 +31,12 @@ public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroC
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.tv_epg_tv_child_item.setText("Text set");
+        holder.tv_epg_tv_child_item.setText(epgPrograms.get(position).getTitle());
     }
 
     @Override
     public int getItemCount() {
-        return 50;
+        return epgPrograms.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {

@@ -25,12 +25,14 @@ public class EpgProgramsForCroChannelsNetworkBoundResource extends NetworkBoundR
     public EpgProgramsForCroChannelsNetworkBoundResource(AppExecutors appExecutors, Application application) {
         super(appExecutors);
         database = MoviesDatabase.getInstance(application);
-        epgTvDao=database.get_epg_tv_dao();
+        epgTvDao = database.get_epg_tv_dao();
     }
 
     @Override
-    protected void saveCallResult(@NonNull List<EpgProgram> item) {
-        Log.d("moviedatabaselog", "EpgTv cro programs saveCallResult  list size: " + item.size());
+    protected void saveCallResult(@NonNull List<EpgProgram> items) {
+        Log.d("moviedatabaselog", "EpgTv cro programs saveCallResult  list size: " + items.size());
+       epgTvDao.deleteAllPrograms();
+       epgTvDao.insertProgramsList(items);
     }
 
     @Override
@@ -47,7 +49,7 @@ public class EpgProgramsForCroChannelsNetworkBoundResource extends NetworkBoundR
     @NonNull
     @Override
     protected LiveData<ApiResponse<List<EpgProgram>>> createCall() {
-        Log.d("moviedatabaselog", "EpgTv cro programs createCall " );
+        Log.d("moviedatabaselog", "EpgTv cro programs createCall ");
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
         return epgApi.getLiveCroPrograms();
     }

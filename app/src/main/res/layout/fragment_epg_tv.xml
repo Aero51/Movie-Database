@@ -10,7 +10,7 @@
         android:id="@+id/tv_fragment_epg_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/hello_blank_fragment" />
+        android:text="Hrvatski tv kanali:" />
 
 
     <androidx.recyclerview.widget.RecyclerView

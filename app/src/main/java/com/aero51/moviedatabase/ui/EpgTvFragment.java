@@ -80,13 +80,12 @@ public class EpgTvFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_epg_tv, container, false);
 
-        recycler_view_epg_tv_cro_channels= view.findViewById(R.id.rv_parent);
+        recycler_view_epg_tv_cro_channels = view.findViewById(R.id.rv_parent);
         recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
         recycler_view_epg_tv_cro_channels.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        EpgTvCroChannelsAdapter epgTvCroChannelsAdapter=new EpgTvCroChannelsAdapter(getContext());
-        recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
-        epgTvCroChannelsAdapter.notifyDataSetChanged();
+
+
 /*
         epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
             @Override
@@ -97,15 +96,19 @@ public class EpgTvFragment extends Fragment {
         });
 */
 
-/*
+
         epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+                if (listResource.data.size() > 0) {
+                    EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
+                    recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
+                }
             }
         });
 
-*/
+
         return view;
     }
 }
