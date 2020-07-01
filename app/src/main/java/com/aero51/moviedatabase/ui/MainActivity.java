@@ -27,7 +27,8 @@ public class MainActivity extends AppCompatActivity {
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         customViewPager.setAdapter(sectionsPagerAdapter);
-
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        getSupportActionBar().hide();
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(customViewPager);
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-               // Log.d("moviedatabaselog", "onTabSelected, tab:" + tab.getPosition());
+                // Log.d("moviedatabaselog", "onTabSelected, tab:" + tab.getPosition());
                 if (tab.getPosition() == 0) {
                     customViewPager.setPagingEnabled(false);
                 } else {
@@ -46,12 +47,12 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-               // Log.d("moviedatabaselog", "onTabUnselected, tab:" + tab.getPosition());
+                // Log.d("moviedatabaselog", "onTabUnselected, tab:" + tab.getPosition());
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-               // Log.d("moviedatabaselog", "onTabReselected, tab:" + tab.getPosition());
+                // Log.d("moviedatabaselog", "onTabReselected, tab:" + tab.getPosition());
                 if (tab.getPosition() == 0) {
                     customViewPager.setPagingEnabled(false);
                 } else {

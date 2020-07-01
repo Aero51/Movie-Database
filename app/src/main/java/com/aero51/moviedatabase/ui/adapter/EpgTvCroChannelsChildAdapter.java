@@ -11,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+
 
 public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroChannelsChildAdapter.ViewHolder> {
     private List<EpgProgram> epgPrograms;
@@ -31,7 +34,17 @@ public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroC
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
+        SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm");
+        try {
+            String reformattedStr = myFormat.format(fromUser.parse(epgPrograms.get(position).getStart()));
+            holder.tv_epg_tv_child_start.setText(reformattedStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         holder.tv_epg_tv_child_item.setText(epgPrograms.get(position).getTitle());
+
     }
 
     @Override
@@ -40,11 +53,14 @@ public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroC
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tv_epg_tv_child_start;
         private TextView tv_epg_tv_child_item;
 
 
         ViewHolder(View itemView) {
             super(itemView);
+            tv_epg_tv_child_start= itemView.findViewById(R.id.tv_epg_tv_child_start);
             tv_epg_tv_child_item = itemView.findViewById(R.id.tv_epg_tv_child_item);
 
         }

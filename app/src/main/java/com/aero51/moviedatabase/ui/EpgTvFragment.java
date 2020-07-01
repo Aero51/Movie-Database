@@ -12,15 +12,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgTvCroChannelsAdapter;
 import com.aero51.moviedatabase.utils.Resource;
+import com.aero51.moviedatabase.utils.SpeedyLinearLayoutManager;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +44,7 @@ public class EpgTvFragment extends Fragment {
 
     private EpgTvViewModel epgTvViewModel;
     private RecyclerView recycler_view_epg_tv_cro_channels;
+    private TextView tv_fragment_epg_tv;
 
     public EpgTvFragment() {
         // Required empty public constructor
@@ -82,8 +87,12 @@ public class EpgTvFragment extends Fragment {
 
         recycler_view_epg_tv_cro_channels = view.findViewById(R.id.rv_parent);
         recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
-        recycler_view_epg_tv_cro_channels.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager.setItemPrefetchEnabled(true);
+        // linearLayoutManager.setInitialPrefetchItemCount(10);
+        recycler_view_epg_tv_cro_channels.setLayoutManager(linearLayoutManager);
+        tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
 
 
 /*
@@ -103,7 +112,12 @@ public class EpgTvFragment extends Fragment {
                 Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                 if (listResource.data.size() > 0) {
                     EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
+                    //this significantly improved scrolling speed
+                    epgTvCroChannelsAdapter.setHasStableIds(true);
                     recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
+                    //recycler_view_epg_tv_cro_channels.canScrollHorizontally()
+                    String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                    tv_fragment_epg_tv.setText(currentTime);
                 }
             }
         });

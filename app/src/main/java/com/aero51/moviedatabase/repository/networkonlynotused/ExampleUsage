@@ -181,3 +181,52 @@ I copied it from response to my question here
                     Toast.makeText(view.getContext(), "Result deleted", Toast.LENGTH_SHORT).show();
                 }
             });//.attachToRecyclerView(recyclerView);
+
+
+
+
+
+
+
+
+
+                // "20200701001400 +0200"
+                    SimpleDateFormat fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
+                    SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm");
+                    String reformattedStr = myFormat.format(fromUser.parse(program.getStart()));
+
+
+                  //  String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                    String currentTime = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
+                    Log.d("moviedatabaselog", " String currentTime :"+currentTime);
+                    try {
+                        Date startDate = new SimpleDateFormat("yyyyMMddHHmmSS").parse(programList.get(0).getStart());
+                        Log.d("moviedatabaselog", "date :"+startDate);
+                        Date currentDate= new SimpleDateFormat("yyyyMMddHHmmSS").parse(currentTime);
+                        Log.d("moviedatabaselog", "   Date currentDate :"+currentDate);
+                        Log.d("moviedatabaselog", "   Date currentDate getTime :"+currentDate.getTime());
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+//original method:
+
+public void getNearestDate(List<Date> dates, Date targetDate) {
+    Date nearestDate = null;
+    int index = 0;
+    long prevDiff = -1;
+    long targetTS = targetDate.getTime();
+    for (int i = 0; i < dates.size(); i++) {
+        Date date = dates.get(i);
+        long currDiff = Math.abs(date.getTime() - targetTS);
+        if (prevDiff == -1 || currDiff < prevDiff) {
+            prevDiff = currDiff;
+            nearestDate = date;
+            index = i;
+        }
+    }
+    System.out.println("Nearest Date: " + nearestDate);
+    System.out.println("Index: " + index);
+}
