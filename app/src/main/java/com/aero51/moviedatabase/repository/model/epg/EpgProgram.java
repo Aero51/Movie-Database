@@ -12,7 +12,7 @@ public class EpgProgram {
     private Integer db_id;
     private String title;
     private String subTitle;
-    private String description;
+    private String desc;
     private String credits;
     private Integer date;
     private String category;
@@ -93,12 +93,12 @@ public class EpgProgram {
         this.stop = stop;
     }
 
-    public String getDescription() {
-        return description;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public Integer getDb_id() {

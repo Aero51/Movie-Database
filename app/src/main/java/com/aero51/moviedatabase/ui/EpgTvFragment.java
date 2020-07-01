@@ -89,8 +89,7 @@ public class EpgTvFragment extends Fragment {
         recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
         //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-        linearLayoutManager.setItemPrefetchEnabled(true);
-        // linearLayoutManager.setInitialPrefetchItemCount(10);
+       // linearLayoutManager.setItemPrefetchEnabled(true);
         recycler_view_epg_tv_cro_channels.setLayoutManager(linearLayoutManager);
         tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
 
@@ -115,7 +114,6 @@ public class EpgTvFragment extends Fragment {
                     //this significantly improved scrolling speed
                     epgTvCroChannelsAdapter.setHasStableIds(true);
                     recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
-                    //recycler_view_epg_tv_cro_channels.canScrollHorizontally()
                     String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                     tv_fragment_epg_tv.setText(currentTime);
                 }

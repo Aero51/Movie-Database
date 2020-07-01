@@ -1,19 +1,23 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.GetCroChannelsLogoResource;
 import com.aero51.moviedatabase.utils.Resource;
 
 import java.text.ParseException;
@@ -28,10 +32,11 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     private LayoutInflater mInflater;
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<List<EpgProgram>> sortedList;
-
+    private Context context;
 
     public EpgTvCroChannelsAdapter(Context context, Resource<List<EpgProgram>> listResource) {
         this.mInflater = LayoutInflater.from(context);
+        this.context = context;
         Log.d("moviedatabaselog", "before process");
         sortedList = new ArrayList<>();
         List<EpgProgram> hrt1List = new ArrayList<>();
@@ -43,15 +48,12 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         List<EpgProgram> domaTvList = new ArrayList<>();
         List<EpgProgram> rtlKockicaList = new ArrayList<>();
         List<EpgProgram> hrt4List = new ArrayList<>();
+
         List<EpgProgram> programList = listResource.data;
-
-
-
-
         for (EpgProgram program : programList) {
-
-
-            if (program.getChannel().equals("HRT1")) { hrt1List.add(program); }
+            if (program.getChannel().equals("HRT1")) {
+                hrt1List.add(program);
+            }
             if (program.getChannel().equals("HRT2")) hrt2List.add(program);
             if (program.getChannel().equals("HRT3")) hrt3List.add(program);
             if (program.getChannel().equals("NOVATV")) novaTvList.add(program);
@@ -61,19 +63,6 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
             if (program.getChannel().equals("RTLKOCKICA")) rtlKockicaList.add(program);
             if (program.getChannel().equals("HRT4")) hrt4List.add(program);
         }
-      //  Map<String,String> map=new HashMap<>();
-/*
-       getNearestDate(hrt1List);
-       getNearestDate(hrt2List);
-       getNearestDate(hrt3List);
-       getNearestDate(novaTvList);
-       getNearestDate(rtlTelevizijaList);
-       getNearestDate(rtl2List);
-       getNearestDate(domaTvList);
-       getNearestDate(rtlKockicaList);
-       getNearestDate(hrt4List);
-*/
-
 
         sortedList.add(hrt1List);
         sortedList.add(hrt2List);
@@ -87,50 +76,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
 
 
-        sortedList.add(hrt3List);
-        sortedList.add(novaTvList);
-        sortedList.add(rtlTelevizijaList);
-        sortedList.add(rtl2List);
-        sortedList.add(domaTvList);
-        sortedList.add(rtlKockicaList);
-        sortedList.add(hrt4List);
-
-
-
-        sortedList.add(hrt3List);
-        sortedList.add(novaTvList);
-        sortedList.add(rtlTelevizijaList);
-        sortedList.add(rtl2List);
-        sortedList.add(domaTvList);
-        sortedList.add(rtlKockicaList);
-        sortedList.add(hrt4List);
-
-        sortedList.add(hrt3List);
-        sortedList.add(novaTvList);
-        sortedList.add(rtlTelevizijaList);
-        sortedList.add(rtl2List);
-        sortedList.add(domaTvList);
-        sortedList.add(rtlKockicaList);
-        sortedList.add(hrt4List);
-
-        sortedList.add(hrt3List);
-        sortedList.add(novaTvList);
-        sortedList.add(rtlTelevizijaList);
-        sortedList.add(rtl2List);
-        sortedList.add(domaTvList);
-        sortedList.add(rtlKockicaList);
-        sortedList.add(hrt4List);
-
-
-        sortedList.add(hrt3List);
-        sortedList.add(novaTvList);
-        sortedList.add(rtlTelevizijaList);
-        sortedList.add(rtl2List);
-        sortedList.add(domaTvList);
-        sortedList.add(rtlKockicaList);
-        sortedList.add(hrt4List);
-
-        Log.d("moviedatabaselog", "after process");
+        Log.d("moviedatabaselog", "after process,rtl kockica: " + rtlKockicaList.get(0).getTitle());
 
     }
 
@@ -145,6 +91,10 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         //  val parent = parents[position]
 
+        //Drawable d = ResourcesCompat.getDrawable()
+
+
+        holder.imageViewTvChannelLogo.setImageDrawable(GetCroChannelsLogoResource.getDrawableForChannel(context, position));
         holder.tv_epg_tv_parent_item.setText(sortedList.get(position).get(0).getChannel());
 
 
@@ -154,8 +104,16 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         holder.child_recycler.setRecycledViewPool(viewPool);
         EpgTvCroChannelsChildAdapter epgTvCroChannelsChildAdapter = new EpgTvCroChannelsChildAdapter(sortedList.get(position));
         holder.child_recycler.setAdapter(epgTvCroChannelsChildAdapter);
-        Integer currentProgrameIndex= getNearestTime(sortedList.get(position));
-        holder.child_recycler.scrollToPosition(currentProgrameIndex);
+        Integer currentProgramIndex = getNearestTime(sortedList.get(position));
+        holder.child_recycler.scrollToPosition(currentProgramIndex);
+
+    }
+
+    //needed to override this method in order to make setHasStableIds(true);  work properly
+    @Override
+    public long getItemId(int position) {
+
+        return position;
     }
 
     @Override
@@ -165,23 +123,26 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
+        private ImageView imageViewTvChannelLogo;
         private TextView tv_epg_tv_parent_item;
         private RecyclerView child_recycler;
 
         ViewHolder(View itemView) {
             super(itemView);
+            imageViewTvChannelLogo = itemView.findViewById(R.id.image_view_tv_channel_logo);
             tv_epg_tv_parent_item = itemView.findViewById(R.id.tv_epg_tv_parent_item);
             child_recycler = itemView.findViewById(R.id.rv_child);
         }
 
 
     }
+
     //used to calculate position of program which start time is closest to now
-    public Integer getNearestTime(List<EpgProgram>list) {
-        List<Date> dates=new ArrayList<>();
+    public Integer getNearestTime(List<EpgProgram> list) {
+        List<Date> dates = new ArrayList<>();
         for (EpgProgram program : list) {
             try {
-                Date programStartTime=new SimpleDateFormat("yyyyMMddHHmmSS").parse(program.getStart());
+                Date programStartTime = new SimpleDateFormat("yyyyMMddHHmmSS").parse(program.getStart());
                 dates.add(programStartTime);
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -189,9 +150,9 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
         }
         String currentTime = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
-        Date currentDate=null;
+        Date currentDate = null;
         try {
-            currentDate= new SimpleDateFormat("yyyyMMddHHmmSS").parse(currentTime);
+            currentDate = new SimpleDateFormat("yyyyMMddHHmmSS").parse(currentTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
