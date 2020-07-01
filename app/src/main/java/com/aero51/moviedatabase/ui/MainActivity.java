@@ -33,37 +33,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(customViewPager);
 
-        //added because first tab contains nested horizontal recycler views
-        tabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                // Log.d("moviedatabaselog", "onTabSelected, tab:" + tab.getPosition());
-                if (tab.getPosition() == 0) {
-                    customViewPager.setPagingEnabled(false);
-                } else {
-                    customViewPager.setPagingEnabled(true);
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                // Log.d("moviedatabaselog", "onTabUnselected, tab:" + tab.getPosition());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                // Log.d("moviedatabaselog", "onTabReselected, tab:" + tab.getPosition());
-                if (tab.getPosition() == 0) {
-                    customViewPager.setPagingEnabled(false);
-                } else {
-                    customViewPager.setPagingEnabled(true);
-                }
-            }
-        });
-
-        tabs.getTabAt(0).select();
-
-
+        
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {

@@ -19,10 +19,15 @@ import java.util.List;
 public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroChannelsChildAdapter.ViewHolder> {
     private List<EpgProgram> epgPrograms;
 
-    public EpgTvCroChannelsChildAdapter(List<EpgProgram> epgPrograms) {
-        this.epgPrograms = epgPrograms;
+    public EpgTvCroChannelsChildAdapter() {
+
 
     }
+public void setList(List<EpgProgram> epgPrograms){
+        this.epgPrograms=epgPrograms;
+        notifyDataSetChanged();
+}
+
 
     @NonNull
     @Override

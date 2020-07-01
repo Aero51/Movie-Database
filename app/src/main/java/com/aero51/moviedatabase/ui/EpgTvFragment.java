@@ -113,6 +113,8 @@ public class EpgTvFragment extends Fragment {
                     recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
                     String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                     tv_fragment_epg_tv.setText(currentTime);
+                  
+
                 }
             }
         });

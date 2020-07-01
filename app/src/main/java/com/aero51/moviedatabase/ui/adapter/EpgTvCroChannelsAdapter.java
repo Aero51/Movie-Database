@@ -38,7 +38,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     public EpgTvCroChannelsAdapter(Context context, Resource<List<EpgProgram>> listResource) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
-       // Log.d("moviedatabaselog", "before process");
+        // Log.d("moviedatabaselog", "before process");
         sortedList = new ArrayList<>();
         List<EpgProgram> hrt1List = new ArrayList<>();
         List<EpgProgram> hrt2List = new ArrayList<>();
@@ -75,7 +75,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         sortedList.add(rtlKockicaList);
         sortedList.add(hrt4List);
 
-      //  Log.d("moviedatabaselog", "after process ");
+        //  Log.d("moviedatabaselog", "after process ");
 
     }
 
@@ -83,6 +83,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = mInflater.inflate(R.layout.epg_tv_cro_parent_item, parent, false);
+
         return new EpgTvCroChannelsAdapter.ViewHolder(view);
     }
 
@@ -93,12 +94,8 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         holder.imageViewTvChannelLogo.setImageDrawable(GetCroChannelsLogoResource.getDrawableForChannel(context, position));
         holder.tv_epg_tv_parent_item.setText(sortedList.get(position).get(0).getChannel());
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        holder.child_recycler.setHasFixedSize(true);
-        holder.child_recycler.setLayoutManager(linearLayoutManager);
-        holder.child_recycler.setRecycledViewPool(viewPool);
-        EpgTvCroChannelsChildAdapter epgTvCroChannelsChildAdapter = new EpgTvCroChannelsChildAdapter(sortedList.get(position));
-        holder.child_recycler.setAdapter(epgTvCroChannelsChildAdapter);
+
+        holder.epgTvCroChannelsChildAdapter.setList(sortedList.get(position));
         Integer currentProgramIndex = getNearestTime(sortedList.get(position));
         holder.child_recycler.scrollToPosition(currentProgramIndex);
 
@@ -116,11 +113,9 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         return sortedList.size();
     }
 
-    private void setAnimation(View viewToAnimate, int position)
-    {
+    private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
+        if (position > lastPosition) {
             Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
@@ -132,12 +127,24 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         private ImageView imageViewTvChannelLogo;
         private TextView tv_epg_tv_parent_item;
         private RecyclerView child_recycler;
+        private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+        private EpgTvCroChannelsChildAdapter epgTvCroChannelsChildAdapter;
 
         ViewHolder(View itemView) {
             super(itemView);
+
             imageViewTvChannelLogo = itemView.findViewById(R.id.image_view_tv_channel_logo);
             tv_epg_tv_parent_item = itemView.findViewById(R.id.tv_epg_tv_parent_item);
             child_recycler = itemView.findViewById(R.id.rv_child);
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            child_recycler.setHasFixedSize(true);
+            child_recycler.setLayoutManager(linearLayoutManager);
+            child_recycler.setRecycledViewPool(viewPool);
+            epgTvCroChannelsChildAdapter = new EpgTvCroChannelsChildAdapter();
+            child_recycler.setAdapter(epgTvCroChannelsChildAdapter);
+
+
         }
 
 
