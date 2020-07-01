@@ -18,7 +18,6 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgTvCroChannelsAdapter;
 import com.aero51.moviedatabase.utils.Resource;
-import com.aero51.moviedatabase.utils.SpeedyLinearLayoutManager;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
 
 import java.text.SimpleDateFormat;
@@ -89,7 +88,6 @@ public class EpgTvFragment extends Fragment {
         recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
         //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
-       // linearLayoutManager.setItemPrefetchEnabled(true);
         recycler_view_epg_tv_cro_channels.setLayoutManager(linearLayoutManager);
         tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
 
@@ -103,7 +101,6 @@ public class EpgTvFragment extends Fragment {
             }
         });
 */
-
 
         epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override

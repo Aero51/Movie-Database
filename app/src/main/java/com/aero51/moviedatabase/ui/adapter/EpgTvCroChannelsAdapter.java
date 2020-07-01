@@ -1,17 +1,17 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -33,11 +33,12 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
     private List<List<EpgProgram>> sortedList;
     private Context context;
+    private int lastPosition = -1;
 
     public EpgTvCroChannelsAdapter(Context context, Resource<List<EpgProgram>> listResource) {
         this.mInflater = LayoutInflater.from(context);
         this.context = context;
-        Log.d("moviedatabaselog", "before process");
+       // Log.d("moviedatabaselog", "before process");
         sortedList = new ArrayList<>();
         List<EpgProgram> hrt1List = new ArrayList<>();
         List<EpgProgram> hrt2List = new ArrayList<>();
@@ -74,9 +75,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         sortedList.add(rtlKockicaList);
         sortedList.add(hrt4List);
 
-
-
-        Log.d("moviedatabaselog", "after process,rtl kockica: " + rtlKockicaList.get(0).getTitle());
+      //  Log.d("moviedatabaselog", "after process ");
 
     }
 
@@ -89,14 +88,10 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        //  val parent = parents[position]
-
-        //Drawable d = ResourcesCompat.getDrawable()
-
+        setAnimation(holder.itemView, position);
 
         holder.imageViewTvChannelLogo.setImageDrawable(GetCroChannelsLogoResource.getDrawableForChannel(context, position));
         holder.tv_epg_tv_parent_item.setText(sortedList.get(position).get(0).getChannel());
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
         holder.child_recycler.setHasFixedSize(true);
@@ -119,6 +114,17 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     @Override
     public int getItemCount() {
         return sortedList.size();
+    }
+
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
     }
 
     // stores and recycles views as they are scrolled off screen

@@ -47,6 +47,8 @@ public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroC
 
     }
 
+
+
     @Override
     public int getItemCount() {
         return epgPrograms.size();
