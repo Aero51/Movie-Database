@@ -100,9 +100,9 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         popularRecyclerView.setLayoutManager(newlinearLayoutManager);
 
         moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
-       // registerTopRatedMoviesObservers();
+        registerTopRatedMoviesObservers();
         // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-       // registerPopularMoviesObservers();
+        registerPopularMoviesObservers();
 
         return view;
     }
@@ -174,10 +174,11 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         Bundle bundle = new Bundle();
         bundle.putSerializable("TopRatedMovie", result);
         detailsFragment.setArguments(bundle);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-       // transaction.replace(R.id.fragmentsContainer, detailsFragment);
+        transaction.replace(R.id.root_movies_frame, detailsFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
@@ -189,10 +190,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         Bundle bundle = new Bundle();
         bundle.putSerializable("PopularMovie", result);
         detailsFragment.setArguments(bundle);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+      //  FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
         // Replace whatever is in the fragment_container view with this fragment,
         // and add the transaction to the back stack so the user can navigate back
-     //   transaction.replace(R.id.fragmentsContainer, detailsFragment);
+        transaction.replace(R.id.root_movies_frame, detailsFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();

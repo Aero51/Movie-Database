@@ -19,6 +19,7 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.GetCroChannelsLogoResource;
 import com.aero51.moviedatabase.utils.Resource;
+import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -90,7 +91,8 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         setAnimation(holder.itemView, position);
-
+      //  Picasso.get().load(GetCroChannelsLogoResource.getResIdForChannelLogo(position)).resize(60, 20)
+           //     .into(holder.imageViewTvChannelLogo);
         holder.imageViewTvChannelLogo.setImageDrawable(GetCroChannelsLogoResource.getDrawableForChannel(context, position));
         holder.tv_epg_tv_parent_item.setText(sortedList.get(position).get(0).getChannel());
 

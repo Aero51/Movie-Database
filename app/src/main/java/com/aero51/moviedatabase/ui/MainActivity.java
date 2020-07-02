@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(customViewPager);
 
-        
+
         FloatingActionButton fab = findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -60,11 +60,11 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment = null;
             switch (position) {
                 case 0:
-                    fragment = EpgTvFragment.newInstance("", "");
+                    fragment = new RootEpgTvFragment();
                     break;
                 case 1:
 
-                    fragment = MoviesFragment.newInstance("", "");
+                    fragment = new RootMoviesFragment();
                     break;
 
             }

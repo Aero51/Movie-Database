@@ -106,10 +106,9 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
         Bundle bundle = new Bundle();
         bundle.putSerializable("Cast", cast);
         actorFragment.setArguments(bundle);
-        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-        // Replace whatever is in the fragment_container view with this fragment,
-        // and add the transaction to the back stack so the user can navigate back
-      //  transaction.replace(R.id.fragmentsContainer, actorFragment);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.root_movies_frame, actorFragment);
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
         transaction.addToBackStack(null);
         // Commit the transaction
         transaction.commit();
