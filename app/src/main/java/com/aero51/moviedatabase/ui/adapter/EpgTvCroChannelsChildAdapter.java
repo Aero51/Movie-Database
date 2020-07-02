@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroChannelsChildAdapter.ViewHolder> {
     private List<EpgProgram> epgPrograms;
-
+    private ProgramItemClickListener mClickListener;
     public EpgTvCroChannelsChildAdapter() {
 
 
@@ -59,7 +60,7 @@ public void setList(List<EpgProgram> epgPrograms){
         return epgPrograms.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView tv_epg_tv_child_start;
         private TextView tv_epg_tv_child_item;
@@ -69,9 +70,19 @@ public void setList(List<EpgProgram> epgPrograms){
             super(itemView);
             tv_epg_tv_child_start= itemView.findViewById(R.id.tv_epg_tv_child_start);
             tv_epg_tv_child_item = itemView.findViewById(R.id.tv_epg_tv_child_item);
-
+            itemView.setOnClickListener(this);
         }
 
 
+        @Override
+        public void onClick(View v) {
+            Integer adapter_position=getAdapterPosition();
+            mClickListener.onItemClick(adapter_position,epgPrograms.get(adapter_position).getDb_id());
+        }
     }
+
+    public void setClickListener(ProgramItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
 }

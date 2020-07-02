@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.GetCroChannelsLogoResource;
+import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
-import com.squareup.picasso.Picasso;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -35,6 +34,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     private List<List<EpgProgram>> sortedList;
     private Context context;
     private int lastPosition = -1;
+    private ProgramItemClickListener mClickListener;
 
     public EpgTvCroChannelsAdapter(Context context, Resource<List<EpgProgram>> listResource) {
         this.mInflater = LayoutInflater.from(context);
@@ -76,7 +76,6 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         sortedList.add(rtlKockicaList);
         sortedList.add(hrt4List);
 
-        //  Log.d("moviedatabaselog", "after process ");
 
     }
 
@@ -91,8 +90,10 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         setAnimation(holder.itemView, position);
-      //  Picasso.get().load(GetCroChannelsLogoResource.getResIdForChannelLogo(position)).resize(60, 20)
-           //     .into(holder.imageViewTvChannelLogo);
+        //  Picasso.get().load(GetCroChannelsLogoResource.getResIdForChannelLogo(position)).resize(60, 20)
+        //     .into(holder.imageViewTvChannelLogo);
+
+
         holder.imageViewTvChannelLogo.setImageDrawable(GetCroChannelsLogoResource.getDrawableForChannel(context, position));
         holder.tv_epg_tv_parent_item.setText(sortedList.get(position).get(0).getChannel());
 
@@ -144,6 +145,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
             child_recycler.setLayoutManager(linearLayoutManager);
             child_recycler.setRecycledViewPool(viewPool);
             epgTvCroChannelsChildAdapter = new EpgTvCroChannelsChildAdapter();
+            epgTvCroChannelsChildAdapter.setClickListener(mClickListener);
             child_recycler.setAdapter(epgTvCroChannelsChildAdapter);
 
 
@@ -188,4 +190,11 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
         return index;
     }
+
+    // allows clicks events to be caught
+    public void setClickListener(ProgramItemClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
+    }
+
+
 }

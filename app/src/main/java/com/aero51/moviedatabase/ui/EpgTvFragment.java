@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgTvCroChannelsAdapter;
+import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
 
@@ -30,7 +31,7 @@ import java.util.Locale;
  * Use the {@link EpgTvFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpgTvFragment extends Fragment {
+public class EpgTvFragment extends Fragment implements ProgramItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,6 +45,7 @@ public class EpgTvFragment extends Fragment {
     private EpgTvViewModel epgTvViewModel;
     private RecyclerView recycler_view_epg_tv_cro_channels;
     private TextView tv_fragment_epg_tv;
+    private List<EpgProgram> epgProgramList;
 
     public EpgTvFragment() {
         // Required empty public constructor
@@ -108,18 +110,23 @@ public class EpgTvFragment extends Fragment {
                 Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                 if (listResource.data.size() > 0) {
                     EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
+                    epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
                     //this significantly improved scrolling speed
                     epgTvCroChannelsAdapter.setHasStableIds(true);
                     recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
                     String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                     tv_fragment_epg_tv.setText(currentTime);
-                  
-
+                    epgProgramList = listResource.data;
                 }
             }
         });
 
 
         return view;
+    }
+
+    @Override
+    public void onItemClick(int position, int db_id) {
+        Log.d("moviedatabaselog", "Item : " + position + " clicked!" + " ,db_id: " + db_id);
     }
 }
