@@ -98,13 +98,13 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
             new DiffUtil.ItemCallback<TopRatedMovie>() {
                 @Override
                 public boolean areItemsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
-                    Log.d("moviedatabaselog", "areItemsTheSame");
+                  //  Log.d("moviedatabaselog", "areItemsTheSame");
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
-                    Log.d("moviedatabaselog", "areContentsTheSame");
+                   // Log.d("moviedatabaselog", "areContentsTheSame");
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };

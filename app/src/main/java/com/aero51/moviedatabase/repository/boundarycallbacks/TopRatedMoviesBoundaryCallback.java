@@ -96,6 +96,11 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
         Runnable runnable = () -> {
             dao.deleteAllMoviePages();
             dao.insertMoviePage(page);
+            for(TopRatedMovie movie:listOfResults){
+                movie.setCollectionsName("TopRated");
+                movie.setPage_number(page.getPage());
+            }
+
             dao.insertList(listOfResults);
         };
         Runnable diskRunnable = () -> database.runInTransaction(runnable);
