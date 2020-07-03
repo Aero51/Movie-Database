@@ -9,9 +9,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.utils.TabViewListener;
 
 public class RootEpgTvFragment extends Fragment {
-
     private static final String TAG = "RootEpgTvFragment";
 
     @Override
@@ -26,7 +26,8 @@ public class RootEpgTvFragment extends Fragment {
          * When this container fragment is created, we fill it with our first
          * "real" fragment
          */
-        transaction.replace(R.id.root_epg_frame, EpgTvFragment.newInstance("",""));
+
+        transaction.replace(R.id.root_epg_frame,EpgTvFragment.newInstance("",""),"EpgTvFragment");
 
         transaction.commit();
 

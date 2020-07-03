@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +24,12 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
+import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel;
 
-public class MoviesFragment extends Fragment implements TopRatedItemClickListener, PopularItemClickListener {
+public class MoviesFragment extends Fragment implements TopRatedItemClickListener, PopularItemClickListener, MovieClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -100,12 +102,23 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         popularRecyclerView.setLayoutManager(newlinearLayoutManager);
 
         moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
-        registerTopRatedMoviesObservers();
         // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
-    //    registerPopularMoviesObservers();
 
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                Log.d("moviedatabaselog", "runnable runned! " );
+
+            }
+        }, 3000);
+        registerPopularMoviesObservers();
+        registerTopRatedMoviesObservers();
         return view;
     }
+
+
 
     private void registerTopRatedMoviesObservers() {
         moviesViewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
@@ -170,6 +183,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
+        this.OnObjectItemClick(result,position);
         TopRatedMovieDetailsFragment detailsFragment = new TopRatedMovieDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("TopRatedMovie", result);
@@ -183,6 +197,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
     @Override
     public void OnItemClick(PopularMovie result, int position) {
+
         PopularMovieDetailsFragment detailsFragment = new PopularMovieDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("PopularMovie", result);
@@ -193,5 +208,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         transaction.addToBackStack(null);
         transaction.commit();
 
+    }
+
+    @Override
+    public void OnObjectItemClick(Object movie, int position) {
+
+        if(movie instanceof TopRatedMovie)Log.d("moviedatabaselog", "TopRatedMovie OnItemClick " );
+        if(movie instanceof PopularMovie)Log.d("moviedatabaselog", "PopularMovie OnItemClick " );
     }
 }

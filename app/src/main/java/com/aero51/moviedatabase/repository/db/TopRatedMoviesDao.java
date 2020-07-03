@@ -48,6 +48,7 @@ public interface TopRatedMoviesDao {
     LiveData<List<TopRatedMovie>> getAllResultsLiveData();
 
 
+   // @Query("SELECT * FROM top_rated_movie WHERE CollectionsName=1")
     @Query("SELECT * FROM top_rated_movie")
     DataSource.Factory<Integer, TopRatedMovie> getAllResults();
 

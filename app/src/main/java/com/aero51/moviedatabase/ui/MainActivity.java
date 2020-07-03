@@ -7,10 +7,12 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.utils.TabViewListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -46,8 +48,23 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private static class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+    @Override
+    public void onBackPressed() {
+        //implement for each tab
+        RootEpgTvFragment fragment = (RootEpgTvFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + 0);
+       // getSupportFragmentManager().get
+        if (fragment.getChildFragmentManager().getBackStackEntryCount() != 0) {
+            fragment.getChildFragmentManager().popBackStack();
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
+
+    private static class SectionsPagerAdapter extends FragmentPagerAdapter {
+        private Fragment fragment;
 
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -57,14 +74,16 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = null;
+            fragment = null;
             switch (position) {
                 case 0:
+
                     fragment = new RootEpgTvFragment();
+
                     break;
                 case 1:
-
                     fragment = new RootMoviesFragment();
+
                     break;
 
             }

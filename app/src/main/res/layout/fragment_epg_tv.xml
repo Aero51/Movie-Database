@@ -14,7 +14,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_parent"
+        android:id="@+id/recycler_view_parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_fragment_epg_tv"

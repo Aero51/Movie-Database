@@ -77,7 +77,7 @@ public void setList(List<EpgProgram> epgPrograms){
         @Override
         public void onClick(View v) {
             Integer adapter_position=getAdapterPosition();
-            mClickListener.onItemClick(adapter_position,epgPrograms.get(adapter_position).getDb_id());
+            mClickListener.onItemClick(adapter_position,epgPrograms.get(adapter_position).getDb_id(),epgPrograms.get(adapter_position));
         }
     }
 

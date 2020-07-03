@@ -3,6 +3,7 @@ package com.aero51.moviedatabase.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -86,7 +87,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_epg_tv, container, false);
 
-        recycler_view_epg_tv_cro_channels = view.findViewById(R.id.rv_parent);
+        recycler_view_epg_tv_cro_channels = view.findViewById(R.id.recycler_view_parent);
         recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
         //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
@@ -109,6 +110,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                 if (listResource.data.size() > 0) {
+                    epgProgramList=listResource.data;
                     EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
                     epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
                     //this significantly improved scrolling speed
@@ -117,16 +119,31 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
                     String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                     tv_fragment_epg_tv.setText(currentTime);
                     epgProgramList = listResource.data;
+
                 }
             }
         });
-
 
         return view;
     }
 
     @Override
-    public void onItemClick(int position, int db_id) {
+    public void onItemClick(int position, int db_id,EpgProgram epgProgram) {
         Log.d("moviedatabaselog", "Item : " + position + " clicked!" + " ,db_id: " + db_id);
+       // EpgProgram epgProgram;
+        EpgTvDetailsFragment epgTvDetailsFragment = EpgTvDetailsFragment.newInstance("","");
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("EpgProgram", epgProgram);
+        epgTvDetailsFragment.setArguments(bundle);
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.root_epg_frame, epgTvDetailsFragment,"epgTvDetailsFragment");
+        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+        transaction.addToBackStack("epg");
+        transaction.commit();
     }
+
+
+
+
+
 }

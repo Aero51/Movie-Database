@@ -4,8 +4,10 @@ package com.aero51.moviedatabase.repository.model.epg;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
+
 @Entity(tableName = "epg_program")
-public class EpgProgram {
+public class EpgProgram implements Serializable {
 
 
     @PrimaryKey(autoGenerate = true)
