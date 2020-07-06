@@ -3,6 +3,8 @@ package com.aero51.moviedatabase.ui;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -26,7 +29,7 @@ public class EpgTvDetailsFragment extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    private EpgProgram epgProgram;
+    private SharedViewModel sharedViewModel;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -62,10 +65,12 @@ public class EpgTvDetailsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-            epgProgram = (EpgProgram) getArguments().getSerializable("EpgProgram");
+          //  epgProgram = (EpgProgram) getArguments().getSerializable("EpgProgram");
+
         }
     }
 
@@ -79,12 +84,20 @@ public class EpgTvDetailsFragment extends Fragment {
         text_view_description = view.findViewById(R.id.text_view_description);
         image_view=view.findViewById(R.id.image_view);
 
-        text_view_title.setText(epgProgram.getTitle());
-        text_view_date.setText(epgProgram.getDate()+"");
-        text_view_description.setText(epgProgram.getDesc());
-       // Picasso.get().load(epgProgram.getIcon()).into(image_view);
-        Log.d("moviedatabaselog", "icon: "+epgProgram.getIcon());
-        Picasso.get().load(epgProgram.getIcon()).into(image_view);
+        sharedViewModel.getLiveDataProgram().observe(getViewLifecycleOwner(), new Observer<EpgProgram>() {
+            @Override
+            public void onChanged(EpgProgram epgProgram) {
+                text_view_title.setText(epgProgram.getTitle());
+                text_view_date.setText(epgProgram.getDate()+"");
+                text_view_description.setText(epgProgram.getDesc());
+                // Picasso.get().load(epgProgram.getIcon()).into(image_view);
+                Log.d("moviedatabaselog", "icon: "+epgProgram.getIcon());
+                Picasso.get().load(epgProgram.getIcon()).into(image_view);
+            }
+        });
+
+
+
 
         return view;
     }

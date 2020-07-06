@@ -3,37 +3,99 @@ package com.aero51.moviedatabase.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
-import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.utils.TabViewListener;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 
 
 public class MainActivity extends AppCompatActivity {
-    private CustomViewPager customViewPager;
+    private CustomViewPager viewPager;
+    private DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgtvFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvDetailsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
+    private SharedViewModel sharedViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        customViewPager = findViewById(R.id.view_pager);
+        viewPager = findViewById(R.id.view_pager);
 
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-        customViewPager.setAdapter(sectionsPagerAdapter);
+        dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager());
+        //  viewPager.setPagingEnabled(false);
+        viewPager.setAdapter(dynamicFragmentPagerAdapter);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().hide();
 
         TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(customViewPager);
+        tabs.setupWithViewPager(viewPager);
+        // EpgTvFragment epgTvFragment= EpgTvFragment.newInstance("","");
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+
+        epgtvFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvFragment", null) {
+            @Override
+            protected Fragment createFragment() {
+                EpgTvFragment epgTvFragment = EpgTvFragment.newInstance("", "");
+                return epgTvFragment;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
+
+        moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("MoviesFragment", null) {
+            @Override
+            protected Fragment createFragment() {
+                MoviesFragment moviesFragment = MoviesFragment.newInstance("", "");
+                return moviesFragment;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
+
+
+        dynamicFragmentPagerAdapter.addFragment(epgtvFragmentIdentifier);
+        dynamicFragmentPagerAdapter.addFragment(moviesFragmentIdentifier);
+
+        sharedViewModel.getSingleLiveShouldSwitchFragments().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.d("moviedatabaselog", " main activity on changed");
+
+
+                epgTvDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvDetailsFragment", null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return EpgTvDetailsFragment.newInstance("", "");
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+
+                dynamicFragmentPagerAdapter.replaceFragment(0, epgTvDetailsFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+
+            }
+        });
 
 
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -52,61 +114,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //implement for each tab
-        RootEpgTvFragment fragment = (RootEpgTvFragment) getSupportFragmentManager().findFragmentByTag("android:switcher:" + R.id.view_pager + ":" + 0);
-       // getSupportFragmentManager().get
-        if (fragment.getChildFragmentManager().getBackStackEntryCount() != 0) {
-            fragment.getChildFragmentManager().popBackStack();
+        if (viewPager.getCurrentItem() == 0) {
+            EpgTvDetailsFragment fragment2 = (EpgTvDetailsFragment) getSupportFragmentManager().findFragmentByTag("EpgTvDetailsFragment");
+            if (fragment2 != null) {
+                Log.d("moviedatabaselog", " EpgTvDetailsFragment getBackStackEntryCount():  " + fragment2.getFragmentManager().getBackStackEntryCount());
+                dynamicFragmentPagerAdapter.replaceFragment(0, epgtvFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+            }else{
+
+            }
+
         }
-        else {
-            super.onBackPressed();
-        }
+       // super.onBackPressed();
+
     }
 
 
-    private static class SectionsPagerAdapter extends FragmentPagerAdapter {
-        private Fragment fragment;
-
-        public SectionsPagerAdapter(FragmentManager fm) {
-            super(fm);
-
-        }
-
-
-        @Override
-        public Fragment getItem(int position) {
-            fragment = null;
-            switch (position) {
-                case 0:
-
-                    fragment = new RootEpgTvFragment();
-
-                    break;
-                case 1:
-                    fragment = new RootMoviesFragment();
-
-                    break;
-
-            }
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            // Show 2 total pages.
-            return 2;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Tv guide";
-                case 1:
-                    return "Movies";
-
-            }
-            return null;
-        }
-    }
 }
 
