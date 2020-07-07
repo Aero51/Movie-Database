@@ -19,11 +19,10 @@ import com.aero51.moviedatabase.utils.AppExecutors;
 public class MoviesViewModel extends AndroidViewModel {
 
     private MoviesRepository moviesRepository;
-    private AppExecutors executors;
 
     public MoviesViewModel(@NonNull Application application) {
         super(application);
-        executors = new AppExecutors();
+        AppExecutors  executors = new AppExecutors();
         moviesRepository = new MoviesRepository(application, executors);
     }
 

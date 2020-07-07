@@ -7,6 +7,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.test.MoviesPage;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
 import retrofit2.Call;
@@ -38,5 +39,18 @@ public interface TheMovieDbApi {
    // GET /person/{person_id}/images
    @GET ("person/{person_id}/images")
    LiveData<ApiResponse<ActorImagesResponse>> getLivePersonImages(@Path("person_id")Integer person_id, @Query("api_key") String api_key );
+
+
+
+    //region is optional
+    @GET("movie/top_rated")
+    Call<MoviesPage> getNewTopRatedMovies(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("region") String region);
+
+
+    //region is optional
+    @GET("movie/popular")
+    Call<MoviesPage> getNewPopularMovies(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("region") String region);
 
 }

@@ -25,6 +25,7 @@ public class MoviesRepository {
     private PopularMoviesBoundaryCallback popularMoviesBoundaryCallback;
     private AppExecutors executors;
 
+
     public MoviesRepository(Application application, AppExecutors executors) {
         this.executors = executors;
         MoviesDatabase database = MoviesDatabase.getInstance(application);
