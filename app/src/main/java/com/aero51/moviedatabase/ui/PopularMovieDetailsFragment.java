@@ -23,6 +23,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -41,7 +42,8 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
     private RecyclerView castRecyclerView;
     private CastAdapter castAdapter;
 
-    private PopularMovie popularMovie;
+
+    private SharedViewModel sharedViewModel;
 
     public PopularMovieDetailsFragment() {
     }
@@ -50,8 +52,9 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            popularMovie = (PopularMovie) getArguments().getSerializable("PopularMovie");
+           // popularMovie = (PopularMovie) getArguments().getSerializable("PopularMovie");
         }
+        sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
         movieDetailsViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
     }
 
@@ -72,14 +75,31 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
         castRecyclerView.setHasFixedSize(true);
         castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
 
-        title_text_view.setText(popularMovie.getTitle());
-        release_date_text_view.setText(String.valueOf(popularMovie.getId()));
-        overview_text_view.setText(popularMovie.getOverview());
+        registerSharedViewModelObserver();
 
-        String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
-        Picasso.get().load(imageUrl).into(cover_image_view);
 
-        movieDetailsViewModel.getMovieCast(popularMovie.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+
+        return view;
+    }
+
+    private void registerSharedViewModelObserver() {
+        sharedViewModel.getLiveDataPopularMovie().observe(getViewLifecycleOwner(), new Observer<PopularMovie>() {
+            @Override
+            public void onChanged(PopularMovie popularMovie) {
+                title_text_view.setText(popularMovie.getTitle());
+                release_date_text_view.setText(String.valueOf(popularMovie.getId()));
+                overview_text_view.setText(popularMovie.getOverview());
+
+                String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + popularMovie.getBackdrop_path();
+                Picasso.get().load(imageUrl).into(cover_image_view);
+                registerMovieDetailsObserver(popularMovie.getId());
+            }
+        });
+
+    }
+    private void registerMovieDetailsObserver(Integer popularMovieId) {
+
+        movieDetailsViewModel.getMovieCast(popularMovieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
@@ -89,9 +109,9 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
                 castRecyclerView.setAdapter(castAdapter);
             }
         });
-
-        return view;
     }
+
+
 
     public static void setImageUrl(ImageView view, String url) {
         if (url != null) {

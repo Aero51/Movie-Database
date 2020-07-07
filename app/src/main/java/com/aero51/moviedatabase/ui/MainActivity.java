@@ -3,6 +3,7 @@ package com.aero51.moviedatabase.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -23,6 +24,8 @@ public class MainActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgtvFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier topRatedMovieFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier popularMovieFragmentIdentifier;
     private SharedViewModel sharedViewModel;
 
     @Override
@@ -97,6 +100,48 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        sharedViewModel.getSingleLiveShouldSwitchTopRatedMovieFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                topRatedMovieFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier("TopRatedMovieDetailsFragment",null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TopRatedMovieDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                dynamicFragmentPagerAdapter.replaceFragment(1, topRatedMovieFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                viewPager.setCurrentItem(1);
+
+            }
+        });
+
+        sharedViewModel.getSingleLiveShouldSwitchPopularMovieFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+              popularMovieFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier("PopularMovieDetailsFragment",null) {
+                  @Override
+                  protected Fragment createFragment() {
+                      return new PopularMovieDetailsFragment();
+                  }
+
+                  @Override
+                  public int describeContents() {
+                      return 0;
+                  }
+              };
+                dynamicFragmentPagerAdapter.replaceFragment(1, popularMovieFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                viewPager.setCurrentItem(1);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
 
@@ -121,12 +166,12 @@ public class MainActivity extends AppCompatActivity {
                 dynamicFragmentPagerAdapter.replaceFragment(0, epgtvFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
-            }else{
+            } else {
 
             }
 
         }
-       // super.onBackPressed();
+        // super.onBackPressed();
 
     }
 

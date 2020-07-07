@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
@@ -28,6 +27,7 @@ import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 public class MoviesFragment extends Fragment implements TopRatedItemClickListener, PopularItemClickListener, MovieClickListener {
     // TODO: Rename parameter arguments, choose names that match
@@ -47,6 +47,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     private MoviesViewModel moviesViewModel;
     private TopRatedMoviesPagedListAdapter topRatedAdapter;
     private PopularMoviesPagedListAdapter popularAdapter;
+    private SharedViewModel sharedViewModel;
 
     /**
      * Use this factory method to create a new instance of
@@ -74,6 +75,8 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
+        sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
     }
 
     @Override
@@ -101,7 +104,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         LinearLayoutManager newlinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         popularRecyclerView.setLayoutManager(newlinearLayoutManager);
 
-        moviesViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MoviesViewModel.class);
+
         // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
 
         final Handler handler = new Handler();
@@ -184,29 +187,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
         this.OnObjectItemClick(result,position);
-        TopRatedMovieDetailsFragment detailsFragment = new TopRatedMovieDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("TopRatedMovie", result);
-        detailsFragment.setArguments(bundle);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.root_movies_frame, detailsFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null);
-        transaction.commit();
+        sharedViewModel.changeTopRatedMovieFragment(position,result);
     }
 
     @Override
     public void OnItemClick(PopularMovie result, int position) {
-
-        PopularMovieDetailsFragment detailsFragment = new PopularMovieDetailsFragment();
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("PopularMovie", result);
-        detailsFragment.setArguments(bundle);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.root_movies_frame, detailsFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null);
-        transaction.commit();
+       sharedViewModel.changePopularMovieFragment(position,result);
 
     }
 

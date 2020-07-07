@@ -42,7 +42,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private ProgramItemClickListener mClickListener;
+
 
     private EpgTvViewModel epgTvViewModel;
     private RecyclerView recycler_view_epg_tv_cro_channels;
