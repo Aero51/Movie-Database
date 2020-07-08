@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.test;
+package com.aero51.moviedatabase.repository.networkonlynotused.test;
 
 import android.app.Application;
 

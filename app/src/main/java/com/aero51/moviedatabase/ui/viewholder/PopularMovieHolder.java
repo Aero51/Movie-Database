@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
@@ -44,7 +45,18 @@ public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.
         textViewtitle.setText(result.getTitle());
 
         String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + result.getPoster_path();
-        Picasso.get().load(imageUrl).into(imageView);
+       // .placeholder(R.drawable.picture_template)
+        Picasso.get().load(imageUrl).fit().centerCrop().into(imageView, new Callback() {
+            @Override
+            public void onSuccess() {
+
+            }
+
+            @Override
+            public void onError(Exception e) {
+                imageView.setBackgroundResource(R.drawable.picture_template);
+            }
+        });
 
     }
 

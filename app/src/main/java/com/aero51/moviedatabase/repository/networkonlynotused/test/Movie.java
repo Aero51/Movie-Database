@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.test;
+package com.aero51.moviedatabase.repository.networkonlynotused.test;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -7,12 +7,11 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "movie")
-public class Movie {
+public class Movie extends Mov {
 
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
-
 
     //0 for top rated movie, 1 for popular movie
     private Integer movieTypeId;

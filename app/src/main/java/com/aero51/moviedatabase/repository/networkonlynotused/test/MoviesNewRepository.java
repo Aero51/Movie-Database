@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.test;
+package com.aero51.moviedatabase.repository.networkonlynotused.test;
 
 import android.app.Application;
 
@@ -9,8 +9,6 @@ import androidx.paging.PagedList;
 
 
 import com.aero51.moviedatabase.repository.db.MoviesDatabase;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.utils.AppExecutors;
 
 import static com.aero51.moviedatabase.utils.Constants.POPULAR_MOVIE_TYPE_ID;
@@ -26,11 +24,12 @@ public class MoviesNewRepository {
 
     public MoviesNewRepository(Application application, AppExecutors executors) {
         this.executors = executors;
-        MoviesDatabase database = MoviesDatabase.getInstance(application);
+        MoviesDatabase database = MoviesDatabase.getInstanceAllowOnMainThread(application);
         MoviesDao moviesDao=database.get_movies_dao();
         topRatedMoviesBoundaryCallback=new MoviesBoundaryCallback(application,executors,TOP_RATED_MOVIE_TYPE_ID);
         popularMoviesBoundaryCallback= new MoviesBoundaryCallback(application,executors,POPULAR_MOVIE_TYPE_ID);
         createTopRatedMoviesPagedList(moviesDao);
+        createPopularMoviesPagedList(moviesDao);
     }
 
     private PagedList.Config getPagedListConfig(){
@@ -41,14 +40,15 @@ public class MoviesNewRepository {
                 .setPageSize(20).build();
     }
     private void createTopRatedMoviesPagedList(MoviesDao dao){
+       // topRatedMoviesPagedList = new LivePagedListBuilder<>(dao.getMovieResults(TOP_RATED_MOVIE_TYPE_ID),getPagedListConfig())
         topRatedMoviesPagedList = new LivePagedListBuilder<>(dao.getMovieResults(TOP_RATED_MOVIE_TYPE_ID),getPagedListConfig())
                 .setBoundaryCallback(topRatedMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
-
     }
 
 
     private void createPopularMoviesPagedList(MoviesDao dao) {
+      //  popularMoviesPagedList = new LivePagedListBuilder<>(dao.getMovieResults(POPULAR_MOVIE_TYPE_ID), getPagedListConfig())
         popularMoviesPagedList = new LivePagedListBuilder<>(dao.getMovieResults(POPULAR_MOVIE_TYPE_ID), getPagedListConfig())
                 .setBoundaryCallback(popularMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build();
@@ -58,8 +58,6 @@ public class MoviesNewRepository {
         return topRatedMoviesPagedList;
     }
 
-    public LiveData<PagedList<Movie>> getPopularMoviesPagedList() {
-        return popularMoviesPagedList;
-    }
+    public LiveData<PagedList<Movie>> getPopularMoviesPagedList() {return popularMoviesPagedList;}
 
 }

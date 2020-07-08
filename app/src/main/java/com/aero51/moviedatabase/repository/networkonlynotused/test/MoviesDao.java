@@ -1,14 +1,9 @@
-package com.aero51.moviedatabase.test;
+package com.aero51.moviedatabase.repository.networkonlynotused.test;
 
-import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
-
-import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 
 import java.util.List;
 @Dao
@@ -19,7 +14,7 @@ public interface MoviesDao {
     void inserMoviesList(List<Movie> movies);
 
     @Query("SELECT * FROM movie WHERE movieTypeId=:movieTypeId")
-    DataSource.Factory<Integer, Movie> getMovieResults(Integer movieTypeId);
+   DataSource.Factory<Integer, Movie> getMovieResults(Integer movieTypeId);
 
 
     @Query("DELETE FROM movie")

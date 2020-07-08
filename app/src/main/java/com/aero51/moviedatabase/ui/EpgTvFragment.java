@@ -109,30 +109,34 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
             }
         });
 */
+        registerCroProgramsObserver();
 
-        epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
-            @Override
-            public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
-                if (listResource.data.size() > 0) {
-
-                    EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
-                    epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
-                    //this significantly improved scrolling speed
-                    epgTvCroChannelsAdapter.setHasStableIds(true);
-                    recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
-                    String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-                    tv_fragment_epg_tv.setText(currentTime);
-                    epgProgramList = listResource.data;
-                   // recycler_view_epg_tv_cro_channels.getLayoutManager().scrollToPosition(positionInTheAdapter);
-                }
-            }
-        });
 
         return view;
     }
 
+private void registerCroProgramsObserver()
+{
+    epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
+        @Override
+        public void onChanged(Resource<List<EpgProgram>> listResource) {
+            Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+            if (listResource.data.size() > 0) {
 
+                EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
+                epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
+                //this significantly improved scrolling speed
+                epgTvCroChannelsAdapter.setHasStableIds(true);
+                recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
+                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                tv_fragment_epg_tv.setText(currentTime);
+                epgProgramList = listResource.data;
+                // recycler_view_epg_tv_cro_channels.getLayoutManager().scrollToPosition(positionInTheAdapter);
+            }
+        }
+    });
+
+}
     @Override
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         sharedViewModel.ChangeEpgTvFragment(position,epgProgram);

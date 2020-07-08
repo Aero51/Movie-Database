@@ -7,7 +7,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
-import com.aero51.moviedatabase.test.MoviesPage;
+import com.aero51.moviedatabase.repository.networkonlynotused.test.MoviesPage;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
 import retrofit2.Call;

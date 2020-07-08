@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.test;
+package com.aero51.moviedatabase.repository.networkonlynotused.test;
 
 import android.app.Application;
 import android.util.Log;
@@ -61,11 +61,11 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = 0;
         if (movie_type_id == TOP_RATED_MOVIE_TYPE_ID) {
-            page_number = dao.getTopRatedPage();
+            page_number = dao.getTopRatedPage() + 1;
         } else {
-            page_number = dao.getPopularPage();
+            page_number = dao.getPopularPage() + 1;
         }
-        Log.d("moviedatabaselog", "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        Log.d("moviedatabaselog", "top Movies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchMovies(page_number);
     }
 
@@ -104,13 +104,20 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
     public void insertListToDb(MoviesPage page) {
         List<Movie> listOfResults = page.getResults();
         Integer pageId = page.getPage();
+
         Runnable runnable = () -> {
 
-          /*  for (Movie movie : listOfResults) {
+            Movie tempMovie = listOfResults.get(0);
+            Mov mov =tempMovie;
 
+
+
+            //Log.d("moviedatabaselog", "TopMovie topMovie: " + mov.getTitle());
+            for (Movie movie : listOfResults) {
                 movie.setMovieTypeId(movie_type_id);
-            }*/
+            }
             if (movie_type_id == TOP_RATED_MOVIE_TYPE_ID) {
+                Log.d("moviedatabaselog", "insertListToDb: TOP_RATED_MOVIE_TYPE_ID");
                 TopRatedPage topRatedPage = new TopRatedPage(pageId);
                 dao.deleteTopRatedMoviePage();
                 dao.insertTopRatedPage(topRatedPage);

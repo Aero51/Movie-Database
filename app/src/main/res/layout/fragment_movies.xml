@@ -12,6 +12,7 @@
         android:id="@+id/nestedScrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fillViewport="true"
         android:overScrollMode="never">
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +26,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Movie Category"
+                android:text="Top"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -58,7 +59,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Movie Category"
+                android:text="Popular"
                 android:textSize="14sp"
                 android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView

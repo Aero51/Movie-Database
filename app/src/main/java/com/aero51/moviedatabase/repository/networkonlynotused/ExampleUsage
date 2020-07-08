@@ -230,3 +230,17 @@ public void getNearestDate(List<Date> dates, Date targetDate) {
     System.out.println("Nearest Date: " + nearestDate);
     System.out.println("Index: " + index);
 }
+
+
+
+
+// MergeAdapter
+
+ implementation "androidx.recyclerview:recyclerview:1.2.0-alpha03"
+
+  MergeAdapter mainAdapter = new MergeAdapter();
+        childAdapter = new MSimpleAdapter();
+        mainAdapter.addAdapter(childAdapter);
+        secondChildAdapter = new MSimpleAdapter();
+        mainAdapter.addAdapter(secondChildAdapter);
+        recyclerView.setAdapter(mainAdapter);

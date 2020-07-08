@@ -1,8 +1,4 @@
-package com.aero51.moviedatabase.test;
-
-import androidx.room.Ignore;
-
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+package com.aero51.moviedatabase.repository.networkonlynotused.test;
 
 import java.util.List;
 

@@ -3,7 +3,6 @@ package com.aero51.moviedatabase.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -57,6 +56,21 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
             }
         };
+        /*
+        moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("NewMoviesFragment", null) {
+            @Override
+            protected Fragment createFragment() {
+                NewMoviesFragment moviesFragment = NewMoviesFragment.newInstance("","");
+                return moviesFragment;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
+        */
+
 
         moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("MoviesFragment", null) {
             @Override

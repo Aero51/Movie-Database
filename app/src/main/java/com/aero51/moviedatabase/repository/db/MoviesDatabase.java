@@ -21,10 +21,10 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
-import com.aero51.moviedatabase.test.Movie;
-import com.aero51.moviedatabase.test.MoviesDao;
-import com.aero51.moviedatabase.test.PopularPage;
-import com.aero51.moviedatabase.test.TopRatedPage;
+import com.aero51.moviedatabase.repository.networkonlynotused.test.Movie;
+import com.aero51.moviedatabase.repository.networkonlynotused.test.MoviesDao;
+import com.aero51.moviedatabase.repository.networkonlynotused.test.PopularPage;
+import com.aero51.moviedatabase.repository.networkonlynotused.test.TopRatedPage;
 import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
