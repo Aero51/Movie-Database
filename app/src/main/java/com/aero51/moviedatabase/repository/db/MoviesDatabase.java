@@ -21,17 +21,13 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
-import com.aero51.moviedatabase.repository.networkonlynotused.test.Movie;
-import com.aero51.moviedatabase.repository.networkonlynotused.test.MoviesDao;
-import com.aero51.moviedatabase.repository.networkonlynotused.test.PopularPage;
-import com.aero51.moviedatabase.repository.networkonlynotused.test.TopRatedPage;
 import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
 @Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class,
                       PopularMoviesPage.class, MovieCredits.class, Cast.class, Crew.class,
-                      Actor.class, ActorImage.class, EpgChannel.class, EpgProgram.class, Movie.class, TopRatedPage.class, PopularPage.class}, version = 1)
+                      Actor.class, ActorImage.class, EpgChannel.class, EpgProgram.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class MoviesDatabase extends RoomDatabase {
 
@@ -42,7 +38,7 @@ public abstract class MoviesDatabase extends RoomDatabase {
     public abstract PopularMoviesDao get_popular_movies_dao();
     public abstract CreditsDao get_credits_dao();
     public abstract EpgTvDao get_epg_tv_dao();
-    public abstract MoviesDao get_movies_dao();
+
 
 
     public static synchronized MoviesDatabase getInstance(Context context) {
