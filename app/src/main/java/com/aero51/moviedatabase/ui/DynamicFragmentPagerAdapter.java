@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 
 import java.util.ArrayList;
@@ -63,6 +64,11 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         fragmentIdentifiers.set(index,fragmentIdentifier);
         notifyDataSetChanged();
 
+    }
+
+    public String getFragmentTagForPosition( int position) {
+
+        return  fragmentIdentifiers.get(position).fragmentTag;
     }
 
 

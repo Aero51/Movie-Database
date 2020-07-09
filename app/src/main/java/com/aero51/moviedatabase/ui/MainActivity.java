@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity {
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
-        // EpgTvFragment epgTvFragment= EpgTvFragment.newInstance("","");
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
         epgtvFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvFragment", null) {
@@ -56,20 +55,6 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
             }
         };
-        /*
-        moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("NewMoviesFragment", null) {
-            @Override
-            protected Fragment createFragment() {
-                NewMoviesFragment moviesFragment = NewMoviesFragment.newInstance("","");
-                return moviesFragment;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-        };
-        */
 
 
         moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("MoviesFragment", null) {
@@ -117,7 +102,7 @@ public class MainActivity extends AppCompatActivity {
         sharedViewModel.getSingleLiveShouldSwitchTopRatedMovieFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                topRatedMovieFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier("TopRatedMovieDetailsFragment",null) {
+                topRatedMovieFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("TopRatedMovieDetailsFragment", null) {
                     @Override
                     protected Fragment createFragment() {
                         return new TopRatedMovieDetailsFragment();
@@ -139,17 +124,17 @@ public class MainActivity extends AppCompatActivity {
         sharedViewModel.getSingleLiveShouldSwitchPopularMovieFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-              popularMovieFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier("PopularMovieDetailsFragment",null) {
-                  @Override
-                  protected Fragment createFragment() {
-                      return new PopularMovieDetailsFragment();
-                  }
+                popularMovieFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("PopularMovieDetailsFragment", null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new PopularMovieDetailsFragment();
+                    }
 
-                  @Override
-                  public int describeContents() {
-                      return 0;
-                  }
-              };
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
                 dynamicFragmentPagerAdapter.replaceFragment(1, popularMovieFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
@@ -173,17 +158,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //implement for each tab
-        if (viewPager.getCurrentItem() == 0) {
-            EpgTvDetailsFragment fragment2 = (EpgTvDetailsFragment) getSupportFragmentManager().findFragmentByTag("EpgTvDetailsFragment");
-            if (fragment2 != null) {
-                Log.d("moviedatabaselog", " EpgTvDetailsFragment getBackStackEntryCount():  " + fragment2.getFragmentManager().getBackStackEntryCount());
+        int currentViewPagerItem = viewPager.getCurrentItem();
+        String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
+
+        if (currentViewPagerItem == 0) {
+            if (currentFragmentTag.equals("EpgTvFragment")) {
+                super.onBackPressed();
+            }
+            if (currentFragmentTag.equals("EpgTvDetailsFragment")) {
                 dynamicFragmentPagerAdapter.replaceFragment(0, epgtvFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
-            } else {
-
             }
-
+        }
+        if (currentViewPagerItem == 1) {
+            if (currentFragmentTag.equals("MoviesFragment")) {
+                super.onBackPressed();
+            }
+            if (currentFragmentTag.equals("TopRatedMovieDetailsFragment")||currentFragmentTag.equals("PopularMovieDetailsFragment")) {
+                dynamicFragmentPagerAdapter.replaceFragment(1, moviesFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                viewPager.setCurrentItem(1);
+            }
         }
         // super.onBackPressed();
 
