@@ -7,6 +7,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -29,11 +31,17 @@ public class MainActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
 
     private SharedViewModel sharedViewModel;
+    private Integer actorFragmentBackPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        actorFragmentBackPosition = sharedPref.getInt("Saved ActorFragment back navigation", -1);
+
+
         viewPager = findViewById(R.id.view_pager);
 
         dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager());
@@ -63,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 
     private void initFirstFragmentIdentifiers() {
         epgtvFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvFragment", null) {
@@ -141,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
                 viewPager.setCurrentItem(1);
 
+                actorFragmentBackPosition = 0;
+
             }
         });
 
@@ -162,13 +173,15 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
                 viewPager.setCurrentItem(1);
+
+                actorFragmentBackPosition = 1;
             }
         });
 
         sharedViewModel.getSingleLiveShouldSwitchActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                actorFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier("ActorFragment",null) {
+                actorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("ActorFragment", null) {
                     @Override
                     protected Fragment createFragment() {
                         return ActorFragment.newInstance("");
@@ -217,12 +230,35 @@ public class MainActivity extends AppCompatActivity {
             }
 
             if (currentFragmentTag.equals("ActorFragment")) {
+                if (actorFragmentBackPosition == 0) {
+                    dynamicFragmentPagerAdapter.replaceFragment(1, topRatedMovieFragmentIdentifier);
+                    viewPager.setAdapter(null);
+                    viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                    viewPager.setCurrentItem(1);
+
+                }
+                if (actorFragmentBackPosition == 1) {
+                    dynamicFragmentPagerAdapter.replaceFragment(1, popularMovieFragmentIdentifier);
+                    viewPager.setAdapter(null);
+                    viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                    viewPager.setCurrentItem(1);
+                }
 
             }
 
         }
 
 
+    }
+
+    @Override
+    protected void onStop() {
+        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putInt("Saved ActorFragment back navigation", actorFragmentBackPosition);
+        editor.commit();
+
+        super.onStop();
     }
 
 
