@@ -67,11 +67,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     }
 
     public String getFragmentTagForPosition( int position) {
-
         return  fragmentIdentifiers.get(position).fragmentTag;
     }
-
-
 
     private ArrayList<FragmentIdentifier> fragmentIdentifiers = new ArrayList<>();
 

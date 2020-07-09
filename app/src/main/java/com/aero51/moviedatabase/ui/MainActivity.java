@@ -43,6 +43,25 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
+
+        initFirstFragmentIdentifiers();
+        registerShouldSwitchEpgFragmentsObserver();
+        registerShouldSwitchMovieFragmentsObservers();
+
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+    }
+
+    private void initFirstFragmentIdentifiers() {
         epgtvFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvFragment", null) {
             @Override
             protected Fragment createFragment() {
@@ -55,7 +74,6 @@ public class MainActivity extends AppCompatActivity {
                 return 0;
             }
         };
-
 
         moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("MoviesFragment", null) {
             @Override
@@ -70,15 +88,17 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-
         dynamicFragmentPagerAdapter.addFragment(epgtvFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(moviesFragmentIdentifier);
 
-        sharedViewModel.getSingleLiveShouldSwitchFragments().observe(this, new Observer<Boolean>() {
+    }
+
+
+    private void registerShouldSwitchEpgFragmentsObserver() {
+        sharedViewModel.getSingleLiveShouldSwitchEpgFragments().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 Log.d("moviedatabaselog", " main activity on changed");
-
 
                 epgTvDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvDetailsFragment", null) {
                     @Override
@@ -91,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
                         return 0;
                     }
                 };
-
                 dynamicFragmentPagerAdapter.replaceFragment(0, epgTvDetailsFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
-
             }
         });
+    }
 
+    private void registerShouldSwitchMovieFragmentsObservers() {
         sharedViewModel.getSingleLiveShouldSwitchTopRatedMovieFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -142,18 +162,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -175,14 +184,14 @@ public class MainActivity extends AppCompatActivity {
             if (currentFragmentTag.equals("MoviesFragment")) {
                 super.onBackPressed();
             }
-            if (currentFragmentTag.equals("TopRatedMovieDetailsFragment")||currentFragmentTag.equals("PopularMovieDetailsFragment")) {
+            if (currentFragmentTag.equals("TopRatedMovieDetailsFragment") || currentFragmentTag.equals("PopularMovieDetailsFragment")) {
                 dynamicFragmentPagerAdapter.replaceFragment(1, moviesFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
                 viewPager.setCurrentItem(1);
             }
         }
-        // super.onBackPressed();
+      
 
     }
 

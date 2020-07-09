@@ -34,7 +34,7 @@ public void ChangeEpgTvFragment(Integer index,EpgProgram epgProgram){
 public LiveData<EpgProgram> getLiveDataProgram(){
     return liveEpgProgram;
 }
-public LiveData<Boolean> getSingleLiveShouldSwitchFragments(){
+public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
     return shouldSwitchEpgFragments;
 }
 
