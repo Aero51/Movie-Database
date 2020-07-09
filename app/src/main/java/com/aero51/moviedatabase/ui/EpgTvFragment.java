@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgTvCroChannelsAdapter;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
@@ -101,15 +102,12 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
 
 
-/*
-        epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
-            @Override
-            public void onChanged(Resource<List<EpgChannel>> listResource) {
-                Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+        long a = 5;
+        long b= -8;
+                Log.d("moviedatabaselog", "a-b= "+(a+b) );
 
-            }
-        });
-*/
+
+
         registerCroProgramsObserver();
 
 
@@ -136,6 +134,18 @@ private void registerCroProgramsObserver()
             }
         }
     });
+
+}
+
+private void registerAllChannelsObserver(){
+    epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
+        @Override
+        public void onChanged(Resource<List<EpgChannel>> listResource) {
+            Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+
+        }
+    });
+
 
 }
     @Override

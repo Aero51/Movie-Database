@@ -1,12 +1,13 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
@@ -17,15 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.GetCroChannelsLogoResource;
+import com.aero51.moviedatabase.utils.NearestTimeHelper;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+
 import java.util.List;
-import java.util.Locale;
 
 
 public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChannelsAdapter.ViewHolder> {
@@ -89,14 +88,11 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-
+        List<EpgProgram> listForCurrentChannel=sortedList.get(position);
+        holder.text_view_channel_name.setText(listForCurrentChannel.get(0).getChannel());
         holder.epgTvCroChannelsHeaderChildAdapter.setDrawableId(GetCroChannelsLogoResource.getResIdForChannelLogo(position));
-        holder.epgTvCroChannelsChildAdapter.setList(sortedList.get(position));
-        Log.d("moviedatabaselog", "mainAdapter.getItemCount(): " + holder.mainAdapter.getItemCount() + " ,epg program list item count:" + sortedList.get(position).size());
-        Integer currentProgramIndex = getNearestTime(sortedList.get(position));
-        Log.d("moviedatabaselog", "position: " + position + " ,currentProgramIndex: " + currentProgramIndex);
-
+        holder.epgTvCroChannelsChildAdapter.setList(listForCurrentChannel);
+        Integer currentProgramIndex = NearestTimeHelper.getNearestTime(listForCurrentChannel);
         setAnimation(holder.itemView, position);
         holder.child_recycler.scrollToPosition(currentProgramIndex);
     }
@@ -128,8 +124,8 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        // private ImageView imageViewTvChannelLogo;
-        // private TextView tv_epg_tv_parent_item;
+
+        private TextView text_view_channel_name;
         private ConcatAdapter mainAdapter;
         private RecyclerView child_recycler;
         private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
@@ -139,8 +135,8 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
         ViewHolder(View itemView) {
             super(itemView);
 
-            // imageViewTvChannelLogo = itemView.findViewById(R.id.image_view_tv_channel_logo);
-            // tv_epg_tv_parent_item = itemView.findViewById(R.id.tv_epg_tv_parent_item);
+
+            text_view_channel_name = itemView.findViewById(R.id.text_view_channel_name);
             child_recycler = itemView.findViewById(R.id.rv_child);
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -155,50 +151,8 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
             mainAdapter.addAdapter(epgTvCroChannelsHeaderChildAdapter);
             mainAdapter.addAdapter(epgTvCroChannelsChildAdapter);
             child_recycler.setAdapter(mainAdapter);
-
-
         }
-
-
     }
-
-    //used to calculate position of program which start time is closest to now
-    public Integer getNearestTime(List<EpgProgram> list) {
-        List<Date> dates = new ArrayList<>();
-        for (EpgProgram program : list) {
-            try {
-                Date programStartTime = new SimpleDateFormat("yyyyMMddHHmmSS").parse(program.getStart());
-                dates.add(programStartTime);
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
-        }
-        String currentTime = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
-        Date currentDate = null;
-        try {
-            currentDate = new SimpleDateFormat("yyyyMMddHHmmSS").parse(currentTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        Date nearestDate = null;
-        int index = 0;
-        long prevDiff = -1;
-        long targetTS = currentDate.getTime();
-        for (int i = 0; i < dates.size(); i++) {
-            Date date = dates.get(i);
-            long currDiff = Math.abs(date.getTime() - targetTS);
-            if (prevDiff == -1 || currDiff < prevDiff) {
-                prevDiff = currDiff;
-                nearestDate = date;
-                index = i;
-            }
-        }
-
-        return index;
-    }
-
     // allows clicks events to be caught
     public void setClickListener(ProgramItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;

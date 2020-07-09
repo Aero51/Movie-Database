@@ -5,10 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_margin="2dp"
-    card_view:cardBackgroundColor="#fff"
-    card_view:cardCornerRadius="5dp"
-    card_view:cardElevation="4dp"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -16,7 +12,12 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-
+        <TextView
+            android:id="@+id/text_view_channel_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Channel" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_child"
