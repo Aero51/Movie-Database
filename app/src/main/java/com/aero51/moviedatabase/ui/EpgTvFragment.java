@@ -101,13 +101,6 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         recycler_view_epg_tv_cro_channels.setNestedScrollingEnabled(true);
         tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
 
-
-        long a = 5;
-        long b= -8;
-                Log.d("moviedatabaselog", "a-b= "+(a+b) );
-
-
-
         registerCroProgramsObserver();
 
 
@@ -124,13 +117,12 @@ private void registerCroProgramsObserver()
 
                 EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
                 epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
-                //this significantly improved scrolling speed
+                //this improved scrolling speed
                 epgTvCroChannelsAdapter.setHasStableIds(true);
                 recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
                 String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                 tv_fragment_epg_tv.setText(currentTime);
                 epgProgramList = listResource.data;
-                // recycler_view_epg_tv_cro_channels.getLayoutManager().scrollToPosition(positionInTheAdapter);
             }
         }
     });

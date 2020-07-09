@@ -64,7 +64,6 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
             if (program.getChannel().equals("RTLKOCKICA")) rtlKockicaList.add(program);
             if (program.getChannel().equals("HRT4")) hrt4List.add(program);
         }
-
         sortedList.add(hrt1List);
         sortedList.add(hrt2List);
         sortedList.add(hrt3List);

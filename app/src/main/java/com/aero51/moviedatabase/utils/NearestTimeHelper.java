@@ -11,6 +11,7 @@ import java.util.Locale;
 
 public class NearestTimeHelper {
 
+
     //used to calculate position of program which start time is closest to now
     public static Integer getNearestTime(List<EpgProgram> list) {
         List<Date> dates = new ArrayList<>();

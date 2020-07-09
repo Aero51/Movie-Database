@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -92,7 +93,21 @@ public class EpgTvDetailsFragment extends Fragment {
                 text_view_description.setText(epgProgram.getDesc());
                 // Picasso.get().load(epgProgram.getIcon()).into(image_view);
                 Log.d("moviedatabaselog", "icon: "+epgProgram.getIcon());
-                Picasso.get().load(epgProgram.getIcon()).into(image_view);
+              //  Picasso.get().load(epgProgram.getIcon()).into(image_view);
+                Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view, new Callback() {
+                    @Override
+                    public void onSuccess() {
+
+                    }
+
+                    @Override
+                    public void onError(Exception e) {
+                        image_view.setBackgroundResource(R.drawable.picture_template);
+                    }
+                });
+
+
+
             }
         });
 
