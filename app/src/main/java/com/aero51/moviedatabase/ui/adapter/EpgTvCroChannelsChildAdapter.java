@@ -20,14 +20,16 @@ import java.util.List;
 public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroChannelsChildAdapter.ViewHolder> {
     private List<EpgProgram> epgPrograms;
     private ProgramItemClickListener mClickListener;
+
     public EpgTvCroChannelsChildAdapter() {
 
 
     }
-public void setList(List<EpgProgram> epgPrograms){
-        this.epgPrograms=epgPrograms;
+
+    public void setList(List<EpgProgram> epgPrograms) {
+        this.epgPrograms = epgPrograms;
         notifyDataSetChanged();
-}
+    }
 
 
     @NonNull
@@ -48,27 +50,32 @@ public void setList(List<EpgProgram> epgPrograms){
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        holder.tv_epg_tv_child_position.setText(position+"");
         holder.tv_epg_tv_child_item.setText(epgPrograms.get(position).getTitle());
 
     }
 
 
-
     @Override
     public int getItemCount() {
-        return epgPrograms.size();
+        if (epgPrograms == null) {
+            return 0;
+        } else {
+            return epgPrograms.size();
+        }
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+        private TextView tv_epg_tv_child_position;
         private TextView tv_epg_tv_child_start;
         private TextView tv_epg_tv_child_item;
 
 
         ViewHolder(View itemView) {
             super(itemView);
-            tv_epg_tv_child_start= itemView.findViewById(R.id.tv_epg_tv_child_start);
+            tv_epg_tv_child_position = itemView.findViewById(R.id.tv_epg_tv_child_position);
+            tv_epg_tv_child_start = itemView.findViewById(R.id.tv_epg_tv_child_start);
             tv_epg_tv_child_item = itemView.findViewById(R.id.tv_epg_tv_child_item);
             itemView.setOnClickListener(this);
         }
@@ -76,8 +83,8 @@ public void setList(List<EpgProgram> epgPrograms){
 
         @Override
         public void onClick(View v) {
-            Integer adapter_position=getAdapterPosition();
-            mClickListener.onItemClick(adapter_position,epgPrograms.get(adapter_position).getDb_id(),epgPrograms.get(adapter_position));
+            Integer adapter_position = getAdapterPosition();
+            mClickListener.onItemClick(adapter_position, epgPrograms.get(adapter_position).getDb_id(), epgPrograms.get(adapter_position));
         }
     }
 

@@ -97,6 +97,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recycler_view_epg_tv_cro_channels.setLayoutManager(linearLayoutManager);
+        recycler_view_epg_tv_cro_channels.setNestedScrollingEnabled(true);
         tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
 
 

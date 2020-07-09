@@ -1,16 +1,16 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,20 +89,18 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        setAnimation(holder.itemView, position);
-        //  Picasso.get().load(GetCroChannelsLogoResource.getResIdForChannelLogo(position)).resize(60, 20)
-        //     .into(holder.imageViewTvChannelLogo);
 
 
-        holder.imageViewTvChannelLogo.setImageDrawable(GetCroChannelsLogoResource.getDrawableForChannel(context, position));
-        holder.tv_epg_tv_parent_item.setText(sortedList.get(position).get(0).getChannel());
-
-
+        holder.epgTvCroChannelsHeaderChildAdapter.setDrawableId(GetCroChannelsLogoResource.getResIdForChannelLogo(position));
         holder.epgTvCroChannelsChildAdapter.setList(sortedList.get(position));
+        Log.d("moviedatabaselog", "mainAdapter.getItemCount(): " + holder.mainAdapter.getItemCount() + " ,epg program list item count:" + sortedList.get(position).size());
         Integer currentProgramIndex = getNearestTime(sortedList.get(position));
-        holder.child_recycler.scrollToPosition(currentProgramIndex);
+        Log.d("moviedatabaselog", "position: " + position + " ,currentProgramIndex: " + currentProgramIndex);
 
+        setAnimation(holder.itemView, position);
+        holder.child_recycler.scrollToPosition(currentProgramIndex);
     }
+
 
     //needed to override this method in order to make setHasStableIds(true);  work properly
     @Override
@@ -119,7 +117,10 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     private void setAnimation(View viewToAnimate, int position) {
         // If the bound view wasn't previously displayed on screen, it's animated
         if (position > lastPosition) {
-            Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.slide_in_left);
+
+            //  Animation animation = AnimationUtils.loadAnimation(context,android.R.anim.slide_in_left );
+            Animation animation = AnimationUtils.loadAnimation(context, R.anim.slide_in_right);
+            // animation.setDuration(2000);
             viewToAnimate.startAnimation(animation);
             lastPosition = position;
         }
@@ -127,26 +128,33 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageViewTvChannelLogo;
-        private TextView tv_epg_tv_parent_item;
+        // private ImageView imageViewTvChannelLogo;
+        // private TextView tv_epg_tv_parent_item;
+        private ConcatAdapter mainAdapter;
         private RecyclerView child_recycler;
         private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
+        private EpgTvCroChannelsHeaderChildAdapter epgTvCroChannelsHeaderChildAdapter;
         private EpgTvCroChannelsChildAdapter epgTvCroChannelsChildAdapter;
 
         ViewHolder(View itemView) {
             super(itemView);
 
-            imageViewTvChannelLogo = itemView.findViewById(R.id.image_view_tv_channel_logo);
-            tv_epg_tv_parent_item = itemView.findViewById(R.id.tv_epg_tv_parent_item);
+            // imageViewTvChannelLogo = itemView.findViewById(R.id.image_view_tv_channel_logo);
+            // tv_epg_tv_parent_item = itemView.findViewById(R.id.tv_epg_tv_parent_item);
             child_recycler = itemView.findViewById(R.id.rv_child);
 
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
             child_recycler.setHasFixedSize(true);
             child_recycler.setLayoutManager(linearLayoutManager);
             child_recycler.setRecycledViewPool(viewPool);
+            epgTvCroChannelsHeaderChildAdapter = new EpgTvCroChannelsHeaderChildAdapter();
             epgTvCroChannelsChildAdapter = new EpgTvCroChannelsChildAdapter();
             epgTvCroChannelsChildAdapter.setClickListener(mClickListener);
-            child_recycler.setAdapter(epgTvCroChannelsChildAdapter);
+            mainAdapter = new ConcatAdapter();
+
+            mainAdapter.addAdapter(epgTvCroChannelsHeaderChildAdapter);
+            mainAdapter.addAdapter(epgTvCroChannelsChildAdapter);
+            child_recycler.setAdapter(mainAdapter);
 
 
         }

@@ -37,7 +37,7 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
         // super();
         this.executors = executors;
         database = MoviesDatabase.getInstanceAllowOnMainThread(application);
-        dao = database.get_movies_dao();
+      //  dao = database.get_movies_dao();
         networkState = new MutableLiveData<>();
         this.movie_type_id = movie_type_id;
 
@@ -74,12 +74,12 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
         Call<MoviesPage> call = null;
         if (movie_type_id == TOP_RATED_MOVIE_TYPE_ID) {
-            call = theMovieDbApi.getNewTopRatedMovies(API_KEY, pageNumber, REGION);
+          //  call = theMovieDbApi.getNewTopRatedMovies(API_KEY, pageNumber, REGION);
         } else {
-            call = theMovieDbApi.getNewPopularMovies(API_KEY, pageNumber, REGION);
+          //  call = theMovieDbApi.getNewPopularMovies(API_KEY, pageNumber, REGION);
         }
 
-        call.enqueue(new Callback<MoviesPage>() {
+   /*     call.enqueue(new Callback<MoviesPage>() {
             @Override
             public void onResponse(Call<MoviesPage> call, Response<MoviesPage> response) {
                 if (!response.isSuccessful()) {
@@ -88,8 +88,8 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
                     return;
                 }
                 Log.d("moviedatabaselog", "popularMovies Response ok: " + response.code());
-                MoviesPage mPopularMovies = response.body();
-                insertListToDb(mPopularMovies);
+               // MoviesPage mPopularMovies = response.body();
+               // insertListToDb(mPopularMovies);
                 networkState.postValue(NetworkState.LOADED);
             }
 
@@ -99,6 +99,8 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });
+        */
+
     }
 
     public void insertListToDb(MoviesPage page) {
@@ -108,7 +110,7 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
         Runnable runnable = () -> {
 
             Movie tempMovie = listOfResults.get(0);
-            Mov mov =tempMovie;
+           // Mov mov =tempMovie;
 
 
 
@@ -120,11 +122,11 @@ public class MoviesBoundaryCallback extends PagedList.BoundaryCallback<Movie> {
                 Log.d("moviedatabaselog", "insertListToDb: TOP_RATED_MOVIE_TYPE_ID");
                 TopRatedPage topRatedPage = new TopRatedPage(pageId);
                 dao.deleteTopRatedMoviePage();
-                dao.insertTopRatedPage(topRatedPage);
+               // dao.insertTopRatedPage(topRatedPage);
             } else {
                 PopularPage popularPage = new PopularPage(pageId);
                 dao.deletePopularMoviePage();
-                dao.insertPopularPage(popularPage);
+              //  dao.insertPopularPage(popularPage);
             }
 
             dao.inserMoviesList(listOfResults);

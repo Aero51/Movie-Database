@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "movie")
-public class Movie extends Mov {
+public class Movie  {
 
 
     @PrimaryKey(autoGenerate = true)
