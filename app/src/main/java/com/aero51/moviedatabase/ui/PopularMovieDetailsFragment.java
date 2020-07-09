@@ -121,16 +121,6 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
 
     @Override
     public void onItemClick(View view,Cast cast, int position) {
-        Log.d("moviedatabaselog", "Cast item: " +position);
-        ActorFragment actorFragment=ActorFragment.newInstance("test");
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("Cast", cast);
-        actorFragment.setArguments(bundle);
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-      //  transaction.replace(R.id.root_movies_frame, actorFragment);
-        transaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-        transaction.addToBackStack(null);
-        // Commit the transaction
-        transaction.commit();
+       sharedViewModel.changeToActorFragment(position,cast);
     }
 }

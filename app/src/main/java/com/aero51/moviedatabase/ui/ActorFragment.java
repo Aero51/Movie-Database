@@ -22,6 +22,7 @@ import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 import java.util.List;
 
@@ -35,7 +36,6 @@ public class ActorFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
-    private Cast castItem;
     private String mParam1;
     private MovieDetailsViewModel viewModel;
 
@@ -46,7 +46,7 @@ public class ActorFragment extends Fragment {
     private TextView text_view_imdb;
     private TextView text_view_biography;
     private RecyclerView recycler_view_actor_images;
-
+    private SharedViewModel sharedViewModel;
     public ActorFragment() {
         // Required empty public constructor
     }
@@ -72,9 +72,10 @@ public class ActorFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
-            castItem = (Cast) getArguments().getSerializable("Cast");
+
         }
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
     }
 
     @Override
@@ -93,6 +94,19 @@ public class ActorFragment extends Fragment {
         recycler_view_actor_images.setHasFixedSize(true);
         recycler_view_actor_images.setLayoutManager(new GridLayoutManager(getContext(),2));
 
+        sharedViewModel.getLiveDataCast().observe(getViewLifecycleOwner(), new Observer<Cast>() {
+            @Override
+            public void onChanged(Cast cast) {
+                registerActorObservers(cast);
+            }
+        });
+
+        return view;
+    }
+
+
+
+    private void registerActorObservers(Cast castItem){
         viewModel.getActorDetails(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {
@@ -119,6 +133,6 @@ public class ActorFragment extends Fragment {
             }
         });
 
-        return view;
+
     }
 }

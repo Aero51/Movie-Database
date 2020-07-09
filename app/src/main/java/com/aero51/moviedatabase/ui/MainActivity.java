@@ -3,6 +3,7 @@ package com.aero51.moviedatabase.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier topRatedMovieFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier popularMovieFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
+
     private SharedViewModel sharedViewModel;
 
     @Override
@@ -162,6 +165,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        sharedViewModel.getSingleLiveShouldSwitchActorFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                actorFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier("ActorFragment",null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return ActorFragment.newInstance("");
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                dynamicFragmentPagerAdapter.replaceFragment(1, actorFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                viewPager.setCurrentItem(1);
+            }
+        });
+
+
     }
 
     @Override
@@ -190,8 +215,13 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
                 viewPager.setCurrentItem(1);
             }
+
+            if (currentFragmentTag.equals("ActorFragment")) {
+
+            }
+
         }
-      
+
 
     }
 

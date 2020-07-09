@@ -187,12 +187,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
         this.OnObjectItemClick(result,position);
-        sharedViewModel.changeTopRatedMovieFragment(position,result);
+        sharedViewModel.changeToTopRatedMovieFragment(position,result);
     }
 
     @Override
     public void OnItemClick(PopularMovie result, int position) {
-       sharedViewModel.changePopularMovieFragment(position,result);
+       sharedViewModel.changeToPopularMovieFragment(position,result);
 
     }
 

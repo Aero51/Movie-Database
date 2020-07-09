@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.utils.SingleLiveEvent;
@@ -23,6 +24,10 @@ private Integer epgIndex;
     private SingleLiveEvent<Boolean> shouldSwitchPopularMovieFragments = new SingleLiveEvent<>();
     private Integer popularMovieIndex;
 
+    private MutableLiveData<Cast> liveCast=new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> shouldSwitchActorFragment = new SingleLiveEvent<>();
+    private Integer castIndex;
+
 
 
 public void ChangeEpgTvFragment(Integer index,EpgProgram epgProgram){
@@ -39,7 +44,7 @@ public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
 }
 
 
-    public void changeTopRatedMovieFragment(Integer position, TopRatedMovie topRatedMovie){
+    public void changeToTopRatedMovieFragment(Integer position, TopRatedMovie topRatedMovie){
         this.topRatedMovieIndex= position;
         shouldSwitchTopMovieFragments.setValue(true);
         livetopRatedMovie.setValue(topRatedMovie);
@@ -52,7 +57,7 @@ public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
         return shouldSwitchTopMovieFragments;
     }
 
-    public void changePopularMovieFragment(Integer position, PopularMovie popularMovie){
+    public void changeToPopularMovieFragment(Integer position, PopularMovie popularMovie){
         this.popularMovieIndex= position;
         shouldSwitchPopularMovieFragments.setValue(true);
         livePopularMovie.setValue(popularMovie);
@@ -64,4 +69,18 @@ public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
     public LiveData<Boolean> getSingleLiveShouldSwitchPopularMovieFragment(){
         return shouldSwitchPopularMovieFragments;
     }
+
+    public void changeToActorFragment(Integer position, Cast cast){
+        this.castIndex= position;
+        shouldSwitchActorFragment.setValue(true);
+        liveCast.setValue(cast);
+    }
+
+    public LiveData<Cast> getLiveDataCast(){
+        return liveCast;
+    }
+    public LiveData<Boolean> getSingleLiveShouldSwitchActorFragment(){
+        return shouldSwitchActorFragment;
+    }
+
 }
