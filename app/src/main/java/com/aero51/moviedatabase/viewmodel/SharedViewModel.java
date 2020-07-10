@@ -1,5 +1,7 @@
 package com.aero51.moviedatabase.viewmodel;
 
+import android.util.Log;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -16,7 +18,7 @@ private MutableLiveData<EpgProgram> liveEpgProgram=new MutableLiveData<>();
 private SingleLiveEvent<Boolean> shouldSwitchEpgFragments = new SingleLiveEvent<>();
 private Integer epgIndex;
 
-    private MutableLiveData<TopRatedMovie> livetopRatedMovie=new MutableLiveData<>();
+    private MutableLiveData<TopRatedMovie> livetopRatedMovie=new  MutableLiveData<>();
     private SingleLiveEvent<Boolean> shouldSwitchTopMovieFragments = new SingleLiveEvent<>();
     private Integer topRatedMovieIndex;
 
@@ -32,8 +34,9 @@ private Integer epgIndex;
 
 public void ChangeEpgTvFragment(Integer index,EpgProgram epgProgram){
     this.epgIndex =index;
-    shouldSwitchEpgFragments.setValue(true);
     liveEpgProgram.setValue(epgProgram);
+    shouldSwitchEpgFragments.setValue(true);
+
 }
 
 public LiveData<EpgProgram> getLiveDataProgram(){
@@ -45,9 +48,11 @@ public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
 
 
     public void changeToTopRatedMovieFragment(Integer position, TopRatedMovie topRatedMovie){
+        Log.d("moviedatabaselog", "changeToTopRatedMovieFragment topRatedMovieId: " +topRatedMovie.getId());
         this.topRatedMovieIndex= position;
-        shouldSwitchTopMovieFragments.setValue(true);
         livetopRatedMovie.setValue(topRatedMovie);
+        shouldSwitchTopMovieFragments.setValue(true);
+
     }
 
     public LiveData<TopRatedMovie> getLiveDataTopRatedMovie(){
@@ -59,8 +64,9 @@ public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
 
     public void changeToPopularMovieFragment(Integer position, PopularMovie popularMovie){
         this.popularMovieIndex= position;
-        shouldSwitchPopularMovieFragments.setValue(true);
         livePopularMovie.setValue(popularMovie);
+        shouldSwitchPopularMovieFragments.setValue(true);
+
     }
 
     public LiveData<PopularMovie> getLiveDataPopularMovie(){
@@ -72,8 +78,9 @@ public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments(){
 
     public void changeToActorFragment(Integer position, Cast cast){
         this.castIndex= position;
-        shouldSwitchActorFragment.setValue(true);
         liveCast.setValue(cast);
+        shouldSwitchActorFragment.setValue(true);
+
     }
 
     public LiveData<Cast> getLiveDataCast(){

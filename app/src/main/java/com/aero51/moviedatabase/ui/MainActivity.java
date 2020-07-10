@@ -131,13 +131,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerShouldSwitchMovieFragmentsObservers() {
+
         sharedViewModel.getSingleLiveShouldSwitchTopRatedMovieFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 topRatedMovieFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("TopRatedMovieDetailsFragment", null) {
                     @Override
                     protected Fragment createFragment() {
-                        return new TopRatedMovieDetailsFragment();
+                        return TopRatedMovieDetailsFragment.newInstance("","");
                     }
 
                     @Override
@@ -206,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         //implement for each tab
         int currentViewPagerItem = viewPager.getCurrentItem();
+        Log.d("moviedatabaselog", " backstack count: "+getSupportFragmentManager().getBackStackEntryCount());
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
 
         if (currentViewPagerItem == 0) {
@@ -223,6 +225,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
             if (currentFragmentTag.equals("TopRatedMovieDetailsFragment") || currentFragmentTag.equals("PopularMovieDetailsFragment")) {
+                Log.d("moviedatabaselog", " currentFragmentTag.equals: " +currentFragmentTag);
                 dynamicFragmentPagerAdapter.replaceFragment(1, moviesFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);

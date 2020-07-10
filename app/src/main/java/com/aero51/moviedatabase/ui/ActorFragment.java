@@ -107,6 +107,7 @@ public class ActorFragment extends Fragment {
 
 
     private void registerActorObservers(Cast castItem){
+        Log.d("moviedatabaselog", "registerActorObservers cast: " + castItem.getId());
         viewModel.getActorDetails(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {

@@ -143,7 +143,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         final String name = fragmentIdentifier.fragmentTag;
         Fragment fragment = fragmentManager.findFragmentByTag(name);
         if (fragment != null) {
-            Log.d("moviedatabaselog", " instantiateItem fragment != null position:" +position);
+          //  Log.d("moviedatabaselog", " instantiateItem fragment != null position:" +position);
             currentTransaction.attach(fragment);
         } else {
             fragment = fragmentIdentifier.newFragment();

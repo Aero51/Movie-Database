@@ -32,6 +32,9 @@ import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 
 public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapter.ItemClickListener {
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
     private MovieDetailsViewModel movieDetailsViewModel;
     private ImageView cover_image_view;
     private TextView title_text_view;
@@ -42,6 +45,18 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     private CastAdapter castAdapter;
 
     private SharedViewModel sharedViewModel;
+
+
+
+    public static TopRatedMovieDetailsFragment newInstance(String param1, String param2) {
+        TopRatedMovieDetailsFragment fragment = new TopRatedMovieDetailsFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +74,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
-
+       // Log.d("moviedatabaselog", "TopRatedMovieDetailsFragment onCreateView " );
         cover_image_view = view.findViewById(R.id.cover);
         title_text_view = view.findViewById(R.id.title);
         release_date_text_view = view.findViewById(R.id.releaseDate);
@@ -74,10 +89,25 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         return view;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+      //  Log.d("moviedatabaselog", "TopRatedMovieDetailsFragment onStop " );
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+       // Log.d("moviedatabaselog", "TopRatedMovieDetailsFragment onDestroyView " );
+        //sharedViewModel.getLiveDataTopRatedMovie().removeObservers(getViewLifecycleOwner());
+       // movieDetailsViewModel.getMovieCast(topRatedMovieIds).removeObservers(getViewLifecycleOwner());
+    }
+
     private void registerSharedViewModelObserver() {
         sharedViewModel.getLiveDataTopRatedMovie().observe(getViewLifecycleOwner(), new Observer<TopRatedMovie>() {
             @Override
             public void onChanged(TopRatedMovie topRatedMovie) {
+               // sharedViewModel.getLiveDataTopRatedMovie().removeObserver(this);
                 title_text_view.setText(topRatedMovie.getTitle());
                 release_date_text_view.setText(String.valueOf(topRatedMovie.getId()));
                 overview_text_view.setText(topRatedMovie.getOverview());
@@ -85,6 +115,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + topRatedMovie.getBackdrop_path();
                 Picasso.get().load(imageUrl).into(cover_image_view);
                 registerMovieDetailsObserver(topRatedMovie.getId());
+
             }
         });
     }
@@ -94,10 +125,14 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         movieDetailsViewModel.getMovieCast(topRatedMovieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
+               // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
                 Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
                 castAdapter = new CastAdapter(getContext(), listResource.data);
                 castAdapter.setClickListener(TopRatedMovieDetailsFragment.this::onItemClick);
                 castRecyclerView.setAdapter(castAdapter);
+
+
+
             }
         });
     }

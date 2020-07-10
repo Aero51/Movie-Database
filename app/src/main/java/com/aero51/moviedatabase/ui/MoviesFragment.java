@@ -116,7 +116,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
             }
         }, 3000);
-        registerPopularMoviesObservers();
+       // registerPopularMoviesObservers();
         registerTopRatedMoviesObservers();
         return view;
     }
@@ -186,8 +186,9 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
-        this.OnObjectItemClick(result,position);
+      //  this.OnObjectItemClick(result,position);
         sharedViewModel.changeToTopRatedMovieFragment(position,result);
+        Log.d("moviedatabaselog", "TopRatedMovie OnItemClick " );
     }
 
     @Override

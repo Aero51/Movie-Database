@@ -114,7 +114,6 @@ private void registerCroProgramsObserver()
         public void onChanged(Resource<List<EpgProgram>> listResource) {
             Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
             if (listResource.data.size() > 0) {
-
                 EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
                 epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
                 //this improved scrolling speed
