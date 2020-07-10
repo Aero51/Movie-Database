@@ -88,7 +88,7 @@ public class EpgTvDetailsFragment extends Fragment {
         sharedViewModel.getLiveDataProgram().observe(getViewLifecycleOwner(), new Observer<EpgProgram>() {
             @Override
             public void onChanged(EpgProgram epgProgram) {
-                sharedViewModel.getLiveDataProgram().removeObserver(this);
+               // sharedViewModel.getLiveDataProgram().removeObserver(this);
                 text_view_title.setText(epgProgram.getTitle());
                 text_view_date.setText(epgProgram.getDate()+"");
                 text_view_description.setText(epgProgram.getDesc());

@@ -103,7 +103,6 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
         registerCroProgramsObserver();
 
-
         return view;
     }
 
@@ -133,7 +132,6 @@ private void registerAllChannelsObserver(){
         @Override
         public void onChanged(Resource<List<EpgChannel>> listResource) {
             Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
-
         }
     });
 

@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void registerShouldSwitchMovieFragmentsObservers() {
-
         sharedViewModel.getSingleLiveShouldSwitchTopRatedMovieFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
