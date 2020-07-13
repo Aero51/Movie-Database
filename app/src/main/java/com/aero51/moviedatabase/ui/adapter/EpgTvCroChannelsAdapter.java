@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.utils.GetCroChannelsLogoResource;
+import com.aero51.moviedatabase.utils.GetChannelsLogoResource;
 import com.aero51.moviedatabase.utils.NearestTimeHelper;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
@@ -89,7 +89,7 @@ public class EpgTvCroChannelsAdapter extends RecyclerView.Adapter<EpgTvCroChanne
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         List<EpgProgram> listForCurrentChannel=sortedList.get(position);
         holder.text_view_channel_name.setText(listForCurrentChannel.get(0).getChannel());
-        holder.epgTvCroChannelsHeaderChildAdapter.setDrawableId(GetCroChannelsLogoResource.getResIdForChannelLogo(position));
+        holder.epgTvCroChannelsHeaderChildAdapter.setDrawableId(GetChannelsLogoResource.getResIdForChannelLogo(position));
         holder.epgTvCroChannelsChildAdapter.setList(listForCurrentChannel);
         Integer currentProgramIndex = NearestTimeHelper.getNearestTime(listForCurrentChannel);
         setAnimation(holder.itemView, position);

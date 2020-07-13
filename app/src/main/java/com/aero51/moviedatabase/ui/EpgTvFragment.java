@@ -108,7 +108,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         recycler_view_other_channels=view.findViewById(R.id.recycler_view_other_channels);
         recycler_view_other_channels.setHasFixedSize(true);
         recycler_view_other_channels.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        
+
         registerCroProgramsObserver();
 
         return view;
