@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
@@ -17,6 +18,10 @@ public class SharedViewModel extends ViewModel {
     private MutableLiveData<EpgProgram> liveEpgProgram = new MutableLiveData<>();
     private SingleLiveEvent<Boolean> shouldSwitchEpgFragments = new SingleLiveEvent<>();
     private Integer epgIndex;
+
+    private MutableLiveData<EpgOtherChannel> liveEpgEpgOtherChannel = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> shouldSwitchOtherChannelDetailFragment = new SingleLiveEvent<>();
+    private Integer otherChannelIndex;
 
     private MutableLiveData<TopRatedMovie> livetopRatedMovie = new MutableLiveData<>();
     private SingleLiveEvent<Boolean> shouldSwitchTopMovieFragments = new SingleLiveEvent<>();
@@ -31,7 +36,7 @@ public class SharedViewModel extends ViewModel {
     private Integer castIndex;
 
 
-    public void ChangeEpgTvFragment(Integer index, EpgProgram epgProgram) {
+    public void changeEpgTvFragment(Integer index, EpgProgram epgProgram) {
         this.epgIndex = index;
         liveEpgProgram.setValue(epgProgram);
         shouldSwitchEpgFragments.setValue(true);
@@ -44,6 +49,20 @@ public class SharedViewModel extends ViewModel {
     public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments() {
         return shouldSwitchEpgFragments;
     }
+
+    public void changeEpgTvOtherChannelDetailFragment(Integer index, EpgOtherChannel otherChannel) {
+        this.epgIndex = index;
+        liveEpgEpgOtherChannel.setValue(otherChannel);
+        shouldSwitchOtherChannelDetailFragment.setValue(true);
+
+    }
+    public LiveData<EpgOtherChannel> getLiveDataOtherChannel() {
+        return liveEpgEpgOtherChannel;
+    }
+    public LiveData<Boolean> getSingleLiveShouldSwitchOtherChannelDetailFragment() {
+        return shouldSwitchOtherChannelDetailFragment;
+    }
+
 
     public void changeToTopRatedMovieFragment(Integer position, TopRatedMovie topRatedMovie) {
         Log.d("moviedatabaselog", "changeToTopRatedMovieFragment topRatedMovieId: " + topRatedMovie.getId());

@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
@@ -82,7 +81,6 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
     }
 
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,60 +107,64 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
         recycler_view_epg_tv_cro_channels.setNestedScrollingEnabled(true);
         tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
 
-        recycler_view_other_channels=view.findViewById(R.id.recycler_view_other_channels);
+        recycler_view_other_channels = view.findViewById(R.id.recycler_view_other_channels);
         recycler_view_other_channels.setHasFixedSize(true);
         recycler_view_other_channels.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         registerCroProgramsObserver();
-        setupOtherChannelsAdapter();
+
 
         return view;
     }
 
- private void setupOtherChannelsAdapter(){
-     EpgTvOtherChannelsAdapter otherChannelsAdapter= new EpgTvOtherChannelsAdapter(this, GetChannelsLogoResource.getOtherChannelsList());
-        recycler_view_other_channels.setAdapter(otherChannelsAdapter);
- }
 
-private void registerCroProgramsObserver()
-{
-    epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
-        @Override
-        public void onChanged(Resource<List<EpgProgram>> listResource) {
-            Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
-            if (listResource.data.size() > 0) {
-                EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
-                epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
-                //this improved scrolling speed
-                epgTvCroChannelsAdapter.setHasStableIds(true);
-                recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
-                String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
-                tv_fragment_epg_tv.setText(currentTime);
-                epgProgramList = listResource.data;
+    private void registerCroProgramsObserver() {
+        epgTvViewModel.getCroPrograms().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
+            @Override
+            public void onChanged(Resource<List<EpgProgram>> listResource) {
+                Log.d("moviedatabaselog", "EpgTvFragment onChanged getCroPrograms code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+                if (listResource.data.size() > 0) {
+                    EpgTvCroChannelsAdapter epgTvCroChannelsAdapter = new EpgTvCroChannelsAdapter(getContext(), listResource);
+                    epgTvCroChannelsAdapter.setClickListener(EpgTvFragment.this::onItemClick);
+                    //this improved scrolling speed
+                    epgTvCroChannelsAdapter.setHasStableIds(true);
+                    recycler_view_epg_tv_cro_channels.setAdapter(epgTvCroChannelsAdapter);
+                    String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
+                    tv_fragment_epg_tv.setText(currentTime);
+                    epgProgramList = listResource.data;
+
+                    setupOtherChannelsAdapter();
+                }
             }
-        }
-    });
+        });
 
-}
+    }
 
-private void registerAllChannelsObserver(){
-    epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
-        @Override
-        public void onChanged(Resource<List<EpgChannel>> listResource) {
-            Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
-        }
-    });
+    private void setupOtherChannelsAdapter() {
+        EpgTvOtherChannelsAdapter otherChannelsAdapter = new EpgTvOtherChannelsAdapter(this, GetChannelsLogoResource.getOtherChannelsList());
+        recycler_view_other_channels.setAdapter(otherChannelsAdapter);
+    }
+
+    private void registerAllChannelsObserver() {
+        epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
+            @Override
+            public void onChanged(Resource<List<EpgChannel>> listResource) {
+                Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+            }
+        });
 
 
-}
+    }
+
     @Override
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
-        sharedViewModel.ChangeEpgTvFragment(position,epgProgram);
+        sharedViewModel.changeEpgTvFragment(position, epgProgram);
 
     }
 
     @Override
     public void onItemClick(int position, EpgOtherChannel otherChannel) {
-        Log.d("moviedatabaselog", "other channel clicked: "+position+" ,name:"+otherChannel.getChannelName());
+        sharedViewModel.changeEpgTvOtherChannelDetailFragment(position,otherChannel);
+        //Log.d("moviedatabaselog", "other channel clicked: " + position + " ,name:" + otherChannel.getChannelName());
     }
 }

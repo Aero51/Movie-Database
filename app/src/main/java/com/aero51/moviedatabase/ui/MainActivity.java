@@ -3,7 +3,6 @@ package com.aero51.moviedatabase.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -25,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgtvFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvDetailsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvOtherChannelDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier topRatedMovieFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier popularMovieFragmentIdentifier;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         initFirstFragmentIdentifiers();
-        registerShouldSwitchEpgFragmentsObserver();
+        registerShouldSwitchEpgFragmentsObservers();
         registerShouldSwitchMovieFragmentsObservers();
 
 
@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void registerShouldSwitchEpgFragmentsObserver() {
+    private void registerShouldSwitchEpgFragmentsObservers() {
         sharedViewModel.getSingleLiveShouldSwitchEpgFragments().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -126,6 +126,28 @@ public class MainActivity extends AppCompatActivity {
                 dynamicFragmentPagerAdapter.replaceFragment(0, epgTvDetailsFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
+            }
+        });
+
+        sharedViewModel.getSingleLiveShouldSwitchOtherChannelDetailFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                epgTvOtherChannelDetailsFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvOtherChannelDetailFragment",null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return EpgTvOtherChannelDetailFragment.newInstance("","");
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+
+                dynamicFragmentPagerAdapter.replaceFragment(0, epgTvOtherChannelDetailsFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+
             }
         });
     }
@@ -218,6 +240,13 @@ public class MainActivity extends AppCompatActivity {
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
             }
+            if (currentFragmentTag.equals("EpgTvOtherChannelDetailFragment")) {
+                dynamicFragmentPagerAdapter.replaceFragment(0, epgtvFragmentIdentifier);
+                viewPager.setAdapter(null);
+                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+            }
+
+
         }
         if (currentViewPagerItem == 1) {
             if (currentFragmentTag.equals("MoviesFragment")) {

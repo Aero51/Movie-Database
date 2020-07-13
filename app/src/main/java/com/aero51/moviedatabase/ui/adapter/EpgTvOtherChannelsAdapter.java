@@ -40,7 +40,7 @@ private List<EpgOtherChannel> otherChannelList;
     @Override
     public void onBindViewHolder(@NonNull EpgTvOtherChannelsAdapter.ViewHolder holder, int position) {
 
-       holder.text_view_channel_name.setText(otherChannelList.get(position).getChannelDisplayName());
+       holder.text_view_channel_name.setText(otherChannelList.get(position).getChannelName());
         setImage(holder.image_view_tv_channel_logo,otherChannelList.get(position));
 
     }
