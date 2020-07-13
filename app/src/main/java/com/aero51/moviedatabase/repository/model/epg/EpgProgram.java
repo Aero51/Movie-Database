@@ -20,6 +20,7 @@ public class EpgProgram implements Serializable {
     private String category;
     private String icon;
     private String channel;
+    private String channel_display_name;
     private String start;
     private String stop;
 
@@ -109,5 +110,13 @@ public class EpgProgram implements Serializable {
 
     public void setDb_id(Integer db_id) {
         this.db_id = db_id;
+    }
+
+    public String getChannel_display_name() {
+        return channel_display_name;
+    }
+
+    public void setChannel_display_name(String channel_display_name) {
+        this.channel_display_name = channel_display_name;
     }
 }

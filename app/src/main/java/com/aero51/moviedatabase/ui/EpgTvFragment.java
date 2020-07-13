@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.GridLayout;
 import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
@@ -47,6 +49,8 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
     private EpgTvViewModel epgTvViewModel;
     private RecyclerView recycler_view_epg_tv_cro_channels;
+    private RecyclerView recycler_view_other_channels;
+
     private TextView tv_fragment_epg_tv;
     private List<EpgProgram> epgProgramList;
     private SharedViewModel sharedViewModel;
@@ -93,14 +97,18 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_epg_tv, container, false);
 
-        recycler_view_epg_tv_cro_channels = view.findViewById(R.id.recycler_view_parent);
+        recycler_view_epg_tv_cro_channels = view.findViewById(R.id.recycler_view_cro_parent);
         recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
         //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recycler_view_epg_tv_cro_channels.setLayoutManager(linearLayoutManager);
         recycler_view_epg_tv_cro_channels.setNestedScrollingEnabled(true);
-        tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv);
+        tv_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
 
+        recycler_view_other_channels=view.findViewById(R.id.recycler_view_other_channels);
+        recycler_view_other_channels.setHasFixedSize(true);
+        recycler_view_other_channels.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        
         registerCroProgramsObserver();
 
         return view;
