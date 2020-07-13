@@ -18,23 +18,23 @@ import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import java.util.List;
 
-public class EpgProgramsForCroChannelsNetworkBoundResource extends NetworkBoundResource<List<EpgProgram>, List<EpgProgram>> {
+public class EpgProgramsForOtherChannelNetworkBoundResource extends NetworkBoundResource<List<EpgProgram>, List<EpgProgram>> {
     private MoviesDatabase database;
     private EpgTvDao epgTvDao;
+    private String channelName;
 
-
-    public EpgProgramsForCroChannelsNetworkBoundResource(AppExecutors appExecutors, Application application) {
+    public EpgProgramsForOtherChannelNetworkBoundResource(AppExecutors appExecutors, Application application, String channelName) {
         super(appExecutors);
         database = MoviesDatabase.getInstance(application);
         epgTvDao = database.get_epg_tv_dao();
-
+        this.channelName = channelName;
     }
 
+
     @Override
-    protected void saveCallResult(@NonNull List<EpgProgram> items) {
-        Log.d("moviedatabaselog", "EpgTv cro programs saveCallResult  list size: " + items.size());
-       epgTvDao.deleteAllPrograms();
-       epgTvDao.insertProgramsList(items);
+    protected void saveCallResult(@NonNull List<EpgProgram> item) {
+        epgTvDao.deleteProgramsForChannel(channelName);
+        epgTvDao.insertProgramsList(item);
     }
 
     @Override
@@ -45,14 +45,14 @@ public class EpgProgramsForCroChannelsNetworkBoundResource extends NetworkBoundR
     @NonNull
     @Override
     protected LiveData<List<EpgProgram>> loadFromDb() {
-        return epgTvDao.getLiveDataPrograms();
+        return epgTvDao.getLiveDataProgramsForChannel(channelName);
     }
 
     @NonNull
     @Override
     protected LiveData<ApiResponse<List<EpgProgram>>> createCall() {
-        Log.d("moviedatabaselog", "EpgTv cro programs createCall ");
+        Log.d("moviedatabaselog", "EpgTv channel:" + channelName + " ,get programs createCall ");
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
-        return epgApi.getLiveCroPrograms();
+        return epgApi.getProgramsForChannel(channelName);
     }
 }

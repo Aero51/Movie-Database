@@ -165,6 +165,5 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
     @Override
     public void onItemClick(int position, EpgOtherChannel otherChannel) {
         sharedViewModel.changeEpgTvOtherChannelDetailFragment(position,otherChannel);
-        //Log.d("moviedatabaselog", "other channel clicked: " + position + " ,name:" + otherChannel.getChannelName());
     }
 }

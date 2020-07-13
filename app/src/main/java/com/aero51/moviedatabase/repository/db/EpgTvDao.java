@@ -25,4 +25,11 @@ public interface EpgTvDao {
 
     @Query("DELETE FROM epg_program")
     void deleteAllPrograms();
+
+    @Query("DELETE  FROM epg_program WHERE channel = :channelName ")
+    void deleteProgramsForChannel(String channelName);
+
+    @Query("SELECT * FROM epg_program WHERE channel = :channelName")
+    LiveData<List<EpgProgram>> getLiveDataProgramsForChannel(String channelName);
+
 }

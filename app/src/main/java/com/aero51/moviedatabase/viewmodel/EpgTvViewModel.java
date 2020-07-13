@@ -29,4 +29,8 @@ public class EpgTvViewModel extends AndroidViewModel {
     public LiveData<Resource<List<EpgProgram>>> getCroPrograms(){
         return epgTvRepository.loadCroPrograms();
     }
+
+    public LiveData<Resource<List<EpgProgram>>> getOtherChannelPrograms(String channelName){
+        return epgTvRepository.loadOtherChannelPrograms(channelName);
+    }
 }

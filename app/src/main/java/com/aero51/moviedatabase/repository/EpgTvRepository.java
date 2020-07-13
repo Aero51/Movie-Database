@@ -9,6 +9,7 @@ import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgChannelsNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgProgramsForCroChannelsNetworkBoundResource;
+import com.aero51.moviedatabase.repository.networkboundresources.EpgProgramsForOtherChannelNetworkBoundResource;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Resource;
 
@@ -33,4 +34,8 @@ public class EpgTvRepository {
         return new EpgProgramsForCroChannelsNetworkBoundResource(executors,application).asLiveData();
     }
 
+    public LiveData<Resource<List<EpgProgram>>> loadOtherChannelPrograms(String channelName){
+        Log.d("moviedatabaselog", "EpgTvRepository load other channel programs ");
+        return new EpgProgramsForOtherChannelNetworkBoundResource(executors,application,channelName).asLiveData();
+    }
 }
