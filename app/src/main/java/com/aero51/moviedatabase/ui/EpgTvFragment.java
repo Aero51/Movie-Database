@@ -18,8 +18,12 @@ import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgTvCroChannelsAdapter;
+import com.aero51.moviedatabase.ui.adapter.EpgTvOtherChannelsAdapter;
+import com.aero51.moviedatabase.utils.GetChannelsLogoResource;
+import com.aero51.moviedatabase.utils.OtherChannelItemClickListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
@@ -35,7 +39,7 @@ import java.util.Locale;
  * Use the {@link EpgTvFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpgTvFragment extends Fragment implements ProgramItemClickListener {
+public class EpgTvFragment extends Fragment implements ProgramItemClickListener, OtherChannelItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -110,9 +114,15 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         recycler_view_other_channels.setLayoutManager(new GridLayoutManager(getContext(), 2));
 
         registerCroProgramsObserver();
+        setupOtherChannelsAdapter();
 
         return view;
     }
+
+ private void setupOtherChannelsAdapter(){
+     EpgTvOtherChannelsAdapter otherChannelsAdapter= new EpgTvOtherChannelsAdapter(this, GetChannelsLogoResource.getOtherChannelsList());
+        recycler_view_other_channels.setAdapter(otherChannelsAdapter);
+ }
 
 private void registerCroProgramsObserver()
 {
@@ -149,5 +159,10 @@ private void registerAllChannelsObserver(){
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         sharedViewModel.ChangeEpgTvFragment(position,epgProgram);
 
+    }
+
+    @Override
+    public void onItemClick(int position, EpgOtherChannel otherChannel) {
+        Log.d("moviedatabaselog", "other channel clicked: "+position+" ,name:"+otherChannel.getChannelName());
     }
 }

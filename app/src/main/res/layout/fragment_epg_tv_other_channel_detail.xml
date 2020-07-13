@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/text_view_tv_channel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Channel:"/>
+
+
+    <ImageView
+        android:id="@+id/image_view_tv_channel_logo"
+        android:layout_width="180dp"
+        android:layout_height="90dp"
+        android:layout_below="@+id/text_view_tv_channel"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/other_channel_recycler_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view_tv_channel_logo"/>
+
+
+</RelativeLayout>
