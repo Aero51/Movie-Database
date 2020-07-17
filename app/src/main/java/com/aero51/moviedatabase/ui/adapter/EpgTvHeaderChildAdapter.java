@@ -12,10 +12,10 @@ import com.squareup.picasso.Picasso;
 
 
 
-public class EpgTvCroChannelsHeaderChildAdapter  extends RecyclerView.Adapter <EpgTvCroChannelsHeaderChildAdapter.ViewHolder> {
+public class EpgTvHeaderChildAdapter extends RecyclerView.Adapter <EpgTvHeaderChildAdapter.ViewHolder> {
 private Integer drawableId;
 
-    public EpgTvCroChannelsHeaderChildAdapter(){
+    public EpgTvHeaderChildAdapter(){
     }
 
     public void setDrawableId(Integer drawableId) {

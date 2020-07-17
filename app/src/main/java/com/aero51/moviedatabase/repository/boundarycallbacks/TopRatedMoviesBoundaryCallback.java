@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
-import com.aero51.moviedatabase.repository.db.MoviesDatabase;
+import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
@@ -29,7 +29,7 @@ import static com.aero51.moviedatabase.utils.Constants.TOP_RATED_MOVIES_FIRST_PA
 
 public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<TopRatedMovie> {
     private AppExecutors executors;
-    private MoviesDatabase database;
+    private Database database;
     private TopRatedMoviesDao dao;
     private MutableLiveData<NetworkState> networkState;
     private LiveData<TopRatedMoviesPage> current_movie_page;
@@ -37,7 +37,7 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     public TopRatedMoviesBoundaryCallback(Application application, AppExecutors executors) {
         //super();
         this.executors = executors;
-        database = MoviesDatabase.getInstance(application);
+        database = Database.getInstance(application);
         dao = database.get_top_rated_movies_dao();
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();

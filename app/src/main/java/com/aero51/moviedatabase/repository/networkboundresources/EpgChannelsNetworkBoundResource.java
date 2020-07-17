@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.EpgTvDao;
-import com.aero51.moviedatabase.repository.db.MoviesDatabase;
+import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.retrofit.EpgApi;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
@@ -19,19 +19,20 @@ import com.aero51.moviedatabase.utils.NetworkBoundResource;
 import java.util.List;
 
 public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<EpgChannel>, List<EpgChannel>> {
-    private MoviesDatabase database;
+    private Database database;
     private EpgTvDao epgTvDao;
 
     public EpgChannelsNetworkBoundResource(AppExecutors appExecutors, Application application) {
         super(appExecutors);
-        database = MoviesDatabase.getInstance(application);
-        epgTvDao=database.get_epg_tv_dao();
+        database = Database.getInstance(application);
+        epgTvDao = database.get_epg_tv_dao();
     }
 
     @Override
     protected void saveCallResult(@NonNull List<EpgChannel> item) {
         Log.d("moviedatabaselog", "EpgTv channels saveCallResult channels list size: " + item.size());
-
+        epgTvDao.deleteAllChannels();
+        epgTvDao.insertChannelsList(item);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<E
     @NonNull
     @Override
     protected LiveData<ApiResponse<List<EpgChannel>>> createCall() {
-        Log.d("moviedatabaselog", "EpgTv channels createCall " );
+        Log.d("moviedatabaselog", "EpgTv channels createCall ");
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
         return epgApi.getLiveChannels();
     }

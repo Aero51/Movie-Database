@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.repository.db;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -20,11 +21,22 @@ public interface EpgTvDao {
     @Query("SELECT * FROM epg_program ")
     LiveData<List<EpgProgram>> getLiveDataPrograms();
 
+    @Query("SELECT * FROM epg_program")
+    DataSource.Factory<Integer,EpgProgram> getAllPrograms();
+
+
+
     @Insert
     void insertProgramsList(List<EpgProgram> epgPrograms);
 
+    @Insert
+    void insertChannelsList(List<EpgChannel> epgChannels);
+
     @Query("DELETE FROM epg_program")
     void deleteAllPrograms();
+
+    @Query("DELETE FROM epg_channel")
+    void deleteAllChannels();
 
     @Query("DELETE  FROM epg_program WHERE channel = :channelName ")
     void deleteProgramsForChannel(String channelName);

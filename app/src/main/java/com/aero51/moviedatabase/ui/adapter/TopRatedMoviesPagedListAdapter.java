@@ -110,5 +110,4 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
             };
 
 
-
 }

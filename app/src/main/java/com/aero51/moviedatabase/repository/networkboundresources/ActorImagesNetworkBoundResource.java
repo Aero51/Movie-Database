@@ -8,7 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
-import com.aero51.moviedatabase.repository.db.MoviesDatabase;
+import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
@@ -23,12 +23,12 @@ import static com.aero51.moviedatabase.utils.Constants.API_KEY;
 
 public class ActorImagesNetworkBoundResource extends NetworkBoundResource<ActorImagesResponse, List<ActorImage>> {
     private Integer actor_id;
-    private MoviesDatabase database;
+    private Database database;
     private CreditsDao creditsDao;
 
     public ActorImagesNetworkBoundResource(AppExecutors appExecutors, Application application, Integer actor_id) {
         super(appExecutors);
-        database = MoviesDatabase.getInstance(application);
+        database = Database.getInstance(application);
         creditsDao = database.get_credits_dao();
         this.actor_id = actor_id;
     }

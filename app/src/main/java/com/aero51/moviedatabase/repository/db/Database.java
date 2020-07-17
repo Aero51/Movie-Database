@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
-import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
@@ -25,14 +24,14 @@ import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
-@Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class,
+@androidx.room.Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class,
                       PopularMoviesPage.class, MovieCredits.class, Cast.class, Crew.class,
                       Actor.class, ActorImage.class, EpgChannel.class, EpgProgram.class}, version = 1)
 @TypeConverters({Converters.class})
-public abstract class MoviesDatabase extends RoomDatabase {
+public abstract class Database extends RoomDatabase {
 
-    private static MoviesDatabase instance;
-    private static MoviesDatabase instanceOnMainThread;
+    private static Database instance;
+    private static Database instanceOnMainThread;
 
     public abstract TopRatedMoviesDao get_top_rated_movies_dao();
     public abstract PopularMoviesDao get_popular_movies_dao();
@@ -41,10 +40,10 @@ public abstract class MoviesDatabase extends RoomDatabase {
 
 
 
-    public static synchronized MoviesDatabase getInstance(Context context) {
+    public static synchronized Database getInstance(Context context) {
         if (instance == null) {
             instance = Room.databaseBuilder(context.getApplicationContext(),
-                    MoviesDatabase.class, DATABASE_NAME)
+                    Database.class, DATABASE_NAME)
                     .fallbackToDestructiveMigration()
                     .addCallback(roomCallback)
                     .build();
@@ -53,10 +52,10 @@ public abstract class MoviesDatabase extends RoomDatabase {
         return instance;
 
     }
-    public static synchronized MoviesDatabase getInstanceAllowOnMainThread(Context context) {
+    public static synchronized Database getInstanceAllowOnMainThread(Context context) {
         if (instanceOnMainThread == null) {
             instanceOnMainThread = Room.databaseBuilder(context.getApplicationContext(),
-                    MoviesDatabase.class, DATABASE_NAME)
+                    Database.class, DATABASE_NAME)
                     .fallbackToDestructiveMigration()
                     .allowMainThreadQueries()
                     .addCallback(roomCallback)

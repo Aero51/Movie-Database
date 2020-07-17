@@ -117,7 +117,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             }
         }, 3000);
        // registerPopularMoviesObservers();
-        registerTopRatedMoviesObservers();
+      //  registerTopRatedMoviesObservers();
         return view;
     }
 

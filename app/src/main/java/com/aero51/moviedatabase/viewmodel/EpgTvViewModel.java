@@ -16,6 +16,10 @@ import java.util.List;
 
 public class EpgTvViewModel extends AndroidViewModel {
     private EpgTvRepository epgTvRepository;
+
+
+
+    private LiveData<Resource<List<EpgProgram>>> resourceLiveData;
     public EpgTvViewModel(@NonNull Application application) {
         super(application);
         AppExecutors executors = new AppExecutors();
@@ -26,11 +30,17 @@ public class EpgTvViewModel extends AndroidViewModel {
         return epgTvRepository.loadChannels();
     }
 
-    public LiveData<Resource<List<EpgProgram>>> getCroPrograms(){
-        return epgTvRepository.loadCroPrograms();
+
+    public LiveData<Resource<List<EpgProgram>>> getProgramsForChannel(String channelName){
+        resourceLiveData=epgTvRepository.loadProgramsForChannel(channelName);
+        return resourceLiveData;
     }
 
-    public LiveData<Resource<List<EpgProgram>>> getOtherChannelPrograms(String channelName){
-        return epgTvRepository.loadOtherChannelPrograms(channelName);
+    public LiveData<Resource<List<EpgProgram>>> getResourceLiveData() {
+        return resourceLiveData;
     }
+
+
+
+
 }

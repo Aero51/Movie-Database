@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
-import com.aero51.moviedatabase.repository.db.MoviesDatabase;
+import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
@@ -29,7 +29,7 @@ import static com.aero51.moviedatabase.utils.Constants.REGION;
 
 public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<PopularMovie> {
     private AppExecutors executors;
-    private MoviesDatabase database;
+    private Database database;
     private PopularMoviesDao dao;
     private MutableLiveData<NetworkState> networkState;
     private LiveData<PopularMoviesPage> current_movie_page;
@@ -38,7 +38,7 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     public PopularMoviesBoundaryCallback(Application application, AppExecutors executors) {
         // super();
         this.executors = executors;
-        database = MoviesDatabase.getInstance(application);
+        database = Database.getInstance(application);
         dao = database.get_popular_movies_dao();
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();

@@ -19,9 +19,12 @@ public interface EpgApi {
 
 
     @GET("program/{channel_id}")
-    LiveData<ApiResponse<List<EpgProgram>>> getProgramsForChannel(@Path("channel_id") String channel_id);
+    LiveData<ApiResponse<List<EpgProgram>>> getLiveProgramsForChannel(@Path("channel_id") String channel_id);
     //Call<List<EpgProgram>> getProgramsForChannel(@Path("channel_id") String channel_id);
     //LiveData<ApiResponse<Actor>> getLivePerson(@Path("person_id")Integer person_id, @Query("api_key") String api_key );
+
+    @GET("program/{channel_id}")
+    Call<List<EpgProgram>> getProgramsForChannel(@Path("channel_id") String channel_id);
 
     @GET("channels")
     Call<List<EpgChannel>> getChannels();

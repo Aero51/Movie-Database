@@ -8,7 +8,7 @@ import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.boundarycallbacks.PopularMoviesBoundaryCallback;
 import com.aero51.moviedatabase.repository.boundarycallbacks.TopRatedMoviesBoundaryCallback;
-import com.aero51.moviedatabase.repository.db.MoviesDatabase;
+import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
@@ -28,7 +28,7 @@ public class MoviesRepository {
 
     public MoviesRepository(Application application, AppExecutors executors) {
         this.executors = executors;
-        MoviesDatabase database = MoviesDatabase.getInstance(application);
+        Database database = Database.getInstance(application);
         TopRatedMoviesDao topRatedMoviesDao = database.get_top_rated_movies_dao();
         PopularMoviesDao popularMoviesDao = database.get_popular_movies_dao();
         topRatedMoviesBoundaryCallback = new TopRatedMoviesBoundaryCallback(application, executors);

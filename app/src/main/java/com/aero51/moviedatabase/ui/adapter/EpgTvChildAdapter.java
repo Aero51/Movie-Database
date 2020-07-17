@@ -17,11 +17,11 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 
 
-public class EpgTvCroChannelsChildAdapter extends RecyclerView.Adapter<EpgTvCroChannelsChildAdapter.ViewHolder> {
+public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.ViewHolder> {
     private List<EpgProgram> epgPrograms;
     private ProgramItemClickListener mClickListener;
 
-    public EpgTvCroChannelsChildAdapter() {
+    public EpgTvChildAdapter() {
 
 
     }
