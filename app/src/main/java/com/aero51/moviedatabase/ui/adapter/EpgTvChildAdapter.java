@@ -21,8 +21,8 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
     private List<EpgProgram> epgPrograms;
     private ProgramItemClickListener mClickListener;
 
-    public EpgTvChildAdapter() {
-
+    public EpgTvChildAdapter(ProgramItemClickListener listener) {
+        this.mClickListener = listener;
 
     }
 
@@ -50,7 +50,7 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tv_epg_tv_child_position.setText(position+"");
+        holder.tv_epg_tv_child_position.setText(position + "");
         holder.tv_epg_tv_child_item.setText(epgPrograms.get(position).getTitle());
 
     }

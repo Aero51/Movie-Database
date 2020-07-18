@@ -244,3 +244,45 @@ public void getNearestDate(List<Date> dates, Date targetDate) {
         secondChildAdapter = new MSimpleAdapter();
         mainAdapter.addAdapter(secondChildAdapter);
         recyclerView.setAdapter(mainAdapter);
+
+
+
+        //endless recycler view scroll listener
+
+
+              scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+
+                    @Override
+                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                        super.onScrollStateChanged(recyclerView, newState);
+                        //  Log.d("moviedatabaselog", "onScrollStateChanged newState: "+newState);
+                        //   Log.d("moviedatabaselog", "can scroll vertically : "+recyclerView.canScrollVertically(1));
+
+                        //  int firstVisiblesItems = recyclerView.getLayoutManager().fin;
+
+                        int visibleItemCount = linearLayoutManager.getChildCount();
+                        int totalItemCount = linearLayoutManager.getItemCount();
+                        int firstVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
+                        int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
+                        //  Log.d("moviedatabaselog", "visibleItemCount: " +visibleItemCount+" ,firstVisiblesItems: "+firstVisiblesItems+" ,totalItemCount: "+totalItemCount+" ,lastVisibleItem: "+lastVisibleItem );
+
+                        //    Log.d("moviedatabaselog", "findFirstVisibleItemPosition : "+firstVisiblesItems);
+                        if (isLoading.getValue()) {
+                            if (newState == 1) {
+                                //  registerGetProgramsForChannel(channelList.get(counter).getName());
+
+                            }
+                        }
+
+                    }
+
+                    @Override
+                    public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                        Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
+                        // registerGetProgramsForChannel(channelList.get(totalItemsCount).getName(), epgTvCroChannelsNewAdapter);
+                        // if (page == 1) registerGetProgramsForChannel("HRT1");
+                        // fetchProgramsForMultipleChannels(channelList,1);
+                    }
+                };
+                recycler_view_epg_tv.addOnScrollListener(scrollListener);
+                fetchProgramsForMultipleChannels(channelList, 0);

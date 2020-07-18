@@ -13,18 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.ViewHolder> {
     private List<EpgChannel> channelList;
     private List<List<EpgProgram>> programsForChannellList;
+    private ProgramItemClickListener listener;
 
 
-    public EpgTvAdapter(List<EpgChannel> channelList) {
+    public EpgTvAdapter(List<EpgChannel> channelList, List<List<EpgProgram>> programsForChannellList, ProgramItemClickListener listener) {
         this.channelList = channelList;
-        programsForChannellList = new ArrayList<>();
+        this.programsForChannellList=programsForChannellList;
+        this.listener=listener;
     }
 
     @NonNull
@@ -41,14 +43,10 @@ public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.ViewHolder> 
         holder.epgTvChildAdapter.setList(programsForChannellList.get(position));
     }
 
-    public void setList(List<EpgProgram> programList) {
-        programsForChannellList.add(programList);
-        notifyItemInserted(programsForChannellList.size() - 1);
-
-    }
 
     @Override
     public int getItemCount() {
+       // return channelList.size();
         return programsForChannellList.size();
     }
 
@@ -74,7 +72,7 @@ public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.ViewHolder> 
             child_recycler.setLayoutManager(linearLayoutManager);
             child_recycler.setRecycledViewPool(viewPool);
             //   epgTvCroChannelsHeaderChildAdapter = new EpgTvCroChannelsHeaderChildAdapter();
-            epgTvChildAdapter = new EpgTvChildAdapter();
+            epgTvChildAdapter = new EpgTvChildAdapter(listener);
             //  epgTvCroChannelsChildAdapter.setClickListener(mClickListener);
             mainAdapter = new ConcatAdapter();
 
