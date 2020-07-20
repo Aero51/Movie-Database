@@ -17,13 +17,12 @@ import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
-import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgTvAdapter;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
-import com.aero51.moviedatabase.utils.OtherChannelItemClickListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
+import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
@@ -105,15 +104,12 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         View view = inflater.inflate(R.layout.fragment_epg_tv, container, false);
 
         recycler_view_epg_tv = view.findViewById(R.id.recycler_view_cro_parent);
-        // recycler_view_epg_tv_cro_channels.setHasFixedSize(true);
-
+        //this messes up scroll listener
+        //recycler_view_epg_tv.setHasFixedSize(true);
         //  recycler_view_epg_tv_cro_channels.setLayoutManager(new SpeedyLinearLayoutManager(getContext(),SpeedyLinearLayoutManager.VERTICAL,false));
-
-        recycler_view_epg_tv.setNestedScrollingEnabled(true);
+        //recycler_view_epg_tv.setNestedScrollingEnabled(true);
         text_view_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
-
         registerAllChannelsObserver();
-
         return view;
     }
 
@@ -135,20 +131,19 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         recycler_view_epg_tv.setLayoutManager(linearLayoutManager);
         programsForChannellList = new ArrayList<>();
-        epgTvAdapter = new EpgTvAdapter(channelList, programsForChannellList,this);
+        epgTvAdapter = new EpgTvAdapter(getContext(),channelList, programsForChannellList,this);
         recycler_view_epg_tv.setAdapter(epgTvAdapter);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
-                // fetchProgramsForMultipleChannels(channelList);
+                 fetchProgramsForMultipleChannels(channelList);
             }
         };
         recycler_view_epg_tv.addOnScrollListener(scrollListener);
         fetchProgramsForMultipleChannels(channelList);
-        //registerGetProgramsForChannel("HRT1");
-
+       // registerGetProgramsForChannel("HRT1");
     }
 
     private void fetchProgramsForMultipleChannels(List<EpgChannel> channelList) {
@@ -170,7 +165,6 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
             }
         });
-
     }
 
     private void registerGetProgramsForChannel(String channelName) {
@@ -178,7 +172,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
         epgTvViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                if (listResource.data.size() > 0) {
+                if (listResource.data.size() > 0 && listResource.status== Status.SUCCESS) {
                     Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgTvViewModel.getResourceLiveData().removeObserver(this);
                     programsForChannellList.add(listResource.data);
@@ -193,7 +187,6 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
     @Override
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         sharedViewModel.changeEpgTvFragment(position, epgProgram);
-
     }
 
 }

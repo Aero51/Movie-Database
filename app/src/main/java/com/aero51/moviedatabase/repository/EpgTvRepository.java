@@ -28,12 +28,9 @@ public class EpgTvRepository {
         return new EpgChannelsNetworkBoundResource(executors,application).asLiveData();
     }
 
-
-
     public LiveData<Resource<List<EpgProgram>>> loadProgramsForChannel(String channelName){
         Log.d("moviedatabaselog", "EpgTvRepository load other channel programs: "+channelName);
         return new EpgProgramsForChannelNetworkBoundResource(executors,application,channelName).asLiveData();
     }
-
 
 }

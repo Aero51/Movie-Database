@@ -21,9 +21,9 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
     private List<EpgProgram> epgPrograms;
     private ProgramItemClickListener mClickListener;
 
-    public EpgTvChildAdapter(ProgramItemClickListener listener) {
+    public EpgTvChildAdapter( ProgramItemClickListener listener) {
         this.mClickListener = listener;
-
+        this.epgPrograms = epgPrograms;
     }
 
     public void setList(List<EpgProgram> epgPrograms) {

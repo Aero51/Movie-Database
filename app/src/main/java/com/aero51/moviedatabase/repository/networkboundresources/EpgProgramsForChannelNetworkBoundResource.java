@@ -16,6 +16,10 @@ import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResource<List<EpgProgram>, List<EpgProgram>> {
@@ -39,7 +43,27 @@ public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResou
 
     @Override
     protected boolean shouldFetch(@Nullable List<EpgProgram> data) {
-        return data.size() == 0;
+        boolean noData = data.size() == 0;
+        boolean shouldFetch = false;
+        boolean isGreater = false;
+        if (!noData) {
+            Date currentTime = null;
+            Date programStartTime = null;
+            try {
+                currentTime = Calendar.getInstance().getTime();
+                programStartTime = new SimpleDateFormat("yyyyMMddHHmmSS").parse(data.get(data.size() - 1).getStart());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            if (programStartTime.getTime() > currentTime.getTime()) {
+                isGreater = true;
+            }
+        }
+
+        if ((noData == true) || (isGreater == false)) {
+            shouldFetch = true;
+        }
+        return shouldFetch;
     }
 
     @NonNull

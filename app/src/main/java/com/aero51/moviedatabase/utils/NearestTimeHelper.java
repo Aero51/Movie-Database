@@ -1,5 +1,7 @@
 package com.aero51.moviedatabase.utils;
 
+import android.util.Log;
+
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 
 import java.text.ParseException;
@@ -53,7 +55,6 @@ public class NearestTimeHelper {
                 index = i;
             }
         }
-
         return index;
     }
 

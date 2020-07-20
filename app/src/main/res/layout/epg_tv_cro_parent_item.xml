@@ -29,7 +29,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal"
             android:padding="20dp"
-            tools:layout_editor_absoluteX="74dp" />
+             />
 
     </RelativeLayout>
 
