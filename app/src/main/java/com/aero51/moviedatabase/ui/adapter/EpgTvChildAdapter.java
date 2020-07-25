@@ -1,8 +1,10 @@
 package com.aero51.moviedatabase.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,16 +16,24 @@ import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
 public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.ViewHolder> {
     private List<EpgProgram> epgPrograms;
     private ProgramItemClickListener mClickListener;
+    private String currentTimeString;
+    private Integer progressPosition;
+    private SimpleDateFormat fromUser;
+    private SimpleDateFormat myFormat;
 
-    public EpgTvChildAdapter( ProgramItemClickListener listener) {
+
+    public EpgTvChildAdapter(ProgramItemClickListener listener) {
         this.mClickListener = listener;
         this.epgPrograms = epgPrograms;
+        fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
+        myFormat = new SimpleDateFormat("HH:mm");
     }
 
     public void setList(List<EpgProgram> epgPrograms) {
@@ -31,6 +41,10 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
         notifyDataSetChanged();
     }
 
+    public void setProgress(String currentTimeString, int progressPosition) {
+        this.currentTimeString = currentTimeString;
+        this.progressPosition = progressPosition;
+    }
 
     @NonNull
     @Override
@@ -42,16 +56,40 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SimpleDateFormat fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
-        SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm");
+
         try {
-            String reformattedStr = myFormat.format(fromUser.parse(epgPrograms.get(position).getStart()));
-            holder.tv_epg_tv_child_start.setText(reformattedStr);
+            String reformattedStartString = myFormat.format(fromUser.parse(epgPrograms.get(position).getStart()));
+            holder.tv_epg_tv_child_start.setText(reformattedStartString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
         holder.tv_epg_tv_child_position.setText(position + "");
-        holder.tv_epg_tv_child_item.setText(epgPrograms.get(position).getTitle());
+        holder.tv_epg_tv_child_description.setText(epgPrograms.get(position).getTitle());
+        holder.progressBar.setProgress(0);
+        if (position == progressPosition) {
+
+            Date startDate = null;
+            Date stopDate = null;
+            Date currentDate=null;
+            try {
+                startDate = fromUser.parse(epgPrograms.get(position).getStart());
+                stopDate = fromUser.parse(epgPrograms.get(position).getStop());
+                currentDate=fromUser.parse(currentTimeString);
+
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+            double startTime = startDate.getTime();
+            double stopTime = stopDate.getTime();
+            double currentTime=currentDate.getTime();
+            //double percentage = (currentValue - minValue) / (maxValue - minValue);
+            double percentage = (((currentTime - startTime) / (stopTime - startTime))* 100);
+          //  Log.d("moviedatabaselog", "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
+          //  Log.d("moviedatabaselog", "percentage: " + percentage);
+            Log.d("moviedatabaselog", "child position: " + position );
+            holder.progressBar.setProgress((int) percentage);
+        }
+
 
     }
 
@@ -67,16 +105,18 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private ProgressBar progressBar;
         private TextView tv_epg_tv_child_position;
         private TextView tv_epg_tv_child_start;
-        private TextView tv_epg_tv_child_item;
+        private TextView tv_epg_tv_child_description;
 
 
         ViewHolder(View itemView) {
             super(itemView);
+            progressBar = itemView.findViewById(R.id.progress_bar);
             tv_epg_tv_child_position = itemView.findViewById(R.id.tv_epg_tv_child_position);
             tv_epg_tv_child_start = itemView.findViewById(R.id.tv_epg_tv_child_start);
-            tv_epg_tv_child_item = itemView.findViewById(R.id.tv_epg_tv_child_item);
+            tv_epg_tv_child_description = itemView.findViewById(R.id.tv_epg_tv_child_description);
             itemView.setOnClickListener(this);
         }
 

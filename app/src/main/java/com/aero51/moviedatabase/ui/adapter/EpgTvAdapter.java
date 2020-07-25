@@ -14,54 +14,51 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+import com.aero51.moviedatabase.repository.model.epg.EpgChildItem;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.AsyncTaskEpgTvChildLoader;
 import com.aero51.moviedatabase.utils.NearestTimeHelper;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
-public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.ViewHolder> {
+public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.EpgTvViewHolder> {
     private List<EpgChannel> channelList;
-    private List<List<EpgProgram>> programsForChannellList;
+    private List<EpgChildItem> programsForChannellList;
     private ProgramItemClickListener listener;
     private Context context;
     private RecyclerView.RecycledViewPool viewPool;
+    private String currentTime ;
 
 
-    public EpgTvAdapter(Context context, List<EpgChannel> channelList, List<List<EpgProgram>> programsForChannellList, ProgramItemClickListener listener) {
+    public EpgTvAdapter(Context context, List<EpgChannel> channelList, List<EpgChildItem> programsForChannellList, ProgramItemClickListener listener) {
         this.channelList = channelList;
         this.programsForChannellList = programsForChannellList;
         this.listener = listener;
         this.context = context;
         viewPool = new RecyclerView.RecycledViewPool();
+        currentTime = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EpgTvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.epg_tv_cro_parent_item, parent, false);
-        return new EpgTvAdapter.ViewHolder(view);
+        return new EpgTvViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        List<EpgProgram> currentChannelProgramList = programsForChannellList.get(position);
+    public void onBindViewHolder(@NonNull EpgTvViewHolder holder, int position) {
+        EpgChildItem currentChannelChildItem = programsForChannellList.get(position);
         holder.text_view_channel_name.setText(channelList.get(position).getDisplay_name());
         holder.child_recycler.setRecycledViewPool(viewPool);
-        //  holder.epgTvHeaderChildAdapter.setDrawableId(GetChannelsLogoResource.getResIdForChannelLogo(0));
-        // LinearLayoutManager linearLayoutManager = new LinearLayoutManager(holder.child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        //holder.child_recycler.setLayoutManager(linearLayoutManager);
 
-        //EpgTvChildAdapter epgTvChildAdapter = new EpgTvChildAdapter(currentChannelProgramList, listener);
-        //  epgTvChildAdapter.setList(currentChannelProgramList);
-        // holder.child_recycler.setAdapter(null);
-        //holder.child_recycler.swapAdapter(epgTvChildAdapter, true);
-        holder.epgTvChildAdapter.setList(currentChannelProgramList);
-        int nearestTimePosition = NearestTimeHelper.getNearestTime(currentChannelProgramList);
-        Log.d("moviedatabaselog", "position: " + position + " ,nearestTimePosition: " + nearestTimePosition);
-
-        // linearLayoutManager.scrollToPositionWithOffset(currentChannelProgramList.size()-2,0);
-        holder.child_recycler.scrollToPosition(nearestTimePosition);
+        holder.epgTvChildAdapter.setProgress(currentTime,currentChannelChildItem.getNearestTimePosition());
+        holder.epgTvChildAdapter.setList(currentChannelChildItem.getProgramsList());
+        holder.child_recycler.scrollToPosition(currentChannelChildItem.getNearestTimePosition());
 
     }
 
@@ -73,16 +70,16 @@ public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.ViewHolder> 
     }
 
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class EpgTvViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView text_view_channel_name;
-        private ConcatAdapter mainAdapter;
-        private RecyclerView child_recycler;
+        public TextView text_view_channel_name;
+        public ConcatAdapter mainAdapter;
+        public RecyclerView child_recycler;
 
-        private EpgTvHeaderChildAdapter epgTvHeaderChildAdapter;
-        private EpgTvChildAdapter epgTvChildAdapter;
+        public EpgTvHeaderChildAdapter epgTvHeaderChildAdapter;
+        public EpgTvChildAdapter epgTvChildAdapter;
 
-        ViewHolder(View itemView) {
+        EpgTvViewHolder(View itemView) {
             super(itemView);
 
 

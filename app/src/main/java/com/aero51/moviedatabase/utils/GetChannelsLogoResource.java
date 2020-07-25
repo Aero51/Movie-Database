@@ -11,7 +11,7 @@ import java.util.List;
 
 public class GetChannelsLogoResource {
     private static List<Drawable> drawableList = new ArrayList<>();
-
+/*
     public static Drawable getDrawableForChannel(Context context, Integer position) {
         if (drawableList.size() == 0) {
             drawableList.add(context.getResources().getDrawable(R.drawable.htv1_logo));
@@ -184,9 +184,7 @@ public class GetChannelsLogoResource {
         epgOtherChannel.setDrawableInteger(R.drawable.rtv_slo3_logo);
         otherChannelList.add(epgOtherChannel);
 
-
-
         return otherChannelList;
     }
-
+*/
 }

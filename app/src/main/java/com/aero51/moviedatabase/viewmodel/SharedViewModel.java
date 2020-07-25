@@ -36,6 +36,10 @@ public class SharedViewModel extends ViewModel {
     private Integer castIndex;
 
 
+
+    private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
+
+
     public void changeEpgTvFragment(Integer index, EpgProgram epgProgram) {
         this.epgIndex = index;
         liveEpgProgram.setValue(epgProgram);
@@ -110,4 +114,11 @@ public class SharedViewModel extends ViewModel {
         return shouldSwitchActorFragment;
     }
 
+    public void setHasEpgTvFragmentFinishedLoading(boolean hasEpgTvFragmentFinishedLoading){
+        this.hasEpgTvFragmentFinishedLoading.setValue(hasEpgTvFragmentFinishedLoading);
+    }
+
+    public LiveData<Boolean> getHasEpgTvFragmentFinishedLoading() {
+        return hasEpgTvFragmentFinishedLoading;
+    }
 }

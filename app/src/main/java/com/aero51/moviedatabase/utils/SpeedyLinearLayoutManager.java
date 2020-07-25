@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class SpeedyLinearLayoutManager extends LinearLayoutManager {
 
-    private static final float MILLISECONDS_PER_INCH =100f;    //5f; //default is 25f (bigger = slower)
+    private static final float MILLISECONDS_PER_INCH =400f;    //5f; //default is 25f (bigger = slower)
 
     public SpeedyLinearLayoutManager(Context context) {
         super(context);
@@ -44,4 +44,5 @@ public class SpeedyLinearLayoutManager extends LinearLayoutManager {
         linearSmoothScroller.setTargetPosition(position);
         startSmoothScroll(linearSmoothScroller);
     }
+
 }

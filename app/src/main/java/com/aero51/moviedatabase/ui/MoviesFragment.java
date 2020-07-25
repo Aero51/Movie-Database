@@ -21,6 +21,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.ui.adapter.MoviesAdapter;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.MovieClickListener;
@@ -48,6 +49,8 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     private TopRatedMoviesPagedListAdapter topRatedAdapter;
     private PopularMoviesPagedListAdapter popularAdapter;
     private SharedViewModel sharedViewModel;
+
+    private MoviesAdapter adapter;
 
     /**
      * Use this factory method to create a new instance of
@@ -83,8 +86,9 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_movies, container, false);
+      //  View view = inflater.inflate(R.layout.fragment_movies_new, container, false);
 
+        View view = inflater.inflate(R.layout.fragment_movies, container, false);
         textViewTopRatedMovie = view.findViewById(R.id.text_view_top_rated_movie);
         textViewPopularMovie = view.findViewById(R.id.text_view_popular_movie);
         textViewTopRatedMovie.setText("Top rated movies:");
@@ -104,7 +108,13 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         LinearLayoutManager newlinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         popularRecyclerView.setLayoutManager(newlinearLayoutManager);
 
-
+/*
+        topRatedRecyclerView = view.findViewById(R.id.recycler_view_movies_parent);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        topRatedRecyclerView.setLayoutManager(linearLayoutManager);
+        adapter=new MoviesAdapter();
+        topRatedRecyclerView.setAdapter(adapter);
+*/
         // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
 
         final Handler handler = new Handler();
@@ -112,15 +122,27 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             @Override
             public void run() {
                 //Do something after 100ms
-                Log.d("moviedatabaselog", "runnable runned! " );
+                //   Log.d("moviedatabaselog", "runnable runned! " );
 
             }
         }, 3000);
-       // registerPopularMoviesObservers();
-      //  registerTopRatedMoviesObservers();
+        registerHasEpgTvFragmentFinishedLoadingObserver();
         return view;
     }
 
+    private void registerHasEpgTvFragmentFinishedLoadingObserver() {
+        sharedViewModel.getHasEpgTvFragmentFinishedLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if (aBoolean) {
+                   // registerPopularMoviesObservers();
+                   // registerTopRatedMoviesObservers();
+
+
+                }
+            }
+        });
+    }
 
 
     private void registerTopRatedMoviesObservers() {
@@ -128,6 +150,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             @Override
             public void onChanged(PagedList<TopRatedMovie> top_rated_results) {
                 Log.d("moviedatabaselog", "topRated MoviesFragment  onChanged list size: " + top_rated_results.size());
+
 
                 topRatedAdapter.submitList(top_rated_results);
                 if (top_rated_results.isEmpty()) {
@@ -137,6 +160,11 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
                     topRatedRecyclerView.setVisibility(View.VISIBLE);
                     emptyViewText.setVisibility(View.GONE);
                 }
+
+
+               // adapter.setList(top_rated_results);
+
+               // topRatedRecyclerView.setNestedScrollingEnabled(true);
             }
         });
         moviesViewModel.getTopRatedLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<TopRatedMoviesPage>() {
@@ -186,21 +214,21 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
-      //  this.OnObjectItemClick(result,position);
-        sharedViewModel.changeToTopRatedMovieFragment(position,result);
-        Log.d("moviedatabaselog", "TopRatedMovie OnItemClick " );
+        //  this.OnObjectItemClick(result,position);
+        sharedViewModel.changeToTopRatedMovieFragment(position, result);
+        Log.d("moviedatabaselog", "TopRatedMovie OnItemClick ");
     }
 
     @Override
     public void OnItemClick(PopularMovie result, int position) {
-       sharedViewModel.changeToPopularMovieFragment(position,result);
+        sharedViewModel.changeToPopularMovieFragment(position, result);
 
     }
 
     @Override
     public void OnObjectItemClick(Object movie, int position) {
 
-        if(movie instanceof TopRatedMovie)Log.d("moviedatabaselog", "TopRatedMovie OnItemClick " );
-        if(movie instanceof PopularMovie)Log.d("moviedatabaselog", "PopularMovie OnItemClick " );
+        if (movie instanceof TopRatedMovie) Log.d("moviedatabaselog", "TopRatedMovie OnItemClick ");
+        if (movie instanceof PopularMovie) Log.d("moviedatabaselog", "PopularMovie OnItemClick ");
     }
 }

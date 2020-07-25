@@ -10,4 +10,7 @@
     <color name="colorAccent">#00F57C</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorSubtitle">#909090</color>
+    <color name="dark_gray">#757575</color>
+    <color name="grey">#909090</color>
+    <color name="blue">#3700B3</color>
 </resources>
