@@ -144,6 +144,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
         linearLayoutManager = new SpeedyLinearLayoutManager(getContext(), SpeedyLinearLayoutManager.VERTICAL, false);
         recycler_view_epg_tv.setLayoutManager(linearLayoutManager);
+        /*
         recycler_view_epg_tv.setOnFlingListener(new RecyclerView.OnFlingListener() {
             @Override
             public boolean onFling(int velocityX, int velocityY) {
@@ -159,6 +160,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
             }
 
         });
+        */
 
         programsForChannellList = new ArrayList<>();
         epgTvAdapter = new EpgTvAdapter(getContext(), channelList, programsForChannellList, this);
@@ -208,33 +210,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
                     Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgTvViewModel.getResourceLiveData().removeObserver(this);
 
-                    EpgChildItem item=new EpgChildItem();
-                    item.setProgramsList(listResource.data);
-                    int nearestTimePosition = NearestTimeHelper.getNearestTime(listResource.data)-1;
-                    item.setNearestTimePosition(nearestTimePosition);
-
-                    currentTimeString = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
-
-                    Date startDate = null;
-                    Date stopDate = null;
-                    Date currentDate= null;
-                    try {
-                        startDate = fromUser.parse(listResource.data.get(nearestTimePosition).getStart());
-                        stopDate = fromUser.parse(listResource.data.get(nearestTimePosition).getStop());
-                        currentDate=fromUser.parse(currentTimeString);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    double startTime = startDate.getTime();
-                    double stopTime = stopDate.getTime();
-                    double currentTime=currentDate.getTime();
-                    //double percentage = (currentValue - minValue) / (maxValue - minValue);
-                    double percentage = (((currentTime - startTime) / (stopTime - startTime))* 100);
-                    //  Log.d("moviedatabaselog", "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
-                    //  Log.d("moviedatabaselog", "percentage: " + percentage);
-                   // Log.d("moviedatabaselog", "child position: " + position );
-                    item.setNowPlayingPercentage((int) percentage);
+                    EpgChildItem item= calculateTimeStuff(listResource.data);
 
                     programsForChannellList.add(item);
                     epgTvAdapter.notifyItemInserted(programsForChannellList.size() - 1);
@@ -243,6 +219,37 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
             }
         });
 
+    }
+
+    private EpgChildItem calculateTimeStuff(List<EpgProgram> programsList){
+        EpgChildItem item=new EpgChildItem();
+        item.setProgramsList(programsList);
+        int nearestTimePosition = NearestTimeHelper.getNearestTime(programsList);
+        item.setNearestTimePosition(nearestTimePosition);
+
+        currentTimeString = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
+
+        Date startDate = null;
+        Date stopDate = null;
+        Date currentDate= null;
+        try {
+            startDate = fromUser.parse(programsList.get(nearestTimePosition).getStart());
+            stopDate = fromUser.parse(programsList.get(nearestTimePosition).getStop());
+            currentDate=fromUser.parse(currentTimeString);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        double startTime = startDate.getTime();
+        double stopTime = stopDate.getTime();
+        double currentTime=currentDate.getTime();
+        //double percentage = (currentValue - minValue) / (maxValue - minValue);
+        double percentage = (((currentTime - startTime) / (stopTime - startTime))* 100);
+        //  Log.d("moviedatabaselog", "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
+        //  Log.d("moviedatabaselog", "percentage: " + percentage);
+        // Log.d("moviedatabaselog", "child position: " + position );
+        item.setNowPlayingPercentage((int) percentage);
+        return item;
     }
 
     @Override

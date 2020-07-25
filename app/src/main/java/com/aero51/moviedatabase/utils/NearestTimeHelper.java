@@ -40,21 +40,20 @@ public class NearestTimeHelper {
         long targetTS = currentDate.getTime();
         for (int i = 0; i < dates.size(); i++) {
             Date date = dates.get(i);
-
             //long currDiff = Math.abs(date.getTime() - targetTS);
-            long currDiff=0;
             long operation=targetTS-date.getTime();
             if(operation>0)
             {
+                long currDiff=0;
                 currDiff=operation;
-            }
-
-            if (prevDiff == -1 || currDiff < prevDiff) {
-                prevDiff = currDiff;
-                nearestDate = date;
-                index = i;
+                if (prevDiff == -1 || currDiff < prevDiff) {
+                    prevDiff = currDiff;
+                    nearestDate = date;
+                    index = i;
+                }
             }
         }
+        //Log.d("moviedatabaselog", "index: " + index );
         return index;
     }
 
