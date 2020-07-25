@@ -7,9 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -31,10 +29,12 @@ import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +62,10 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
     private List<EpgChildItem> programsForChannellList;
     private MutableLiveData<Boolean> isLoading;
     private LinearLayoutManager linearLayoutManager;
+
+    private SimpleDateFormat fromUser;
+    private SimpleDateFormat myFormat;
+    private String currentTimeString;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -101,6 +105,9 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
         isLoading = new MutableLiveData<>();
         isLoading.setValue(false);
+
+        fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
+        myFormat = new SimpleDateFormat("HH:mm");
 
     }
 
@@ -200,10 +207,35 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
                 if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
                     Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgTvViewModel.getResourceLiveData().removeObserver(this);
+
                     EpgChildItem item=new EpgChildItem();
                     item.setProgramsList(listResource.data);
-                    int nearestTimePosition = NearestTimeHelper.getNearestTime(listResource.data) - 1;
+                    int nearestTimePosition = NearestTimeHelper.getNearestTime(listResource.data)-1;
                     item.setNearestTimePosition(nearestTimePosition);
+
+                    currentTimeString = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
+
+                    Date startDate = null;
+                    Date stopDate = null;
+                    Date currentDate= null;
+                    try {
+                        startDate = fromUser.parse(listResource.data.get(nearestTimePosition).getStart());
+                        stopDate = fromUser.parse(listResource.data.get(nearestTimePosition).getStop());
+                        currentDate=fromUser.parse(currentTimeString);
+
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    double startTime = startDate.getTime();
+                    double stopTime = stopDate.getTime();
+                    double currentTime=currentDate.getTime();
+                    //double percentage = (currentValue - minValue) / (maxValue - minValue);
+                    double percentage = (((currentTime - startTime) / (stopTime - startTime))* 100);
+                    //  Log.d("moviedatabaselog", "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
+                    //  Log.d("moviedatabaselog", "percentage: " + percentage);
+                   // Log.d("moviedatabaselog", "child position: " + position );
+                    item.setNowPlayingPercentage((int) percentage);
+
                     programsForChannellList.add(item);
                     epgTvAdapter.notifyItemInserted(programsForChannellList.size() - 1);
                     isLoading.setValue(false);

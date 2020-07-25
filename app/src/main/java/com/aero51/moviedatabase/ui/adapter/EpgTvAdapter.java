@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgChildItem;
-import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.utils.AsyncTaskEpgTvChildLoader;
-import com.aero51.moviedatabase.utils.NearestTimeHelper;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.EpgTvViewHolder> {
     private List<EpgChannel> channelList;
@@ -31,7 +24,6 @@ public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.EpgTvViewHol
     private ProgramItemClickListener listener;
     private Context context;
     private RecyclerView.RecycledViewPool viewPool;
-    private String currentTime ;
 
 
     public EpgTvAdapter(Context context, List<EpgChannel> channelList, List<EpgChildItem> programsForChannellList, ProgramItemClickListener listener) {
@@ -40,7 +32,7 @@ public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.EpgTvViewHol
         this.listener = listener;
         this.context = context;
         viewPool = new RecyclerView.RecycledViewPool();
-        currentTime = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
+
     }
 
     @NonNull
@@ -56,8 +48,7 @@ public class EpgTvAdapter extends RecyclerView.Adapter<EpgTvAdapter.EpgTvViewHol
         holder.text_view_channel_name.setText(channelList.get(position).getDisplay_name());
         holder.child_recycler.setRecycledViewPool(viewPool);
 
-        holder.epgTvChildAdapter.setProgress(currentTime,currentChannelChildItem.getNearestTimePosition());
-        holder.epgTvChildAdapter.setList(currentChannelChildItem.getProgramsList());
+        holder.epgTvChildAdapter.setList(currentChannelChildItem);
         holder.child_recycler.scrollToPosition(currentChannelChildItem.getNearestTimePosition());
 
     }

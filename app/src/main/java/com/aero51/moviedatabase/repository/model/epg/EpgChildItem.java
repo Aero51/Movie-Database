@@ -4,6 +4,7 @@ import java.util.List;
 
 public class EpgChildItem {
     private Integer nearestTimePosition;
+    private Integer nowPlayingPercentage;
     private List<EpgProgram> programsList;
 
     public Integer getNearestTimePosition() {
@@ -21,4 +22,13 @@ public class EpgChildItem {
     public void setProgramsList(List<EpgProgram> programsList) {
         this.programsList = programsList;
     }
+    public Integer getNowPlayingPercentage() {
+        return nowPlayingPercentage;
+    }
+
+    public void setNowPlayingPercentage(Integer nowPlayingPercentage) {
+        this.nowPlayingPercentage = nowPlayingPercentage;
+    }
+
+
 }
