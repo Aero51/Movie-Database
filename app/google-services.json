@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "797535466051",
+    "firebase_url": "https://movie-database-e006a.firebaseio.com",
+    "project_id": "movie-database-e006a",
+    "storage_bucket": "movie-database-e006a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:797535466051:android:7a2fa1173dd0026ed81af6",
+        "android_client_info": {
+          "package_name": "com.aero51.moviedatabase"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "797535466051-0o4q5h35rcsm6bsod3re1o3vtcens5au.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDoZwIJ5UvM2RTth-jvdfMcxLXlBaSc-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "797535466051-0o4q5h35rcsm6bsod3re1o3vtcens5au.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

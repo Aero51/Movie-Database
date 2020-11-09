@@ -135,10 +135,8 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
-                   // registerPopularMoviesObservers();
-                   // registerTopRatedMoviesObservers();
-
-
+                    registerPopularMoviesObservers();
+                    registerTopRatedMoviesObservers();
                 }
             }
         });
@@ -190,6 +188,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     }
 
     private void registerPopularMoviesObservers() {
+
         moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMovie>>() {
             @Override
             public void onChanged(PagedList<PopularMovie> popularMovies) {

@@ -17,6 +17,7 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier topRatedMovieFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier popularMovieFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
-
+    private FirebaseAnalytics mFirebaseAnalytics;
     private SharedViewModel sharedViewModel;
     private Integer actorFragmentBackPosition;
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         actorFragmentBackPosition = sharedPref.getInt("Saved ActorFragment back navigation", -1);

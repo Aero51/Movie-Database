@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
@@ -32,6 +33,7 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +43,7 @@ import java.util.Locale;
  * Use the {@link EpgTvFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpgTvFragment extends Fragment implements ProgramItemClickListener {
+public class EpgTvFragment extends Fragment implements ProgramItemClickListener,View.OnClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -196,7 +198,6 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
                         isLoading.removeObserver(this);
                     }
                 }
-
             }
         });
     }
@@ -223,6 +224,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
     private EpgChildItem calculateTimeStuff(List<EpgProgram> programsList){
         EpgChildItem item=new EpgChildItem();
+        Collections.sort(new ArrayList<String>());
         item.setProgramsList(programsList);
         int nearestTimePosition = NearestTimeHelper.getNearestTime(programsList);
         item.setNearestTimePosition(nearestTimePosition);
@@ -254,7 +256,15 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener 
 
     @Override
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
+        //intentional crash
+        // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
         sharedViewModel.changeEpgTvFragment(position, epgProgram);
+        ArrayList<String> daysOfWeek = new ArrayList <String>();
+        
     }
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }
