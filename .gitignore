@@ -2,6 +2,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/androidstudio,android
 # Edit at https://www.toptal.com/developers/gitignore?templates=androidstudio,android
 
+
+# api key is here and gradle properties are a local file
+/gradle.properties
+
+
 ### Android ###
 # Built application files
 *.apk

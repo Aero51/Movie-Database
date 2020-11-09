@@ -19,7 +19,7 @@ import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import java.util.List;
 
-import static com.aero51.moviedatabase.utils.Constants.API_KEY;
+import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
 public class ActorImagesNetworkBoundResource extends NetworkBoundResource<ActorImagesResponse, List<ActorImage>> {
     private Integer actor_id;
@@ -60,6 +60,6 @@ public class ActorImagesNetworkBoundResource extends NetworkBoundResource<ActorI
     @Override
     protected LiveData<ApiResponse<ActorImagesResponse>> createCall() {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        return theMovieDbApi.getLivePersonImages(actor_id,API_KEY);
+        return theMovieDbApi.getLivePersonImages(actor_id, TMDB_API_KEY);
     }
 }
