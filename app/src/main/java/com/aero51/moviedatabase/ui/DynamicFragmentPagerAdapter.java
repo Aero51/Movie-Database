@@ -1,9 +1,11 @@
 package com.aero51.moviedatabase.ui;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.BadParcelableException;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -13,9 +15,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 public class DynamicFragmentPagerAdapter extends PagerAdapter {
@@ -24,6 +26,22 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     private final FragmentManager fragmentManager;
 
     public static abstract class FragmentIdentifier implements Parcelable {
+
+        //Parcelable protocol requires a Parcelable.Creator object called CREATOR on class com.aero51.moviedatabase.ui
+        //this error happens when app is killed by system after cca 30 mins on inactivity
+        /*
+        public static final Parcelable.Creator CREATOR = new Creator<Object>() {
+            @Override
+            public Object createFromParcel(Parcel source) {
+              return  null;
+            }
+
+            @Override
+            public Object[] newArray(int size) {
+                return new Object[size];
+            }
+        };
+*/
         private final String fragmentTag;
         private final Bundle args;
 
@@ -61,13 +79,13 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     }
 
     public void replaceFragment(int index, FragmentIdentifier fragmentIdentifier) {
-        fragmentIdentifiers.set(index,fragmentIdentifier);
+        fragmentIdentifiers.set(index, fragmentIdentifier);
         notifyDataSetChanged();
 
     }
 
-    public String getFragmentTagForPosition( int position) {
-        return  fragmentIdentifiers.get(position).fragmentTag;
+    public String getFragmentTagForPosition(int position) {
+        return fragmentIdentifiers.get(position).fragmentTag;
     }
 
     private ArrayList<FragmentIdentifier> fragmentIdentifiers = new ArrayList<>();
@@ -76,9 +94,14 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
 
     private Fragment currentPrimaryItem = null;
 
-    public DynamicFragmentPagerAdapter(FragmentManager fragmentManager) {
+    private Context context;
+
+    //context is added for purpose of restarting the app when bad parcelable exception occurs
+    public DynamicFragmentPagerAdapter(FragmentManager fragmentManager, Context context) {
         this.fragmentManager = fragmentManager;
+        this.context = context;
     }
+
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
@@ -91,6 +114,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         }
         return null;
     }
+
     private int findIndexIfAdded(FragmentIdentifier fragmentIdentifier) {
         for (int i = 0, size = fragmentIdentifiers.size(); i < size; i++) {
             FragmentIdentifier identifier = fragmentIdentifiers.get(i);
@@ -143,7 +167,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         final String name = fragmentIdentifier.fragmentTag;
         Fragment fragment = fragmentManager.findFragmentByTag(name);
         if (fragment != null) {
-          //  Log.d("moviedatabaselog", " instantiateItem fragment != null position:" +position);
+            //  Log.d("moviedatabaselog", " instantiateItem fragment != null position:" +position);
             currentTransaction.attach(fragment);
         } else {
             fragment = fragmentIdentifier.newFragment();
@@ -203,8 +227,24 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     public void restoreState(Parcelable state, ClassLoader loader) {
         Bundle bundle = ((Bundle) state);
         bundle.setClassLoader(loader);
-        fragmentIdentifiers = bundle.getParcelableArrayList("fragmentIdentifiers");
+        try {
+            fragmentIdentifiers = bundle.getParcelableArrayList("fragmentIdentifiers");
+
+        } catch (BadParcelableException e) {
+            e.printStackTrace();
+            triggerRebirth(context, MainActivity.class);
+        }
+    }
+//restarts the app
+    public static void triggerRebirth(Context context, Class myClass) {
+        Intent intent = new Intent(context, myClass);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(intent);
+        Runtime.getRuntime().exit(0);
+
     }
 
 
 }
+
+

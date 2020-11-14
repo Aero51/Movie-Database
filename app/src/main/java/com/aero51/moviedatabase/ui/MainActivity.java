@@ -9,6 +9,8 @@ import androidx.lifecycle.ViewModelProvider;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.View;
 
@@ -46,8 +48,9 @@ public class MainActivity extends AppCompatActivity {
 
         viewPager = findViewById(R.id.view_pager);
 
-        dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager());
+        dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(),getApplicationContext());
         //  viewPager.setPagingEnabled(false);
+
         viewPager.setAdapter(dynamicFragmentPagerAdapter);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().hide();
@@ -76,16 +79,30 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void initFirstFragmentIdentifiers() {
+
+
         epgtvFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvFragment", null) {
             @Override
             protected Fragment createFragment() {
                 EpgTvFragment epgTvFragment = EpgTvFragment.newInstance("", "");
                 return epgTvFragment;
             }
-
             @Override
             public int describeContents() {
                 return 0;
+            }
+        };
+        DynamicFragmentPagerAdapter.FragmentIdentifier.Creator< DynamicFragmentPagerAdapter.FragmentIdentifier> creator= new Parcelable.Creator() {
+
+            @Override
+            public Object createFromParcel(Parcel source) {
+
+                return null;
+            }
+
+            @Override
+            public Object[] newArray(int size) {
+                return new Object[0];
             }
         };
 
