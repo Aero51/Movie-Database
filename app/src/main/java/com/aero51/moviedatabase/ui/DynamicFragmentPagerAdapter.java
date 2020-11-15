@@ -89,11 +89,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     }
 
     private ArrayList<FragmentIdentifier> fragmentIdentifiers = new ArrayList<>();
-
     private FragmentTransaction currentTransaction = null;
-
     private Fragment currentPrimaryItem = null;
-
     private Context context;
 
     //context is added for purpose of restarting the app when bad parcelable exception occurs
@@ -235,7 +232,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
             triggerRebirth(context, MainActivity.class);
         }
     }
-//restarts the app
+
+    //restarts the app
     public static void triggerRebirth(Context context, Class myClass) {
         Intent intent = new Intent(context, myClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

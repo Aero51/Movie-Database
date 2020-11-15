@@ -14,36 +14,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
-import com.aero51.moviedatabase.repository.model.epg.EpgChildItem;
+import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.ui.adapter.EpgTvAdapter;
+import com.aero51.moviedatabase.ui.adapter.EpgAdapter;
+import com.aero51.moviedatabase.utils.ChannelItemClickListener;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
-import com.aero51.moviedatabase.utils.NearestTimeHelper;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.SpeedyLinearLayoutManager;
 import com.aero51.moviedatabase.utils.Status;
-import com.aero51.moviedatabase.viewmodel.EpgTvViewModel;
+import com.aero51.moviedatabase.viewmodel.EpgViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EpgTvFragment#newInstance} factory method to
+ * Use the {@link EpgFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpgTvFragment extends Fragment implements ProgramItemClickListener,View.OnClickListener {
+public class EpgFragment extends Fragment implements ProgramItemClickListener, ChannelItemClickListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -55,23 +49,19 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
     private String mParam2;
 
 
-    private EpgTvViewModel epgTvViewModel;
+    private EpgViewModel epgViewModel;
     private RecyclerView recycler_view_epg_tv;
-    private EpgTvAdapter epgTvAdapter;
+    private EpgAdapter epgAdapter;
 
-    private TextView text_view_fragment_epg_tv;
     private SharedViewModel sharedViewModel;
-    private List<EpgChildItem> programsForChannellList;
+    private List<ChannelWithPrograms> programsForChannellList;
     private MutableLiveData<Boolean> isLoading;
     private LinearLayoutManager linearLayoutManager;
 
-    private SimpleDateFormat fromUser;
-    private SimpleDateFormat myFormat;
-    private String currentTimeString;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
-    public EpgTvFragment() {
+    public EpgFragment() {
         // Required empty public constructor
     }
 
@@ -84,8 +74,8 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
      * @return A new instance of fragment EpgTvFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EpgTvFragment newInstance(String param1, String param2) {
-        EpgTvFragment fragment = new EpgTvFragment();
+    public static EpgFragment newInstance(String param1, String param2) {
+        EpgFragment fragment = new EpgFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -102,14 +92,11 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        epgTvViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgTvViewModel.class);
+        epgViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
         isLoading = new MutableLiveData<>();
         isLoading.setValue(false);
-
-        fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
-        myFormat = new SimpleDateFormat("HH:mm");
 
     }
 
@@ -117,13 +104,13 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_epg_tv, container, false);
+        View view = inflater.inflate(R.layout.fragment_epg, container, false);
 
         recycler_view_epg_tv = view.findViewById(R.id.recycler_view_cro_parent);
         //this messes up scroll listener
         //recycler_view_epg_tv.setHasFixedSize(true);
         //recycler_view_epg_tv.setNestedScrollingEnabled(true);
-        text_view_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
+        TextView text_view_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
         registerAllChannelsObserver();
         return view;
     }
@@ -131,7 +118,7 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
 
     private void registerAllChannelsObserver() {
         sharedViewModel.setHasEpgTvFragmentFinishedLoading(false);
-        epgTvViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
+        epgViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
             @Override
             public void onChanged(Resource<List<EpgChannel>> listResource) {
                 Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
@@ -146,27 +133,10 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
 
         linearLayoutManager = new SpeedyLinearLayoutManager(getContext(), SpeedyLinearLayoutManager.VERTICAL, false);
         recycler_view_epg_tv.setLayoutManager(linearLayoutManager);
-        /*
-        recycler_view_epg_tv.setOnFlingListener(new RecyclerView.OnFlingListener() {
-            @Override
-            public boolean onFling(int velocityX, int velocityY) {
-                Integer MAX_VELOCITY_Y = 2000;
-                if (Math.abs(velocityY) > MAX_VELOCITY_Y) {
-                    // Log.d("moviedatabaselog", "velocityX : "+velocityX+" ,velocityY:"+velocityY);
-                    velocityY = MAX_VELOCITY_Y * (int) Math.signum((double) velocityY);
-                    recycler_view_epg_tv.fling(velocityX, velocityY);
-                    return true;
-                }
-
-                return false;
-            }
-
-        });
-        */
 
         programsForChannellList = new ArrayList<>();
-        epgTvAdapter = new EpgTvAdapter(getContext(), channelList, programsForChannellList, this);
-        recycler_view_epg_tv.setAdapter(epgTvAdapter);
+        epgAdapter = new EpgAdapter(getContext(), channelList, programsForChannellList, this, this);
+        recycler_view_epg_tv.setAdapter(epgAdapter);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -183,12 +153,12 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
 
     private void fetchProgramsForMultipleChannels(List<EpgChannel> channelList) {
         recycler_view_epg_tv.removeOnScrollListener(scrollListener);
-        int temp = epgTvAdapter.getItemCount();
+        int temp = epgAdapter.getItemCount();
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loading) {
                 if (!loading) {
-                    int adapterItemCount = epgTvAdapter.getItemCount();
+                    int adapterItemCount = epgAdapter.getItemCount();
                     if (adapterItemCount < temp + 10) {
                         registerGetProgramsForChannel(channelList.get(adapterItemCount).getName());
 
@@ -204,17 +174,17 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
 
     private void registerGetProgramsForChannel(String channelName) {
         isLoading.setValue(true);
-        epgTvViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
+        epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
                     Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
-                    epgTvViewModel.getResourceLiveData().removeObserver(this);
+                    epgViewModel.getResourceLiveData().removeObserver(this);
 
-                    EpgChildItem item= calculateTimeStuff(listResource.data);
+                    ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.data);
 
                     programsForChannellList.add(item);
-                    epgTvAdapter.notifyItemInserted(programsForChannellList.size() - 1);
+                    epgAdapter.notifyItemInserted(programsForChannellList.size() - 1);
                     isLoading.setValue(false);
                 }
             }
@@ -222,49 +192,18 @@ public class EpgTvFragment extends Fragment implements ProgramItemClickListener,
 
     }
 
-    private EpgChildItem calculateTimeStuff(List<EpgProgram> programsList){
-        EpgChildItem item=new EpgChildItem();
-        Collections.sort(new ArrayList<String>());
-        item.setProgramsList(programsList);
-        int nearestTimePosition = NearestTimeHelper.getNearestTime(programsList);
-        item.setNearestTimePosition(nearestTimePosition);
-
-        currentTimeString = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
-
-        Date startDate = null;
-        Date stopDate = null;
-        Date currentDate= null;
-        try {
-            startDate = fromUser.parse(programsList.get(nearestTimePosition).getStart());
-            stopDate = fromUser.parse(programsList.get(nearestTimePosition).getStop());
-            currentDate=fromUser.parse(currentTimeString);
-
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        double startTime = startDate.getTime();
-        double stopTime = stopDate.getTime();
-        double currentTime=currentDate.getTime();
-        //double percentage = (currentValue - minValue) / (maxValue - minValue);
-        double percentage = (((currentTime - startTime) / (stopTime - startTime))* 100);
-        //  Log.d("moviedatabaselog", "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
-        //  Log.d("moviedatabaselog", "percentage: " + percentage);
-        // Log.d("moviedatabaselog", "child position: " + position );
-        item.setNowPlayingPercentage((int) percentage);
-        return item;
-    }
-
     @Override
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         //intentional crash
         // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
-        sharedViewModel.changeEpgTvFragment(position, epgProgram);
-        ArrayList<String> daysOfWeek = new ArrayList <String>();
-        
+        sharedViewModel.changeToEpgTvDetailsFragment(position, epgProgram);
+        ArrayList<String> daysOfWeek = new ArrayList<String>();
+
     }
 
     @Override
-    public void onClick(View v) {
-
+    public void onItemClick(ChannelWithPrograms channelWithPrograms) {
+        Log.d("moviedatabaselog", "channel item clicked: " + channelWithPrograms.getChannel().getName());
+        sharedViewModel.changeToEpgAllProgramsFragment(channelWithPrograms);
     }
 }

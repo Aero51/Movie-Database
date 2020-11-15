@@ -2,10 +2,14 @@ package com.aero51.moviedatabase.repository.model.epg;
 
 import java.util.List;
 
-public class EpgChildItem {
+public class ChannelWithPrograms {
     private Integer nearestTimePosition;
     private Integer nowPlayingPercentage;
     private List<EpgProgram> programsList;
+
+
+
+    private  EpgChannel channel;
 
     public Integer getNearestTimePosition() {
         return nearestTimePosition;
@@ -30,5 +34,12 @@ public class EpgChildItem {
         this.nowPlayingPercentage = nowPlayingPercentage;
     }
 
+    public EpgChannel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(EpgChannel channel) {
+        this.channel = channel;
+    }
 
 }

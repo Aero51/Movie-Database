@@ -21,10 +21,10 @@ import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link EpgTvDetailsFragment#newInstance} factory method to
+ * Use the {@link EpgDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpgTvDetailsFragment extends Fragment {
+public class EpgDetailsFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -41,7 +41,7 @@ public class EpgTvDetailsFragment extends Fragment {
     private TextView text_view_description;
     private ImageView image_view;
 
-    public EpgTvDetailsFragment() {
+    public EpgDetailsFragment() {
         // Required empty public constructor
     }
 
@@ -54,8 +54,8 @@ public class EpgTvDetailsFragment extends Fragment {
      * @return A new instance of fragment EpgTvDetailsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static EpgTvDetailsFragment newInstance(String param1, String param2) {
-        EpgTvDetailsFragment fragment = new EpgTvDetailsFragment();
+    public static EpgDetailsFragment newInstance(String param1, String param2) {
+        EpgDetailsFragment fragment = new EpgDetailsFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -79,7 +79,7 @@ public class EpgTvDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_epg_tv_details, container, false);
+        View view = inflater.inflate(R.layout.fragment_epg_details, container, false);
         text_view_title = view.findViewById(R.id.text_view_title);
         text_view_date = view.findViewById(R.id.text_view_date);
         text_view_description = view.findViewById(R.id.text_view_description);

@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
@@ -16,10 +17,14 @@ import com.aero51.moviedatabase.utils.SingleLiveEvent;
 public class SharedViewModel extends ViewModel {
 
     private MutableLiveData<EpgProgram> liveEpgProgram = new MutableLiveData<>();
-    private SingleLiveEvent<Boolean> shouldSwitchEpgFragments = new SingleLiveEvent<>();
+    private SingleLiveEvent<Boolean> shouldSwitchToEpgDetailsFragment = new SingleLiveEvent<>();
     private Integer epgIndex;
 
-    private MutableLiveData<EpgOtherChannel> liveEpgEpgOtherChannel = new MutableLiveData<>();
+    private MutableLiveData<ChannelWithPrograms> liveChannelWithPrograms = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> shouldSwitchToEpgAllProgramsFragment = new SingleLiveEvent<>();
+
+
+    private MutableLiveData<EpgOtherChannel> liveEpgOtherChannel = new MutableLiveData<>();
     private SingleLiveEvent<Boolean> shouldSwitchOtherChannelDetailFragment = new SingleLiveEvent<>();
     private Integer otherChannelIndex;
 
@@ -36,35 +41,37 @@ public class SharedViewModel extends ViewModel {
     private Integer castIndex;
 
 
-
     private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
 
 
-    public void changeEpgTvFragment(Integer index, EpgProgram epgProgram) {
+    public void changeToEpgTvDetailsFragment(Integer index, EpgProgram epgProgram) {
         this.epgIndex = index;
         liveEpgProgram.setValue(epgProgram);
-        shouldSwitchEpgFragments.setValue(true);
+        shouldSwitchToEpgDetailsFragment.setValue(true);
 
     }
 
     public LiveData<EpgProgram> getLiveDataProgram() {
         return liveEpgProgram;
     }
-    public LiveData<Boolean> getSingleLiveShouldSwitchEpgFragments() {
-        return shouldSwitchEpgFragments;
+
+    public LiveData<Boolean> getSingleLiveShouldSwitchToEpgTvDetailsFragment() {
+        return shouldSwitchToEpgDetailsFragment;
     }
 
-    public void changeEpgTvOtherChannelDetailFragment(Integer index, EpgOtherChannel otherChannel) {
-        this.epgIndex = index;
-        liveEpgEpgOtherChannel.setValue(otherChannel);
-        shouldSwitchOtherChannelDetailFragment.setValue(true);
+    public void changeToEpgAllProgramsFragment(ChannelWithPrograms channelWithPrograms) {
+
+        liveChannelWithPrograms.setValue(channelWithPrograms);
+        shouldSwitchToEpgAllProgramsFragment.setValue(true);
 
     }
-    public LiveData<EpgOtherChannel> getLiveDataOtherChannel() {
-        return liveEpgEpgOtherChannel;
+
+    public LiveData<ChannelWithPrograms> getLiveDataChannelWithPrograms() {
+        return liveChannelWithPrograms;
     }
-    public LiveData<Boolean> getSingleLiveShouldSwitchOtherChannelDetailFragment() {
-        return shouldSwitchOtherChannelDetailFragment;
+
+    public LiveData<Boolean> getSingleLiveShouldSwitchToEpgAllProgramsFragment() {
+        return shouldSwitchToEpgAllProgramsFragment;
     }
 
 
@@ -114,7 +121,7 @@ public class SharedViewModel extends ViewModel {
         return shouldSwitchActorFragment;
     }
 
-    public void setHasEpgTvFragmentFinishedLoading(boolean hasEpgTvFragmentFinishedLoading){
+    public void setHasEpgTvFragmentFinishedLoading(boolean hasEpgTvFragmentFinishedLoading) {
         this.hasEpgTvFragmentFinishedLoading.setValue(hasEpgTvFragmentFinishedLoading);
     }
 

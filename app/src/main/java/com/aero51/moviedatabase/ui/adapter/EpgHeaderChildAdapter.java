@@ -12,10 +12,10 @@ import com.squareup.picasso.Picasso;
 
 
 
-public class EpgTvHeaderChildAdapter extends RecyclerView.Adapter <EpgTvHeaderChildAdapter.ViewHolder> {
+public class EpgHeaderChildAdapter extends RecyclerView.Adapter <EpgHeaderChildAdapter.ViewHolder> {
 private Integer drawableId;
 
-    public EpgTvHeaderChildAdapter(){
+    public EpgHeaderChildAdapter(){
     }
 
     public void setDrawableId(Integer drawableId) {
@@ -26,7 +26,7 @@ private Integer drawableId;
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_tv_cro_channels_header_child_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_cro_channels_header_child_item, parent, false);
         return new ViewHolder(view);
     }
 

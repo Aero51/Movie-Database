@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,31 +10,29 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.epg.EpgChildItem;
+import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 
-public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.ViewHolder> {
-    private EpgChildItem currentChannelChildItem;
+public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHolder> {
+    private ChannelWithPrograms currentChannelChildItem;
     private ProgramItemClickListener mClickListener;
     private SimpleDateFormat fromUser;
     private SimpleDateFormat myFormat;
 
 
-    public EpgTvChildAdapter(ProgramItemClickListener listener) {
+    public EpgChildAdapter(ProgramItemClickListener listener) {
         this.mClickListener = listener;
 
         fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
         myFormat = new SimpleDateFormat("HH:mm");
     }
 
-    public void setList(EpgChildItem currentChannelChildItem) {
+    public void setList(ChannelWithPrograms currentChannelChildItem) {
         this.currentChannelChildItem = currentChannelChildItem;
         notifyDataSetChanged();
     }
@@ -45,7 +42,7 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_tv_cro_child_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_cro_child_item, parent, false);
         return new ViewHolder(view);
     }
 
@@ -98,7 +95,7 @@ public class EpgTvChildAdapter extends RecyclerView.Adapter<EpgTvChildAdapter.Vi
 
         @Override
         public void onClick(View v) {
-            Integer adapter_position = getAdapterPosition();
+            Integer adapter_position = getBindingAdapterPosition();
             mClickListener.onItemClick(adapter_position, currentChannelChildItem.getProgramsList().get(adapter_position).getDb_id(), currentChannelChildItem.getProgramsList().get(adapter_position));
         }
     }
