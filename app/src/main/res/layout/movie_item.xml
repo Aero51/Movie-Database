@@ -32,7 +32,7 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <ImageView
-            android:id="@+id/image_view"
+            android:id="@+id/image_view_program"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/text_view_title"

@@ -30,7 +30,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
 
     public TopRatedMovieHolder(@NonNull View itemView, TopRatedItemClickListener itemClickListener) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.image_view);
+        imageView = itemView.findViewById(R.id.image_view_program);
         textViewPosition = itemView.findViewById(R.id.text_view_position);
         textViewtitle = itemView.findViewById(R.id.text_view_title);
 

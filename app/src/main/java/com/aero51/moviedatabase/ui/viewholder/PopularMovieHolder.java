@@ -29,7 +29,7 @@ public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.
 
     public PopularMovieHolder(@NonNull View itemView, PopularItemClickListener itemClickListener) {
         super(itemView);
-        imageView = itemView.findViewById(R.id.image_view);
+        imageView = itemView.findViewById(R.id.image_view_program);
         textViewPosition = itemView.findViewById(R.id.text_view_position);
         textViewtitle = itemView.findViewById(R.id.text_view_title);
         this.itemClickListener = itemClickListener;

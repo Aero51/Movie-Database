@@ -39,7 +39,9 @@ public class EpgDetailsFragment extends Fragment {
     private TextView text_view_title;
     private TextView text_view_date;
     private TextView text_view_description;
-    private ImageView image_view;
+    private ImageView image_view_program;
+    private ImageView image_view_channel;
+
 
     public EpgDetailsFragment() {
         // Required empty public constructor
@@ -70,7 +72,7 @@ public class EpgDetailsFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
-          //  epgProgram = (EpgProgram) getArguments().getSerializable("EpgProgram");
+            //  epgProgram = (EpgProgram) getArguments().getSerializable("EpgProgram");
 
         }
     }
@@ -83,19 +85,22 @@ public class EpgDetailsFragment extends Fragment {
         text_view_title = view.findViewById(R.id.text_view_title);
         text_view_date = view.findViewById(R.id.text_view_date);
         text_view_description = view.findViewById(R.id.text_view_description);
-        image_view=view.findViewById(R.id.image_view);
+        image_view_program = view.findViewById(R.id.image_view_program);
+        image_view_channel = view.findViewById(R.id.image_view_channel);
 
         sharedViewModel.getLiveDataProgram().observe(getViewLifecycleOwner(), new Observer<EpgProgram>() {
             @Override
             public void onChanged(EpgProgram epgProgram) {
-               // sharedViewModel.getLiveDataProgram().removeObserver(this);
+                // sharedViewModel.getLiveDataProgram().removeObserver(this);
                 text_view_title.setText(epgProgram.getTitle());
-                text_view_date.setText(epgProgram.getDate()+"");
+                text_view_date.setText(epgProgram.getDate() + "");
                 text_view_description.setText(epgProgram.getDesc());
                 // Picasso.get().load(epgProgram.getIcon()).into(image_view);
-                Log.d("moviedatabaselog", "icon: "+epgProgram.getIcon());
-              //  Picasso.get().load(epgProgram.getIcon()).into(image_view);
-                Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view, new Callback() {
+                Log.d("moviedatabaselog", "icon: " + epgProgram.getIcon());
+                //  Picasso.get().load(epgProgram.getIcon()).into(image_view);
+                 Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view_program, new Callback() {
+
+
                     @Override
                     public void onSuccess() {
 
@@ -103,16 +108,14 @@ public class EpgDetailsFragment extends Fragment {
 
                     @Override
                     public void onError(Exception e) {
-                        image_view.setBackgroundResource(R.drawable.picture_template);
+                        image_view_program.setBackgroundResource(R.drawable.picture_template);
                     }
                 });
 
-
+                Picasso.get().load("https://moviedatabasebucket.s3.eu-west-3.amazonaws.com/slike/hrt1.png").placeholder(R.drawable.picture_template).into(image_view_channel);
 
             }
         });
-
-
 
 
         return view;

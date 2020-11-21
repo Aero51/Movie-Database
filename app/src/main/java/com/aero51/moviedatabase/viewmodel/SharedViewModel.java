@@ -44,7 +44,7 @@ public class SharedViewModel extends ViewModel {
     private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
 
 
-    public void changeToEpgTvDetailsFragment(Integer index, EpgProgram epgProgram) {
+    public void changeToEpgDetailsFragment(Integer index, EpgProgram epgProgram) {
         this.epgIndex = index;
         liveEpgProgram.setValue(epgProgram);
         shouldSwitchToEpgDetailsFragment.setValue(true);

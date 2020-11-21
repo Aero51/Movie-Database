@@ -9,7 +9,7 @@
         android:id="@+id/progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:layout_alignLeft="@+id/tv_epg_tv_child_description"
         android:layout_alignRight="@+id/tv_epg_tv_child_description"
         android:progressDrawable="@drawable/progress_background"
@@ -41,7 +41,15 @@
         android:padding="5dp"
         android:text="Hello World"/>
 
-
+    <TextView
+        android:id="@+id/tv_epg_tv_child_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_epg_tv_child_description"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:background="#00000000"
+        android:padding="5dp"
+        android:text="Hello World"/>
 
 
 </RelativeLayout>

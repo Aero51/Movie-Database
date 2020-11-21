@@ -177,6 +177,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
+                Log.d("moviedatabaselog", "EpgTvFragment onChanged listResource.status: " +listResource.status);
                 if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
                     Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgViewModel.getResourceLiveData().removeObserver(this);
@@ -196,7 +197,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         //intentional crash
         // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
-        sharedViewModel.changeToEpgTvDetailsFragment(position, epgProgram);
+        sharedViewModel.changeToEpgDetailsFragment(position, epgProgram);
         ArrayList<String> daysOfWeek = new ArrayList<String>();
 
     }

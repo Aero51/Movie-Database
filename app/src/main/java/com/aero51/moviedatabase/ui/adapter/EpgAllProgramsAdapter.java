@@ -32,6 +32,7 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
     public void onBindViewHolder(@NonNull EpgAllProgramsAdapter.EpgAllProgramsViewHolder holder, int position) {
         holder.tv_epg_all_programs_start.setText(channelWithPrograms.getProgramsList().get(position).getStart());
         holder.tv_epg_all_programs_description.setText(channelWithPrograms.getProgramsList().get(position).getDesc());
+
     }
 
     @Override
