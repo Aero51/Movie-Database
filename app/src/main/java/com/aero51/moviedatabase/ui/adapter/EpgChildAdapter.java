@@ -46,7 +46,7 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         parent.getContext();
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_cro_child_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_child_item, parent, false);
         return new ViewHolder(view);
     }
 

@@ -1,5 +1,7 @@
 package com.aero51.moviedatabase.ui;
 
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.aero51.moviedatabase.BuildConfig;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
@@ -98,7 +101,7 @@ public class EpgDetailsFragment extends Fragment {
                 // Picasso.get().load(epgProgram.getIcon()).into(image_view);
                 Log.d("moviedatabaselog", "icon: " + epgProgram.getIcon());
                 //  Picasso.get().load(epgProgram.getIcon()).into(image_view);
-                 Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view_program, new Callback() {
+                Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view_program, new Callback() {
 
 
                     @Override
@@ -112,7 +115,8 @@ public class EpgDetailsFragment extends Fragment {
                     }
                 });
 
-                Picasso.get().load("https://moviedatabasebucket.s3.eu-west-3.amazonaws.com/slike/hrt1.png").placeholder(R.drawable.picture_template).into(image_view_channel);
+                Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID +  "/drawable/"+ epgProgram.getChannel());
+                Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(image_view_channel);
 
             }
         });

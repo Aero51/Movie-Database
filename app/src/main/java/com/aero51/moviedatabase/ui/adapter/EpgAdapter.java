@@ -1,9 +1,12 @@
 package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -11,11 +14,13 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.aero51.moviedatabase.BuildConfig;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.utils.ChannelItemClickListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,7 +31,6 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
     private ChannelItemClickListener channelItemClickListener;
     private Context context;
     private RecyclerView.RecycledViewPool viewPool;
-
 
     public EpgAdapter(Context context, List<EpgChannel> channelList, List<ChannelWithPrograms> programsForChannellList, ProgramItemClickListener programItemClickListener, ChannelItemClickListener channelItemClickListener) {
         this.channelList = channelList;
@@ -41,15 +45,18 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
     @NonNull
     @Override
     public EpgTvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.epg_cro_parent_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.epg_parent_item, parent, false);
         return new EpgTvViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EpgTvViewHolder holder, int position) {
         ChannelWithPrograms currentChannelChildItem = programsForChannellList.get(position);
-        holder.text_view_channel_name.setText(channelList.get(position).getDisplay_name());
+        Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + channelList.get(position).getName());
+        Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(holder.image_view_channel);
 
+
+        holder.text_view_channel_name.setText(channelList.get(position).getDisplay_name());
         holder.child_recycler.setRecycledViewPool(viewPool);
 
         holder.epgChildAdapter.setList(currentChannelChildItem);
@@ -65,11 +72,12 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
     }
 
 
+    public class EpgTvViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-
-    public class EpgTvViewHolder extends RecyclerView.ViewHolder implements  View.OnClickListener  {
-
+        private RelativeLayout channel_relative_layout;
+        public ImageView image_view_channel;
         public TextView text_view_channel_name;
+
         public ConcatAdapter mainAdapter;
         public RecyclerView child_recycler;
 
@@ -79,9 +87,10 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
         EpgTvViewHolder(View itemView) {
             super(itemView);
 
-
+            channel_relative_layout = itemView.findViewById(R.id.channel_relative_layout);
+            image_view_channel = itemView.findViewById(R.id.image_view_channel);
             text_view_channel_name = itemView.findViewById(R.id.text_view_channel_name);
-            text_view_channel_name.setOnClickListener(this);
+            channel_relative_layout.setOnClickListener(this);
 
 
             child_recycler = itemView.findViewById(R.id.rv_child);
