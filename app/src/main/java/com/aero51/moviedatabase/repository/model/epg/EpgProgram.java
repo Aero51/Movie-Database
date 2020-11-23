@@ -23,6 +23,18 @@ public class EpgProgram implements Serializable {
     private String channel_display_name;
     private String start;
     private String stop;
+    private Integer programDuration;
+
+
+    public Integer getProgramDuration() {
+        return programDuration;
+    }
+
+    public void setProgramDuration(Integer programDuration) {
+        this.programDuration = programDuration;
+    }
+
+
 
     public String getTitle() {
         return title;

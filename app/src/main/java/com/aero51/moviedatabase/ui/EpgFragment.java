@@ -147,7 +147,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         };
         recycler_view_epg_tv.addOnScrollListener(scrollListener);
         fetchProgramsForMultipleChannels(channelList);
-        // registerGetProgramsForChannel("HRT1");
 
     }
 
@@ -159,7 +158,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             public void onChanged(Boolean loading) {
                 if (!loading) {
                     int adapterItemCount = epgAdapter.getItemCount();
-                    if (adapterItemCount < temp + 10) {
+                    if (adapterItemCount < temp + 5) {
                         registerGetProgramsForChannel(channelList.get(adapterItemCount).getName());
 
                     } else {

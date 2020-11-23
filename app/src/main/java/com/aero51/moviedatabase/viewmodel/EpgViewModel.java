@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.viewmodel;
 
 import android.app.Application;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -49,8 +50,6 @@ public class EpgViewModel extends AndroidViewModel {
     }
 
 
-
-
     public ChannelWithPrograms calculateTimeStuff(List<EpgProgram> programsList) {
         ChannelWithPrograms item = new ChannelWithPrograms();
         //Collections.sort(new ArrayList<String>());
@@ -78,7 +77,6 @@ public class EpgViewModel extends AndroidViewModel {
         double percentage = (((currentTime - startTime) / (stopTime - startTime)) * 100);
         //  Log.d("moviedatabaselog", "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
         //  Log.d("moviedatabaselog", "percentage: " + percentage);
-        // Log.d("moviedatabaselog", "child position: " + position );
         item.setNowPlayingPercentage((int) percentage);
 
         return item;

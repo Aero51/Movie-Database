@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,10 +15,6 @@ import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -27,7 +24,6 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     private ProgramItemClickListener mClickListener;
     private SimpleDateFormat fromUser;
     private SimpleDateFormat myFormat;
-
 
     public EpgChildAdapter(ProgramItemClickListener listener) {
         this.mClickListener = listener;
@@ -41,7 +37,6 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         notifyDataSetChanged();
     }
 
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -53,16 +48,32 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EpgProgram program = currentChannelChildItem.getProgramsList().get(position);
+        Integer programDuration = program.getProgramDuration();
+
+        if (programDuration < 120) {
+            holder.progressBar.setMinimumWidth(120);
+            holder.tv_epg_tv_child_start.setWidth(120);
+            holder.tv_epg_tv_child_duration.setWidth(120);
+            holder.tv_epg_tv_child_title.setWidth(120);
+        } else {
+            holder.progressBar.setMinimumWidth(programDuration);
+            holder.tv_epg_tv_child_start.setWidth(programDuration);
+            holder.tv_epg_tv_child_duration.setWidth(programDuration);
+            holder.tv_epg_tv_child_title.setWidth(programDuration);
+        }
+
 
         try {
             String reformattedStartString = myFormat.format(fromUser.parse(program.getStart()));
             holder.tv_epg_tv_child_start.setText(reformattedStartString);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tv_epg_tv_child_position.setText(position + "");
-        holder.tv_epg_tv_child_description.setText(program.getTitle());
+        holder.tv_epg_tv_child_duration.setText(programDuration+"");
+        holder.tv_epg_tv_child_title.setText(program.getTitle());
 
+        /*
         String category = "";
         try {
             JSONObject jsonObj = new JSONObject(program.getCategory());
@@ -76,14 +87,13 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
             e.printStackTrace();
         }
         holder.tv_epg_tv_child_category.setText(category);
-
+*/
+        holder.tv_epg_tv_child_category.setText(program.getCategory());
         holder.progressBar.setProgress(0);
         if (position == currentChannelChildItem.getNearestTimePosition()) {
             holder.progressBar.setProgress(currentChannelChildItem.getNowPlayingPercentage());
         }
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -96,23 +106,25 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private RelativeLayout relativeLayout;
         private ProgressBar progressBar;
-        private TextView tv_epg_tv_child_position;
+        private TextView tv_epg_tv_child_duration;
         private TextView tv_epg_tv_child_start;
-        private TextView tv_epg_tv_child_description;
+        private TextView tv_epg_tv_child_title;
         private TextView tv_epg_tv_child_category;
 
 
         ViewHolder(View itemView) {
             super(itemView);
+            relativeLayout = itemView.findViewById(R.id.relative_layout);
+            relativeLayout.setMinimumWidth(100);
             progressBar = itemView.findViewById(R.id.progress_bar);
-            tv_epg_tv_child_position = itemView.findViewById(R.id.tv_epg_tv_child_position);
+            tv_epg_tv_child_duration = itemView.findViewById(R.id.tv_epg_tv_child_position);
             tv_epg_tv_child_start = itemView.findViewById(R.id.tv_epg_tv_child_start);
-            tv_epg_tv_child_description = itemView.findViewById(R.id.tv_epg_tv_child_description);
+            tv_epg_tv_child_title = itemView.findViewById(R.id.tv_epg_tv_child_title);
             tv_epg_tv_child_category = itemView.findViewById(R.id.tv_epg_tv_child_category);
             itemView.setOnClickListener(this);
         }
-
 
         @Override
         public void onClick(View v) {
@@ -120,5 +132,4 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
             mClickListener.onItemClick(adapter_position, currentChannelChildItem.getProgramsList().get(adapter_position).getDb_id(), currentChannelChildItem.getProgramsList().get(adapter_position));
         }
     }
-
 }

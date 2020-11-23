@@ -5,6 +5,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+
+    <ProgressBar
+        android:id="@+id/progress_bar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_alignLeft="@+id/tv_epg_tv_child_title"
+        android:layout_alignRight="@+id/tv_epg_tv_child_title"
+        android:progressDrawable="@drawable/progress_background"
+        android:max="100"
+        android:progress="0" />
+
+
     <TextView
         android:id="@+id/tv_epg_all_programs_position"
         android:layout_width="match_parent"
@@ -21,17 +34,25 @@
         android:background="#00000000"
         android:padding="5dp"
         android:text="10-22"/>
+
     <TextView
-        android:id="@+id/tv_epg_all_programs_description"
+        android:id="@+id/tv_epg_all_programs_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_epg_all_programs_start"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:background="#00000000"
         android:padding="5dp"
-        android:text="Hello World"/>
+        android:text="Title"/>
 
-
-
+    <TextView
+        android:id="@+id/tv_epg_all_programs_category"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_epg_all_programs_title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:background="#00000000"
+        android:padding="5dp"
+        android:text="Category"/>
 
 </RelativeLayout>

@@ -85,6 +85,7 @@ public class EpgAllProgramsFragment extends Fragment {
 
                 EpgAllProgramsAdapter adapter =new EpgAllProgramsAdapter(channelWithPrograms);
                 recycler_view_all_programs.setAdapter(adapter);
+                recycler_view_all_programs.scrollToPosition(channelWithPrograms.getNearestTimePosition());
             }
         });
         return view;

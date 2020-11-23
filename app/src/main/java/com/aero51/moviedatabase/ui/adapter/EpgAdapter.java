@@ -55,19 +55,15 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
         Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + channelList.get(position).getName());
         Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(holder.image_view_channel);
 
-
         holder.text_view_channel_name.setText(channelList.get(position).getDisplay_name());
         holder.child_recycler.setRecycledViewPool(viewPool);
 
         holder.epgChildAdapter.setList(currentChannelChildItem);
         holder.child_recycler.scrollToPosition(currentChannelChildItem.getNearestTimePosition());
-
     }
-
 
     @Override
     public int getItemCount() {
-        // return channelList.size();
         return programsForChannellList.size();
     }
 
@@ -92,7 +88,6 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
             text_view_channel_name = itemView.findViewById(R.id.text_view_channel_name);
             channel_relative_layout.setOnClickListener(this);
 
-
             child_recycler = itemView.findViewById(R.id.rv_child);
             child_recycler.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
@@ -109,7 +104,6 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
             //child_recycler.setAdapter(epgTvChildAdapter);
         }
 
-
         @Override
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
@@ -118,6 +112,4 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
             channelItemClickListener.onItemClick(channelWithPrograms);
         }
     }
-
-
 }
