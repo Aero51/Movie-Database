@@ -146,6 +146,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
 
     @Override
     public void onItemClick(View view, Cast cast, int position) {
+
        sharedViewModel.changeToActorFragment(position,cast);
     }
 }

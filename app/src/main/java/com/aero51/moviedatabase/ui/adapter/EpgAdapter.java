@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ConcatAdapter;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -92,6 +93,9 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
             child_recycler.setHasFixedSize(true);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
             child_recycler.setLayoutManager(linearLayoutManager);
+            child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), linearLayoutManager.getOrientation()));
+           // child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), DividerItemDecoration.HORIZONTAL));
+
             // child_recycler.setNestedScrollingEnabled(false);
             epgHeaderChildAdapter = new EpgHeaderChildAdapter();
             epgChildAdapter = new EpgChildAdapter(programItemClickListener);

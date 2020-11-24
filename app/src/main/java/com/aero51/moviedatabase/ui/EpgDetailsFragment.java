@@ -44,6 +44,7 @@ public class EpgDetailsFragment extends Fragment {
     private TextView text_view_description;
     private ImageView image_view_program;
     private ImageView image_view_channel;
+    private TextView text_view_cast;
 
 
     public EpgDetailsFragment() {
@@ -90,6 +91,7 @@ public class EpgDetailsFragment extends Fragment {
         text_view_description = view.findViewById(R.id.text_view_description);
         image_view_program = view.findViewById(R.id.image_view_program);
         image_view_channel = view.findViewById(R.id.image_view_channel);
+        text_view_cast = view.findViewById(R.id.text_view_cast);
 
         sharedViewModel.getLiveDataProgram().observe(getViewLifecycleOwner(), new Observer<EpgProgram>() {
             @Override
@@ -117,7 +119,7 @@ public class EpgDetailsFragment extends Fragment {
 
                 Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID +  "/drawable/"+ epgProgram.getChannel());
                 Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(image_view_channel);
-
+                text_view_cast.setText(epgProgram.getCredits());
             }
         });
 

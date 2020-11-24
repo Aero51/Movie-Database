@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -78,6 +79,7 @@ public class EpgAllProgramsFragment extends Fragment {
         recycler_view_all_programs.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recycler_view_all_programs.setLayoutManager(linearLayoutManager);
+        recycler_view_all_programs.addItemDecoration(new DividerItemDecoration(recycler_view_all_programs.getContext(), linearLayoutManager.getOrientation()));
 
         sharedViewModel.getLiveDataChannelWithPrograms().observe(getViewLifecycleOwner(), new Observer<ChannelWithPrograms>() {
             @Override

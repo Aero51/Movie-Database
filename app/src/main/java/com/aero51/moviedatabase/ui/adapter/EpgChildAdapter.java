@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.ui.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,29 +51,16 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         EpgProgram program = currentChannelChildItem.getProgramsList().get(position);
         Integer programDuration = program.getProgramDuration();
 
-        if (programDuration < 120) {
-            holder.progressBar.setMinimumWidth(120);
-            holder.tv_epg_tv_child_start.setWidth(120);
-            holder.tv_epg_tv_child_duration.setWidth(120);
-            holder.tv_epg_tv_child_title.setWidth(120);
-        } else {
-            holder.progressBar.setMinimumWidth(programDuration);
-            holder.tv_epg_tv_child_start.setWidth(programDuration);
-            holder.tv_epg_tv_child_duration.setWidth(programDuration);
-            holder.tv_epg_tv_child_title.setWidth(programDuration);
-        }
-
-
         try {
             String reformattedStartString = myFormat.format(fromUser.parse(program.getStart()));
             holder.tv_epg_tv_child_start.setText(reformattedStartString);
 
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tv_epg_tv_child_duration.setText(programDuration+"");
+        holder.tv_epg_tv_child_duration.setText(programDuration + "");
         holder.tv_epg_tv_child_title.setText(program.getTitle());
-
         /*
         String category = "";
         try {
@@ -130,6 +118,8 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
             mClickListener.onItemClick(adapter_position, currentChannelChildItem.getProgramsList().get(adapter_position).getDb_id(), currentChannelChildItem.getProgramsList().get(adapter_position));
+            //Log.d("moviedatabaselog", "tv_epg_tv_child_title getWidth: " + tv_epg_tv_child_title.getWidth());
+
         }
     }
 }

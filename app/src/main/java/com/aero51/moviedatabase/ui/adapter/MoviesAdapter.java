@@ -13,19 +13,19 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
-private  TopRatedMoviesPagedListAdapter  adapter;
+    private TopRatedMoviesPagedListAdapter adapter;
 
 
     public void setList(PagedList<TopRatedMovie> topRatedMoviePagedList) {
-       adapter.submitList(topRatedMoviePagedList);
+        adapter.submitList(topRatedMoviePagedList);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.movies_item, parent, false);
-        MoviesAdapter.ViewHolder viewHolder= new ViewHolder(view);
-          adapter = new TopRatedMoviesPagedListAdapter(null);
+        MoviesAdapter.ViewHolder viewHolder = new ViewHolder(view);
+        adapter = new TopRatedMoviesPagedListAdapter(null);
         viewHolder.setAdapter(adapter);
 
         return viewHolder;
@@ -53,7 +53,6 @@ private  TopRatedMoviesPagedListAdapter  adapter;
 
 
         private RecyclerView child_recycler;
-
 
 
         private TopRatedMoviesPagedListAdapter adapter;

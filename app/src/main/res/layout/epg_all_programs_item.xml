@@ -3,6 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
     android:orientation="vertical">
 
 
@@ -27,11 +29,11 @@
         android:text="position"/>
     <TextView
         android:id="@+id/tv_epg_all_programs_start"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_epg_all_programs_position"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-        android:background="#00000000"
+        android:background="@drawable/back"
         android:padding="5dp"
         android:text="10-22"/>
 
@@ -50,7 +52,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_epg_all_programs_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
         android:background="#00000000"
         android:padding="5dp"
         android:text="Category"/>
