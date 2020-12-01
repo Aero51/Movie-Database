@@ -4,6 +4,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -86,6 +88,19 @@ public class EpgDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_epg_details, container, false);
+
+
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+                Log.d("moviedatabaselog", "Toolbar clicked!");
+                showBackButton(false);
+            }
+        });
+        showBackButton(true);
+
         text_view_title = view.findViewById(R.id.text_view_title);
         text_view_date = view.findViewById(R.id.text_view_date);
         text_view_description = view.findViewById(R.id.text_view_description);
@@ -125,5 +140,12 @@ public class EpgDetailsFragment extends Fragment {
 
 
         return view;
+    }
+
+
+    public void showBackButton(boolean show) {
+        if (getActivity() instanceof AppCompatActivity) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
+        }
     }
 }

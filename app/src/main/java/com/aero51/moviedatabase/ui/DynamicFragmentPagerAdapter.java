@@ -6,6 +6,7 @@ import android.os.BadParcelableException;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -27,6 +28,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
 
     public static abstract class FragmentIdentifier implements Parcelable {
 
+
         //Parcelable protocol requires a Parcelable.Creator object called CREATOR on class com.aero51.moviedatabase.ui
         //this error happens when app is killed by system after cca 30 mins on inactivity
         /*
@@ -42,6 +44,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
             }
         };
 */
+
         private final String fragmentTag;
         private final Bundle args;
 
@@ -81,6 +84,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     public void replaceFragment(int index, FragmentIdentifier fragmentIdentifier) {
         fragmentIdentifiers.set(index, fragmentIdentifier);
         notifyDataSetChanged();
+
 
     }
 
@@ -161,6 +165,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         }
         final FragmentIdentifier fragmentIdentifier = fragmentIdentifiers.get(position);
         // Do we already have this fragment?
+        Log.d("moviedatabaselog", " position: " + position);
         final String name = fragmentIdentifier.fragmentTag;
         Fragment fragment = fragmentManager.findFragmentByTag(name);
         if (fragment != null) {

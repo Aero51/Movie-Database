@@ -1,16 +1,24 @@
 package com.aero51.moviedatabase.ui;
 
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.preference.PreferenceManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
@@ -38,19 +46,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
+
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
-        SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
-        actorFragmentBackPosition = sharedPref.getInt("Saved ActorFragment back navigation", -1);
+        SharedPreferences sharedPrefPrivate = this.getPreferences(Context.MODE_PRIVATE);
+        actorFragmentBackPosition = sharedPrefPrivate.getInt("Saved ActorFragment back navigation", -1);
 
         viewPager = findViewById(R.id.view_pager);
         dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), getApplicationContext());
         //  viewPager.setPagingEnabled(false);
 
         viewPager.setAdapter(dynamicFragmentPagerAdapter);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-        getSupportActionBar().hide();
+       // getSupportActionBar().setDisplayShowTitleEnabled(false);
+       // getSupportActionBar().hide();
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
@@ -67,8 +81,23 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+                Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+                startActivity(intent);
             }
         });
+
+
+        PreferenceManager
+                .setDefaultValues(this, R.xml.preferences, false);
+
+        SharedPreferences sharedPref =
+                PreferenceManager
+                        .getDefaultSharedPreferences(this);
+        Boolean switchPref = sharedPref.getBoolean
+                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
+        Toast.makeText(this, switchPref.toString(),
+                Toast.LENGTH_SHORT).show();
+
 
     }
 
@@ -133,10 +162,10 @@ public class MainActivity extends AppCompatActivity {
         sharedViewModel.getSingleLiveShouldSwitchToEpgAllProgramsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                epgAllProgramsFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgAllProgramsFragment",null) {
+                epgAllProgramsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgAllProgramsFragment", null) {
                     @Override
                     protected Fragment createFragment() {
-                        return EpgAllProgramsFragment.newInstance("","");
+                        return EpgAllProgramsFragment.newInstance("", "");
                     }
 
                     @Override
@@ -283,6 +312,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        Log.d("moviedatabaselog", " onStop: ");
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("Saved ActorFragment back navigation", actorFragmentBackPosition);
@@ -291,6 +321,30 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
 }
 

@@ -2,5 +2,35 @@
     <string name="app_name">Movie databases</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test">TestActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="action_settings">Postavke</string>
+
+    <string-array name="list_preference_entries">
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>1 hour</item>
+        <item>3 hours</item>
+        <item>6 hours</item>
+        <item>Never</item>
+
+    </string-array>
+
+    <string-array name="list_preference_values">
+        <item>15 </item>
+        <item>30 </item>
+        <item>1</item>
+        <item>3 </item>
+        <item>6 </item>
+        <item>Ne</item>
+    </string-array>
+
 
 </resources>
