@@ -5,6 +5,10 @@ import android.os.Bundle;
 import androidx.preference.PreferenceFragmentCompat;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -28,6 +32,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preferences, rootKey);
 
+        
     }
 
 }

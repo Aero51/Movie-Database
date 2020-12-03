@@ -36,4 +36,7 @@ public class EpgChannel {
     public void setChannel_db_id(Integer channel_db_id) {
         this.channel_db_id = channel_db_id;
     }
+
+
+
 }

@@ -1,6 +1,10 @@
 package com.aero51.moviedatabase.utils;
 
 import com.aero51.moviedatabase.BuildConfig;
+import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Constants {
     public static final String TMDB_API_KEY = BuildConfig.API_KEY;
