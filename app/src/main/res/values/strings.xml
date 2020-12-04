@@ -14,21 +14,11 @@
     <string name="action_settings">Postavke</string>
 
     <string-array name="list_preference_entries">
-        <item>15 minutes</item>
-        <item>30 minutes</item>
-        <item>1 hour</item>
-        <item>3 hours</item>
-        <item>6 hours</item>
-        <item>Never</item>
+        <item>Test</item>
     </string-array>
 
     <string-array name="list_preference_values">
-        <item>15 </item>
-        <item>30 </item>
-        <item>1</item>
-        <item>3 </item>
-        <item>6 </item>
-        <item>Ne</item>
+        <item>test </item>
     </string-array>
 
   

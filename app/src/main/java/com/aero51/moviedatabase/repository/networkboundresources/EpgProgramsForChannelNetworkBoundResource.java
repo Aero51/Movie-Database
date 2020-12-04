@@ -63,6 +63,7 @@ public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResou
         if ((noData == true) || (isGreater == false)) {
             shouldFetch = true;
         }
+        //Log.d("moviedatabaselog",data.get(data.size()-1).getStart());
         return shouldFetch;
     }
 

@@ -1,11 +1,12 @@
 package com.aero51.moviedatabase.repository.model.epg;
 
 
+import androidx.annotation.Nullable;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "epg_channel")
-public class EpgChannel {
+public class EpgChannel implements Comparable<String> {
 
 
     @PrimaryKey(autoGenerate = true)
@@ -37,6 +38,11 @@ public class EpgChannel {
         this.channel_db_id = channel_db_id;
     }
 
+
+    @Override
+    public int compareTo(String otherName) {
+        return this.getName().compareTo(otherName);
+    }
 
 
 }

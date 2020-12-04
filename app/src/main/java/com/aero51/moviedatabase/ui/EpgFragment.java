@@ -21,6 +21,7 @@ import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgAdapter;
 import com.aero51.moviedatabase.utils.ChannelItemClickListener;
+import com.aero51.moviedatabase.utils.ChannelsPreferenceExtractor;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
@@ -58,6 +59,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     private MutableLiveData<Boolean> isLoading;
     private LinearLayoutManager linearLayoutManager;
 
+    private List<EpgChannel> channelList;
 
     private EndlessRecyclerViewScrollListener scrollListener;
 
@@ -91,14 +93,15 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        channelList = ChannelsPreferenceExtractor.extractChannels(getContext());
 
         epgViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
-        isLoading = new MutableLiveData<>();
-        isLoading.setValue(false);
+
 
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,25 +114,14 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         //recycler_view_epg_tv.setHasFixedSize(true);
         //recycler_view_epg_tv.setNestedScrollingEnabled(true);
         TextView text_view_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
-        registerAllChannelsObserver();
+        setUpRecyclerView();
+
         return view;
     }
 
 
-    private void registerAllChannelsObserver() {
-        sharedViewModel.setHasEpgTvFragmentFinishedLoading(false);
-        epgViewModel.getChannels().observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgChannel>>>() {
-            @Override
-            public void onChanged(Resource<List<EpgChannel>> listResource) {
-                Log.d("moviedatabaselog", "EpgTvFragment onChanged getChannels code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
-                if (listResource.data.size() > 0) {
-                    setUpRecyclerView(listResource.data);
-                }
-            }
-        });
-    }
 
-    private void setUpRecyclerView(List<EpgChannel> channelList) {
+    private void setUpRecyclerView() {
 
         linearLayoutManager = new SpeedyLinearLayoutManager(getContext(), SpeedyLinearLayoutManager.VERTICAL, false);
         recycler_view_epg_tv.setLayoutManager(linearLayoutManager);
@@ -151,6 +143,11 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     }
 
     private void fetchProgramsForMultipleChannels(List<EpgChannel> channelList) {
+        isLoading = new MutableLiveData<>();
+        isLoading.setValue(false);
+        sharedViewModel.setHasEpgTvFragmentFinishedLoading(false);
+
+
         recycler_view_epg_tv.removeOnScrollListener(scrollListener);
         int temp = epgAdapter.getItemCount();
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -176,7 +173,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d("moviedatabaselog", "EpgTvFragment onChanged listResource.status: " +listResource.status);
+                Log.d("moviedatabaselog", "EpgTvFragment onChanged listResource.status: " + listResource.status);
                 if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
                     Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgViewModel.getResourceLiveData().removeObserver(this);

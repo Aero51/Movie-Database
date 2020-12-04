@@ -9,18 +9,107 @@
 
     <CheckBoxPreference
         android:defaultValue="true"
-        android:key="example_switch"
+        android:key="example_checkbox"
         android:summary="Turn this option on or off"
         android:title="Settings option" />
 
 
     <MultiSelectListPreference
-        android:key="multi_select_list"
-        android:title="Some multi select list"
-        android:summary="This is a summary"
+        android:dependency="example_checkbox"
         android:entries="@array/list_preference_entries"
         android:entryValues="@array/list_preference_values"
-        />
+        android:key="croatian_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Hrvatski osnovni kanali" />
 
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="serbian_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Srpski  kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="bosnian_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Bosanski kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="montenegro_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Crnogorski kanali" />
+
+
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="movie_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Filmski kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="sports_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Sportski kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="documentary_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Dokumentarni kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="news_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Informativni kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="music_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Glazbeni kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="children_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Dječji kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="entertainment_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Zabavni kanali" />
+
+    <MultiSelectListPreference
+        android:dependency="example_checkbox"
+        android:entries="@array/list_preference_entries"
+        android:entryValues="@array/list_preference_values"
+        android:key="croatian_expanded_channels_multi_select_list"
+        android:summary="Odaberi sa liste"
+        android:title="Hrvatski dodatni kanali" />
 
 </androidx.preference.PreferenceScreen>

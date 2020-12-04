@@ -28,13 +28,28 @@ public class Constants {
     public static final String PROFILE_SIZE_W185 = "w185";
     public static final String PROFILE_SIZE_H632 = "h632";
 
-
+    public static final String CROATIAN_CHANNELS_MULTI_SELECT_LIST = "croatian_channels_multi_select_list";
+    public static final String SERBIAN_CHANNELS_MULTI_SELECT_LIST = "serbian_channels_multi_select_list";
+    public static final String BOSNIAN_CHANNELS_MULTI_SELECT_LIST = "bosnian_channels_multi_select_list";
+    public static final String MONTENEGRO_CHANNELS_MULTI_SELECT_LIST = "montenegro_channels_multi_select_list";
+    public static final String MOVIE_CHANNELS_MULTI_SELECT_LIST = "movie_channels_multi_select_list";
+    public static final String SPORTS_CHANNELS_MULTI_SELECT_LIST = "sports_channels_multi_select_list";
+    public static final String DOCUMENTARY_CHANNELS_MULTI_SELECT_LIST = "documentary_channels_multi_select_list";
+    public static final String NEWS_CHANNELS_MULTI_SELECT_LIST = "news_channels_multi_select_list";
+    public static final String MUSIC_CHANNELS_MULTI_SELECT_LIST = "music_channels_multi_select_list";
+    public static final String CHILDREN_CHANNELS_MULTI_SELECT_LIST = "children_channels_multi_select_list";
+    public static final String ENTERTAINMENT_CHANNELS_MULTI_SELECT_LIST = "entertainment_channels_multi_select_list";
+    public static final String CROATIAN_EXPANDED_CHANNELS_MULTI_SELECT_LIST = "croatian_expanded_channels_multi_select_list";
 
     public static final String DATABASE_NAME = "Movie.db";
     public static final int MOVIES_FIRST_PAGE = 1;
     public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;
     public static final int TOP_RATED_MOVIE_TYPE_ID = 0;
     public static final int POPULAR_MOVIE_TYPE_ID = 1;
+
+
+
+
 
 
 }
