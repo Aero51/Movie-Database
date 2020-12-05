@@ -14,6 +14,7 @@ import com.aero51.moviedatabase.repository.retrofit.EpgApi;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<E
 
     @Override
     protected void saveCallResult(@NonNull List<EpgChannel> item) {
-        Log.d("moviedatabaselog", "EpgTv channels saveCallResult channels list size: " + item.size());
+        Log.d(Constants.LOG, "EpgTv channels saveCallResult channels list size: " + item.size());
         epgTvDao.deleteAllChannels();
         epgTvDao.insertChannelsList(item);
     }
@@ -50,7 +51,7 @@ public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<E
     @NonNull
     @Override
     protected LiveData<ApiResponse<List<EpgChannel>>> createCall() {
-        Log.d("moviedatabaselog", "EpgTv channels createCall ");
+        Log.d(Constants.LOG, "EpgTv channels createCall ");
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
         return epgApi.getLiveChannels();
     }

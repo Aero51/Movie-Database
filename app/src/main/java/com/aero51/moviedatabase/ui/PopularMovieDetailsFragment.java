@@ -21,6 +21,7 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
@@ -102,7 +103,7 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
         movieDetailsViewModel.getMovieCast(popularMovieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
-                Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+                Log.d(Constants.LOG, "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
 
                 castAdapter=new CastAdapter(getContext(),listResource.data);
                 castAdapter.setClickListener(PopularMovieDetailsFragment.this::onItemClick);

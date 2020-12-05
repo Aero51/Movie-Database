@@ -50,7 +50,7 @@ public class ChannelsPreferenceExtractor {
         completeChannelList.addAll(processChannelGroup(prefs, prePopulatedChannels.getEntertainmentList(), ENTERTAINMENT_CHANNELS_MULTI_SELECT_LIST));
         completeChannelList.addAll(processChannelGroup(prefs, prePopulatedChannels.getCroatianExpandedList(), CROATIAN_EXPANDED_CHANNELS_MULTI_SELECT_LIST));
 
-        Log.d("sharedprefs", "FINAL LIST SIZE: "+completeChannelList.size());
+        Log.d(Constants.LOG2, "FINAL LIST SIZE: "+completeChannelList.size());
 
         return completeChannelList;
     }
@@ -66,7 +66,7 @@ public class ChannelsPreferenceExtractor {
         for (int i = 0; i < channelGroupList.size(); i++) {
             for (int j = 0; j < unsortedSelectionList.size(); j++) {
                 if (channelGroupList.get(i).getName().equals(unsortedSelectionList.get(j))) {
-                    //Log.d("sharedprefs", i + " , " + unsortedSelectionList.get(j));
+                    //Log.d(Constants.LOG2, i + " , " + unsortedSelectionList.get(j));
                     processedChannelsList.add(channelGroupList.get(i));
                 }
 

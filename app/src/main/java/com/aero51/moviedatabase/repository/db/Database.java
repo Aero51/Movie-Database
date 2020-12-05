@@ -20,6 +20,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
@@ -70,7 +71,7 @@ public abstract class Database extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.d("moviedatabaselog","RoomDatabase.Callback roomCallback onCreate  ");
+            Log.d(Constants.LOG,"RoomDatabase.Callback roomCallback onCreate  ");
 
         }
     };

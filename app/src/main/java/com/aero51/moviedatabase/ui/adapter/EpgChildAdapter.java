@@ -118,7 +118,7 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
             mClickListener.onItemClick(adapter_position, currentChannelChildItem.getProgramsList().get(adapter_position).getDb_id(), currentChannelChildItem.getProgramsList().get(adapter_position));
-            //Log.d("moviedatabaselog", "tv_epg_tv_child_title getWidth: " + tv_epg_tv_child_title.getWidth());
+            //Log.d(Constants.LOG, "tv_epg_tv_child_title getWidth: " + tv_epg_tv_child_title.getWidth());
 
         }
     }

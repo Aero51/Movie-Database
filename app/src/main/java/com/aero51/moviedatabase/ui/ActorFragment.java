@@ -19,6 +19,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
@@ -107,11 +108,11 @@ public class ActorFragment extends Fragment {
 
 
     private void registerActorObservers(Cast castItem){
-        Log.d("moviedatabaselog", "registerActorObservers cast: " + castItem.getId());
+        Log.d(Constants.LOG, "registerActorObservers cast: " + castItem.getId());
         viewModel.getActorDetails(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {
-                Log.d("moviedatabaselog", "getActorDetails code: " + actorResource.code + " , status: " + actorResource.status + " list size: " + " ,message: " + actorResource.message);
+                Log.d(Constants.LOG, "getActorDetails code: " + actorResource.code + " , status: " + actorResource.status + " list size: " + " ,message: " + actorResource.message);
                 if (actorResource.status == Status.SUCCESS) {
                     Actor actor=actorResource.data;
                     text_view_actor_name.setText(actor.getName());
@@ -128,7 +129,7 @@ public class ActorFragment extends Fragment {
         viewModel.getActorImages(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImage>>>() {
             @Override
             public void onChanged(Resource<List<ActorImage>> listResource) {
-                Log.d("moviedatabaselog", "getActorImages code: " + listResource.code + " , status: " + listResource.status + " list size: "+listResource.data.size() + " ,message: " + listResource.message);
+                Log.d(Constants.LOG, "getActorImages code: " + listResource.code + " , status: " + listResource.status + " list size: "+listResource.data.size() + " ,message: " + listResource.message);
                 ActorImagesAdapter adapter= new ActorImagesAdapter(getContext(),listResource.data);
                 recycler_view_actor_images.setAdapter(adapter);
             }

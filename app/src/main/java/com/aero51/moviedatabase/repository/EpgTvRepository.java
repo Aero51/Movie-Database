@@ -10,6 +10,7 @@ import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgChannelsNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgProgramsForChannelNetworkBoundResource;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 
 import java.util.List;
@@ -24,12 +25,12 @@ public class EpgTvRepository {
     }
 
     public LiveData<Resource<List<EpgChannel>>> loadChannels(){
-        Log.d("moviedatabaselog", "EpgTvRepository loadChannels ");
+        Log.d(Constants.LOG, "EpgTvRepository loadChannels ");
         return new EpgChannelsNetworkBoundResource(executors,application).asLiveData();
     }
 
     public LiveData<Resource<List<EpgProgram>>> loadProgramsForChannel(String channelName){
-        Log.d("moviedatabaselog", "EpgTvRepository load other channel programs: "+channelName);
+        Log.d(Constants.LOG, "EpgTvRepository load other channel programs: "+channelName);
         return new EpgProgramsForChannelNetworkBoundResource(executors,application,channelName).asLiveData();
     }
 

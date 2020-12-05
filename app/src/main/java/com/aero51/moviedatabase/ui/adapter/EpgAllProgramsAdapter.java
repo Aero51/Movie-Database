@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.Constants;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -87,7 +88,7 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
         @Override
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
-            Log.d("moviedatabaselog", "EpgAllProgramsAdapter onClick " + adapter_position);
+            Log.d(Constants.LOG, "EpgAllProgramsAdapter onClick " + adapter_position);
 
 
         }

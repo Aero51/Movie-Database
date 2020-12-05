@@ -24,6 +24,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.MoviesAdapter;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
@@ -122,7 +123,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             @Override
             public void run() {
                 //Do something after 100ms
-                //   Log.d("moviedatabaselog", "runnable runned! " );
+                //   Log.d(Constants.LOG, "runnable runned! " );
 
             }
         }, 3000);
@@ -147,7 +148,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         moviesViewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
             @Override
             public void onChanged(PagedList<TopRatedMovie> top_rated_results) {
-                Log.d("moviedatabaselog", "topRated MoviesFragment  onChanged list size: " + top_rated_results.size());
+                Log.d(Constants.LOG, "topRated MoviesFragment  onChanged list size: " + top_rated_results.size());
 
 
                 topRatedAdapter.submitList(top_rated_results);
@@ -174,13 +175,13 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
                 } else {
                     page_number = top_rated_movies_page.getPage();
                 }
-                Log.d("moviedatabaselog", "topRated MoviesFragment onChanged movie_page: " + page_number);
+                Log.d(Constants.LOG, "topRated MoviesFragment onChanged movie_page: " + page_number);
             }
         });
         moviesViewModel.getTopRatedMoviesNetworkState().observe(getViewLifecycleOwner(), new Observer<NetworkState>() {
             @Override
             public void onChanged(NetworkState networkState) {
-                // Log.d("moviedatabaselog", "MainActivity onChanged network state: "+networkState.getMsg());
+                // Log.d(Constants.LOG, "MainActivity onChanged network state: "+networkState.getMsg());
                 topRatedAdapter.setNetworkState(networkState);
             }
         });
@@ -192,7 +193,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMovie>>() {
             @Override
             public void onChanged(PagedList<PopularMovie> popularMovies) {
-                Log.d("moviedatabaselog", "popular MoviesFragment  onChanged list size: " + popularMovies.size());
+                Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
                 popularAdapter.submitList(popularMovies);
             }
         });
@@ -205,7 +206,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
                 } else {
                     page_number = popularMoviesPage.getPage();
                 }
-                Log.d("moviedatabaselog", "popular MoviesFragment onChanged movie_page: " + page_number);
+                Log.d(Constants.LOG, "popular MoviesFragment onChanged movie_page: " + page_number);
             }
 
         });
@@ -215,7 +216,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     public void OnItemClick(TopRatedMovie result, int position) {
         //  this.OnObjectItemClick(result,position);
         sharedViewModel.changeToTopRatedMovieFragment(position, result);
-        Log.d("moviedatabaselog", "TopRatedMovie OnItemClick ");
+        Log.d(Constants.LOG, "TopRatedMovie OnItemClick ");
     }
 
     @Override
@@ -227,7 +228,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     @Override
     public void OnObjectItemClick(Object movie, int position) {
 
-        if (movie instanceof TopRatedMovie) Log.d("moviedatabaselog", "TopRatedMovie OnItemClick ");
-        if (movie instanceof PopularMovie) Log.d("moviedatabaselog", "PopularMovie OnItemClick ");
+        if (movie instanceof TopRatedMovie) Log.d(Constants.LOG, "TopRatedMovie OnItemClick ");
+        if (movie instanceof PopularMovie) Log.d(Constants.LOG, "PopularMovie OnItemClick ");
     }
 }

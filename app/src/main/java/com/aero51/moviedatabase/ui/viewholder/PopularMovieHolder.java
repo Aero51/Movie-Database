@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -64,7 +65,7 @@ public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.
     public void onClick(View v) {
         if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
             itemClickListener.OnItemClick(result,position); // call the onClick in the OnItemClickListener
-            Log.d("moviedatabaselog", " Item clicked inside popular holder : " + position);
+            Log.d(Constants.LOG, " Item clicked inside popular holder : " + position);
         }
     }
 }

@@ -15,6 +15,7 @@ import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
 import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 
 public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMovie, RecyclerView.ViewHolder> {
@@ -62,7 +63,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
     public int getItemViewType(int position) {
 
         if (hasExtraRow() && position == getItemCount() - 1) {
-            Log.d("moviedatabaselog", "position: " + position + " itemcount: " + getItemCount());
+            Log.d(Constants.LOG, "position: " + position + " itemcount: " + getItemCount());
             return R.layout.network_state_item;
         } else {
             return R.layout.movie_item;
@@ -77,7 +78,7 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
     }
 
     public void setNetworkState(NetworkState newNetworkState) {
-        Log.d("moviedatabaselog", "NetworkState status: " + newNetworkState.getStatus() + " ,msg: " + newNetworkState.getMsg());
+        Log.d(Constants.LOG, "NetworkState status: " + newNetworkState.getStatus() + " ,msg: " + newNetworkState.getMsg());
         NetworkState previousState = this.networkState;
         boolean previousExtraRow = hasExtraRow();
         this.networkState = newNetworkState;
@@ -98,13 +99,13 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
             new DiffUtil.ItemCallback<TopRatedMovie>() {
                 @Override
                 public boolean areItemsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
-                  //  Log.d("moviedatabaselog", "areItemsTheSame");
+                  //  Log.d(Constants.LOG, "areItemsTheSame");
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
                 public boolean areContentsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
-                   // Log.d("moviedatabaselog", "areContentsTheSame");
+                   // Log.d(Constants.LOG, "areContentsTheSame");
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };

@@ -12,6 +12,7 @@ import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.SingleLiveEvent;
 
 public class SharedViewModel extends ViewModel {
@@ -76,7 +77,7 @@ public class SharedViewModel extends ViewModel {
 
 
     public void changeToTopRatedMovieFragment(Integer position, TopRatedMovie topRatedMovie) {
-        Log.d("moviedatabaselog", "changeToTopRatedMovieFragment topRatedMovieId: " + topRatedMovie.getId());
+        Log.d(Constants.LOG, "changeToTopRatedMovieFragment topRatedMovieId: " + topRatedMovie.getId());
         this.topRatedMovieIndex = position;
         livetopRatedMovie.setValue(topRatedMovie);
         shouldSwitchTopMovieFragments.setValue(true);

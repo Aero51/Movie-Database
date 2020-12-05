@@ -21,6 +21,7 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
@@ -74,7 +75,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
-       // Log.d("moviedatabaselog", "TopRatedMovieDetailsFragment onCreateView " );
+       // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
         cover_image_view = view.findViewById(R.id.cover);
         title_text_view = view.findViewById(R.id.title);
         release_date_text_view = view.findViewById(R.id.releaseDate);
@@ -92,13 +93,13 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     @Override
     public void onStop() {
         super.onStop();
-      //  Log.d("moviedatabaselog", "TopRatedMovieDetailsFragment onStop " );
+      //  Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onStop " );
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-       // Log.d("moviedatabaselog", "TopRatedMovieDetailsFragment onDestroyView " );
+       // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onDestroyView " );
         //sharedViewModel.getLiveDataTopRatedMovie().removeObservers(getViewLifecycleOwner());
        // movieDetailsViewModel.getMovieCast(topRatedMovieIds).removeObservers(getViewLifecycleOwner());
     }
@@ -126,7 +127,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
                // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
-                Log.d("moviedatabaselog", "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
+                Log.d(Constants.LOG, "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
                 castAdapter = new CastAdapter(getContext(), listResource.data);
                 castAdapter.setClickListener(TopRatedMovieDetailsFragment.this::onItemClick);
                 castRecyclerView.setAdapter(castAdapter);

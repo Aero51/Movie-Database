@@ -41,7 +41,7 @@ public class Top_Rated_Results_Repository {
                try {
                    Response<Top_Rated_Movies_Page> response = call.execute();
                    if (!response.isSuccessful()) {
-                       Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
+                       Log.d(Constants.LOG, "Response unsuccesful: " + response.code());
                        // networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                        return null;
                    }
@@ -50,7 +50,7 @@ public class Top_Rated_Results_Repository {
                    list_of_results = mTopRatedMovies.getResults_list();
                } catch (IOException e) {
                    e.printStackTrace();
-                   Log.d("moviedatabaselog", "call failure  IOException : " + e.getMessage());
+                   Log.d(Constants.LOG, "call failure  IOException : " + e.getMessage());
                    // networkState.postValue(new NetworkState(NetworkState.Status.FAILED, e.getMessage()));
                }
                return list_of_results;
@@ -74,12 +74,12 @@ My diff callback inside paged list adapter:
                     int a = oldItem.getId();
                     int b = newItem.getId();
                     boolean c = (a == b);
-                    Log.d("moviedatabaselog", c + " ,oldid: " + a + " ,newid: " + b);
+                    Log.d(Constants.LOG, c + " ,oldid: " + a + " ,newid: " + b);
                     return c;
                 }
                 @Override
                 public boolean areContentsTheSame(Top_Rated_Result oldItem, Top_Rated_Result newItem) {
-                    Log.d("moviedatabaselog", "areContentsTheSame: oldItem Title: " + oldItem.getTitle() + " ,newItem Title: " + newItem.getTitle());
+                    Log.d(Constants.LOG, "areContentsTheSame: oldItem Title: " + oldItem.getTitle() + " ,newItem Title: " + newItem.getTitle());
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };
@@ -124,7 +124,7 @@ I copied it from response to my question here
                 if (page != null) {
                     return page;
                 } else {
-                    Log.d("moviedatabaselog", "dao movie page null");
+                    Log.d(Constants.LOG, "dao movie page null");
                     return null;
                 }
             }
@@ -142,10 +142,10 @@ I copied it from response to my question here
             @Override
             public void onResponse(Call<Top_Rated_Movies_Page> call, Response<Top_Rated_Movies_Page> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("moviedatabaselog", "Response unsuccesful: " + response.code());
+                    Log.d(Constants.LOG, "Response unsuccesful: " + response.code());
                     return;
                 }
-                Log.d("moviedatabaselog", "Response ok: " + response.code());
+                Log.d(Constants.LOG, "Response ok: " + response.code());
                 Top_Rated_Movies_Page mTopRatedMovies = response.body();
                 database.runInTransaction(new Runnable() {
                     @Override
@@ -159,7 +159,7 @@ I copied it from response to my question here
 
             @Override
             public void onFailure(Call<Top_Rated_Movies_Page> call, Throwable t) {
-                Log.d("moviedatabaselog", "onFailure: " + t.getMessage());
+                Log.d(Constants.LOG, "onFailure: " + t.getMessage());
             }
         });
     }
@@ -198,13 +198,13 @@ I copied it from response to my question here
 
                   //  String currentTime = new SimpleDateFormat("HH:mm:ss", Locale.getDefault()).format(new Date());
                     String currentTime = new SimpleDateFormat("yyyyMMddHHmmSS ", Locale.getDefault()).format(new Date());
-                    Log.d("moviedatabaselog", " String currentTime :"+currentTime);
+                    Log.d(Constants.LOG, " String currentTime :"+currentTime);
                     try {
                         Date startDate = new SimpleDateFormat("yyyyMMddHHmmSS").parse(programList.get(0).getStart());
-                        Log.d("moviedatabaselog", "date :"+startDate);
+                        Log.d(Constants.LOG, "date :"+startDate);
                         Date currentDate= new SimpleDateFormat("yyyyMMddHHmmSS").parse(currentTime);
-                        Log.d("moviedatabaselog", "   Date currentDate :"+currentDate);
-                        Log.d("moviedatabaselog", "   Date currentDate getTime :"+currentDate.getTime());
+                        Log.d(Constants.LOG, "   Date currentDate :"+currentDate);
+                        Log.d(Constants.LOG, "   Date currentDate getTime :"+currentDate.getTime());
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
@@ -255,8 +255,8 @@ public void getNearestDate(List<Date> dates, Date targetDate) {
                     @Override
                     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                         super.onScrollStateChanged(recyclerView, newState);
-                        //  Log.d("moviedatabaselog", "onScrollStateChanged newState: "+newState);
-                        //   Log.d("moviedatabaselog", "can scroll vertically : "+recyclerView.canScrollVertically(1));
+                        //  Log.d(Constants.LOG, "onScrollStateChanged newState: "+newState);
+                        //   Log.d(Constants.LOG, "can scroll vertically : "+recyclerView.canScrollVertically(1));
 
                         //  int firstVisiblesItems = recyclerView.getLayoutManager().fin;
 
@@ -264,9 +264,9 @@ public void getNearestDate(List<Date> dates, Date targetDate) {
                         int totalItemCount = linearLayoutManager.getItemCount();
                         int firstVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
                         int lastVisibleItem = linearLayoutManager.findLastVisibleItemPosition();
-                        //  Log.d("moviedatabaselog", "visibleItemCount: " +visibleItemCount+" ,firstVisiblesItems: "+firstVisiblesItems+" ,totalItemCount: "+totalItemCount+" ,lastVisibleItem: "+lastVisibleItem );
+                        //  Log.d(Constants.LOG, "visibleItemCount: " +visibleItemCount+" ,firstVisiblesItems: "+firstVisiblesItems+" ,totalItemCount: "+totalItemCount+" ,lastVisibleItem: "+lastVisibleItem );
 
-                        //    Log.d("moviedatabaselog", "findFirstVisibleItemPosition : "+firstVisiblesItems);
+                        //    Log.d(Constants.LOG, "findFirstVisibleItemPosition : "+firstVisiblesItems);
                         if (isLoading.getValue()) {
                             if (newState == 1) {
                                 //  registerGetProgramsForChannel(channelList.get(counter).getName());
@@ -278,7 +278,7 @@ public void getNearestDate(List<Date> dates, Date targetDate) {
 
                     @Override
                     public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                        Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
+                        Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
                         // registerGetProgramsForChannel(channelList.get(totalItemsCount).getName(), epgTvCroChannelsNewAdapter);
                         // if (page == 1) registerGetProgramsForChannel("HRT1");
                         // fetchProgramsForMultipleChannels(channelList,1);

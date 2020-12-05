@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.utils.CheckAppStart;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -45,10 +47,29 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        switch (CheckAppStart.checkAppStart(getPackageManager(),getPackageName())) {
+            case NORMAL:
+                // We don't want to get on the user's nerves
+                Log.d(Constants.LOG2, "not first time, normal  run. ");
+                break;
+            case FIRST_TIME_VERSION:
+                // TODO show what's new
+                Log.d(Constants.LOG2, "first time version run ");
+                break;
+            case FIRST_TIME:
+                // TODO show a tutorial
+                Log.d(Constants.LOG2, "first time  run ");
+                break;
+            default:
+                break;
+        }
+
+
+
+
+
         setContentView(R.layout.activity_main);
-
-
-
 
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
@@ -140,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         sharedViewModel.getSingleLiveShouldSwitchToEpgTvDetailsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                Log.d("moviedatabaselog", " main activity getSingleLiveShouldSwitchToEpgTvDetailsFragment on changed");
+                Log.d(Constants.LOG, " main activity getSingleLiveShouldSwitchToEpgTvDetailsFragment on changed");
 
                 epgDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("EpgTvDetailsFragment", null) {
                     @Override
@@ -257,7 +278,7 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         //implement for each tab
         int currentViewPagerItem = viewPager.getCurrentItem();
-        Log.d("moviedatabaselog", " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
+        Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
 
         if (currentViewPagerItem == 0) {
@@ -281,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
                 super.onBackPressed();
             }
             if (currentFragmentTag.equals("TopRatedMovieDetailsFragment") || currentFragmentTag.equals("PopularMovieDetailsFragment")) {
-                Log.d("moviedatabaselog", " currentFragmentTag.equals: " + currentFragmentTag);
+                Log.d(Constants.LOG, " currentFragmentTag.equals: " + currentFragmentTag);
                 dynamicFragmentPagerAdapter.replaceFragment(1, moviesFragmentIdentifier);
                 viewPager.setAdapter(null);
                 viewPager.setAdapter(dynamicFragmentPagerAdapter);
@@ -312,7 +333,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        Log.d("moviedatabaselog", " onStop: ");
+        Log.d(Constants.LOG, " onStop: ");
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("Saved ActorFragment back navigation", actorFragmentBackPosition);

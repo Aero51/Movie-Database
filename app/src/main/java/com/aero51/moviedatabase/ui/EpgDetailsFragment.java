@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.aero51.moviedatabase.BuildConfig;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -95,7 +96,7 @@ public class EpgDetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
-                Log.d("moviedatabaselog", "Toolbar clicked!");
+                Log.d(Constants.LOG, "Toolbar clicked!");
                 showBackButton(false);
             }
         });
@@ -116,7 +117,7 @@ public class EpgDetailsFragment extends Fragment {
                 text_view_date.setText(epgProgram.getDate() + "");
                 text_view_description.setText(epgProgram.getDesc());
                 // Picasso.get().load(epgProgram.getIcon()).into(image_view);
-                Log.d("moviedatabaselog", "icon: " + epgProgram.getIcon());
+                Log.d(Constants.LOG, "icon: " + epgProgram.getIcon());
                 //  Picasso.get().load(epgProgram.getIcon()).into(image_view);
                 Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view_program, new Callback() {
 

@@ -41,10 +41,10 @@ public class ApiResponse<T> {
             if (response.errorBody() != null) {
                 try {
                     message = response.errorBody().string();
-                    Log.d("moviedatabaselog", "errorBody Message: " + message);
+                    Log.d(Constants.LOG, "errorBody Message: " + message);
                     if (message != null) aError = new Gson().fromJson(message, ActionError.class);
                 } catch (Exception ignored) {
-                    Log.d("moviedatabaselog", "Exception ignored error while parsing response: "+ignored.getMessage());
+                    Log.d(Constants.LOG, "Exception ignored error while parsing response: "+ignored.getMessage());
                 }
             }
             if (message == null || message.trim().length() == 0) {

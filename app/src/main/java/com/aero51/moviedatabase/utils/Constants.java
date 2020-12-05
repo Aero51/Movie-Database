@@ -41,6 +41,8 @@ public class Constants {
     public static final String ENTERTAINMENT_CHANNELS_MULTI_SELECT_LIST = "entertainment_channels_multi_select_list";
     public static final String CROATIAN_EXPANDED_CHANNELS_MULTI_SELECT_LIST = "croatian_expanded_channels_multi_select_list";
 
+    public static final String LOG = "moviedatabaselog";
+    public static final String LOG2 = "moviedatabaselog2";
     public static final String DATABASE_NAME = "Movie.db";
     public static final int MOVIES_FIRST_PAGE = 1;
     public static final int TOP_RATED_MOVIES_FIRST_PAGE = 1;

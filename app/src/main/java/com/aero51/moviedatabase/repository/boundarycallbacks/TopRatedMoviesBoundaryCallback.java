@@ -16,6 +16,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 
 import java.util.List;
 
@@ -46,21 +47,21 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        Log.d("moviedatabaselog", "topRatedMovies onzeroitemsloaded");
+        Log.d(Constants.LOG, "topRatedMovies onzeroitemsloaded");
         fetchTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
     }
 
     @Override
     public void onItemAtFrontLoaded(@NonNull TopRatedMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
-        Log.d("moviedatabaselog", "topRatedMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
+        Log.d(Constants.LOG, "topRatedMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull TopRatedMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        Log.d("moviedatabaselog", "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        Log.d(Constants.LOG, "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchTopRatedMovies(page_number);
     }
 
@@ -72,11 +73,11 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
             @Override
             public void onResponse(Call<TopRatedMoviesPage> call, Response<TopRatedMoviesPage> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("moviedatabaselog", "topRatedMovies Response unsuccesful: " + response.code());
+                    Log.d(Constants.LOG, "topRatedMovies Response unsuccesful: " + response.code());
                     networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
-                Log.d("moviedatabaselog", "topRatedMovies Response ok: " + response.code());
+                Log.d(Constants.LOG, "topRatedMovies Response ok: " + response.code());
                 TopRatedMoviesPage mTopRatedMovies = response.body();
                 insertListToDb(mTopRatedMovies);
                 networkState.postValue(NetworkState.LOADED);
@@ -84,7 +85,7 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
 
             @Override
             public void onFailure(Call<TopRatedMoviesPage> call, Throwable t) {
-                Log.d("moviedatabaselog", "topRatedMovies onFailure: " + t.getMessage());
+                Log.d(Constants.LOG, "topRatedMovies onFailure: " + t.getMessage());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });

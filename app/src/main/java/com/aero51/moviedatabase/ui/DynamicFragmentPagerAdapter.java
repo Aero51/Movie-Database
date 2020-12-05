@@ -18,6 +18,8 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 
 
+import com.aero51.moviedatabase.utils.Constants;
+
 import java.text.ParseException;
 import java.util.ArrayList;
 
@@ -165,11 +167,11 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         }
         final FragmentIdentifier fragmentIdentifier = fragmentIdentifiers.get(position);
         // Do we already have this fragment?
-        Log.d("moviedatabaselog", " position: " + position);
+        Log.d(Constants.LOG, " position: " + position);
         final String name = fragmentIdentifier.fragmentTag;
         Fragment fragment = fragmentManager.findFragmentByTag(name);
         if (fragment != null) {
-            //  Log.d("moviedatabaselog", " instantiateItem fragment != null position:" +position);
+            //  Log.d(Constants.LOG, " instantiateItem fragment != null position:" +position);
             currentTransaction.attach(fragment);
         } else {
             fragment = fragmentIdentifier.newFragment();

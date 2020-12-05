@@ -12,6 +12,7 @@ import com.aero51.moviedatabase.repository.networkboundresources.ActorImagesNetw
 import com.aero51.moviedatabase.repository.networkboundresources.ActorNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.CastNetworkBoundResource;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 
 import java.util.List;
@@ -29,17 +30,17 @@ public class CreditsRepository {
     }
 
     public LiveData<Resource<List<Cast>>> loadCastById(Integer movie_id) {
-        Log.d("moviedatabaselog", "loadCastByMovieId id: " + movie_id);
+        Log.d(Constants.LOG, "loadCastByMovieId id: " + movie_id);
         return new CastNetworkBoundResource(executors, application, movie_id).asLiveData();
     }
 
     public LiveData<Resource<Actor>> loadActorById(Integer actor_id) {
-        Log.d("moviedatabaselog", "loadActorById id: " + actor_id);
+        Log.d(Constants.LOG, "loadActorById id: " + actor_id);
         return new ActorNetworkBoundResource(executors, application, actor_id).asLiveData();
     }
 
     public LiveData<Resource<List<ActorImage>>> loadActorImagesByActorId(Integer actor_id) {
-        Log.d("moviedatabaselog", "loadActorImagesByActorId  actor id: " + actor_id);
+        Log.d(Constants.LOG, "loadActorImagesByActorId  actor id: " + actor_id);
         return new ActorImagesNetworkBoundResource(executors,application,actor_id).asLiveData();
     }
 

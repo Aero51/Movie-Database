@@ -14,6 +14,7 @@ import com.aero51.moviedatabase.repository.retrofit.EpgApi;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import java.text.ParseException;
@@ -63,7 +64,7 @@ public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResou
         if ((noData == true) || (isGreater == false)) {
             shouldFetch = true;
         }
-        //Log.d("moviedatabaselog",data.get(data.size()-1).getStart());
+        //Log.d(Constants.LOG,data.get(data.size()-1).getStart());
         return shouldFetch;
     }
 
@@ -76,7 +77,7 @@ public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResou
     @NonNull
     @Override
     protected LiveData<ApiResponse<List<EpgProgram>>> createCall() {
-        Log.d("moviedatabaselog", "EpgTv channel:" + channelName + " ,get programs createCall ");
+        Log.d(Constants.LOG, "EpgTv channel:" + channelName + " ,get programs createCall ");
         EpgApi epgApi = RetrofitInstance.getEpgApiService();
         return epgApi.getLiveProgramsForChannel(channelName);
     }

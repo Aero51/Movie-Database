@@ -14,6 +14,7 @@ import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
@@ -34,13 +35,13 @@ public class ActorNetworkBoundResource extends NetworkBoundResource<Actor, Actor
     protected void saveCallResult(@NonNull Actor item) {
         //this is executed on background thread
         creditsDao.insertActor(item);
-        Log.d("moviedatabaselog", "saveCallResult actor id: " + item.getId() );
+        Log.d(Constants.LOG, "saveCallResult actor id: " + item.getId() );
     }
 
 
     @Override
     protected boolean shouldFetch(@Nullable Actor data) {
-        Log.d("moviedatabaselog", "shouldFetch data==null: "+String.valueOf(data==null) );
+        Log.d(Constants.LOG, "shouldFetch data==null: "+String.valueOf(data==null) );
         return  data==null;
     }
 

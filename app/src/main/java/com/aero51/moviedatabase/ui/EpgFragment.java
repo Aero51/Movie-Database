@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.ui;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +24,7 @@ import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgAdapter;
 import com.aero51.moviedatabase.utils.ChannelItemClickListener;
 import com.aero51.moviedatabase.utils.ChannelsPreferenceExtractor;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
@@ -98,7 +101,9 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
-
+        TelephonyManager tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
+        String countryCodeValue = tm.getNetworkCountryIso();
+        Log.d(Constants.LOG2, "countryCodeValue: "+countryCodeValue+" ,getSimCountryIso: "+tm.getSimCountryIso());
 
     }
 
@@ -114,11 +119,12 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         //recycler_view_epg_tv.setHasFixedSize(true);
         //recycler_view_epg_tv.setNestedScrollingEnabled(true);
         TextView text_view_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
-        setUpRecyclerView();
+        if (channelList.size() > 0) {
+            setUpRecyclerView();
+        }
 
         return view;
     }
-
 
 
     private void setUpRecyclerView() {
@@ -133,16 +139,16 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d("moviedatabaselog", "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
-                fetchProgramsForMultipleChannels(channelList);
+                Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
+                fetchProgramsForMultipleChannels();
             }
         };
         recycler_view_epg_tv.addOnScrollListener(scrollListener);
-        fetchProgramsForMultipleChannels(channelList);
+        fetchProgramsForMultipleChannels();
 
     }
 
-    private void fetchProgramsForMultipleChannels(List<EpgChannel> channelList) {
+    private void fetchProgramsForMultipleChannels() {
         isLoading = new MutableLiveData<>();
         isLoading.setValue(false);
         sharedViewModel.setHasEpgTvFragmentFinishedLoading(false);
@@ -155,7 +161,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             public void onChanged(Boolean loading) {
                 if (!loading) {
                     int adapterItemCount = epgAdapter.getItemCount();
-                    if (adapterItemCount < temp + 5) {
+                    if (adapterItemCount < temp + 5 && channelList.size() > adapterItemCount) {
                         registerGetProgramsForChannel(channelList.get(adapterItemCount).getName());
 
                     } else {
@@ -173,9 +179,9 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d("moviedatabaselog", "EpgTvFragment onChanged listResource.status: " + listResource.status);
+                Log.d(Constants.LOG, "EpgTvFragment onChanged listResource.status: " + listResource.status);
                 if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
-                    Log.d("moviedatabaselog", "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+                    Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgViewModel.getResourceLiveData().removeObserver(this);
 
                     ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.data);
@@ -200,7 +206,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
 
     @Override
     public void onItemClick(ChannelWithPrograms channelWithPrograms) {
-        Log.d("moviedatabaselog", "channel item clicked: " + channelWithPrograms.getChannel().getName());
+        Log.d(Constants.LOG, "channel item clicked: " + channelWithPrograms.getChannel().getName());
         sharedViewModel.changeToEpgAllProgramsFragment(channelWithPrograms);
     }
 }

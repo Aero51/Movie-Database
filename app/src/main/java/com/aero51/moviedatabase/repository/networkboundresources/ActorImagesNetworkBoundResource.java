@@ -15,6 +15,7 @@ import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
 import java.util.List;
@@ -42,7 +43,7 @@ public class ActorImagesNetworkBoundResource extends NetworkBoundResource<ActorI
                 creditsDao.insertActorImagesResponse(response);
             }
         });
-        Log.d("moviedatabaselog", "saveCallResult actor id: " + response.getId() + " ,images list  size: " + response.getImages().size());
+        Log.d(Constants.LOG, "saveCallResult actor id: " + response.getId() + " ,images list  size: " + response.getImages().size());
     }
 
     @Override

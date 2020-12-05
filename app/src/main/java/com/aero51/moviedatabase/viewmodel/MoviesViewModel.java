@@ -15,6 +15,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 
 public class MoviesViewModel extends AndroidViewModel {
 
@@ -57,7 +58,7 @@ public class MoviesViewModel extends AndroidViewModel {
 
     @Override
     protected void onCleared() {
-        Log.d("moviedatabaselog", "view model on cleared ");
+        Log.d(Constants.LOG, "view model on cleared ");
         // repository.getMoviePageLd().removeObserver(repository.getObserver());
         super.onCleared();
     }

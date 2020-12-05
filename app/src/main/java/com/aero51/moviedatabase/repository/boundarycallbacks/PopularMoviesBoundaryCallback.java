@@ -16,6 +16,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Constants;
 
 import java.util.List;
 
@@ -47,21 +48,21 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        Log.d("moviedatabaselog", "popularMovies onzeroitemsloaded");
+        Log.d(Constants.LOG, "popularMovies onzeroitemsloaded");
         fetchPopularMovies(MOVIES_FIRST_PAGE);
     }
 
     @Override
     public void onItemAtFrontLoaded(@NonNull PopularMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
-        Log.d("moviedatabaselog", "popularMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
+        Log.d(Constants.LOG, "popularMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull PopularMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        Log.d("moviedatabaselog", "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        Log.d(Constants.LOG, "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchPopularMovies(page_number);
     }
 
@@ -73,11 +74,11 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
             @Override
             public void onResponse(Call<PopularMoviesPage> call, Response<PopularMoviesPage> response) {
                 if (!response.isSuccessful()) {
-                    Log.d("moviedatabaselog", "popularMovies Response unsuccesful: " + response.code());
+                    Log.d(Constants.LOG, "popularMovies Response unsuccesful: " + response.code());
                     networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
-                Log.d("moviedatabaselog", "popularMovies Response ok: " + response.code());
+                Log.d(Constants.LOG, "popularMovies Response ok: " + response.code());
                 PopularMoviesPage mPopularMovies = response.body();
                 insertListToDb(mPopularMovies);
                 networkState.postValue(NetworkState.LOADED);
@@ -85,7 +86,7 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
 
             @Override
             public void onFailure(Call<PopularMoviesPage> call, Throwable t) {
-                Log.d("moviedatabaselog", "popularMovies onFailure: " + t.getMessage());
+                Log.d(Constants.LOG, "popularMovies onFailure: " + t.getMessage());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });

@@ -15,6 +15,7 @@ import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.ui.viewholder.NetworkStateItemViewHolder;
 import com.aero51.moviedatabase.ui.viewholder.PopularMovieHolder;
+import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 
 
@@ -59,7 +60,7 @@ public class PopularMoviesPagedListAdapter extends PagedListAdapter<PopularMovie
     public int getItemViewType(int position) {
 
         if (hasExtraRow() && position == getItemCount() - 1) {
-            Log.d("moviedatabaselog", "position: " + position + " itemcount: " + getItemCount());
+            Log.d(Constants.LOG, "position: " + position + " itemcount: " + getItemCount());
             return R.layout.network_state_item;
         } else {
             return R.layout.movie_item;

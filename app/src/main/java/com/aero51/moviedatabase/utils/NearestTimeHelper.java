@@ -53,7 +53,7 @@ public class NearestTimeHelper {
                 }
             }
         }
-        //Log.d("moviedatabaselog", "index: " + index );
+        //Log.d(Constants.LOG, "index: " + index );
         return index;
     }
 
