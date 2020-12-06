@@ -18,9 +18,9 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.viewpager.widget.PagerAdapter;
 
 
+import com.aero51.moviedatabase.MainActivity;
 import com.aero51.moviedatabase.utils.Constants;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 
 public class DynamicFragmentPagerAdapter extends PagerAdapter {

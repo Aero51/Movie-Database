@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui;
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -9,13 +8,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
@@ -23,7 +21,7 @@ import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgAdapter;
 import com.aero51.moviedatabase.utils.ChannelItemClickListener;
-import com.aero51.moviedatabase.utils.ChannelsPreferenceExtractor;
+import com.aero51.moviedatabase.utils.ChannelsPreferenceHelper;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
@@ -55,6 +53,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
 
     private EpgViewModel epgViewModel;
     private RecyclerView recycler_view_epg_tv;
+    private SwipeRefreshLayout pullToRefresh;
     private EpgAdapter epgAdapter;
 
     private SharedViewModel sharedViewModel;
@@ -96,14 +95,11 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        channelList = ChannelsPreferenceExtractor.extractChannels(getContext());
+        channelList = ChannelsPreferenceHelper.extractChannels();
 
         epgViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
-        TelephonyManager tm = (TelephonyManager)getActivity().getSystemService(Context.TELEPHONY_SERVICE);
-        String countryCodeValue = tm.getNetworkCountryIso();
-        Log.d(Constants.LOG2, "countryCodeValue: "+countryCodeValue+" ,getSimCountryIso: "+tm.getSimCountryIso());
 
     }
 
@@ -113,19 +109,26 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_epg, container, false);
-
+        pullToRefresh = view.findViewById(R.id.pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                setUpRecyclerView();
+                //refreshData(); // your code
+                pullToRefresh.setRefreshing(false);
+            }
+        });
         recycler_view_epg_tv = view.findViewById(R.id.recycler_view_cro_parent);
         //this messes up scroll listener
         //recycler_view_epg_tv.setHasFixedSize(true);
         //recycler_view_epg_tv.setNestedScrollingEnabled(true);
-        TextView text_view_fragment_epg_tv = view.findViewById(R.id.tv_fragment_epg_tv_cro);
         if (channelList.size() > 0) {
             setUpRecyclerView();
         }
 
         return view;
     }
-
+    
 
     private void setUpRecyclerView() {
 

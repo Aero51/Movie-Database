@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.PreferenceFragmentCompat;
@@ -13,18 +12,18 @@ import com.aero51.moviedatabase.utils.PrePopulatedChannels;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.CHILDREN_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.CROATIAN_EXPANDED_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.DOCUMENTARY_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.ENTERTAINMENT_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.MONTENEGRO_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.MOVIE_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.MUSIC_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_MULTI_SELECT_LIST;
-import static com.aero51.moviedatabase.utils.Constants.SPORTS_CHANNELS_MULTI_SELECT_LIST;
+import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.CHILDREN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.CROATIAN_EXPANDED_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.DOCUMENTARY_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.ENTERTAINMENT_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.MONTENEGRO_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.MOVIE_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.MUSIC_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.SPORTS_CHANNELS_PREFERENCE;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
@@ -41,18 +40,18 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         PrePopulatedChannels prePopulatedChannels = new PrePopulatedChannels();
 
-        populateMultiSelectListPrefs(prePopulatedChannels.getCroatianList(),CROATIAN_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getSerbianList(),SERBIAN_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getBosnianList(),BOSNIAN_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getMontenegroList(),MONTENEGRO_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getMovieList(),MOVIE_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getSportsList(),SPORTS_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getDocumentaryList(),DOCUMENTARY_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getNewsList(),NEWS_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getMusicList(),MUSIC_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getChildrenList(),CHILDREN_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getEntertainmentList(),ENTERTAINMENT_CHANNELS_MULTI_SELECT_LIST);
-        populateMultiSelectListPrefs(prePopulatedChannels.getCroatianExpandedList(),CROATIAN_EXPANDED_CHANNELS_MULTI_SELECT_LIST);
+        populateMultiSelectListPrefs(prePopulatedChannels.getCroatianList(), CROATIAN_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getSerbianList(), SERBIAN_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getBosnianList(), BOSNIAN_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getMontenegroList(), MONTENEGRO_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getMovieList(), MOVIE_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getSportsList(), SPORTS_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getDocumentaryList(), DOCUMENTARY_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getNewsList(), NEWS_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getMusicList(), MUSIC_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getChildrenList(), CHILDREN_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getEntertainmentList(), ENTERTAINMENT_CHANNELS_PREFERENCE);
+        populateMultiSelectListPrefs(prePopulatedChannels.getCroatianExpandedList(), CROATIAN_EXPANDED_CHANNELS_PREFERENCE);
 
     }
 

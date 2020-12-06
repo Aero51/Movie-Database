@@ -1,7 +1,6 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase;
 
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -14,20 +13,38 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.ui.ActorFragment;
+import com.aero51.moviedatabase.ui.CustomViewPager;
+import com.aero51.moviedatabase.ui.DynamicFragmentPagerAdapter;
+import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
+import com.aero51.moviedatabase.ui.EpgDetailsFragment;
+import com.aero51.moviedatabase.ui.EpgFragment;
+import com.aero51.moviedatabase.ui.MoviesFragment;
+import com.aero51.moviedatabase.ui.PopularMovieDetailsFragment;
+import com.aero51.moviedatabase.ui.TopRatedMovieDetailsFragment;
+import com.aero51.moviedatabase.utils.ChannelsPreferenceHelper;
 import com.aero51.moviedatabase.utils.CheckAppStart;
 import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.utils.PrePopulatedChannels;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.MOVIE_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.MUSIC_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFERENCE;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -48,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        switch (CheckAppStart.checkAppStart(getPackageManager(),getPackageName())) {
+        switch (CheckAppStart.checkAppStart(getPackageManager(), getPackageName())) {
             case NORMAL:
                 // We don't want to get on the user's nerves
                 Log.d(Constants.LOG2, "not first time, normal  run. ");
@@ -60,13 +77,26 @@ public class MainActivity extends AppCompatActivity {
             case FIRST_TIME:
                 // TODO show a tutorial
                 Log.d(Constants.LOG2, "first time  run ");
+                TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
+                String countryCodeValue = tm.getNetworkCountryIso();
+                //populating channel preferences on first app run to avoid empty channels list
+                if (countryCodeValue != null) {
+                    PrePopulatedChannels prePopulatedChannels = new PrePopulatedChannels();
+                    if (countryCodeValue.equalsIgnoreCase("hr")) {
+                        ChannelsPreferenceHelper.firstRunPreferencePopulater(prePopulatedChannels.getCroatianList(), CROATIAN_CHANNELS_PREFERENCE);
+                    } else if (countryCodeValue.equalsIgnoreCase("rs")) {
+                        ChannelsPreferenceHelper.firstRunPreferencePopulater(prePopulatedChannels.getSerbianList(), SERBIAN_CHANNELS_PREFERENCE);
+                    } else if (countryCodeValue.equalsIgnoreCase("ba")) {
+                        ChannelsPreferenceHelper.firstRunPreferencePopulater(prePopulatedChannels.getBosnianList(), BOSNIAN_CHANNELS_PREFERENCE);
+                    } else {
+                        ChannelsPreferenceHelper.firstRunPreferencePopulater(prePopulatedChannels.getNewsList(), NEWS_CHANNELS_PREFERENCE);
+                    }
+                }
+                //Log.d(Constants.LOG2, "countryCodeValue: " + countryCodeValue + " ,getSimCountryIso: " + tm.getSimCountryIso() + " ,phonetype: " + tm.getPhoneType());
                 break;
             default:
                 break;
         }
-
-
-
 
 
         setContentView(R.layout.activity_main);
@@ -78,12 +108,12 @@ public class MainActivity extends AppCompatActivity {
         actorFragmentBackPosition = sharedPrefPrivate.getInt("Saved ActorFragment back navigation", -1);
 
         viewPager = findViewById(R.id.view_pager);
-        dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), getApplicationContext());
+        dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), MyApplication.getAppContext());
         //  viewPager.setPagingEnabled(false);
 
         viewPager.setAdapter(dynamicFragmentPagerAdapter);
-       // getSupportActionBar().setDisplayShowTitleEnabled(false);
-       // getSupportActionBar().hide();
+        // getSupportActionBar().setDisplayShowTitleEnabled(false);
+        // getSupportActionBar().hide();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -102,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-                Intent intent = new Intent(MainActivity.this,SettingsActivity.class);
+                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(intent);
             }
         });

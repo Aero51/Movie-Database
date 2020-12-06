@@ -28,18 +28,18 @@ public class Constants {
     public static final String PROFILE_SIZE_W185 = "w185";
     public static final String PROFILE_SIZE_H632 = "h632";
 
-    public static final String CROATIAN_CHANNELS_MULTI_SELECT_LIST = "croatian_channels_multi_select_list";
-    public static final String SERBIAN_CHANNELS_MULTI_SELECT_LIST = "serbian_channels_multi_select_list";
-    public static final String BOSNIAN_CHANNELS_MULTI_SELECT_LIST = "bosnian_channels_multi_select_list";
-    public static final String MONTENEGRO_CHANNELS_MULTI_SELECT_LIST = "montenegro_channels_multi_select_list";
-    public static final String MOVIE_CHANNELS_MULTI_SELECT_LIST = "movie_channels_multi_select_list";
-    public static final String SPORTS_CHANNELS_MULTI_SELECT_LIST = "sports_channels_multi_select_list";
-    public static final String DOCUMENTARY_CHANNELS_MULTI_SELECT_LIST = "documentary_channels_multi_select_list";
-    public static final String NEWS_CHANNELS_MULTI_SELECT_LIST = "news_channels_multi_select_list";
-    public static final String MUSIC_CHANNELS_MULTI_SELECT_LIST = "music_channels_multi_select_list";
-    public static final String CHILDREN_CHANNELS_MULTI_SELECT_LIST = "children_channels_multi_select_list";
-    public static final String ENTERTAINMENT_CHANNELS_MULTI_SELECT_LIST = "entertainment_channels_multi_select_list";
-    public static final String CROATIAN_EXPANDED_CHANNELS_MULTI_SELECT_LIST = "croatian_expanded_channels_multi_select_list";
+    public static final String CROATIAN_CHANNELS_PREFERENCE = "croatian_channels_multi_select_list";
+    public static final String SERBIAN_CHANNELS_PREFERENCE = "serbian_channels_multi_select_list";
+    public static final String BOSNIAN_CHANNELS_PREFERENCE = "bosnian_channels_multi_select_list";
+    public static final String MONTENEGRO_CHANNELS_PREFERENCE = "montenegro_channels_multi_select_list";
+    public static final String MOVIE_CHANNELS_PREFERENCE = "movie_channels_multi_select_list";
+    public static final String SPORTS_CHANNELS_PREFERENCE = "sports_channels_multi_select_list";
+    public static final String DOCUMENTARY_CHANNELS_PREFERENCE = "documentary_channels_multi_select_list";
+    public static final String NEWS_CHANNELS_PREFERENCE = "news_channels_multi_select_list";
+    public static final String MUSIC_CHANNELS_PREFERENCE = "music_channels_multi_select_list";
+    public static final String CHILDREN_CHANNELS_PREFERENCE = "children_channels_multi_select_list";
+    public static final String ENTERTAINMENT_CHANNELS_PREFERENCE = "entertainment_channels_multi_select_list";
+    public static final String CROATIAN_EXPANDED_CHANNELS_PREFERENCE = "croatian_expanded_channels_multi_select_list";
 
     public static final String LOG = "moviedatabaselog";
     public static final String LOG2 = "moviedatabaselog2";

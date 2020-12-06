@@ -5,17 +5,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.EpgFragment">
 
-    <TextView
-        android:id="@+id/tv_fragment_epg_tv_cro"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hrvatski tv kanali:" />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_cro_parent"
+
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_fragment_epg_tv_cro"
-        />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view_cro_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/tv_fragment_epg_tv_cro" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>
