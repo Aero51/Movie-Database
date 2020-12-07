@@ -13,6 +13,10 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="action_settings">Postavke</string>
 
+    <string name="tab1">Tv vodič</string>
+    <string name="tab2">Filmovi</string>
+    <string name="tab3">Serije</string>
+
     <string-array name="list_preference_entries">
         <item>Test</item>
     </string-array>

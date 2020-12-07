@@ -105,6 +105,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         this.context = context;
     }
 
+    // this method is not needed because app uses bottom navigation view instead of tab layout
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {

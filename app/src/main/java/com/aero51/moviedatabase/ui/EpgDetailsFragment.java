@@ -92,6 +92,7 @@ public class EpgDetailsFragment extends Fragment {
 
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

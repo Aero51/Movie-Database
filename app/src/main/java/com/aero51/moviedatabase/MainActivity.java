@@ -1,12 +1,14 @@
 package com.aero51.moviedatabase;
 
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.PreferenceManager;
+import androidx.viewpager.widget.ViewPager;
 
 import android.content.Context;
 import android.content.Intent;
@@ -34,6 +36,7 @@ import com.aero51.moviedatabase.utils.CheckAppStart;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.PrePopulatedChannels;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
@@ -47,7 +50,7 @@ import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFERENCE;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener{
     private CustomViewPager viewPager;
     private DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgFragmentIdentifier;
@@ -60,6 +63,9 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAnalytics mFirebaseAnalytics;
     private SharedViewModel sharedViewModel;
     private Integer actorFragmentBackPosition;
+
+    private MenuItem prevMenuItem;
+    private  BottomNavigationView bottomNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
 
-
         setContentView(R.layout.activity_main);
 
         // Obtain the FirebaseAnalytics instance.
@@ -114,30 +119,59 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(dynamicFragmentPagerAdapter);
         // getSupportActionBar().setDisplayShowTitleEnabled(false);
         // getSupportActionBar().hide();
+
+        //Initializing the bottomNavigationView
+        bottomNavigationView = (BottomNavigationView)findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
+        //TabLayout tabs = findViewById(R.id.tabs);
+        //tabs.setupWithViewPager(viewPager);
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
 
-        initFirstFragmentIdentifiers();
-        registerShouldSwitchEpgFragmentsObservers();
-        registerShouldSwitchMovieFragmentsObservers();
 
-        FloatingActionButton fab = findViewById(R.id.fab);
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-                Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(intent);
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                }
+                else
+                {
+                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+                Log.d("page", "onPageSelected: "+position);
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+           /*  //Disable ViewPager Swipe
+
+       viewPager.setOnTouchListener(new View.OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true;
             }
         });
 
-
+        */
+/*
         PreferenceManager
                 .setDefaultValues(this, R.xml.preferences, false);
 
@@ -148,8 +182,10 @@ public class MainActivity extends AppCompatActivity {
                 (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
         Toast.makeText(this, switchPref.toString(),
                 Toast.LENGTH_SHORT).show();
-
-
+*/
+        initFirstFragmentIdentifiers();
+        registerShouldSwitchEpgFragmentsObservers();
+        registerShouldSwitchMovieFragmentsObservers();
     }
 
 
@@ -160,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             protected Fragment createFragment() {
                 EpgFragment epgFragment = EpgFragment.newInstance("", "");
                 return epgFragment;
+
             }
 
             @Override
@@ -397,5 +434,20 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_call:
+                viewPager.setCurrentItem(0);
+                break;
+            case R.id.action_chat:
+                viewPager.setCurrentItem(1);
+                break;
+            case R.id.action_contact:
+                viewPager.setCurrentItem(2);
+                break;
+        }
+        return false;
+    }
 }
 
