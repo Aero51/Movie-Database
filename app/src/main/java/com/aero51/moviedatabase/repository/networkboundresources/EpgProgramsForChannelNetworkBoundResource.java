@@ -52,11 +52,15 @@ public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResou
             Date programStartTime = null;
             try {
                 currentTime = Calendar.getInstance().getTime();
+               // Log.d(Constants.LOG2, "currentTime! "+currentTime.getTime());
+
+
                 programStartTime = new SimpleDateFormat("yyyyMMddHHmmSS").parse(data.get(data.size() - 1).getStart());
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            if (programStartTime.getTime() > currentTime.getTime()) {
+            //adding 10 hours == 36000000 ms
+            if (programStartTime.getTime() > currentTime.getTime()+36000000) {
                 isGreater = true;
             }
         }

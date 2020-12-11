@@ -104,7 +104,6 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
             //   mainAdapter.addAdapter(epgTvHeaderChildAdapter);
             mainAdapter.addAdapter(epgChildAdapter);
             child_recycler.setAdapter(mainAdapter);
-
             //child_recycler.setAdapter(epgTvChildAdapter);
         }
 

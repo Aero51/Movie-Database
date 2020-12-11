@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
@@ -87,7 +89,25 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
 
         registerSharedViewModelObserver();
 
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        //toolbar.setTitle("text");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+                Log.d(Constants.LOG, "Toolbar clicked!");
+                showBackButton(false);
+            }
+        });
+        showBackButton(true);
+
+
         return view;
+    }
+    public void showBackButton(boolean show) {
+        if (getActivity() instanceof AppCompatActivity) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
+        }
     }
 
     @Override

@@ -33,19 +33,31 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
 
         //Parcelable protocol requires a Parcelable.Creator object called CREATOR on class com.aero51.moviedatabase.ui
         //this error happens when app is killed by system after cca 30 mins on inactivity
-        /*
+
         public static final Parcelable.Creator CREATOR = new Creator<Object>() {
             @Override
-            public Object createFromParcel(Parcel source) {
-              return  null;
+            public FragmentIdentifier createFromParcel(Parcel source) {
+              return new FragmentIdentifier(source) {
+                  @Override
+                  public int describeContents() {
+                      return 0;
+                  }
+
+                  @Override
+                  protected Fragment createFragment() {
+                      Log.d(Constants.LOG2, "Parcelable.Creator createFragment! ");
+                      EpgFragment epgFragment = EpgFragment.newInstance("", "");
+                      return epgFragment;
+                  }
+              };
             }
 
             @Override
-            public Object[] newArray(int size) {
-                return new Object[size];
+            public FragmentIdentifier[] newArray(int size) {
+                return new FragmentIdentifier[size];
             }
         };
-*/
+
 
         private final String fragmentTag;
         private final Bundle args;
@@ -232,8 +244,11 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     public void restoreState(Parcelable state, ClassLoader loader) {
         Bundle bundle = ((Bundle) state);
         bundle.setClassLoader(loader);
+
+
+        fragmentIdentifiers = bundle.getParcelableArrayList("fragmentIdentifiers");
         try {
-            fragmentIdentifiers = bundle.getParcelableArrayList("fragmentIdentifiers");
+
 
         } catch (BadParcelableException e) {
             e.printStackTrace();

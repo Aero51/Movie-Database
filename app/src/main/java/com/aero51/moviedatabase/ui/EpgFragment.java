@@ -2,6 +2,7 @@ package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -125,10 +126,16 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         if (channelList.size() > 0) {
             setUpRecyclerView();
         }
-
+        showBackButton(false);
         return view;
     }
-    
+
+    public void showBackButton(boolean show) {
+        if (getActivity() instanceof AppCompatActivity) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
+        }
+    }
+
 
     private void setUpRecyclerView() {
 

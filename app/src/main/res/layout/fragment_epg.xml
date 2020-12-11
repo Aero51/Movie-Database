@@ -17,6 +17,7 @@
             android:id="@+id/recycler_view_cro_parent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@+id/tv_fragment_epg_tv_cro" />
+            android:layout_below="@+id/tv_fragment_epg_tv_cro"
+            android:isScrollContainer="true" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

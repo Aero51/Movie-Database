@@ -2,6 +2,8 @@ package com.aero51.moviedatabase.ui;
 
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -101,10 +103,24 @@ public class ActorFragment extends Fragment {
                 registerActorObservers(cast);
             }
         });
-
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        //toolbar.setTitle("text");
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getActivity().onBackPressed();
+                Log.d(Constants.LOG, "Toolbar clicked!");
+                showBackButton(true);
+            }
+        });
+        showBackButton(true);
         return view;
     }
-
+    public void showBackButton(boolean show) {
+        if (getActivity() instanceof AppCompatActivity) {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
+        }
+    }
 
 
     private void registerActorObservers(Cast castItem){
