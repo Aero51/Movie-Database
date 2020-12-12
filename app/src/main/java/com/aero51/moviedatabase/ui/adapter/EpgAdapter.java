@@ -96,12 +96,12 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
             child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), linearLayoutManager.getOrientation()));
            // child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), DividerItemDecoration.HORIZONTAL));
 
-            // child_recycler.setNestedScrollingEnabled(false);
+            child_recycler.setNestedScrollingEnabled(false);
             epgHeaderChildAdapter = new EpgHeaderChildAdapter();
             epgChildAdapter = new EpgChildAdapter(programItemClickListener);
 
             mainAdapter = new ConcatAdapter();
-            //   mainAdapter.addAdapter(epgTvHeaderChildAdapter);
+            //mainAdapter.addAdapter(epgTvHeaderChildAdapter);
             mainAdapter.addAdapter(epgChildAdapter);
             child_recycler.setAdapter(mainAdapter);
             //child_recycler.setAdapter(epgTvChildAdapter);

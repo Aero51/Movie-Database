@@ -2,9 +2,13 @@ package com.aero51.moviedatabase.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
+
+import com.aero51.moviedatabase.utils.Constants;
 
 public class CustomViewPager extends ViewPager {
 
@@ -27,6 +31,7 @@ public class CustomViewPager extends ViewPager {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent event) {
         if (this.enabled) {
+            //Log.d(Constants.LOG2, event.toString());
             return super.onInterceptTouchEvent(event);
         }
 
@@ -36,4 +41,6 @@ public class CustomViewPager extends ViewPager {
     public void setPagingEnabled(boolean enabled) {
         this.enabled = enabled;
     }
+
+
 }

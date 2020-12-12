@@ -49,8 +49,6 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         EpgProgram program = currentChannelChildItem.getProgramsList().get(position);
-        Integer programDuration = program.getProgramDuration();
-
         try {
             String reformattedStartString = myFormat.format(fromUser.parse(program.getStart()));
             holder.tv_epg_tv_child_start.setText(reformattedStartString);
@@ -59,7 +57,6 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tv_epg_tv_child_duration.setText(programDuration + "");
         holder.tv_epg_tv_child_title.setText(program.getTitle());
         /*
         String category = "";
@@ -96,7 +93,6 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private RelativeLayout relativeLayout;
         private ProgressBar progressBar;
-        private TextView tv_epg_tv_child_duration;
         private TextView tv_epg_tv_child_start;
         private TextView tv_epg_tv_child_title;
         private TextView tv_epg_tv_child_category;
@@ -107,7 +103,6 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
             relativeLayout = itemView.findViewById(R.id.relative_layout);
             relativeLayout.setMinimumWidth(100);
             progressBar = itemView.findViewById(R.id.progress_bar);
-            tv_epg_tv_child_duration = itemView.findViewById(R.id.tv_epg_tv_child_position);
             tv_epg_tv_child_start = itemView.findViewById(R.id.tv_epg_tv_child_start);
             tv_epg_tv_child_title = itemView.findViewById(R.id.tv_epg_tv_child_title);
             tv_epg_tv_child_category = itemView.findViewById(R.id.tv_epg_tv_child_category);

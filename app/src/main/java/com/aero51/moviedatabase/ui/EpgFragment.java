@@ -1,8 +1,12 @@
 package com.aero51.moviedatabase.ui;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -11,11 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.aero51.moviedatabase.MyApplication;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
@@ -31,6 +38,7 @@ import com.aero51.moviedatabase.utils.SpeedyLinearLayoutManager;
 import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.EpgViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,10 +135,12 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             setUpRecyclerView();
         }
         showBackButton(false);
+        Log.d(Constants.LOG2, "EpgTvFragment before: " );
+
         return view;
     }
 
-    public void showBackButton(boolean show) {
+    private void showBackButton(boolean show) {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
         }
@@ -189,7 +199,14 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d(Constants.LOG, "EpgTvFragment onChanged listResource.status: " + listResource.status);
+                Log.d(Constants.LOG, "EpgTvFragment onChanged listResource.status: " + listResource.status+" , "+ listResource.code);
+                if ( listResource.status == Status.LOADING) {
+                    Log.d(Constants.LOG2, "isNetworkAvailable: "+isNetworkAvailable() );
+                    if(!isNetworkAvailable()){
+                         showSnackbar();
+                    }
+                }
+
                 if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
                     Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
                     epgViewModel.getResourceLiveData().removeObserver(this);
@@ -219,4 +236,27 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         Log.d(Constants.LOG, "channel item clicked: " + channelWithPrograms.getChannel().getName());
         sharedViewModel.changeToEpgAllProgramsFragment(channelWithPrograms);
     }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+
+    private void showSnackbar(){
+        View mainActivityView = getActivity().findViewById(android.R.id.content);
+        Snackbar snackbar = Snackbar.make(mainActivityView,"Niste spojeni na internet.Spojite se i pokušajte ponovno.",Snackbar.LENGTH_INDEFINITE);
+        snackbar.setAction("OK", new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setUpRecyclerView();
+                snackbar.dismiss();
+
+            }
+        });
+        snackbar.show();
+
+    }
+
 }

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    card_view:cardBackgroundColor="@color/dark_gray"
     card_view:cardUseCompatPadding="true">
 
     <RelativeLayout
@@ -33,6 +34,7 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:gravity="center_horizontal"
+                android:textColor="@color/white"
                 android:text="Channel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
@@ -43,7 +45,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/channel_relative_layout"
-            android:layout_centerHorizontal="true"
             android:orientation="horizontal" />
 
     </RelativeLayout>

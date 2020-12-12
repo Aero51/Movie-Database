@@ -1,11 +1,11 @@
 package com.aero51.moviedatabase.ui;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +22,8 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -48,7 +50,6 @@ public class EpgDetailsFragment extends Fragment {
     private ImageView image_view_program;
     private ImageView image_view_channel;
     private TextView text_view_cast;
-
 
     public EpgDetailsFragment() {
         // Required empty public constructor
@@ -101,7 +102,9 @@ public class EpgDetailsFragment extends Fragment {
                 showBackButton(false);
             }
         });
+
         showBackButton(true);
+        showBottomNavigation();
 
         text_view_title = view.findViewById(R.id.text_view_title);
         text_view_date = view.findViewById(R.id.text_view_date);
@@ -140,12 +143,27 @@ public class EpgDetailsFragment extends Fragment {
             }
         });
 
-
         return view;
     }
 
 
-    public void showBackButton(boolean show) {
+
+private void showBottomNavigation(){
+    BottomNavigationView bottomNavigationView = (BottomNavigationView) getActivity().findViewById(R.id.bottom_navigation);
+    ViewGroup.LayoutParams layoutParams = bottomNavigationView.getLayoutParams();
+    if (layoutParams instanceof CoordinatorLayout.LayoutParams) {
+        CoordinatorLayout.Behavior behavior =
+                ((CoordinatorLayout.LayoutParams) layoutParams).getBehavior();
+        if (behavior instanceof HideBottomViewOnScrollBehavior) {
+            HideBottomViewOnScrollBehavior<BottomNavigationView> hideShowBehavior =
+                    (HideBottomViewOnScrollBehavior<BottomNavigationView>) behavior;
+            hideShowBehavior.slideUp(bottomNavigationView);
+        }
+    }
+
+}
+
+    private void showBackButton(boolean show) {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
         }

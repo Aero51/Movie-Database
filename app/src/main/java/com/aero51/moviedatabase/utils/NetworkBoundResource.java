@@ -67,6 +67,7 @@ public abstract class NetworkBoundResource<RequestType,ResultType> {
             @Override
             public void onChanged(ResultType newData) {
                 NetworkBoundResource.this.setValue(Resource.loading(newData));
+
             }
         });
         result.addSource(apiResponse, new Observer<ApiResponse<RequestType>>() {

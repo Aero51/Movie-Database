@@ -59,8 +59,8 @@ public class EpgProgramsForChannelNetworkBoundResource extends NetworkBoundResou
             } catch (ParseException e) {
                 e.printStackTrace();
             }
-            //adding 10 hours == 36000000 ms
-            if (programStartTime.getTime() > currentTime.getTime()+36000000) {
+            //adding 5 hours == 18000000 ms
+            if (programStartTime.getTime() > currentTime.getTime()+18000000) {
                 isGreater = true;
             }
         }

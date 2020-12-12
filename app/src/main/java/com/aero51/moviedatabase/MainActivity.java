@@ -15,6 +15,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -22,6 +24,7 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -120,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         viewPager = findViewById(R.id.view_pager);
         dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), MyApplication.getAppContext());
-        //  viewPager.setPagingEnabled(false);
+          //viewPager.setPagingEnabled(false);
 
         viewPager.setAdapter(dynamicFragmentPagerAdapter);
         // getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -150,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
 
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -173,36 +178,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
-           /*  //Disable ViewPager Swipe
+             //Disable ViewPager Swipe
 
-       viewPager.setOnTouchListener(new View.OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true;
-            }
-        });
 
-        */
-/*
-        PreferenceManager
-                .setDefaultValues(this, R.xml.preferences, false);
 
-        SharedPreferences sharedPref =
-                PreferenceManager
-                        .getDefaultSharedPreferences(this);
-        Boolean switchPref = sharedPref.getBoolean
-                (SettingsActivity.KEY_PREF_EXAMPLE_SWITCH, false);
-        Toast.makeText(this, switchPref.toString(),
-                Toast.LENGTH_SHORT).show();
-*/
+
+
         initFirstFragmentIdentifiers();
         registerShouldSwitchEpgFragmentsObservers();
         registerShouldSwitchMovieFragmentsObservers();
-       // transparentStatusAndNavigation();
+        //transparentStatusAndNavigation();
     }
-
 
 
     private void initFirstFragmentIdentifiers() {
@@ -466,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-
+    //for transparent status bar
     private void transparentStatusAndNavigation() {
         //make full transparent statusBar
         if (Build.VERSION.SDK_INT >= 19 && Build.VERSION.SDK_INT < 21) {
@@ -498,5 +484,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         win.setAttributes(winParams);
     }
+
+
 }
 
