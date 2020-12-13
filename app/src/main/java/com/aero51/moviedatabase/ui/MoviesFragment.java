@@ -115,12 +115,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         return view;
     }
 
+
     private void registerHasEpgTvFragmentFinishedLoadingObserver() {
         sharedViewModel.getHasEpgTvFragmentFinishedLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
-                    Log.d(Constants.LOG2, "movies fragment loading: "+aBoolean );
                     registerTopRatedMoviesObservers();
                     registerPopularMoviesObservers();
 

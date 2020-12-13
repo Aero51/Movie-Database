@@ -1,14 +1,12 @@
 package com.aero51.moviedatabase.viewmodel;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.EpgTvRepository;
-import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.AppExecutors;
@@ -36,9 +34,6 @@ public class EpgViewModel extends AndroidViewModel {
         SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm");
     }
 
-    public LiveData<Resource<List<EpgChannel>>> getChannels() {
-        return epgTvRepository.loadChannels();
-    }
 
     public LiveData<Resource<List<EpgProgram>>> getProgramsForChannel(String channelName) {
         resourceLiveData = epgTvRepository.loadProgramsForChannel(channelName);

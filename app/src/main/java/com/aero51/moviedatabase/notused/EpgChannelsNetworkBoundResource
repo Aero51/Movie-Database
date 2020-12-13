@@ -1,24 +1,3 @@
-package com.aero51.moviedatabase.repository.networkboundresources;
-
-import android.app.Application;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.lifecycle.LiveData;
-
-import com.aero51.moviedatabase.repository.db.EpgTvDao;
-import com.aero51.moviedatabase.repository.db.Database;
-import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
-import com.aero51.moviedatabase.repository.retrofit.EpgApi;
-import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
-import com.aero51.moviedatabase.utils.ApiResponse;
-import com.aero51.moviedatabase.utils.AppExecutors;
-import com.aero51.moviedatabase.utils.Constants;
-import com.aero51.moviedatabase.utils.NetworkBoundResource;
-
-import java.util.List;
-
 public class EpgChannelsNetworkBoundResource extends NetworkBoundResource<List<EpgChannel>, List<EpgChannel>> {
     private Database database;
     private EpgTvDao epgTvDao;

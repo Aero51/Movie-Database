@@ -39,18 +39,11 @@ import com.aero51.moviedatabase.utils.CheckAppStart;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.PrePopulatedChannels;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
-import static android.view.View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN;
 import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_PREFERENCE;
-import static com.aero51.moviedatabase.utils.Constants.MOVIE_CHANNELS_PREFERENCE;
-import static com.aero51.moviedatabase.utils.Constants.MUSIC_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFERENCE;
 
@@ -146,11 +139,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-
-
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
@@ -163,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Log.d(Constants.LOG2, "onPageSelected: " + position);
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+                String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(position);
+                addRemoveBackButton(position, currentFragmentTag);
 
             }
 
@@ -187,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             protected Fragment createFragment() {
                 EpgFragment epgFragment = EpgFragment.newInstance("", "");
                 return epgFragment;
-
             }
 
             @Override
@@ -209,11 +200,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         };
 
-
         dynamicFragmentPagerAdapter.addFragment(epgFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(moviesFragmentIdentifier);
-
-
     }
 
 
@@ -234,9 +222,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                dynamicFragmentPagerAdapter.replaceFragment(0, epgDetailsFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                replaceFragment(0, epgDetailsFragmentIdentifier);
             }
         });
 
@@ -254,9 +240,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                dynamicFragmentPagerAdapter.replaceFragment(0, epgAllProgramsFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                replaceFragment(0, epgAllProgramsFragmentIdentifier);
             }
         });
 
@@ -277,11 +261,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                dynamicFragmentPagerAdapter.replaceFragment(1, topRatedMovieFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                replaceFragment(1, topRatedMovieFragmentIdentifier);
                 viewPager.setCurrentItem(1);
-
                 actorFragmentBackPosition = 0;
 
             }
@@ -301,11 +282,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                dynamicFragmentPagerAdapter.replaceFragment(1, popularMovieFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                replaceFragment(1, popularMovieFragmentIdentifier);
                 viewPager.setCurrentItem(1);
-
                 actorFragmentBackPosition = 1;
             }
         });
@@ -324,14 +302,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                dynamicFragmentPagerAdapter.replaceFragment(1, actorFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                replaceFragment(1, actorFragmentIdentifier);
                 viewPager.setCurrentItem(1);
             }
         });
-
-
     }
 
     @Override
@@ -341,54 +315,72 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
 
-        if (currentViewPagerItem == 0) {
-            if (currentFragmentTag.equals("EpgTvFragment")) {
-                super.onBackPressed();
-            }
-            if (currentFragmentTag.equals("EpgTvDetailsFragment")) {
-                dynamicFragmentPagerAdapter.replaceFragment(0, epgFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
-            }
-            if (currentFragmentTag.equals("EpgAllProgramsFragment")) {
-                dynamicFragmentPagerAdapter.replaceFragment(0, epgFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
-            }
-
-        }
-        if (currentViewPagerItem == 1) {
-            if (currentFragmentTag.equals("MoviesFragment")) {
-                super.onBackPressed();
-            }
-            if (currentFragmentTag.equals("TopRatedMovieDetailsFragment") || currentFragmentTag.equals("PopularMovieDetailsFragment")) {
-                Log.d(Constants.LOG, " currentFragmentTag.equals: " + currentFragmentTag);
-                dynamicFragmentPagerAdapter.replaceFragment(1, moviesFragmentIdentifier);
-                viewPager.setAdapter(null);
-                viewPager.setAdapter(dynamicFragmentPagerAdapter);
-                viewPager.setCurrentItem(1);
-            }
-
-            if (currentFragmentTag.equals("ActorFragment")) {
-                if (actorFragmentBackPosition == 0) {
-                    dynamicFragmentPagerAdapter.replaceFragment(1, topRatedMovieFragmentIdentifier);
-                    viewPager.setAdapter(null);
-                    viewPager.setAdapter(dynamicFragmentPagerAdapter);
-                    viewPager.setCurrentItem(1);
-
+        switch (currentViewPagerItem) {
+            case 0:
+                if (currentFragmentTag.equals("EpgTvFragment")) {
+                    super.onBackPressed();
+                } else if (currentFragmentTag.equals("EpgTvDetailsFragment")) {
+                    replaceFragment(0, epgFragmentIdentifier);
+                } else if (currentFragmentTag.equals("EpgAllProgramsFragment")) {
+                    replaceFragment(0, epgFragmentIdentifier);
                 }
-                if (actorFragmentBackPosition == 1) {
-                    dynamicFragmentPagerAdapter.replaceFragment(1, popularMovieFragmentIdentifier);
-                    viewPager.setAdapter(null);
-                    viewPager.setAdapter(dynamicFragmentPagerAdapter);
+                break;
+
+            case 1:
+                if (currentFragmentTag.equals("MoviesFragment")) {
+                    super.onBackPressed();
+                } else if (currentFragmentTag.equals("TopRatedMovieDetailsFragment") || currentFragmentTag.equals("PopularMovieDetailsFragment")) {
+                    replaceFragment(1, moviesFragmentIdentifier);
                     viewPager.setCurrentItem(1);
+                } else if (currentFragmentTag.equals("ActorFragment")) {
+                    if (actorFragmentBackPosition == 0) {
+                        replaceFragment(1, topRatedMovieFragmentIdentifier);
+                        viewPager.setCurrentItem(1);
+                    }
+                    if (actorFragmentBackPosition == 1) {
+                        replaceFragment(1, popularMovieFragmentIdentifier);
+                        viewPager.setCurrentItem(1);
+                    }
                 }
-
-            }
-
+                break;
         }
 
 
+    }
+
+    private void addRemoveBackButton(int position, String currentFragmentTag) {
+
+        switch (position) {
+            case 0:
+                if (currentFragmentTag.equals("EpgTvFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                } else if (currentFragmentTag.equals("EpgTvDetailsFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else if (currentFragmentTag.equals("EpgAllProgramsFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+                break;
+
+            case 1:
+                if (currentFragmentTag.equals("MoviesFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                } else if (currentFragmentTag.equals("TopRatedMovieDetailsFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else if (currentFragmentTag.equals("PopularMovieDetailsFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else if (currentFragmentTag.equals("ActorFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+                break;
+        }
+
+    }
+
+    private void replaceFragment(int index, DynamicFragmentPagerAdapter.FragmentIdentifier fragmentIdentifier) {
+        dynamicFragmentPagerAdapter.replaceFragment(index, fragmentIdentifier);
+        //required for custom view pager to work properly
+        viewPager.setAdapter(null);
+        viewPager.setAdapter(dynamicFragmentPagerAdapter);
     }
 
     @Override

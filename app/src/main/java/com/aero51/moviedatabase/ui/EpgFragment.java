@@ -133,7 +133,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         //recycler_view_epg_tv.setNestedScrollingEnabled(true);
 
         setUpRecyclerView();
-        sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
+        //sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
         showBackButton(false);
         //Log.d(Constants.LOG2, "EpgTvFragment before: " );
 
@@ -186,7 +186,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                         registerGetProgramsForChannel(channelList.get(adapterItemCount).getName());
 
                     } else {
-                        Log.d(Constants.LOG2, "loading: "+loading );
                         recycler_view_epg_tv.addOnScrollListener(scrollListener);
                         sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
                         isLoading.removeObserver(this);

@@ -7,7 +7,6 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.repository.networkboundresources.EpgChannelsNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.EpgProgramsForChannelNetworkBoundResource;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Constants;
@@ -24,10 +23,6 @@ public class EpgTvRepository {
         this.application = application;
     }
 
-    public LiveData<Resource<List<EpgChannel>>> loadChannels(){
-        Log.d(Constants.LOG, "EpgTvRepository loadChannels ");
-        return new EpgChannelsNetworkBoundResource(executors,application).asLiveData();
-    }
 
     public LiveData<Resource<List<EpgProgram>>> loadProgramsForChannel(String channelName){
         Log.d(Constants.LOG, "EpgTvRepository load other channel programs: "+channelName);
