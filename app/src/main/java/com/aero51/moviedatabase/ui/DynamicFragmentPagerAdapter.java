@@ -180,7 +180,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         }
         final FragmentIdentifier fragmentIdentifier = fragmentIdentifiers.get(position);
         // Do we already have this fragment?
-        Log.d(Constants.LOG, " position: " + position);
+        //Log.d(Constants.LOG, " position: " + position);
         final String name = fragmentIdentifier.fragmentTag;
         Fragment fragment = fragmentManager.findFragmentByTag(name);
         if (fragment != null) {

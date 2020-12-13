@@ -21,7 +21,6 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
-import com.aero51.moviedatabase.ui.adapter.MoviesAdapter;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.Constants;
@@ -41,17 +40,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     private String mParam1;
     private String mParam2;
 
-    private TextView textViewTopRatedMovie;
-    private TextView textViewPopularMovie;
-    private RecyclerView topRatedRecyclerView;
-    private RecyclerView popularRecyclerView;
-    private TextView emptyViewText;
     private MoviesViewModel moviesViewModel;
     private TopRatedMoviesPagedListAdapter topRatedAdapter;
     private PopularMoviesPagedListAdapter popularAdapter;
     private SharedViewModel sharedViewModel;
 
-    private MoviesAdapter adapter;
+
 
     /**
      * Use this factory method to create a new instance of
@@ -87,17 +81,15 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-      //  View view = inflater.inflate(R.layout.fragment_movies_new, container, false);
-
         View view = inflater.inflate(R.layout.fragment_movies, container, false);
-        textViewTopRatedMovie = view.findViewById(R.id.text_view_top_rated_movie);
-        textViewPopularMovie = view.findViewById(R.id.text_view_popular_movie);
+        TextView textViewTopRatedMovie = view.findViewById(R.id.text_view_top_rated_movie);
+        TextView textViewPopularMovie = view.findViewById(R.id.text_view_popular_movie);
         textViewTopRatedMovie.setText("Top rated movies:");
         textViewPopularMovie.setText("Popular movies:");
-        emptyViewText = view.findViewById(R.id.empty_view);
+        TextView emptyViewText = view.findViewById(R.id.empty_view);
 
-        topRatedRecyclerView = view.findViewById(R.id.top_rated_movies_recycler_view_horizontal);
-        popularRecyclerView = view.findViewById(R.id.popular_movies_recycler_view_horizontal);
+        RecyclerView topRatedRecyclerView = view.findViewById(R.id.top_rated_movies_recycler_view_horizontal);
+        RecyclerView popularRecyclerView = view.findViewById(R.id.popular_movies_recycler_view_horizontal);
         topRatedRecyclerView.setHasFixedSize(true);
         popularRecyclerView.setHasFixedSize(true);
         topRatedAdapter = new TopRatedMoviesPagedListAdapter(this);
@@ -109,14 +101,6 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         LinearLayoutManager newlinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         popularRecyclerView.setLayoutManager(newlinearLayoutManager);
 
-/*
-        topRatedRecyclerView = view.findViewById(R.id.recycler_view_movies_parent);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        topRatedRecyclerView.setLayoutManager(linearLayoutManager);
-        adapter=new MoviesAdapter();
-        topRatedRecyclerView.setAdapter(adapter);
-*/
-        // detailsViewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
 
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -136,8 +120,10 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             @Override
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
-                    registerPopularMoviesObservers();
+                    Log.d(Constants.LOG2, "movies fragment loading: "+aBoolean );
                     registerTopRatedMoviesObservers();
+                    registerPopularMoviesObservers();
+
                 }
             }
         });
@@ -152,6 +138,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
 
                 topRatedAdapter.submitList(top_rated_results);
+                /*
                 if (top_rated_results.isEmpty()) {
                     topRatedRecyclerView.setVisibility(View.GONE);
                     emptyViewText.setVisibility(View.VISIBLE);
@@ -159,11 +146,8 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
                     topRatedRecyclerView.setVisibility(View.VISIBLE);
                     emptyViewText.setVisibility(View.GONE);
                 }
+*/
 
-
-               // adapter.setList(top_rated_results);
-
-               // topRatedRecyclerView.setNestedScrollingEnabled(true);
             }
         });
         moviesViewModel.getTopRatedLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<TopRatedMoviesPage>() {
@@ -182,7 +166,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
             @Override
             public void onChanged(NetworkState networkState) {
                 // Log.d(Constants.LOG, "MainActivity onChanged network state: "+networkState.getMsg());
-                topRatedAdapter.setNetworkState(networkState);
+                //topRatedAdapter.setNetworkState(networkState);
             }
         });
 
@@ -193,7 +177,7 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMovie>>() {
             @Override
             public void onChanged(PagedList<PopularMovie> popularMovies) {
-                Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
+                //Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
                 popularAdapter.submitList(popularMovies);
             }
         });

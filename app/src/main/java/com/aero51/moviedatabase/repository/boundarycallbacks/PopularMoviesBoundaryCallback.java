@@ -48,7 +48,7 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        Log.d(Constants.LOG, "popularMovies onzeroitemsloaded");
+        //Log.d(Constants.LOG, "popularMovies onzeroitemsloaded");
         fetchPopularMovies(MOVIES_FIRST_PAGE);
     }
 
@@ -62,7 +62,7 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     public void onItemAtEndLoaded(@NonNull PopularMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        Log.d(Constants.LOG, "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        //Log.d(Constants.LOG, "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchPopularMovies(page_number);
     }
 

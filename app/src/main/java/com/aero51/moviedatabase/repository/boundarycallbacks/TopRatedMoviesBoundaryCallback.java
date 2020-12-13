@@ -47,7 +47,7 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        Log.d(Constants.LOG, "topRatedMovies onzeroitemsloaded");
+        //Log.d(Constants.LOG, "topRatedMovies onzeroitemsloaded");
         fetchTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
     }
 
@@ -61,7 +61,7 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     public void onItemAtEndLoaded(@NonNull TopRatedMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        Log.d(Constants.LOG, "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        //Log.d(Constants.LOG, "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchTopRatedMovies(page_number);
     }
 

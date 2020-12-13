@@ -131,11 +131,11 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         //this messes up scroll listener
         //recycler_view_epg_tv.setHasFixedSize(true);
         //recycler_view_epg_tv.setNestedScrollingEnabled(true);
-        if (channelList.size() > 0) {
-            setUpRecyclerView();
-        }
+
+        setUpRecyclerView();
+        sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
         showBackButton(false);
-        Log.d(Constants.LOG2, "EpgTvFragment before: " );
+        //Log.d(Constants.LOG2, "EpgTvFragment before: " );
 
         return view;
     }
@@ -179,12 +179,14 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loading) {
+
                 if (!loading) {
                     int adapterItemCount = epgAdapter.getItemCount();
                     if (adapterItemCount < temp + 5 && channelList.size() > adapterItemCount) {
                         registerGetProgramsForChannel(channelList.get(adapterItemCount).getName());
 
                     } else {
+                        Log.d(Constants.LOG2, "loading: "+loading );
                         recycler_view_epg_tv.addOnScrollListener(scrollListener);
                         sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
                         isLoading.removeObserver(this);
@@ -199,16 +201,18 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d(Constants.LOG, "EpgTvFragment onChanged listResource.status: " + listResource.status+" , "+ listResource.code);
+                Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: "+channelName+" ,status: " + listResource.status+" , "+ listResource.code+" ,message: " + listResource.message);
                 if ( listResource.status == Status.LOADING) {
                     Log.d(Constants.LOG2, "isNetworkAvailable: "+isNetworkAvailable() );
                     if(!isNetworkAvailable()){
+                        //epgViewModel.getProgramsForChannel(channelName).removeObservers(getViewLifecycleOwner());
                          showSnackbar();
+
                     }
                 }
 
-                if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
-                    Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,get Programs code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size() + " ,message: " + listResource.message);
+               else if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
+
                     epgViewModel.getResourceLiveData().removeObserver(this);
 
                     ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.data);
