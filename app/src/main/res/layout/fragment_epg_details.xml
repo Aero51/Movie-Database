@@ -44,20 +44,34 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
-    <ImageView
-        android:id="@+id/image_view_program"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_below="@+id/text_view_description"
-        android:src="@drawable/ic_launcher_background" />
-
     <TextView
         android:id="@+id/text_view_cast"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_view_program"
+        android:layout_below="@+id/text_view_description"
         android:ellipsize="end"
         android:text="Cast"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/text_view_cast"
+            android:layout_marginBottom="5dp"
+            android:background="@color/grey" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/epg_cast_recycler_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider"/>
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/epg_cast_recycler_view"
+            android:background="@color/grey" />
     </RelativeLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

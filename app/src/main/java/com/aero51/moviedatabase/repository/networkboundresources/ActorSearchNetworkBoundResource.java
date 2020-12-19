@@ -9,7 +9,7 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.Database;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -17,49 +17,47 @@ import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.NetworkBoundResource;
 
-import java.util.List;
-
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
-public class ActorImagesNetworkBoundResource extends NetworkBoundResource<ActorImagesResponse, List<ActorImagesResponse.ActorImage>> {
-    private Integer actor_id;
+public class ActorSearchNetworkBoundResource extends NetworkBoundResource<ActorSearchResponse, ActorSearchResponse.ActorSearch> {
+    private String actor_name;
     private Database database;
     private CreditsDao creditsDao;
 
-    public ActorImagesNetworkBoundResource(AppExecutors appExecutors, Application application, Integer actor_id) {
+    public ActorSearchNetworkBoundResource(AppExecutors appExecutors, Application application, String actor_name) {
         super(appExecutors);
         database = Database.getInstance(application);
         creditsDao = database.get_credits_dao();
-        this.actor_id = actor_id;
+        this.actor_name = actor_name;
     }
 
     @Override
-    protected void saveCallResult(@NonNull ActorImagesResponse response) {
-        //this is executed on background thread
+    protected void saveCallResult(@NonNull ActorSearchResponse item) {
         database.runInTransaction(new Runnable() {
             @Override
             public void run() {
-                creditsDao.insertActorImagesResponse(response);
+                creditsDao.insertActorSearch(item.getResults().get(0));
             }
         });
-        Log.d(Constants.LOG, "saveCallResult actor id: " + response.getId() + " ,images list  size: " + response.getImages().size());
     }
 
     @Override
-    protected boolean shouldFetch(@Nullable List<ActorImagesResponse.ActorImage> data) {
-        return data.size() == 0;
+    protected boolean shouldFetch(@Nullable ActorSearchResponse.ActorSearch data) {
+        Log.d(Constants.LOG, "shouldFetch data==null: "+String.valueOf(data==null) );
+        return  data==null;
+    }
+
+
+    @NonNull
+    @Override
+    protected LiveData<ActorSearchResponse.ActorSearch> loadFromDb() {
+        return creditsDao.getActorSearch(actor_name);
     }
 
     @NonNull
     @Override
-    protected LiveData<List<ActorImagesResponse.ActorImage>> loadFromDb() {
-        return creditsDao.getActorImages(actor_id);
-    }
-
-    @NonNull
-    @Override
-    protected LiveData<ApiResponse<ActorImagesResponse>> createCall() {
+    protected LiveData<ApiResponse<ActorSearchResponse>> createCall() {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        return theMovieDbApi.getLivePersonImages(actor_id, TMDB_API_KEY);
+        return theMovieDbApi.getLivePersonSearch(TMDB_API_KEY,actor_name);
     }
 }

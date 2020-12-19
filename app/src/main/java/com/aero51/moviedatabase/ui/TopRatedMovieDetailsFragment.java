@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
@@ -49,8 +50,6 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
 
     private SharedViewModel sharedViewModel;
 
-
-
     public static TopRatedMovieDetailsFragment newInstance(String param1, String param2) {
         TopRatedMovieDetailsFragment fragment = new TopRatedMovieDetailsFragment();
         Bundle args = new Bundle();
@@ -59,7 +58,6 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,18 +75,18 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
-       // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
-        cover_image_view = view.findViewById(R.id.cover);
+        // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
+        cover_image_view = getActivity().findViewById(R.id.expandedImage);
         title_text_view = view.findViewById(R.id.title);
         release_date_text_view = view.findViewById(R.id.releaseDate);
         overview_text_view = view.findViewById(R.id.overview);
 
         castRecyclerView = view.findViewById(R.id.cast_recycler_view);
         castRecyclerView.setHasFixedSize(true);
-        castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        castRecyclerView.setLayoutManager(linearLayoutManager);
+        //castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         registerSharedViewModelObserver();
-
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -101,9 +99,9 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         });
         showBackButton(true);
 
-
         return view;
     }
+
     public void showBackButton(boolean show) {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);
@@ -113,51 +111,46 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     @Override
     public void onStop() {
         super.onStop();
-      //  Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onStop " );
+        //  Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onStop " );
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-       // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onDestroyView " );
+        // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onDestroyView " );
         //sharedViewModel.getLiveDataTopRatedMovie().removeObservers(getViewLifecycleOwner());
-       // movieDetailsViewModel.getMovieCast(topRatedMovieIds).removeObservers(getViewLifecycleOwner());
+        // movieDetailsViewModel.getMovieCast(topRatedMovieIds).removeObservers(getViewLifecycleOwner());
     }
 
     private void registerSharedViewModelObserver() {
         sharedViewModel.getLiveDataTopRatedMovie().observe(getViewLifecycleOwner(), new Observer<TopRatedMovie>() {
             @Override
             public void onChanged(TopRatedMovie topRatedMovie) {
-               // sharedViewModel.getLiveDataTopRatedMovie().removeObserver(this);
+                // sharedViewModel.getLiveDataTopRatedMovie().removeObserver(this);
                 title_text_view.setText(topRatedMovie.getTitle());
                 release_date_text_view.setText(String.valueOf(topRatedMovie.getId()));
                 overview_text_view.setText(topRatedMovie.getOverview());
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + topRatedMovie.getBackdrop_path();
-                Picasso.get().load(imageUrl).into(cover_image_view);
+                Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(cover_image_view);
+                cover_image_view.setVisibility(View.VISIBLE);
                 registerMovieDetailsObserver(topRatedMovie.getId());
-
             }
         });
     }
-
 
     private void registerMovieDetailsObserver(Integer topRatedMovieId) {
         movieDetailsViewModel.getMovieCast(topRatedMovieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
             @Override
             public void onChanged(Resource<List<Cast>> listResource) {
-               // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
+                // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
                 Log.d(Constants.LOG, "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
                 castAdapter = new CastAdapter(getContext(), listResource.data);
                 castAdapter.setClickListener(TopRatedMovieDetailsFragment.this::onItemClick);
                 castRecyclerView.setAdapter(castAdapter);
-
-
-
             }
         });
     }
-
 
     public static void setImageUrl(ImageView view, String url) {
         if (url != null) {
@@ -167,7 +160,6 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
 
     @Override
     public void onItemClick(View view, Cast cast, int position) {
-
-       sharedViewModel.changeToActorFragment(position,cast);
+        sharedViewModel.changeToActorFragment(position, cast);
     }
 }

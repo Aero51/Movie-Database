@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,11 +19,11 @@ import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_H632;
 
 public class ActorImagesAdapter extends RecyclerView.Adapter<ActorImagesAdapter.ViewHolder> {
 
-    private List<ActorImage> imagesList;
+    private List<ActorImagesResponse.ActorImage> imagesList;
     private LayoutInflater mInflater;
 
     // data is passed into the constructor
-    public ActorImagesAdapter(Context context, List<ActorImage> imagesList) {
+    public ActorImagesAdapter(Context context, List<ActorImagesResponse.ActorImage> imagesList) {
         this.mInflater = LayoutInflater.from(context);
         this.imagesList = imagesList;
     }
@@ -38,7 +38,7 @@ public class ActorImagesAdapter extends RecyclerView.Adapter<ActorImagesAdapter.
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ActorImagesAdapter.ViewHolder holder, int position) {
-        ActorImage image  = imagesList.get(position);
+        ActorImagesResponse.ActorImage image  = imagesList.get(position);
         String imageUrl = BASE_IMAGE_URL + PROFILE_SIZE_H632 + image.getFile_path();
         Picasso.get().load(imageUrl).into(holder.actorImageView);
 
@@ -65,7 +65,7 @@ public class ActorImagesAdapter extends RecyclerView.Adapter<ActorImagesAdapter.
     }
 
     // convenience method for getting data at click position
-    private ActorImage getItem(int id) {
+    private ActorImagesResponse.ActorImage getItem(int id) {
         return imagesList.get(id);
     }
 

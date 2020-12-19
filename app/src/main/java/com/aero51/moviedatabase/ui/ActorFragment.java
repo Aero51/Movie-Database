@@ -18,7 +18,7 @@ import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
 import com.aero51.moviedatabase.utils.Constants;
@@ -142,9 +142,9 @@ public class ActorFragment extends Fragment {
             }
         });
 
-        viewModel.getActorImages(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImage>>>() {
+        viewModel.getActorImages(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImagesResponse.ActorImage>>>() {
             @Override
-            public void onChanged(Resource<List<ActorImage>> listResource) {
+            public void onChanged(Resource<List<ActorImagesResponse.ActorImage>> listResource) {
                 Log.d(Constants.LOG, "getActorImages code: " + listResource.code + " , status: " + listResource.status + " list size: "+listResource.data.size() + " ,message: " + listResource.message);
                 ActorImagesAdapter adapter= new ActorImagesAdapter(getContext(),listResource.data);
                 recycler_view_actor_images.setAdapter(adapter);

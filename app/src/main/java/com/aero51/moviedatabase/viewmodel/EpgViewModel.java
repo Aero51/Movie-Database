@@ -40,6 +40,7 @@ public class EpgViewModel extends AndroidViewModel {
         return resourceLiveData;
     }
 
+    //used to remove observer(s)
     public LiveData<Resource<List<EpgProgram>>> getResourceLiveData() {
         return resourceLiveData;
     }

@@ -91,11 +91,14 @@ public abstract class NetworkBoundResource<RequestType,ResultType> {
                     });
                 } else {
                     NetworkBoundResource.this.onFetchFailed();
-                    if (response.actionError != null)
+                    if (response.actionError != null) {
+                        Log.d(Constants.LOG, " response.actionError != null " );
                         result.postValue(Resource.error(response.errorMessage, response.code, response.actionError));
-                    else
+                    }
+                    else {
+                        Log.d(Constants.LOG, " response.actionError == null " );
                         result.addSource(dbSource, newData -> result.postValue(Resource.error(response.errorMessage, response.code, newData)));
-
+                    }
                 }
             }
         });

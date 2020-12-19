@@ -9,8 +9,8 @@ import androidx.room.Query;
 
 
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Crew;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
@@ -40,7 +40,7 @@ public abstract class CreditsDao {
        insertCrewList(crewList);
    }
     public  void insertActorImagesResponse(ActorImagesResponse response){
-      List<ActorImage>  actorImageList= response.getImages();
+      List<ActorImagesResponse.ActorImage>  actorImageList= response.getImages();
         for(int i=0;i<actorImageList.size();i++){
           actorImageList.get(i).setActor_id(response.getId());
         }
@@ -77,9 +77,16 @@ public abstract class CreditsDao {
     public abstract void insertActor(Actor actor);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertActorImages(List<ActorImage> imageList);
+    public abstract void insertActorImages(List<ActorImagesResponse.ActorImage> imageList);
 
     @Query("SELECT * FROM actor_image WHERE actor_id = :actor_id ")
-    public abstract LiveData<List<ActorImage>> getActorImages(Integer actor_id);
+    public abstract LiveData<List<ActorImagesResponse.ActorImage>> getActorImages(Integer actor_id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertActorSearch(ActorSearchResponse.ActorSearch actorSearch);
+
+    @Query("SELECT * FROM actor_search WHERE name = :actorName LIMIT 1")
+    public abstract LiveData<ActorSearchResponse.ActorSearch>getActorSearch(String actorName);
+
 
 }

@@ -76,7 +76,7 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
 
         EpgAllProgramsViewHolder(View itemView) {
             super(itemView);
-            progressBar=itemView.findViewById(R.id.progress_bar);
+            progressBar=itemView.findViewById(R.id.all_programs_progress_bar);
             tv_epg_all_programs_position = itemView.findViewById(R.id.tv_epg_all_programs_position);
             tv_epg_all_programs_start = itemView.findViewById(R.id.tv_epg_all_programs_start);
             tv_epg_all_programs_title = itemView.findViewById(R.id.tv_epg_all_programs_title);

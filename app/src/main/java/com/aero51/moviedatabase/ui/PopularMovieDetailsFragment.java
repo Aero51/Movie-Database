@@ -69,7 +69,7 @@ public class PopularMovieDetailsFragment extends Fragment implements CastAdapter
 
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
 
-        cover_image_view = view.findViewById(R.id.cover);
+        //cover_image_view = view.findViewById(R.id.cover);
         title_text_view = view.findViewById(R.id.title);
         release_date_text_view = view.findViewById(R.id.releaseDate);
         overview_text_view = view.findViewById(R.id.overview);

@@ -34,17 +34,23 @@
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 android:gravity="center_horizontal"
-                android:textColor="@color/white"
+                android:textColor="@color/primaryText"
                 android:text="Channel"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
         </RelativeLayout>
-
+        <View
+            android:id="@+id/divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/channel_relative_layout"
+            android:background="@color/grey" />
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_child"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/channel_relative_layout"
+            android:layout_below="@+id/divider"
             android:orientation="horizontal" />
 
     </RelativeLayout>

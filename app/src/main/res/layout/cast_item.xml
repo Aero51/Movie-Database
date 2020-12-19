@@ -1,31 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="8dp">
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="160dp"
+    android:layout_height="wrap_content"
+    card_view:cardBackgroundColor="@color/dark_gray">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:padding="8dp">
+        android:padding="2dp">
 
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/cast_profile_image_view"
-        android:layout_width="96dp"
-        android:layout_height="96dp"
-        android:src="@drawable/ic_launcher_background"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#FF000000"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cast_profile_image_view"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_centerHorizontal="true"
+            android:padding="2dp"
+            android:src="@drawable/ic_launcher_background"
+            app:civ_border_color="@color/white"
+            app:civ_border_width="1dp" />
+
         <TextView
             android:id="@+id/text_view_cast_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/cast_profile_image_view"
             android:layout_alignParentStart="true"
+            android:textColor="@color/white"
+            android:ellipsize="end"
+            android:maxWidth="160dp"
+            android:maxLines="1"
             android:text="Cast name" />
 
         <TextView
@@ -34,11 +40,25 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/text_view_cast_name"
             android:layout_alignParentStart="true"
+            android:textColor="@color/white"
             android:ellipsize="end"
+            android:maxWidth="160dp"
             android:maxLines="1"
             android:text="Real name"
             android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
+        <View
+            android:id="@+id/divider"
+            android:layout_width="1dp"
+            android:layout_toEndOf="@id/cast_profile_image_view"
+            android:layout_height="wrap_content"
+            android:background="@color/white" />
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="1dp"
+            android:layout_toEndOf="@id/cast_profile_image_view"
+            android:layout_height="wrap_content"
+            android:background="@color/grey" />
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -101,8 +100,8 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         ViewHolder(View itemView) {
             super(itemView);
             relativeLayout = itemView.findViewById(R.id.relative_layout);
-            relativeLayout.setMinimumWidth(100);
-            progressBar = itemView.findViewById(R.id.progress_bar);
+            //relativeLayout.setMinimumWidth(100);
+            progressBar = itemView.findViewById(R.id.child_item_progress_bar);
             tv_epg_tv_child_start = itemView.findViewById(R.id.tv_epg_tv_child_start);
             tv_epg_tv_child_title = itemView.findViewById(R.id.tv_epg_tv_child_title);
             tv_epg_tv_child_category = itemView.findViewById(R.id.tv_epg_tv_child_category);

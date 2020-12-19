@@ -11,7 +11,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImage;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Crew;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
@@ -27,7 +28,7 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
 @androidx.room.Database(entities = {TopRatedMovie.class, TopRatedMoviesPage.class, PopularMovie.class,
                       PopularMoviesPage.class, MovieCredits.class, Cast.class, Crew.class,
-                      Actor.class, ActorImage.class, EpgChannel.class, EpgProgram.class}, version = 1)
+                      Actor.class, ActorImagesResponse.ActorImage.class, EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Database extends RoomDatabase {
 

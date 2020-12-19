@@ -49,6 +49,7 @@ public class ApiResponse<T> {
             }
             if (message == null || message.trim().length() == 0) {
                 message = response.message();
+                Log.d(Constants.LOG, " (message == null || message.trim().length() == 0): " + message);
             }
             actionError = aError;
             errorMessage = message;

@@ -21,25 +21,25 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:layout_scrollFlags="scroll|enterAlways|snap">
             <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
             <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
 
             <ImageView
                 android:id="@+id/expandedImage"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
+                android:layout_height="300dp"
                 android:src="@drawable/hrt1"
                 android:visibility="gone"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.7" />
+            <!-- android:scaleType="centerCrop"-->
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
+                android:background="?attr/colorPrimaryDark"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways|snap" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -57,8 +57,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/colorPrimary"
-        app:itemBackground="@color/colorPrimary"
+        android:background="@color/colorPrimaryDark"
+        app:itemBackground="@color/colorPrimaryDark"
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:itemTextColor="@drawable/bottom_navigation_color_selector"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"

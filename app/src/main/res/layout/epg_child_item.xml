@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/child_item_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="130dp"
@@ -23,8 +23,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:padding="5dp"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryText"
         android:background="@drawable/back"
+        android:layout_marginStart="5dp"
         android:text="10-22"/>
     <TextView
         android:id="@+id/tv_epg_tv_child_title"
@@ -38,7 +39,7 @@
         android:maxWidth="300dp"
         android:maxLines="1"
         android:ellipsize="end"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryText"
         android:text="description"/>
 
     <TextView
@@ -55,9 +56,14 @@
         android:maxWidth="150dp"
         android:maxLines="3"
         android:padding="5dp"
-        android:textColor="@color/white"
+        android:textColor="@color/primaryText"
         android:text="category"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:background="@color/grey" />
 
 </RelativeLayout>

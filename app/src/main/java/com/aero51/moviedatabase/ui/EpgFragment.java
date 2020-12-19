@@ -6,7 +6,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
@@ -15,14 +14,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import android.text.Layout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
-import com.aero51.moviedatabase.MyApplication;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
@@ -63,6 +60,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     private EpgViewModel epgViewModel;
     private RecyclerView recycler_view_epg_tv;
     private SwipeRefreshLayout pullToRefresh;
+    private ProgressBar progressBar;
     private EpgAdapter epgAdapter;
 
     private SharedViewModel sharedViewModel;
@@ -127,6 +125,8 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                 pullToRefresh.setRefreshing(false);
             }
         });
+        progressBar=view.findViewById(R.id.epg_progress_bar);
+        progressBar.setVisibility(View.GONE);
         recycler_view_epg_tv = view.findViewById(R.id.recycler_view_cro_parent);
         //this messes up scroll listener
         //recycler_view_epg_tv.setHasFixedSize(true);
@@ -169,17 +169,17 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     }
 
     private void fetchProgramsForMultipleChannels() {
+        progressBar.setVisibility(View.VISIBLE);
         isLoading = new MutableLiveData<>();
         isLoading.setValue(false);
         sharedViewModel.setHasEpgTvFragmentFinishedLoading(false);
-
 
         recycler_view_epg_tv.removeOnScrollListener(scrollListener);
         int temp = epgAdapter.getItemCount();
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loading) {
-
+                //for one at a time network calls
                 if (!loading) {
                     int adapterItemCount = epgAdapter.getItemCount();
                     if (adapterItemCount < temp + 5 && channelList.size() > adapterItemCount) {
@@ -187,8 +187,10 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
 
                     } else {
                         recycler_view_epg_tv.addOnScrollListener(scrollListener);
+                        //for notifying movie fragment that this one has finished loading
                         sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
                         isLoading.removeObserver(this);
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
             }
@@ -200,29 +202,28 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: "+channelName+" ,status: " + listResource.status+" , "+ listResource.code+" ,message: " + listResource.message);
-                if ( listResource.status == Status.LOADING) {
-                    Log.d(Constants.LOG2, "isNetworkAvailable: "+isNetworkAvailable() );
-                    if(!isNetworkAvailable()){
-                        //epgViewModel.getProgramsForChannel(channelName).removeObservers(getViewLifecycleOwner());
-                         showSnackbar();
-
+                Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,status: " + listResource.status + " , " + listResource.code + " ,message: " + listResource.message);
+                if (listResource.status == Status.LOADING) {
+                    if (!isNetworkAvailable()) {
+                        showSnackbar(getResources().getString(R.string.no_internet_message),Snackbar.LENGTH_INDEFINITE);
                     }
-                }
-
-               else if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
-
+                } else if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
+                    progressBar.setVisibility(View.GONE);
                     epgViewModel.getResourceLiveData().removeObserver(this);
-
                     ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.data);
-
                     programsForChannellList.add(item);
                     epgAdapter.notifyItemInserted(programsForChannellList.size() - 1);
                     isLoading.setValue(false);
+
+                } else if (listResource.status == Status.ERROR) {
+                    epgViewModel.getResourceLiveData().removeObserver(this);
+                    //happens when epg server is restarting
+                    if (listResource.message.equals("timeout")) {
+                        showSnackbar(getResources().getString(R.string.server_restarting_message),Snackbar.LENGTH_LONG);
+                    }
                 }
             }
         });
-
     }
 
     @Override
@@ -239,6 +240,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         Log.d(Constants.LOG, "channel item clicked: " + channelWithPrograms.getChannel().getName());
         sharedViewModel.changeToEpgAllProgramsFragment(channelWithPrograms);
     }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -247,15 +249,15 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     }
 
 
-    private void showSnackbar(){
+    private void showSnackbar(String message,int snackbarLength) {
         View mainActivityView = getActivity().findViewById(android.R.id.content);
-        Snackbar snackbar = Snackbar.make(mainActivityView,"Niste spojeni na internet.Spojite se i pokušajte ponovno.",Snackbar.LENGTH_INDEFINITE);
+        Snackbar snackbar = Snackbar.make(mainActivityView, message, snackbarLength);
         snackbar.setAction("OK", new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setUpRecyclerView();
+                //setUpRecyclerView();
+                fetchProgramsForMultipleChannels();
                 snackbar.dismiss();
-
             }
         });
         snackbar.show();
