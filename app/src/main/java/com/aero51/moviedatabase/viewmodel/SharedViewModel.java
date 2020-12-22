@@ -37,7 +37,7 @@ public class SharedViewModel extends ViewModel {
     private SingleLiveEvent<Boolean> shouldSwitchPopularMovieFragments = new SingleLiveEvent<>();
     private Integer popularMovieIndex;
 
-    private MutableLiveData<Cast> liveCast = new MutableLiveData<>();
+    private MutableLiveData<Integer> liveActorId = new MutableLiveData<>();
     private SingleLiveEvent<Boolean> shouldSwitchActorFragment = new SingleLiveEvent<>();
     private Integer castIndex;
 
@@ -107,15 +107,15 @@ public class SharedViewModel extends ViewModel {
         return shouldSwitchPopularMovieFragments;
     }
 
-    public void changeToActorFragment(Integer position, Cast cast) {
+    public void changeToActorFragment(Integer position, Integer actorId) {
         this.castIndex = position;
-        liveCast.setValue(cast);
+        liveActorId.setValue(actorId);
         shouldSwitchActorFragment.setValue(true);
 
     }
 
-    public LiveData<Cast> getLiveDataCast() {
-        return liveCast;
+    public LiveData<Integer> getLiveDataActorId() {
+        return liveActorId;
     }
 
     public LiveData<Boolean> getSingleLiveShouldSwitchActorFragment() {

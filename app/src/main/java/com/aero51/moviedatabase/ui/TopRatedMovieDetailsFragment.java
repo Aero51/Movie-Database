@@ -76,7 +76,8 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
         // viewModel = new ViewModelProvider(requireActivity()).get(MovieDetailsViewModel.class);
         View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
         // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
-        cover_image_view = getActivity().findViewById(R.id.expandedImage);
+        //cover_image_view = getActivity().findViewById(R.id.expandedImage);
+        cover_image_view = view.findViewById(R.id.cover);
         title_text_view = view.findViewById(R.id.title);
         release_date_text_view = view.findViewById(R.id.releaseDate);
         overview_text_view = view.findViewById(R.id.overview);
@@ -159,7 +160,7 @@ public class TopRatedMovieDetailsFragment extends Fragment implements CastAdapte
     }
 
     @Override
-    public void onItemClick(View view, Cast cast, int position) {
-        sharedViewModel.changeToActorFragment(position, cast);
+    public void onItemClick(View view, Integer actorId, int position) {
+        sharedViewModel.changeToActorFragment(position, actorId);
     }
 }

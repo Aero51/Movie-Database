@@ -97,10 +97,10 @@ public class ActorFragment extends Fragment {
         recycler_view_actor_images.setHasFixedSize(true);
         recycler_view_actor_images.setLayoutManager(new GridLayoutManager(getContext(),2));
 
-        sharedViewModel.getLiveDataCast().observe(getViewLifecycleOwner(), new Observer<Cast>() {
+        sharedViewModel.getLiveDataActorId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
-            public void onChanged(Cast cast) {
-                registerActorObservers(cast);
+            public void onChanged(Integer actorId) {
+                registerActorObservers(actorId);
             }
         });
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -123,9 +123,9 @@ public class ActorFragment extends Fragment {
     }
 
 
-    private void registerActorObservers(Cast castItem){
-        Log.d(Constants.LOG, "registerActorObservers cast: " + castItem.getId());
-        viewModel.getActorDetails(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
+    private void registerActorObservers(Integer actorId){
+        Log.d(Constants.LOG, "registerActorObservers cast: " + actorId);
+        viewModel.getActorDetails(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {
                 Log.d(Constants.LOG, "getActorDetails code: " + actorResource.code + " , status: " + actorResource.status + " list size: " + " ,message: " + actorResource.message);
@@ -142,7 +142,7 @@ public class ActorFragment extends Fragment {
             }
         });
 
-        viewModel.getActorImages(castItem.getId()).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImagesResponse.ActorImage>>>() {
+        viewModel.getActorImages(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImagesResponse.ActorImage>>>() {
             @Override
             public void onChanged(Resource<List<ActorImagesResponse.ActorImage>> listResource) {
                 Log.d(Constants.LOG, "getActorImages code: " + listResource.code + " , status: " + listResource.status + " list size: "+listResource.data.size() + " ,message: " + listResource.message);

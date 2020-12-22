@@ -25,13 +25,13 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.ui.adapter.ActorSearchAdapter;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.EpgDetailsViewModel;
-import com.aero51.moviedatabase.viewmodel.EpgViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
@@ -51,7 +51,7 @@ import java.util.List;
  * Use the {@link EpgDetailsFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClickListener{
+public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.ItemClickListener{
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,12 +70,13 @@ public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClic
     private ImageView image_view_program;
     private ImageView image_view_channel;
     private TextView text_view_cast;
-    private RecyclerView castRecyclerView;
-    private CastAdapter castAdapter;
-    private List<Cast> castList;
+    private RecyclerView actorSearchRecyclerView;
+    private ActorSearchAdapter actorSearchAdapter;
+    private List<ActorSearchResponse.ActorSearch> actorSearchList;
 
     private MutableLiveData<Boolean> isLoading;
     private EndlessRecyclerViewScrollListener scrollListener;
+
 
     public EpgDetailsFragment() {
         // Required empty public constructor
@@ -139,19 +140,19 @@ public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClic
         text_view_title = view.findViewById(R.id.text_view_title);
         text_view_date = view.findViewById(R.id.text_view_date);
         text_view_description = view.findViewById(R.id.text_view_description);
-        image_view_program = getActivity().findViewById(R.id.expandedImage);
-        image_view_program.setVisibility(View.VISIBLE);
+        //image_view_program = getActivity().findViewById(R.id.expandedImage);
+        image_view_program = view.findViewById(R.id.image_view_program);
+
         image_view_channel = view.findViewById(R.id.image_view_channel);
         text_view_cast = view.findViewById(R.id.text_view_cast);
-        castRecyclerView=view.findViewById(R.id.epg_cast_recycler_view);
-        castRecyclerView.setHasFixedSize(true);
+        actorSearchRecyclerView =view.findViewById(R.id.epg_cast_recycler_view);
+        //actorSearchRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        castRecyclerView.setLayoutManager(linearLayoutManager);
+        actorSearchRecyclerView.setLayoutManager(linearLayoutManager);
 
-        castList = new ArrayList<>();
-        castAdapter = new CastAdapter(getContext(), castList);
-        castAdapter.setClickListener(EpgDetailsFragment.this::onItemClick);
-        castRecyclerView.setAdapter(castAdapter);
+        actorSearchList = new ArrayList<>();
+        actorSearchAdapter = new ActorSearchAdapter(actorSearchList,EpgDetailsFragment.this::onItemClick);
+        actorSearchRecyclerView.setAdapter(actorSearchAdapter);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -160,9 +161,7 @@ public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClic
                 //fetchActors();
             }
         };
-        castRecyclerView.addOnScrollListener(scrollListener);
-
-
+        actorSearchRecyclerView.addOnScrollListener(scrollListener);
 
         sharedViewModel.getLiveDataProgram().observe(getViewLifecycleOwner(), new Observer<EpgProgram>() {
             @Override
@@ -241,18 +240,18 @@ public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClic
         isLoading=new MutableLiveData<>();
         isLoading.setValue(false);
 
-        castRecyclerView.removeOnScrollListener(scrollListener);
+        actorSearchRecyclerView.removeOnScrollListener(scrollListener);
 
-        int temp = castAdapter.getItemCount();
+        int temp = actorSearchAdapter.getItemCount();
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loading) {
                 if (!loading) {
-                    int adapterItemCount = castAdapter.getItemCount();
+                    int adapterItemCount = actorSearchAdapter.getItemCount();
                     if (adapterItemCount < temp + 5 && actors.size() > adapterItemCount) {
                               registerGetActor(actors.get(adapterItemCount));
                     } else {
-                        castRecyclerView.addOnScrollListener(scrollListener);
+                        actorSearchRecyclerView.addOnScrollListener(scrollListener);
                         isLoading.removeObserver(this);
                     }
                 }
@@ -266,9 +265,11 @@ public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClic
         epgDetailsViewModel.getActorSearch(actor_name).observe(getViewLifecycleOwner(), new Observer<Resource<ActorSearchResponse.ActorSearch>>() {
             @Override
             public void onChanged(Resource<ActorSearchResponse.ActorSearch> actorSearchResource) {
-                if(actorSearchResource.status == Status.SUCCESS){
+                if(actorSearchResource.status == Status.SUCCESS&&actorSearchResource.data!=null){
                     epgDetailsViewModel.getLiveActorSearchResult().removeObserver(this);
                     Log.d(Constants.LOG, "actorSearchResource: "+actorSearchResource.data.getName()+" , "+actorSearchResource.data.getId());
+                    actorSearchList.add(actorSearchResource.data);
+                    actorSearchAdapter.notifyItemInserted(actorSearchList.size()-1);
                     isLoading.setValue(false);
                 }
             }
@@ -306,8 +307,9 @@ public class EpgDetailsFragment extends Fragment implements CastAdapter.ItemClic
         }
     }
 
-    @Override
-    public void onItemClick(View view, Cast cast, int position) {
 
+    @Override
+    public void onItemClick(ActorSearchResponse.ActorSearch actorSearch, int position) {
+        sharedViewModel.changeToActorFragment(position, actorSearch.getId());
     }
 }

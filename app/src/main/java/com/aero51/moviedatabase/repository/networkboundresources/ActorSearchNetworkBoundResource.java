@@ -33,12 +33,14 @@ public class ActorSearchNetworkBoundResource extends NetworkBoundResource<ActorS
 
     @Override
     protected void saveCallResult(@NonNull ActorSearchResponse item) {
-        database.runInTransaction(new Runnable() {
-            @Override
-            public void run() {
-                creditsDao.insertActorSearch(item.getResults().get(0));
-            }
-        });
+        if(item.getResults().size()>0) {
+            database.runInTransaction(new Runnable() {
+                @Override
+                public void run() {
+                    creditsDao.insertActorSearch(item.getResults().get(0));
+                }
+            });
+        }
     }
 
     @Override
