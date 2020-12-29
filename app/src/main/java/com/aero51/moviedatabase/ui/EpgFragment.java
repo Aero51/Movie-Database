@@ -219,7 +219,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     //happens when epg server is restarting
                     if (listResource.message.equals("timeout")) {
-                        showSnackbar(getResources().getString(R.string.server_restarting_message),Snackbar.LENGTH_LONG);
+                        showSnackbar(getResources().getString(R.string.server_timeout_message),Snackbar.LENGTH_LONG);
                     }
                 }
             }

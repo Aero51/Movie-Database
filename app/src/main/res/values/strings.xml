@@ -12,8 +12,11 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="action_settings">Postavke</string>
+    <string name="search_title">Pretraži</string>
+    <string name="search_hint">Pretraži</string>
     <string name="no_internet_message">Niste spojeni na internet.Spojite se i pokušajte ponovno.</string>
-    <string name="server_restarting_message">Server se restarta.Pričekajte 3 minute i pokušajte ponovno</string>
+    <string name="server_timeout_message">Greška u komunikaciji sa serverom.Pokušajte ponovno</string>
+
 
     <string name="tab1">Tv vodič</string>
     <string name="tab2">Filmovi</string>
@@ -27,6 +30,5 @@
         <item>test </item>
     </string-array>
 
-  
 
 </resources>
