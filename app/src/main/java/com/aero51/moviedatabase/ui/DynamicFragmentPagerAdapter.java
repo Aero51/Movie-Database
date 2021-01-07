@@ -123,9 +123,13 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case 0:
-                return "Tv vodič";
-            case 1:
                 return "Filmovi";
+            case 1:
+                return "Serije";
+            case 2:
+                return "Osobe";
+            case 3:
+                return "Liste";
 
         }
         return null;

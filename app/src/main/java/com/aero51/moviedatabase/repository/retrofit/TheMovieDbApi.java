@@ -6,6 +6,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 
@@ -45,6 +46,8 @@ public interface TheMovieDbApi {
     @GET("search/person")
     LiveData<ApiResponse<ActorSearchResponse>> getLivePersonSearch(@Query("api_key") String api_key, @Query("query") String person);
 
+    @GET("search/movie")
+    Call<MovieSearchResult> getMoviesSearch(@Query("api_key") String api_key, @Query("query") String movieSearch, @Query("page") Integer page);
 
     //region is optional
     //  @GET("movie/top_rated")

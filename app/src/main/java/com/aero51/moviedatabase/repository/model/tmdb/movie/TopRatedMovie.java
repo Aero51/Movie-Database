@@ -27,13 +27,13 @@ public class TopRatedMovie implements Serializable {
     private String title;
     private Double vote_average;
     private String overview;
-    private Date release_date;
+    private String release_date;
 
     private Integer page_number;
     private String CollectionsName;
 
 
-    public TopRatedMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
+    public TopRatedMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
         this.pages_number = pages_number;
         this.popularity = popularity;
         this.vote_count = vote_count;
@@ -120,7 +120,7 @@ public class TopRatedMovie implements Serializable {
         return overview;
     }
 
-    public Date getRelease_date() {
+    public String getRelease_date() {
         return release_date;
     }
 

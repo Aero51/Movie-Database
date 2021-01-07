@@ -3,6 +3,7 @@ package com.aero51.moviedatabase;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -10,10 +11,14 @@ import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.DynamicFragmentPagerAdapter;
+import com.aero51.moviedatabase.ui.ListsSearchFragment;
 import com.aero51.moviedatabase.ui.MovieSearchFragment;
 import com.aero51.moviedatabase.ui.MoviesFragment;
+import com.aero51.moviedatabase.ui.PersonsSearchFragment;
 import com.aero51.moviedatabase.ui.TvShowsSearchFragment;
 import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.viewmodel.SearchViewModel;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class SearchActivity extends AppCompatActivity {
@@ -21,6 +26,10 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsSearchFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier personsSearchFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier listsSearchFragmentIdentifier;
+
+    private SearchViewModel searchViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,10 +42,13 @@ public class SearchActivity extends AppCompatActivity {
         TabLayout tabs = findViewById(R.id.tablayout);
         tabs.setupWithViewPager(viewPager);
         initFirstFragmentIdentifiers();
+
+        searchViewModel= new ViewModelProvider(this).get(SearchViewModel.class);
+
     }
     private void initFirstFragmentIdentifiers() {
 
-        moviesSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("MovieSearchFragment", null) {
+        moviesSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieSearchFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
                 MovieSearchFragment movieSearchFragment = MovieSearchFragment.newInstance("", "");
@@ -49,7 +61,7 @@ public class SearchActivity extends AppCompatActivity {
             }
         };
 
-        tvShowsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("TvShowsSearchFragment", null) {
+        tvShowsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsSearchFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
                 TvShowsSearchFragment tvShowsSearchFragment = TvShowsSearchFragment.newInstance("", "");
@@ -63,8 +75,39 @@ public class SearchActivity extends AppCompatActivity {
             }
         };
 
+
+        personsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(PersonsSearchFragment.class.getSimpleName(), null) {
+            @Override
+            protected Fragment createFragment() {
+                PersonsSearchFragment personsSearchFragment = PersonsSearchFragment.newInstance("", "");
+
+                return personsSearchFragment;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
+        listsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(ListsSearchFragment.class.getSimpleName(), null) {
+            @Override
+            protected Fragment createFragment() {
+                ListsSearchFragment listsSearchFragment = ListsSearchFragment.newInstance("", "");
+
+                return listsSearchFragment;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
+
+
         dynamicFragmentPagerAdapter.addFragment(moviesSearchFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(tvShowsSearchFragmentIdentifier);
+        dynamicFragmentPagerAdapter.addFragment(personsSearchFragmentIdentifier);
+        dynamicFragmentPagerAdapter.addFragment(listsSearchFragmentIdentifier);
     }
 
     @Override
@@ -84,6 +127,7 @@ public class SearchActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 Log.d(Constants.LOG, " onQueryTextChange: " + newText);
+                searchViewModel.setSearchText(newText);
                 return false;
             }
         });
