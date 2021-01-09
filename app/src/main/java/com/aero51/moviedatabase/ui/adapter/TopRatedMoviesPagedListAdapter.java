@@ -28,18 +28,16 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-            View view = layoutInflater.inflate(R.layout.movie_item, parent, false);
-            TopRatedMovieHolder viewHolder = new TopRatedMovieHolder(view, itemClickListener);
-            return viewHolder;
+        View view = layoutInflater.inflate(R.layout.movie_item, parent, false);
+        TopRatedMovieHolder viewHolder = new TopRatedMovieHolder(view, itemClickListener);
+        return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         TopRatedMovie currentResult = getItem(position);
-          ((TopRatedMovieHolder) holder).bindTo(currentResult,position);
+        ((TopRatedMovieHolder) holder).bindTo(currentResult, position);
     }
-
-
 
 
     private static DiffUtil.ItemCallback<TopRatedMovie> DIFF_CALLBACK =
@@ -54,7 +52,6 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };
-
 
 
 }

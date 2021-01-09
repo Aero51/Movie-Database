@@ -7,8 +7,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.Constants;
@@ -22,64 +22,60 @@ import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
-public class MovieSearchResultDataSource extends PageKeyedDataSource<Integer, TopRatedMovie> {
-    public static final int MOVIES_SEARCH_FIRST_PAGE = 1;
-    public static final int PAGE_SIZE = 20;
-
+public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShow> {
+    public static final int TV_SHOW_SEARCH_FIRST_PAGE = 1;
     private MutableLiveData networkState;
     private String queryString;
 
-
-    public MovieSearchResultDataSource(String query) {
-
+    public TvShowSearchDataSource(String queryString) {
         networkState = new MutableLiveData();
-        this.queryString = query;
+        this.queryString = queryString;
     }
 
     public MutableLiveData getNetworkState() {
         return networkState;
     }
 
-
     @Override
-    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TopRatedMovie> callback) {
-
-        networkState.postValue(NetworkState.LOADING);
-
+    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TvShow> callback) {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY,queryString, MOVIES_SEARCH_FIRST_PAGE);
+
+        Call<TvShowSearchResult> call = theMovieDbApi.getTvShowsSearch(TMDB_API_KEY, queryString, TV_SHOW_SEARCH_FIRST_PAGE);
         Log.d(Constants.LOG, "load initial ");
-        List<TopRatedMovie> list_of_results = fetchTopRatedMovies(call);
-        callback.onResult(list_of_results, null, MOVIES_SEARCH_FIRST_PAGE + 1);
+        List<TvShow> list_of_results = searchTvShows(call);
+        callback.onResult(list_of_results, null, TV_SHOW_SEARCH_FIRST_PAGE + 1);
     }
 
     @Override
-    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TopRatedMovie> callback) {
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShow> callback) {
         Log.d(Constants.LOG, "Load before: " + params.key);
     }
 
     @Override
-    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TopRatedMovie> callback) {
+    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShow> callback) {
+
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY,queryString, params.key);
+
+        Call<TvShowSearchResult> call = theMovieDbApi.getTvShowsSearch(TMDB_API_KEY, queryString, params.key);
         Log.d(Constants.LOG, "load after:params.key " + params.key);
-        List<TopRatedMovie> list_of_results = fetchTopRatedMovies(call);
+        List<TvShow> list_of_results = searchTvShows(call);
         callback.onResult(list_of_results, params.key + 1);
     }
 
-    private List<TopRatedMovie> fetchTopRatedMovies(Call<MovieSearchResult> call) {
-        List<TopRatedMovie> list_of_results = new ArrayList<>();
+
+    private List<TvShow> searchTvShows(Call<TvShowSearchResult> call) {
+        List<TvShow> list_of_results = new ArrayList<>();
         try {
-            Response<MovieSearchResult> response = call.execute();
+            Response<TvShowSearchResult> response = call.execute();
             if (!response.isSuccessful()) {
                 Log.d(Constants.LOG, "Response unsuccesful: " + response.code());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                 return null;
             }
             networkState.postValue(NetworkState.LOADED);
-            MovieSearchResult movieSearchResult = response.body();
-            list_of_results = movieSearchResult.getResults();
+            TvShowSearchResult tvShowSearchResult = response.body();
+            list_of_results = tvShowSearchResult.getResults();
         } catch (IOException e) {
             e.printStackTrace();
             Log.d(Constants.LOG, "call failure  IOException : " + e.getMessage());
@@ -88,5 +84,4 @@ public class MovieSearchResultDataSource extends PageKeyedDataSource<Integer, To
         return list_of_results;
 
     }
-
 }

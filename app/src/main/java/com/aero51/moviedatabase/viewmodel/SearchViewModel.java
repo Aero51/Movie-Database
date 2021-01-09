@@ -9,62 +9,79 @@ import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.networkonly.MovieSearchResultDataSourceFactory;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
+import com.aero51.moviedatabase.repository.networkonly.MovieSearchDataSourceFactory;
+import com.aero51.moviedatabase.repository.networkonly.TvShowSearchDataSourceFactory;
 
 public class SearchViewModel extends ViewModel {
-    private LiveData<PagedList<TopRatedMovie>> movieSearchResultPagedList;
+    private LiveData<PagedList<TopRatedMovie>> movieSearchPagedList;
+    private LiveData<PagedList<TvShow>> tvShowSearchPagedList;
     private LiveData<NetworkState> networkState;
 
 
-
-    private MutableLiveData<String> searchText;
+    private MutableLiveData<String> movieSearchText;
+    private MutableLiveData<String> tvShowSearchText;
 
 
     public SearchViewModel() {
-        searchText = new MutableLiveData<>();
-
-/*
-        pagedListLiveData = Transformations.switchMap(filterTextAll, input -> {
-            MyDataSourceFactory myDataSourceFactory = new MyDataSourceFactory(executor,input);
-            myDataSource = myDataSourceFactory.getMyDataSourceMutableLiveData();
-            networkState = Transformations.switchMap(myDataSource,
-                    dataSource -> dataSource.getNetworkState());
-            return (new LivePagedListBuilder(myDataSourceFactory, pagedListConfig))
-                    .setFetchExecutor(executor)
-                    .build();
-
-        });
-*/
+        movieSearchText = new MutableLiveData<>();
+        tvShowSearchText = new MutableLiveData<>();
+        initPagedLists();
 
     }
 
-    public LiveData<PagedList<TopRatedMovie>> getMovieSearchResult(){
-        movieSearchResultPagedList=Transformations.switchMap(searchText, input -> {
-            MovieSearchResultDataSourceFactory movieSearchResultDataSourceFactory=new MovieSearchResultDataSourceFactory(searchText.getValue());
-           networkState=Transformations.switchMap(movieSearchResultDataSourceFactory.getNetworkStatus(),dataSource ->
-               dataSource.getNetworkState());
-            return(new LivePagedListBuilder(movieSearchResultDataSourceFactory, getPagedListConfig()))
+
+    private void initPagedLists() {
+        movieSearchPagedList = Transformations.switchMap(movieSearchText, input -> {
+            MovieSearchDataSourceFactory movieSearchDataSourceFactory = new MovieSearchDataSourceFactory(movieSearchText.getValue());
+            networkState = Transformations.switchMap(movieSearchDataSourceFactory.getNetworkStatus(), dataSource ->
+                    dataSource.getNetworkState());
+            return (new LivePagedListBuilder(movieSearchDataSourceFactory, getPagedListConfig()))
                     .build();
         });
-        return movieSearchResultPagedList;
+
+        tvShowSearchPagedList = Transformations.switchMap(tvShowSearchText, input -> {
+            TvShowSearchDataSourceFactory tvShowSearchDataSourceFactory = new TvShowSearchDataSourceFactory(tvShowSearchText.getValue());
+            networkState = Transformations.switchMap(tvShowSearchDataSourceFactory.getNetworkStatus(), dataSource ->
+                    dataSource.getNetworkState());
+            return (new LivePagedListBuilder(tvShowSearchDataSourceFactory, getPagedListConfig()))
+                    .build();
+        });
     }
 
 
-    private PagedList.Config getPagedListConfig(){
-        return  (new PagedList.Config.Builder())
+    public LiveData<PagedList<TopRatedMovie>> getMovieSearchResult() {
+        return movieSearchPagedList;
+    }
+
+    public LiveData<PagedList<TvShow>> getTvShowSearchResult() {
+        return tvShowSearchPagedList;
+    }
+
+
+    private PagedList.Config getPagedListConfig() {
+        return (new PagedList.Config.Builder())
                 .setEnablePlaceholders(false)
                 .setPrefetchDistance(20)
-                .setInitialLoadSizeHint(30)
+                .setInitialLoadSizeHint(20)
                 .setPageSize(20).build();
     }
 
 
-    public MutableLiveData<String> getSearchText() {
-        return searchText;
+    public MutableLiveData<String> getMovieSearchText() {
+        return movieSearchText;
     }
 
-    public void setSearchText(String searchText) {
-        this.searchText.postValue(searchText);
+    public MutableLiveData<String> getTvShowSearchText() { return tvShowSearchText; }
 
+    public void setMovieSearchText(String movieSearchText) {
+        if (!movieSearchText.isEmpty()) {
+            this.movieSearchText.postValue(movieSearchText);
+        }
+    }
+    public void setTvShowSearchText(String tvShowSearchText) {
+        if (!tvShowSearchText.isEmpty()) {
+            this.tvShowSearchText.postValue(tvShowSearchText);
+        }
     }
 }

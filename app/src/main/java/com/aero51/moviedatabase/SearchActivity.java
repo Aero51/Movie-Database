@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,14 +12,15 @@ import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.DynamicFragmentPagerAdapter;
+import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
+import com.aero51.moviedatabase.ui.EpgDetailsFragment;
+import com.aero51.moviedatabase.ui.EpgFragment;
 import com.aero51.moviedatabase.ui.ListsSearchFragment;
 import com.aero51.moviedatabase.ui.MovieSearchFragment;
-import com.aero51.moviedatabase.ui.MoviesFragment;
 import com.aero51.moviedatabase.ui.PersonsSearchFragment;
 import com.aero51.moviedatabase.ui.TvShowsSearchFragment;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
-import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class SearchActivity extends AppCompatActivity {
@@ -30,11 +32,13 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier listsSearchFragmentIdentifier;
 
     private SearchViewModel searchViewModel;
+    private String searchQuery;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
 
         viewPager = findViewById(R.id.pager);
         dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), MyApplication.getAppContext());
@@ -43,9 +47,41 @@ public class SearchActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
         initFirstFragmentIdentifiers();
 
-        searchViewModel= new ViewModelProvider(this).get(SearchViewModel.class);
+        searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.d(Constants.LOG2, "onPageSelected: " + position);
+                if(searchQuery==null) searchQuery="";
+                    switch (position) {
+                        //MovieSearchFragment
+                        case 0:
+                            searchViewModel.setMovieSearchText(searchQuery);
+                            break;
+                        //TvShowsSearchFragment
+                        case 1:
+                            searchViewModel.setTvShowSearchText(searchQuery);
+                            break;
+
+                    }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
     }
+
     private void initFirstFragmentIdentifiers() {
 
         moviesSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieSearchFragment.class.getSimpleName(), null) {
@@ -117,17 +153,21 @@ public class SearchActivity extends AppCompatActivity {
                 (SearchView) menu.findItem(R.id.search_action_search).getActionView();
         searchView.setIconified(false);
         searchView.setQueryHint(getResources().getString(R.string.search_hint));
+        searchView.setSubmitButtonEnabled(true);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d(Constants.LOG, " onQueryTextSubmit: " + query);
+                searchQuery=query;
+                checkSelectedFragment();
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 Log.d(Constants.LOG, " onQueryTextChange: " + newText);
-                searchViewModel.setSearchText(newText);
+                searchQuery=newText;
+                checkSelectedFragment();
                 return false;
             }
         });
@@ -144,5 +184,22 @@ public class SearchActivity extends AppCompatActivity {
 
          */
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void checkSelectedFragment() {
+        int currentViewPagerItem = viewPager.getCurrentItem();
+        String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
+
+        switch (currentViewPagerItem) {
+            //MovieSearchFragment
+            case 0:
+                searchViewModel.setMovieSearchText(searchQuery);
+                break;
+            //TvShowsSearchFragment
+            case 1:
+                searchViewModel.setTvShowSearchText(searchQuery);
+                break;
+
+        }
     }
 }

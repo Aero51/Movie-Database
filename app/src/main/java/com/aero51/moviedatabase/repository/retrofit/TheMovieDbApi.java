@@ -10,6 +10,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
 import retrofit2.Call;
@@ -48,6 +49,10 @@ public interface TheMovieDbApi {
 
     @GET("search/movie")
     Call<MovieSearchResult> getMoviesSearch(@Query("api_key") String api_key, @Query("query") String movieSearch, @Query("page") Integer page);
+
+    @GET("search/tv")
+    Call<TvShowSearchResult> getTvShowsSearch(@Query("api_key") String api_key, @Query("query") String movieSearch, @Query("page") Integer page);
+
 
     //region is optional
     //  @GET("movie/top_rated")
