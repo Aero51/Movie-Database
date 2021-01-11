@@ -43,6 +43,7 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.analytics.FirebaseAnalytics;
 
+
 import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
@@ -50,7 +51,7 @@ import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFEREN
 
 
 public class MainActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
-    private CustomViewPager viewPager;
+    private CustomViewPager customViewPager;
     private DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifier;
@@ -65,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     private MenuItem prevMenuItem;
     private BottomNavigationView bottomNavigationView;
+    //private AnimatedBottomBar animatedBottomBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,17 +112,43 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         SharedPreferences sharedPrefPrivate = this.getPreferences(Context.MODE_PRIVATE);
         actorFragmentBackPosition = sharedPrefPrivate.getInt("Saved ActorFragment back navigation", -1);
 
-        viewPager = findViewById(R.id.view_pager);
+        customViewPager = findViewById(R.id.view_pager);
+        //customViewPager.setPagingEnabled(false);
         dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), MyApplication.getAppContext());
-        //viewPager.setPagingEnabled(false);
 
-        viewPager.setAdapter(dynamicFragmentPagerAdapter);
+        customViewPager.setAdapter(dynamicFragmentPagerAdapter);
         // getSupportActionBar().setDisplayShowTitleEnabled(false);
         // getSupportActionBar().hide();
 
         //Initializing the bottomNavigationView
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
+
+/*
+        animatedBottomBar=(AnimatedBottomBar) findViewById(R.id.bottom_navigation);
+        animatedBottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NotNull AnimatedBottomBar.Tab tab1) {
+                Log.d(Constants.LOG2, "onTabSelected: "+i1);
+                switch (i1) {
+                    case 0:
+                        viewPager.setCurrentItem(0);
+                        break;
+                    case 1:
+                        viewPager.setCurrentItem(1);
+                        break;
+                    case 2:
+                        viewPager.setCurrentItem(2);
+                        break;
+                }
+            }
+
+            @Override
+            public void onTabReselected(int i, @NotNull AnimatedBottomBar.Tab tab) {
+
+            }
+        });
+*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -139,21 +167,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         //tabs.setupWithViewPager(viewPager);
 
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+        customViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
+
                 if (prevMenuItem != null) {
                     prevMenuItem.setChecked(false);
                 } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
                 Log.d(Constants.LOG2, "onPageSelected: " + position);
+
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
+
                 prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+
+
                 String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(position);
                 addRemoveBackButton(position, currentFragmentTag);
 
@@ -164,7 +198,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
             }
         });
-
 
         initFirstFragmentIdentifiers();
         registerShouldSwitchEpgFragmentsObservers();
@@ -263,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
                 };
                 replaceFragment(1, topRatedMovieFragmentIdentifier);
-                viewPager.setCurrentItem(1);
+                customViewPager.setCurrentItem(1);
                 actorFragmentBackPosition = 0;
 
             }
@@ -284,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
                 };
                 replaceFragment(1, popularMovieFragmentIdentifier);
-                viewPager.setCurrentItem(1);
+                customViewPager.setCurrentItem(1);
                 actorFragmentBackPosition = 1;
             }
         });
@@ -304,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     }
                 };
                 replaceFragment(1, actorFragmentIdentifier);
-                viewPager.setCurrentItem(1);
+                customViewPager.setCurrentItem(1);
             }
         });
     }
@@ -312,7 +345,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     @Override
     public void onBackPressed() {
         //implement for each tab
-        int currentViewPagerItem = viewPager.getCurrentItem();
+        int currentViewPagerItem = customViewPager.getCurrentItem();
         Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
 
@@ -332,15 +365,15 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     super.onBackPressed();
                 } else if (currentFragmentTag.equals(TopRatedMovieDetailsFragment.class.getSimpleName()) || currentFragmentTag.equals(PopularMovieDetailsFragment.class.getSimpleName())) {
                     replaceFragment(1, moviesFragmentIdentifier);
-                    viewPager.setCurrentItem(1);
+                    customViewPager.setCurrentItem(1);
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     if (actorFragmentBackPosition == 0) {
                         replaceFragment(1, topRatedMovieFragmentIdentifier);
-                        viewPager.setCurrentItem(1);
+                        customViewPager.setCurrentItem(1);
                     }
                     if (actorFragmentBackPosition == 1) {
                         replaceFragment(1, popularMovieFragmentIdentifier);
-                        viewPager.setCurrentItem(1);
+                        customViewPager.setCurrentItem(1);
                     }
                 }
                 break;
@@ -380,8 +413,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private void replaceFragment(int index, DynamicFragmentPagerAdapter.FragmentIdentifier fragmentIdentifier) {
         dynamicFragmentPagerAdapter.replaceFragment(index, fragmentIdentifier);
         //required for custom view pager to work properly
-        viewPager.setAdapter(null);
-        viewPager.setAdapter(dynamicFragmentPagerAdapter);
+        customViewPager.setAdapter(null);
+        customViewPager.setAdapter(dynamicFragmentPagerAdapter);
     }
 
     @Override
@@ -424,21 +457,27 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
 
 
-
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        String currentFragmentTag="";
         switch (item.getItemId()) {
             case R.id.action_tv_guide:
-                viewPager.setCurrentItem(0);
+                customViewPager.setCurrentItem(0);
+                 currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(0);
+                addRemoveBackButton(0, currentFragmentTag);
                 break;
             case R.id.action_movies:
-                viewPager.setCurrentItem(1);
+                customViewPager.setCurrentItem(1);
+                currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(1);
+                addRemoveBackButton(0, currentFragmentTag);
                 break;
             case R.id.action_tv_shows:
-                viewPager.setCurrentItem(2);
+                customViewPager.setCurrentItem(2);
+                currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(2);
+                addRemoveBackButton(0, currentFragmentTag);
                 break;
         }
         return false;

@@ -20,6 +20,7 @@ android {
         versionName "1.0"
         buildConfigField("String", "API_KEY", TMDB_API_KEY)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -70,7 +71,7 @@ dependencies {
     // Annotation processor
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
-    def room_version = "2.2.5"
+    def room_version = "2.2.6"
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
@@ -86,4 +87,7 @@ dependencies {
 
     implementation 'androidx.preference:preference:1.1.1'
 
+
+    //implementation 'nl.joery.animatedbottombar:library:1.0.9'
+    //implementation 'com.android.support:multidex:1.0.3'
 }

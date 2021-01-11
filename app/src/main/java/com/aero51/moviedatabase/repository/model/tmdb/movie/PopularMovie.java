@@ -13,7 +13,6 @@ public class PopularMovie implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
-    private Integer pages_number;
     private Double popularity;
     private Integer vote_count;
     private boolean video;
@@ -29,8 +28,7 @@ public class PopularMovie implements Serializable {
     private String overview;
     private Date release_date;
 
-    public PopularMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
-        this.pages_number = pages_number;
+    public PopularMovie( Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
         this.popularity = popularity;
         this.vote_count = vote_count;
         this.video = video;
@@ -60,9 +58,6 @@ public class PopularMovie implements Serializable {
         return db_id;
     }
 
-    public Integer getPages_number() {
-        return pages_number;
-    }
 
     public Double getPopularity() {
         return popularity;

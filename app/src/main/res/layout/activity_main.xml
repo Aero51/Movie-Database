@@ -52,6 +52,7 @@
         android:isScrollContainer="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -63,6 +64,27 @@
         app:itemTextColor="@drawable/bottom_navigation_color_selector"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:menu="@menu/menu_bottom_navigation" />
+
     <!-- app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"-->
     <!-- app:layout_behavior=".utils.BottomNavigationBehavior"-->
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    <!--
+        <nl.joery.animatedbottombar.AnimatedBottomBar
+            android:id="@+id/bottom_navigation"
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+            app:abb_selectedTabType="text"
+            app:abb_indicatorAppearance="round"
+            app:abb_indicatorMargin="16dp"
+            app:abb_indicatorHeight="4dp"
+            app:abb_indicatorColor="@color/white"
+            app:abb_tabColor="@color/grey"
+            app:abb_tabColorSelected="@color/white"
+            app:abb_tabColorDisabled="@color/black"
+            app:abb_iconSize="30dp"
+            app:abb_tabs="@menu/menu_bottom_navigation"
+            app:abb_selectedIndex="0" />
+             -->
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>

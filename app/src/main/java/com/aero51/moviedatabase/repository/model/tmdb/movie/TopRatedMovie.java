@@ -13,7 +13,7 @@ public class TopRatedMovie implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
-    private Integer pages_number;
+
     private Double popularity;
     private Integer vote_count;
     private boolean video;
@@ -29,12 +29,9 @@ public class TopRatedMovie implements Serializable {
     private String overview;
     private String release_date;
 
-    private Integer page_number;
-    private String CollectionsName;
 
 
-    public TopRatedMovie(Integer pages_number, Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
-        this.pages_number = pages_number;
+    public TopRatedMovie( Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
         this.popularity = popularity;
         this.vote_count = vote_count;
         this.video = video;
@@ -64,9 +61,6 @@ public class TopRatedMovie implements Serializable {
         return db_id;
     }
 
-    public Integer getPages_number() {
-        return pages_number;
-    }
 
     public Double getPopularity() {
         return popularity;
@@ -128,20 +122,5 @@ public class TopRatedMovie implements Serializable {
         this.db_id = db_id;
     }
 
-    public Integer getPage_number() {
-        return page_number;
-    }
-
-    public void setPage_number(Integer page_number) {
-        this.page_number = page_number;
-    }
-
-    public String getCollectionsName() {
-        return CollectionsName;
-    }
-
-    public void setCollectionsName(String collectionsName) {
-        CollectionsName = collectionsName;
-    }
 
 }

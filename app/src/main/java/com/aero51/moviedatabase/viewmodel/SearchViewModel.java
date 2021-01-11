@@ -8,19 +8,23 @@ import androidx.paging.LivePagedListBuilder;
 import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
 import com.aero51.moviedatabase.repository.networkonly.MovieSearchDataSourceFactory;
+import com.aero51.moviedatabase.repository.networkonly.PeopleSearchDataSourceFactory;
 import com.aero51.moviedatabase.repository.networkonly.TvShowSearchDataSourceFactory;
 
 public class SearchViewModel extends ViewModel {
     private LiveData<PagedList<TopRatedMovie>> movieSearchPagedList;
     private LiveData<PagedList<TvShow>> tvShowSearchPagedList;
+    private LiveData<PagedList<ActorSearchResponse.ActorSearch>> peopleSearchPagedList;
     private LiveData<NetworkState> networkState;
 
 
     private MutableLiveData<String> movieSearchText;
     private MutableLiveData<String> tvShowSearchText;
+    private MutableLiveData<String> peopleSearchText;
 
 
     public SearchViewModel() {
@@ -47,6 +51,14 @@ public class SearchViewModel extends ViewModel {
             return (new LivePagedListBuilder(tvShowSearchDataSourceFactory, getPagedListConfig()))
                     .build();
         });
+
+        peopleSearchPagedList = Transformations.switchMap(peopleSearchText, input -> {
+            PeopleSearchDataSourceFactory peopleSearchDataSourceFactory = new PeopleSearchDataSourceFactory(peopleSearchText.getValue());
+            networkState = Transformations.switchMap(peopleSearchDataSourceFactory.getNetworkStatus(), dataSource ->
+                    dataSource.getNetworkState());
+            return (new LivePagedListBuilder(peopleSearchDataSourceFactory, getPagedListConfig()))
+                    .build();
+        });
     }
 
 
@@ -56,6 +68,10 @@ public class SearchViewModel extends ViewModel {
 
     public LiveData<PagedList<TvShow>> getTvShowSearchResult() {
         return tvShowSearchPagedList;
+    }
+
+    public LiveData<PagedList<ActorSearchResponse.ActorSearch>> getPeopleSearchResult() {
+        return peopleSearchPagedList;
     }
 
 
@@ -72,16 +88,29 @@ public class SearchViewModel extends ViewModel {
         return movieSearchText;
     }
 
-    public MutableLiveData<String> getTvShowSearchText() { return tvShowSearchText; }
+    public MutableLiveData<String> getTvShowSearchText() {
+        return tvShowSearchText;
+    }
+
+    public MutableLiveData<String> getPeopleSearchText() {
+        return peopleSearchText;
+    }
 
     public void setMovieSearchText(String movieSearchText) {
         if (!movieSearchText.isEmpty()) {
             this.movieSearchText.postValue(movieSearchText);
         }
     }
+
     public void setTvShowSearchText(String tvShowSearchText) {
         if (!tvShowSearchText.isEmpty()) {
             this.tvShowSearchText.postValue(tvShowSearchText);
+        }
+    }
+
+    public void setPeopleSearchText(String peopleSearchText) {
+        if (!peopleSearchText.isEmpty()) {
+            this.tvShowSearchText.postValue(peopleSearchText);
         }
     }
 }

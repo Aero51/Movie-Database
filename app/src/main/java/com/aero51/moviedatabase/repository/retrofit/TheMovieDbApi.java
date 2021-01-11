@@ -47,6 +47,9 @@ public interface TheMovieDbApi {
     @GET("search/person")
     LiveData<ApiResponse<ActorSearchResponse>> getLivePersonSearch(@Query("api_key") String api_key, @Query("query") String person);
 
+    @GET("search/person")
+    Call<ActorSearchResponse> getPersonsSearch(@Query("api_key") String api_key, @Query("query") String person, @Query("page") Integer page);
+
     @GET("search/movie")
     Call<MovieSearchResult> getMoviesSearch(@Query("api_key") String api_key, @Query("query") String movieSearch, @Query("page") Integer page);
 

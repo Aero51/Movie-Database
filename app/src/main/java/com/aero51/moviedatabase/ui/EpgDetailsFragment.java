@@ -77,6 +77,8 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
     private MutableLiveData<Boolean> isLoading;
     private EndlessRecyclerViewScrollListener scrollListener;
 
+    private List<String> actors;
+
 
     public EpgDetailsFragment() {
         // Required empty public constructor
@@ -158,7 +160,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
-                //fetchActors();
+                multipleActorsFetch();
             }
         };
         actorSearchRecyclerView.addOnScrollListener(scrollListener);
@@ -204,7 +206,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
         List<String> writers=new ArrayList<>();
         List<String> directors=new ArrayList<>();
-        List<String> actors=new ArrayList<>();
+        actors=new ArrayList<>();
         if (credits != null) {
             try {
                 JSONObject jsonObjCredits = new JSONObject(credits);
@@ -231,12 +233,12 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             Log.d(Constants.LOG, "directors!: " + directors.toString());
             Log.d(Constants.LOG, "actors!: " + actors.toString());
 
-            multipleActorsFetch(actors);
+            multipleActorsFetch();
         }
 
     }
 
-    private void multipleActorsFetch(List<String> actors){
+    private void multipleActorsFetch(){
         isLoading=new MutableLiveData<>();
         isLoading.setValue(false);
 
