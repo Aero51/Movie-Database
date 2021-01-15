@@ -13,6 +13,13 @@ public class ActorSearchResponse {
     private Integer total_pages;
     private Integer total_results;
 
+    public ActorSearchResponse(Integer page, List<ActorSearch> results, Integer total_pages, Integer total_results) {
+        this.page = page;
+        this.results = results;
+        this.total_pages = total_pages;
+        this.total_results = total_results;
+    }
+
     public Integer getPage() {
         return page;
     }
@@ -60,6 +67,19 @@ public class ActorSearchResponse {
         private String name;
         private Double popularity;
         private String profile_path;
+
+
+        public ActorSearch(Boolean adult, Integer gender, Integer id, String known_for_department, String name, Double popularity, String profile_path) {
+
+            this.adult = adult;
+            this.gender = gender;
+            this.id = id;
+            this.known_for = known_for;
+            this.known_for_department = known_for_department;
+            this.name = name;
+            this.popularity = popularity;
+            this.profile_path = profile_path;
+        }
 
         public Integer getDb_id() {
             return db_id;

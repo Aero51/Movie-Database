@@ -10,14 +10,14 @@ import androidx.paging.PagedList;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.repository.networkonly.MovieSearchDataSourceFactory;
 import com.aero51.moviedatabase.repository.networkonly.PeopleSearchDataSourceFactory;
 import com.aero51.moviedatabase.repository.networkonly.TvShowSearchDataSourceFactory;
 
 public class SearchViewModel extends ViewModel {
     private LiveData<PagedList<TopRatedMovie>> movieSearchPagedList;
-    private LiveData<PagedList<TvShow>> tvShowSearchPagedList;
+    private LiveData<PagedList<TvShowSearchResult.TvShow>> tvShowSearchPagedList;
     private LiveData<PagedList<ActorSearchResponse.ActorSearch>> peopleSearchPagedList;
     private LiveData<NetworkState> networkState;
 
@@ -30,6 +30,7 @@ public class SearchViewModel extends ViewModel {
     public SearchViewModel() {
         movieSearchText = new MutableLiveData<>();
         tvShowSearchText = new MutableLiveData<>();
+        peopleSearchText= new MutableLiveData<>();
         initPagedLists();
 
     }
@@ -66,7 +67,7 @@ public class SearchViewModel extends ViewModel {
         return movieSearchPagedList;
     }
 
-    public LiveData<PagedList<TvShow>> getTvShowSearchResult() {
+    public LiveData<PagedList<TvShowSearchResult.TvShow>> getTvShowSearchResult() {
         return tvShowSearchPagedList;
     }
 
@@ -110,7 +111,7 @@ public class SearchViewModel extends ViewModel {
 
     public void setPeopleSearchText(String peopleSearchText) {
         if (!peopleSearchText.isEmpty()) {
-            this.tvShowSearchText.postValue(peopleSearchText);
+            this.peopleSearchText.postValue(peopleSearchText);
         }
     }
 }

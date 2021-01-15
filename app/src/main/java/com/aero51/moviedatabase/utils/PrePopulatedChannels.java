@@ -699,10 +699,6 @@ public class PrePopulatedChannels {
         channel.setDisplay_name("Prva");
         serbianList.add(channel);
 
-        channel = new EpgChannel();
-        channel.setName("prvakick");
-        channel.setDisplay_name("Prva Kick");
-        serbianList.add(channel);
 
         channel = new EpgChannel();
         channel.setName("happy");

@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "popular_movie")
-public class PopularMovie implements Serializable {
+public class PopularMovie  implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
@@ -26,9 +26,9 @@ public class PopularMovie implements Serializable {
     private String title;
     private Double vote_average;
     private String overview;
-    private Date release_date;
+    private String release_date;
 
-    public PopularMovie( Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, Date release_date) {
+    public PopularMovie( Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
         this.popularity = popularity;
         this.vote_count = vote_count;
         this.video = video;
@@ -111,7 +111,7 @@ public class PopularMovie implements Serializable {
         return overview;
     }
 
-    public Date getRelease_date() {
+    public String getRelease_date() {
         return release_date;
     }
 

@@ -10,10 +10,12 @@ import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.SingleLiveEvent;
+import com.google.gson.Gson;
 
 public class SharedViewModel extends ViewModel {
 
@@ -29,18 +31,15 @@ public class SharedViewModel extends ViewModel {
     private SingleLiveEvent<Boolean> shouldSwitchOtherChannelDetailFragment = new SingleLiveEvent<>();
     private Integer otherChannelIndex;
 
-    private MutableLiveData<TopRatedMovie> livetopRatedMovie = new MutableLiveData<>();
-    private SingleLiveEvent<Boolean> shouldSwitchTopMovieFragments = new SingleLiveEvent<>();
-    private Integer topRatedMovieIndex;
 
-    private MutableLiveData<PopularMovie> livePopularMovie = new MutableLiveData<>();
-    private SingleLiveEvent<Boolean> shouldSwitchPopularMovieFragments = new SingleLiveEvent<>();
-    private Integer popularMovieIndex;
+    private MutableLiveData<Movie> liveMovie = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> shouldSwitchMovieDetailFragment = new SingleLiveEvent<>();
+    private Integer movieIndex;
+
 
     private MutableLiveData<Integer> liveActorId = new MutableLiveData<>();
     private SingleLiveEvent<Boolean> shouldSwitchActorFragment = new SingleLiveEvent<>();
     private Integer castIndex;
-
 
     private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
 
@@ -75,37 +74,32 @@ public class SharedViewModel extends ViewModel {
         return shouldSwitchToEpgAllProgramsFragment;
     }
 
-
-    public void changeToTopRatedMovieFragment(Integer position, TopRatedMovie topRatedMovie) {
-        Log.d(Constants.LOG, "changeToTopRatedMovieFragment topRatedMovieId: " + topRatedMovie.getId());
-        this.topRatedMovieIndex = position;
-        livetopRatedMovie.setValue(topRatedMovie);
-        shouldSwitchTopMovieFragments.setValue(true);
-
-    }
-
-    public LiveData<TopRatedMovie> getLiveDataTopRatedMovie() {
-        return livetopRatedMovie;
-    }
-
-    public LiveData<Boolean> getSingleLiveShouldSwitchTopRatedMovieFragment() {
-        return shouldSwitchTopMovieFragments;
-    }
-
-    public void changeToPopularMovieFragment(Integer position, PopularMovie popularMovie) {
-        this.popularMovieIndex = position;
-        livePopularMovie.setValue(popularMovie);
-        shouldSwitchPopularMovieFragments.setValue(true);
+    //done like this to reduce code duplication(fragments, listeners, main activity identifiers
+    public void changeToMoviedetailsFragment(Object movieObject,Integer position)
+    {
+        Movie movie = new Movie();
+        if (movieObject instanceof TopRatedMovie)
+        {
+            TopRatedMovie topRatedMovie =(TopRatedMovie)movieObject;
+            movie=transformTopRatedMovie(topRatedMovie);
+        }
+        if (movieObject instanceof PopularMovie){
+            PopularMovie popularMovie=(PopularMovie) movieObject;
+            movie=transformPopularMovie(popularMovie);
+        }
+        this.movieIndex=position;
+        liveMovie.setValue(movie);
+        shouldSwitchMovieDetailFragment.setValue(true);
 
     }
 
-    public LiveData<PopularMovie> getLiveDataPopularMovie() {
-        return livePopularMovie;
+    public LiveData<Movie> getLiveDataMovie() {
+        return liveMovie;
+    }
+    public LiveData<Boolean> getSingleLiveShouldSwitchMovieDetailsFragment() {
+        return shouldSwitchMovieDetailFragment;
     }
 
-    public LiveData<Boolean> getSingleLiveShouldSwitchPopularMovieFragment() {
-        return shouldSwitchPopularMovieFragments;
-    }
 
     public void changeToActorFragment(Integer position, Integer actorId) {
         this.castIndex = position;
@@ -128,5 +122,17 @@ public class SharedViewModel extends ViewModel {
 
     public LiveData<Boolean> getHasEpgTvFragmentFinishedLoading() {
         return hasEpgTvFragmentFinishedLoading;
+    }
+
+
+    //deserialization and searialization
+    Movie transformTopRatedMovie (TopRatedMovie original) {
+        Gson gson= new Gson();
+        return gson.fromJson(gson.toJson(original), Movie.class);
+    }
+
+    Movie transformPopularMovie (PopularMovie original) {
+        Gson gson= new Gson();
+        return gson.fromJson(gson.toJson(original), Movie.class);
     }
 }

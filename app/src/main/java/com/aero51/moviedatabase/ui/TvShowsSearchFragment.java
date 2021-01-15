@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
@@ -86,9 +86,9 @@ public class TvShowsSearchFragment extends Fragment implements TopRatedItemClick
     }
 
     private void registerTvShowsSearchObserver() {
-        searchViewModel.getTvShowSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<TvShow>>() {
+        searchViewModel.getTvShowSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<TvShowSearchResult.TvShow>>() {
             @Override
-            public void onChanged(PagedList<TvShow> tvShows) {
+            public void onChanged(PagedList<TvShowSearchResult.TvShow> tvShows) {
                 tvShowsSearchPagedListAdapter.submitList(tvShows);
             }
         });

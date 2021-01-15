@@ -5,18 +5,13 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 
 public class PeopleSearchDataSourceFactory extends DataSource.Factory {
-
-
     private MutableLiveData<PeopleSearchDataSource> networkStatus;
     private String search;
-
-
 
     public PeopleSearchDataSourceFactory(String search) {
         this.networkStatus = new MutableLiveData<>();
         this.search=search;
     }
-
 
     @NonNull
     @Override

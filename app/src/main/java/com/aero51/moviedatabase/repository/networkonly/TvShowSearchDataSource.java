@@ -7,7 +7,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PageKeyedDataSource;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
@@ -22,7 +21,7 @@ import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
-public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShow> {
+public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShowSearchResult.TvShow> {
     public static final int TV_SHOW_SEARCH_FIRST_PAGE = 1;
     private MutableLiveData networkState;
     private String queryString;
@@ -37,35 +36,35 @@ public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShow>
     }
 
     @Override
-    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TvShow> callback) {
+    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TvShowSearchResult.TvShow> callback) {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
         Call<TvShowSearchResult> call = theMovieDbApi.getTvShowsSearch(TMDB_API_KEY, queryString, TV_SHOW_SEARCH_FIRST_PAGE);
-        Log.d(Constants.LOG, "load initial ");
-        List<TvShow> list_of_results = searchTvShows(call);
+        Log.d(Constants.LOG, "load initial TvShowSearchDataSource");
+        List<TvShowSearchResult.TvShow> list_of_results = searchTvShows(call);
         callback.onResult(list_of_results, null, TV_SHOW_SEARCH_FIRST_PAGE + 1);
     }
 
     @Override
-    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShow> callback) {
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShowSearchResult.TvShow> callback) {
         Log.d(Constants.LOG, "Load before: " + params.key);
     }
 
     @Override
-    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShow> callback) {
+    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShowSearchResult.TvShow> callback) {
 
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
         Call<TvShowSearchResult> call = theMovieDbApi.getTvShowsSearch(TMDB_API_KEY, queryString, params.key);
-        Log.d(Constants.LOG, "load after:params.key " + params.key);
-        List<TvShow> list_of_results = searchTvShows(call);
+        Log.d(Constants.LOG, "load after TvShowSearchDataSource:params.key " + params.key);
+        List<TvShowSearchResult.TvShow> list_of_results = searchTvShows(call);
         callback.onResult(list_of_results, params.key + 1);
     }
 
 
-    private List<TvShow> searchTvShows(Call<TvShowSearchResult> call) {
-        List<TvShow> list_of_results = new ArrayList<>();
+    private List<TvShowSearchResult.TvShow> searchTvShows(Call<TvShowSearchResult> call) {
+        List<TvShowSearchResult.TvShow> list_of_results = new ArrayList<>();
         try {
             Response<TvShowSearchResult> response = call.execute();
             if (!response.isSuccessful()) {

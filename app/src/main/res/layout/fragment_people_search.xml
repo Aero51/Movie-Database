@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:text="People search fragment" />
     <View
         android:id="@+id/divider"
         android:layout_width="match_parent"
@@ -18,8 +18,10 @@
         android:background="@color/grey" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/people_recycler_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="15dp"/>
 
     <View
         android:id="@+id/divider2"

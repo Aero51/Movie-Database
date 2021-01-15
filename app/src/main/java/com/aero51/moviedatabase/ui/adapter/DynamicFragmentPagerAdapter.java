@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 
 import com.aero51.moviedatabase.MainActivity;
+import com.aero51.moviedatabase.ui.EpgFragment;
 import com.aero51.moviedatabase.utils.Constants;
 
 import java.util.ArrayList;

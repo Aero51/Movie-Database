@@ -28,13 +28,12 @@ import android.view.WindowManager;
 
 import com.aero51.moviedatabase.ui.ActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
-import com.aero51.moviedatabase.ui.DynamicFragmentPagerAdapter;
+import com.aero51.moviedatabase.ui.MovieDetailsFragment;
+import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
 import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
 import com.aero51.moviedatabase.ui.EpgDetailsFragment;
 import com.aero51.moviedatabase.ui.EpgFragment;
 import com.aero51.moviedatabase.ui.MoviesFragment;
-import com.aero51.moviedatabase.ui.PopularMovieDetailsFragment;
-import com.aero51.moviedatabase.ui.TopRatedMovieDetailsFragment;
 import com.aero51.moviedatabase.utils.ChannelsPreferenceHelper;
 import com.aero51.moviedatabase.utils.CheckAppStart;
 import com.aero51.moviedatabase.utils.Constants;
@@ -57,8 +56,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgAllProgramsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
-    private DynamicFragmentPagerAdapter.FragmentIdentifier topRatedMovieFragmentIdentifier;
-    private DynamicFragmentPagerAdapter.FragmentIdentifier popularMovieFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SharedViewModel sharedViewModel;
@@ -281,13 +279,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     }
 
     private void registerShouldSwitchMovieFragmentsObservers() {
-        sharedViewModel.getSingleLiveShouldSwitchTopRatedMovieFragment().observe(this, new Observer<Boolean>() {
+
+        sharedViewModel.getSingleLiveShouldSwitchMovieDetailsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                topRatedMovieFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TopRatedMovieDetailsFragment.class.getSimpleName(), null) {
+                movieDetailsFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsFragment.class.getSimpleName(),null) {
                     @Override
                     protected Fragment createFragment() {
-                        return TopRatedMovieDetailsFragment.newInstance("", "");
+                        return MovieDetailsFragment.newInstance("","");
                     }
 
                     @Override
@@ -295,32 +294,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                replaceFragment(1, topRatedMovieFragmentIdentifier);
-                customViewPager.setCurrentItem(1);
-                actorFragmentBackPosition = 0;
 
+                replaceFragment(1, movieDetailsFragmentIdentifier);
+                customViewPager.setCurrentItem(1);
             }
         });
 
-        sharedViewModel.getSingleLiveShouldSwitchPopularMovieFragment().observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(Boolean aBoolean) {
-                popularMovieFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(PopularMovieDetailsFragment.class.getSimpleName(), null) {
-                    @Override
-                    protected Fragment createFragment() {
-                        return new PopularMovieDetailsFragment();
-                    }
 
-                    @Override
-                    public int describeContents() {
-                        return 0;
-                    }
-                };
-                replaceFragment(1, popularMovieFragmentIdentifier);
-                customViewPager.setCurrentItem(1);
-                actorFragmentBackPosition = 1;
-            }
-        });
+
 
         sharedViewModel.getSingleLiveShouldSwitchActorFragment().observe(this, new Observer<Boolean>() {
             @Override
@@ -363,18 +344,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case 1:
                 if (currentFragmentTag.equals(MoviesFragment.class.getSimpleName())) {
                     super.onBackPressed();
-                } else if (currentFragmentTag.equals(TopRatedMovieDetailsFragment.class.getSimpleName()) || currentFragmentTag.equals(PopularMovieDetailsFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName()) ) {
                     replaceFragment(1, moviesFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
-                    if (actorFragmentBackPosition == 0) {
-                        replaceFragment(1, topRatedMovieFragmentIdentifier);
-                        customViewPager.setCurrentItem(1);
-                    }
-                    if (actorFragmentBackPosition == 1) {
-                        replaceFragment(1, popularMovieFragmentIdentifier);
-                        customViewPager.setCurrentItem(1);
-                    }
+                    replaceFragment(1, movieDetailsFragmentIdentifier);
+                    customViewPager.setCurrentItem(1);
+
                 }
                 break;
         }
@@ -398,9 +374,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case 1:
                 if (currentFragmentTag.equals(MoviesFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                } else if (currentFragmentTag.equals(TopRatedMovieDetailsFragment.class.getSimpleName())) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(PopularMovieDetailsFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);

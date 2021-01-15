@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
-public class TvShowsPagedListAdapter extends PagedListAdapter<TvShow, TvShowsPagedListAdapter.ViewHolder> {
+public class TvShowsPagedListAdapter extends PagedListAdapter<TvShowSearchResult.TvShow, TvShowsPagedListAdapter.ViewHolder> {
 
 
 
@@ -38,7 +38,7 @@ public class TvShowsPagedListAdapter extends PagedListAdapter<TvShow, TvShowsPag
 
     @Override
     public void onBindViewHolder(@NonNull TvShowsPagedListAdapter.ViewHolder holder, int position) {
-        TvShow currentTvShow = getItem(position);
+        TvShowSearchResult.TvShow currentTvShow = getItem(position);
         holder.textViewPosition.setText(String.valueOf(position + 1));
         holder.textViewtitle.setText(currentTvShow.getName());
 
@@ -84,15 +84,15 @@ public class TvShowsPagedListAdapter extends PagedListAdapter<TvShow, TvShowsPag
 
 
 
-    private static DiffUtil.ItemCallback<TvShow> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<TvShow>() {
+    private static DiffUtil.ItemCallback<TvShowSearchResult.TvShow> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TvShowSearchResult.TvShow>() {
                 @Override
-                public boolean areItemsTheSame(TvShow oldItem, TvShow newItem) {
+                public boolean areItemsTheSame(TvShowSearchResult.TvShow oldItem, TvShowSearchResult.TvShow newItem) {
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(TvShow oldItem, TvShow newItem) {
+                public boolean areContentsTheSame(TvShowSearchResult.TvShow oldItem, TvShowSearchResult.TvShow newItem) {
                     return oldItem.getName().equals(newItem.getName());
                 }
             };

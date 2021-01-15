@@ -13,13 +13,14 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
+import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 
 public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMovie, RecyclerView.ViewHolder> {
-    private TopRatedItemClickListener itemClickListener;
+    private MovieClickListener itemClickListener;
     private NetworkState networkState;
 
-    public TopRatedMoviesPagedListAdapter(TopRatedItemClickListener itemClickListener) {
+    public TopRatedMoviesPagedListAdapter(MovieClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }

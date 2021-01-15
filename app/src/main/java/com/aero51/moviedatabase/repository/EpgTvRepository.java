@@ -5,7 +5,6 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
-import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.networkboundresources.ActorSearchNetworkBoundResource;

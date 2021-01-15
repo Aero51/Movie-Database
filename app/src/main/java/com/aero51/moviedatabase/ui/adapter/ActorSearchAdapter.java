@@ -9,8 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse.ActorSearch;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -22,12 +21,12 @@ import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 
 public class ActorSearchAdapter extends RecyclerView.Adapter<ActorSearchAdapter.ViewHolder>{
 
-    private List<ActorSearch> actorSearchList;
+    private List<ActorSearchResponse.ActorSearch> actorSearchList;
     private ItemClickListener mClickListener;
 
 
 
-    public ActorSearchAdapter(List<ActorSearch> actorSearchList,ItemClickListener clickListener) {
+    public ActorSearchAdapter(List<ActorSearchResponse.ActorSearch> actorSearchList, ItemClickListener clickListener) {
         this.actorSearchList = actorSearchList;
         this.mClickListener=clickListener;
     }
@@ -41,7 +40,7 @@ public class ActorSearchAdapter extends RecyclerView.Adapter<ActorSearchAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ActorSearchAdapter.ViewHolder holder, int position) {
-        ActorSearch actorSearch=actorSearchList.get(position);
+        ActorSearchResponse.ActorSearch actorSearch=actorSearchList.get(position);
         String imageUrl = BASE_IMAGE_URL + PROFILE_SIZE_W185 + actorSearch.getProfile_path();
         Picasso.get().load(imageUrl).into(holder.actorProfileImageView);
         holder.textViewActorName.setText(actorSearch.getName());
@@ -73,6 +72,6 @@ public class ActorSearchAdapter extends RecyclerView.Adapter<ActorSearchAdapter.
     }
     // parent activity will implement this method to respond to click events
     public interface ItemClickListener {
-        void onItemClick(ActorSearch actorSearch, int position);
+        void onItemClick(ActorSearchResponse.ActorSearch actorSearch, int position);
     }
 }

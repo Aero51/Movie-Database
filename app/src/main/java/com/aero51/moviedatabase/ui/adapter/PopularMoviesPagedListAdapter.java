@@ -13,14 +13,15 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.ui.viewholder.PopularMovieHolder;
+import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 
 
 public class PopularMoviesPagedListAdapter extends PagedListAdapter<PopularMovie, RecyclerView.ViewHolder> {
-    private PopularItemClickListener itemClickListener;
+    private MovieClickListener itemClickListener;
     private NetworkState networkState;
 
-    public PopularMoviesPagedListAdapter(PopularItemClickListener itemClickListener) {
+    public PopularMoviesPagedListAdapter(MovieClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }

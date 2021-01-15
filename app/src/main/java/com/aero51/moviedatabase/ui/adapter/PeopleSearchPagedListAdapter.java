@@ -51,8 +51,8 @@ public class PeopleSearchPagedListAdapter extends PagedListAdapter<ActorSearchRe
 
         ViewHolder(View itemView) {
             super(itemView);
-            castProfileImageView = itemView.findViewById(R.id.cast_profile_image_view);
-            textViewRealName = itemView.findViewById(R.id.text_view_real_name);
+            castProfileImageView = itemView.findViewById(R.id.actor_profile_image_view);
+            textViewRealName = itemView.findViewById(R.id.text_view_actor_search_name);
             itemView.setOnClickListener(this);
         }
 

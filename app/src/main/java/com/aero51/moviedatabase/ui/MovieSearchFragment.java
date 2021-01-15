@@ -9,6 +9,7 @@ import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,8 @@ import android.view.ViewGroup;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
+import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
@@ -25,7 +28,7 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
  * Use the {@link MovieSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MovieSearchFragment extends Fragment implements TopRatedItemClickListener {
+public class MovieSearchFragment extends Fragment implements MovieClickListener {
 
     private SearchViewModel searchViewModel;
     private TopRatedMoviesPagedListAdapter moviesSearchAdapter;
@@ -86,11 +89,6 @@ public class MovieSearchFragment extends Fragment implements TopRatedItemClickLi
         return view;
     }
 
-    @Override
-    public void OnItemClick(TopRatedMovie result, int position) {
-
-    }
-
     private void registerMovieSearchObserver(){
         searchViewModel.getMovieSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
             @Override
@@ -99,5 +97,10 @@ public class MovieSearchFragment extends Fragment implements TopRatedItemClickLi
             }
         });
 
+    }
+
+    @Override
+    public void OnObjectItemClick(Object movie, int position) {
+        Log.d(Constants.LOG, "MovieSearchFragment OnItemClick on position:"+position);
     }
 }

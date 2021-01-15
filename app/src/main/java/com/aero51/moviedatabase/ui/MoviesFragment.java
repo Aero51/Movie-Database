@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
@@ -30,7 +31,9 @@ import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
-public class MoviesFragment extends Fragment implements TopRatedItemClickListener, PopularItemClickListener, MovieClickListener {
+import com.google.gson.Gson;
+
+public class MoviesFragment extends Fragment implements MovieClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -195,12 +198,14 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
 
         });
     }
-
+/*
     @Override
     public void OnItemClick(TopRatedMovie result, int position) {
         //  this.OnObjectItemClick(result,position);
         sharedViewModel.changeToTopRatedMovieFragment(position, result);
-        Log.d(Constants.LOG, "TopRatedMovie OnItemClick ");
+        Log.d(Constants.LOG, "TopRatedMovie OnItemClick title: "+result.getTitle());
+        //Movie movie= transformTopRatedMovie(result);
+        Log.d(Constants.LOG, "Movie title "+movie.getTitle()+" , vote average"+ movie.getVote_average());
     }
 
     @Override
@@ -208,11 +213,12 @@ public class MoviesFragment extends Fragment implements TopRatedItemClickListene
         sharedViewModel.changeToPopularMovieFragment(position, result);
 
     }
+*/
 
     @Override
-    public void OnObjectItemClick(Object movie, int position) {
-
-        if (movie instanceof TopRatedMovie) Log.d(Constants.LOG, "TopRatedMovie OnItemClick ");
-        if (movie instanceof PopularMovie) Log.d(Constants.LOG, "PopularMovie OnItemClick ");
+    public  void OnObjectItemClick(Object movie, int position) {
+        sharedViewModel.changeToMoviedetailsFragment(movie,position);
     }
+
+
 }

@@ -48,7 +48,7 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, TopRated
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
             Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY, queryString, MOVIES_SEARCH_FIRST_PAGE);
-            Log.d(Constants.LOG, "load initial ");
+            Log.d(Constants.LOG, "load initial MovieSearchDataSource ");
             List<TopRatedMovie> list_of_results = searchMovies(call);
             callback.onResult(list_of_results, null, MOVIES_SEARCH_FIRST_PAGE + 1);
 
@@ -65,7 +65,7 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, TopRated
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
             Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY, queryString, params.key);
-            Log.d(Constants.LOG, "load after:params.key " + params.key);
+            Log.d(Constants.LOG, "load after MovieSearchDataSource:params.key " + params.key);
             List<TopRatedMovie> list_of_results = searchMovies(call);
             callback.onResult(list_of_results, params.key + 1);
 

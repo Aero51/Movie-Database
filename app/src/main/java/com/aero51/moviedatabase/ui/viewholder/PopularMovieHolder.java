@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.PopularItemClickListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -26,9 +27,9 @@ public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.
     private TextView textViewPosition;
     private TextView textViewtitle;
     private TextView textViewVoteAverage;
-    private PopularItemClickListener itemClickListener;
+    private MovieClickListener itemClickListener;
 
-    public PopularMovieHolder(@NonNull View itemView, PopularItemClickListener itemClickListener) {
+    public PopularMovieHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
         super(itemView);
         imageView = itemView.findViewById(R.id.image_view_program);
         textViewPosition = itemView.findViewById(R.id.text_view_position);
@@ -64,7 +65,7 @@ public class PopularMovieHolder extends RecyclerView.ViewHolder implements View.
     @Override
     public void onClick(View v) {
         if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
-            itemClickListener.OnItemClick(result,position); // call the onClick in the OnItemClickListener
+            itemClickListener.OnObjectItemClick(result,position); // call the onClick in the OnItemClickListener
             Log.d(Constants.LOG, " Item clicked inside popular holder : " + position);
         }
     }

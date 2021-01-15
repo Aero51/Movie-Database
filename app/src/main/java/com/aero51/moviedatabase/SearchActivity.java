@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
-import com.aero51.moviedatabase.ui.DynamicFragmentPagerAdapter;
+import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
 import com.aero51.moviedatabase.ui.ListsSearchFragment;
 import com.aero51.moviedatabase.ui.MovieSearchFragment;
 import com.aero51.moviedatabase.ui.PeopleSearchFragment;
@@ -183,7 +183,6 @@ public class SearchActivity extends AppCompatActivity {
     private void execSelectedFragmentSearch() {
         int currentViewPagerItem = viewPager.getCurrentItem();
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
-
         switch (currentViewPagerItem) {
             //MovieSearchFragment
             case 0:
