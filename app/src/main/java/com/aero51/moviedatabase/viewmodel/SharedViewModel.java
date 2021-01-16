@@ -1,7 +1,5 @@
 package com.aero51.moviedatabase.viewmodel;
 
-import android.util.Log;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
@@ -9,11 +7,10 @@ import androidx.lifecycle.ViewModel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
 import com.aero51.moviedatabase.utils.SingleLiveEvent;
 import com.google.gson.Gson;
 
@@ -78,14 +75,18 @@ public class SharedViewModel extends ViewModel {
     public void changeToMoviedetailsFragment(Object movieObject,Integer position)
     {
         Movie movie = new Movie();
-        if (movieObject instanceof TopRatedMovie)
+        if (movieObject instanceof NowPlayingMovie)
         {
-            TopRatedMovie topRatedMovie =(TopRatedMovie)movieObject;
-            movie=transformTopRatedMovie(topRatedMovie);
+            NowPlayingMovie nowPlayingMovie =(NowPlayingMovie)movieObject;
+            movie=transformTopRatedMovie(nowPlayingMovie);
         }
         if (movieObject instanceof PopularMovie){
             PopularMovie popularMovie=(PopularMovie) movieObject;
             movie=transformPopularMovie(popularMovie);
+        }
+        if (movieObject instanceof UpcomingMovie){
+            UpcomingMovie upcomingMovie=(UpcomingMovie) movieObject;
+            movie=transformUpcomingMovie(upcomingMovie);
         }
         this.movieIndex=position;
         liveMovie.setValue(movie);
@@ -126,12 +127,16 @@ public class SharedViewModel extends ViewModel {
 
 
     //deserialization and searialization
-    Movie transformTopRatedMovie (TopRatedMovie original) {
+    Movie transformTopRatedMovie (NowPlayingMovie original) {
         Gson gson= new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }
 
     Movie transformPopularMovie (PopularMovie original) {
+        Gson gson= new Gson();
+        return gson.fromJson(gson.toJson(original), Movie.class);
+    }
+    Movie transformUpcomingMovie (UpcomingMovie original) {
         Gson gson= new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }

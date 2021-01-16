@@ -7,7 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.networkboundresources.ActorImagesNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.ActorNetworkBoundResource;
 import com.aero51.moviedatabase.repository.networkboundresources.CastNetworkBoundResource;
@@ -29,7 +29,7 @@ public class CreditsRepository {
 
     }
 
-    public LiveData<Resource<List<Cast>>> loadCastById(Integer movie_id) {
+    public LiveData<Resource<List<MovieCredits.Cast>>> loadCastById(Integer movie_id) {
         Log.d(Constants.LOG, "loadCastByMovieId id: " + movie_id);
         return new CastNetworkBoundResource(executors, application, movie_id).asLiveData();
     }

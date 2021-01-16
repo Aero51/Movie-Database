@@ -7,25 +7,25 @@ import androidx.room.PrimaryKey;
 import java.util.List;
 
 
-@Entity(tableName = "top_rated_movies_page")
-public class TopRatedMoviesPage {
+@Entity(tableName = "now_playing_movies_page")
+public class NowPlayingMoviesPage {
 
     @PrimaryKey(autoGenerate = false)
     private Integer page;
     private Integer total_results;
     private Integer total_pages;
     @Ignore
-    private List<TopRatedMovie> results;
+    private List<NowPlayingMovie> results;
 
     @Ignore
-    public TopRatedMoviesPage(Integer page, Integer total_results, Integer total_pages, List<TopRatedMovie> results) {
+    public NowPlayingMoviesPage(Integer page, Integer total_results, Integer total_pages, List<NowPlayingMovie> results) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
         this.results = results;
     }
 
-    public TopRatedMoviesPage(Integer page, Integer total_results, Integer total_pages) {
+    public NowPlayingMoviesPage(Integer page, Integer total_results, Integer total_pages) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
@@ -45,7 +45,7 @@ public class TopRatedMoviesPage {
         return total_pages;
     }
 
-    public List<TopRatedMovie> getResults_list() {
+    public List<NowPlayingMovie> getResults_list() {
         return results;
     }
 

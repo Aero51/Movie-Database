@@ -12,8 +12,10 @@ import com.aero51.moviedatabase.repository.MoviesRepository;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Constants;
 
@@ -27,19 +29,6 @@ public class MoviesViewModel extends AndroidViewModel {
         moviesRepository = new MoviesRepository(application, executors);
     }
 
-
-    public LiveData<PagedList<TopRatedMovie>> getTopRatedResultsPagedList() {
-        return moviesRepository.getTopRatedResultsPagedList();
-    }
-
-    //used to get the page number by adding observer
-    public LiveData<TopRatedMoviesPage> getTopRatedLiveMoviePage() {
-        return moviesRepository.getLastTopRatedMoviePage();
-    }
-
-    public LiveData<NetworkState> getTopRatedMoviesNetworkState() {
-        return moviesRepository.getTopRatedNetworkState();
-    }
 
 
     public LiveData<PagedList<PopularMovie>> getPopularResultsPagedList() {
@@ -55,6 +44,31 @@ public class MoviesViewModel extends AndroidViewModel {
         return moviesRepository.getPopularNetworkState();
     }
 
+
+    public LiveData<PagedList<NowPlayingMovie>> getNowPlayingResultsPagedList() {
+        return moviesRepository.getNowPlayingResultsPagedList();
+    }
+
+    //used to get the page number by adding observer
+    public LiveData<NowPlayingMoviesPage> getNowPlayingLiveMoviePage() {
+        return moviesRepository.getLastNowPlayingMoviePage();
+    }
+
+    public LiveData<NetworkState> getNowPlayingMoviesNetworkState() {
+        return moviesRepository.getNowPlayingNetworkState();
+    }
+    public LiveData<PagedList<UpcomingMovie>> getUpcomingResultsPagedList() {
+        return moviesRepository.getUpcomingResultsPagedList();
+    }
+
+    //used to get the page number by adding observer
+    public LiveData<UpcomingMoviesPage> getUpcomingLiveMoviePage() {
+        return moviesRepository.getLastUpcomingMoviePage();
+    }
+
+    public LiveData<NetworkState> getUpcomingMoviesNetworkState() {
+        return moviesRepository.getUpcomingNetworkState();
+    }
 
     @Override
     protected void onCleared() {

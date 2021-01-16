@@ -14,10 +14,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter;
-import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
+import com.aero51.moviedatabase.utils.NowPlayingItemClickListener;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
 
 /**
@@ -25,7 +25,7 @@ import com.aero51.moviedatabase.viewmodel.SearchViewModel;
  * Use the {@link TvShowsSearchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class TvShowsSearchFragment extends Fragment implements TopRatedItemClickListener {
+public class TvShowsSearchFragment extends Fragment implements NowPlayingItemClickListener {
 
     private SearchViewModel searchViewModel;
     private TvShowsPagedListAdapter tvShowsSearchPagedListAdapter;
@@ -96,7 +96,7 @@ public class TvShowsSearchFragment extends Fragment implements TopRatedItemClick
     }
 
     @Override
-    public void OnItemClick(TopRatedMovie result, int position) {
+    public void OnItemClick(NowPlayingMovie result, int position) {
 
     }
 }

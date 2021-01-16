@@ -15,13 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.ui.adapter.TopRatedMoviesPagedListAdapter;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
-import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
-import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,7 +29,7 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 public class MovieSearchFragment extends Fragment implements MovieClickListener {
 
     private SearchViewModel searchViewModel;
-    private TopRatedMoviesPagedListAdapter moviesSearchAdapter;
+    private NowPlayingMoviesPagedListAdapter moviesSearchAdapter;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -82,7 +80,7 @@ public class MovieSearchFragment extends Fragment implements MovieClickListener 
         View view = inflater.inflate(R.layout.fragment_movie_search, container, false);
         RecyclerView movieSearchRecyclerView = view.findViewById(R.id.movies_search_recycler_view);
         movieSearchRecyclerView.setHasFixedSize(true);
-        moviesSearchAdapter= new TopRatedMoviesPagedListAdapter(this);
+        moviesSearchAdapter= new NowPlayingMoviesPagedListAdapter(this);
         movieSearchRecyclerView.setAdapter(moviesSearchAdapter);
         movieSearchRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
         registerMovieSearchObserver();
@@ -90,10 +88,10 @@ public class MovieSearchFragment extends Fragment implements MovieClickListener 
     }
 
     private void registerMovieSearchObserver(){
-        searchViewModel.getMovieSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMovie>>() {
+        searchViewModel.getMovieSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<NowPlayingMovie>>() {
             @Override
-            public void onChanged(PagedList<TopRatedMovie> topRatedMovies) {
-                moviesSearchAdapter.submitList(topRatedMovies);
+            public void onChanged(PagedList<NowPlayingMovie> nowPlayingMovies) {
+                moviesSearchAdapter.submitList(nowPlayingMovies);
             }
         });
 

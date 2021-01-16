@@ -150,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         //CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
         //collapsingToolbarLayout.setTitle(getTitle());
 

@@ -9,18 +9,17 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
-import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
-public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private TopRatedMovie result;
+public class NowPlayingngMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    private NowPlayingMovie result;
     private int position;
 
     private ImageView imageView;
@@ -30,7 +29,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
     private MovieClickListener itemClickListener;
 
 
-    public TopRatedMovieHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
+    public NowPlayingngMovieHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
         super(itemView);
         imageView = itemView.findViewById(R.id.image_view_program);
         textViewPosition = itemView.findViewById(R.id.text_view_position);
@@ -41,7 +40,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
 
     }
 
-    public void bindTo(TopRatedMovie result, int position) {
+    public void bindTo(NowPlayingMovie result, int position) {
         this.result = result;
         this.position=position;
 
@@ -66,7 +65,7 @@ public class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View
     public void onClick(View v) {
         if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
             itemClickListener.OnObjectItemClick(result,position); // call the onClick in the OnItemClickListener
-            Log.d(Constants.LOG, " Item clicked inside top rated holder : " + position);
+            Log.d(Constants.LOG, " Item clicked inside now playing holder : " + position);
         }
     }
 }

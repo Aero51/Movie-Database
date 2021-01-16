@@ -9,14 +9,14 @@ import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.repository.networkonly.MovieSearchDataSourceFactory;
 import com.aero51.moviedatabase.repository.networkonly.PeopleSearchDataSourceFactory;
 import com.aero51.moviedatabase.repository.networkonly.TvShowSearchDataSourceFactory;
 
 public class SearchViewModel extends ViewModel {
-    private LiveData<PagedList<TopRatedMovie>> movieSearchPagedList;
+    private LiveData<PagedList<NowPlayingMovie>> movieSearchPagedList;
     private LiveData<PagedList<TvShowSearchResult.TvShow>> tvShowSearchPagedList;
     private LiveData<PagedList<ActorSearchResponse.ActorSearch>> peopleSearchPagedList;
     private LiveData<NetworkState> networkState;
@@ -63,7 +63,7 @@ public class SearchViewModel extends ViewModel {
     }
 
 
-    public LiveData<PagedList<TopRatedMovie>> getMovieSearchResult() {
+    public LiveData<PagedList<NowPlayingMovie>> getMovieSearchResult() {
         return movieSearchPagedList;
     }
 

@@ -11,8 +11,6 @@ import androidx.room.Query;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Crew;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 
 
@@ -27,13 +25,13 @@ public abstract class CreditsDao {
 
    public  void insertCredits(MovieCredits movieCreditsRaw){
        insertMovieCredits(movieCreditsRaw);
-       List<Cast> castList=movieCreditsRaw.getCast();
+       List<MovieCredits.Cast> castList=movieCreditsRaw.getCast();
        for(int i=0;i<castList.size();i++){
            castList.get(i).setMovie_id(movieCreditsRaw.getId());
        }
        insertCastList(castList);
 
-       List<Crew> crewList=movieCreditsRaw.getCrew();
+       List<MovieCredits.Crew> crewList=movieCreditsRaw.getCrew();
        for(int i=0;i<crewList.size();i++){
            crewList.get(i).setMovie_id(movieCreditsRaw.getId());
        }
@@ -50,10 +48,10 @@ public abstract class CreditsDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertCastList(List<Cast> castList);
+    public abstract void insertCastList(List<MovieCredits.Cast> castList);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertCrewList(List<Crew> crewList);
+    public abstract void insertCrewList(List<MovieCredits.Crew> crewList);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
    public abstract void insertMovieCredits(MovieCredits movieCredits);
@@ -65,10 +63,10 @@ public abstract class CreditsDao {
     public abstract LiveData<MovieCredits> getLiveMovieCredits(Integer movie_id);
 
     @Query("SELECT * FROM `cast` WHERE movie_id =:movie_id ORDER BY `order` ASC")   //"SELECT * FROM Movie WHERE id =:id"
-    public  abstract LiveData<List<Cast>> getTitleCast(Integer movie_id);
+    public  abstract LiveData<List<MovieCredits.Cast>> getTitleCast(Integer movie_id);
 
     @Query("SELECT * FROM `Crew` WHERE movie_id = :movie_id ORDER BY `id` ASC")
-    public abstract List<Crew> getTitleCrew(Integer movie_id);
+    public abstract List<MovieCredits.Crew> getTitleCrew(Integer movie_id);
 
     @Query("SELECT * FROM actor WHERE id = :id LIMIT 1")
     public  abstract LiveData<Actor> getActor(Integer id);

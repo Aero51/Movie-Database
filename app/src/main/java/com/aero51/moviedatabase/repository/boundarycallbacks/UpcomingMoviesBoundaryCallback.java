@@ -9,10 +9,10 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.db.Database;
-import com.aero51.moviedatabase.repository.db.TopRatedMoviesDao;
+import com.aero51.moviedatabase.repository.db.UpcomingMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.AppExecutors;
@@ -24,22 +24,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 import static com.aero51.moviedatabase.utils.Constants.REGION;
-import static com.aero51.moviedatabase.utils.Constants.TOP_RATED_MOVIES_FIRST_PAGE;
+import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
+import static com.aero51.moviedatabase.utils.Constants.UPCOMING_MOVIES_FIRST_PAGE;
 
-public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<TopRatedMovie> {
+public class UpcomingMoviesBoundaryCallback extends PagedList.BoundaryCallback<UpcomingMovie> {
     private AppExecutors executors;
     private Database database;
-    private TopRatedMoviesDao dao;
+    private UpcomingMoviesDao dao;
     private MutableLiveData<NetworkState> networkState;
-    private LiveData<TopRatedMoviesPage> current_movie_page;
+    private LiveData<UpcomingMoviesPage> current_movie_page;
 
-    public TopRatedMoviesBoundaryCallback(Application application, AppExecutors executors) {
+    public UpcomingMoviesBoundaryCallback(Application application, AppExecutors executors) {
         //super();
         this.executors = executors;
         database = Database.getInstance(application);
-        dao = database.get_top_rated_movies_dao();
+        dao = database.get_upcoming_movies_dao();
         networkState = new MutableLiveData<>();
         current_movie_page = dao.getLiveDataMoviePage();
     }
@@ -47,53 +47,53 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        //Log.d(Constants.LOG, "topRatedMovies onzeroitemsloaded");
-        fetchTopRatedMovies(TOP_RATED_MOVIES_FIRST_PAGE);
+        //Log.d(Constants.LOG, "upcomingMovies onzeroitemsloaded");
+        fetchUpcomingMovies(UPCOMING_MOVIES_FIRST_PAGE);
     }
 
     @Override
-    public void onItemAtFrontLoaded(@NonNull TopRatedMovie itemAtFront) {
+    public void onItemAtFrontLoaded(@NonNull UpcomingMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
-        Log.d(Constants.LOG, "topRatedMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
+        Log.d(Constants.LOG, "upcomingMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
-    public void onItemAtEndLoaded(@NonNull TopRatedMovie itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull UpcomingMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        //Log.d(Constants.LOG, "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
-        fetchTopRatedMovies(page_number);
+        //Log.d(Constants.LOG, "upcomingMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        fetchUpcomingMovies(page_number);
     }
 
-    public void fetchTopRatedMovies(int pageNumber) {
+    public void fetchUpcomingMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        Call<TopRatedMoviesPage> call = theMovieDbApi.getTopRatedMovies(TMDB_API_KEY, pageNumber, REGION);
-        call.enqueue(new Callback<TopRatedMoviesPage>() {
+        Call<UpcomingMoviesPage> call = theMovieDbApi.getUpcomingMovies(TMDB_API_KEY, pageNumber, "");
+        call.enqueue(new Callback<UpcomingMoviesPage>() {
             @Override
-            public void onResponse(Call<TopRatedMoviesPage> call, Response<TopRatedMoviesPage> response) {
+            public void onResponse(Call<UpcomingMoviesPage> call, Response<UpcomingMoviesPage> response) {
                 if (!response.isSuccessful()) {
-                    Log.d(Constants.LOG, "topRatedMovies Response unsuccesful: " + response.code());
+                    Log.d(Constants.LOG, "upcomingMovies Response unsuccesful: " + response.code());
                     networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
-                Log.d(Constants.LOG, "topRatedMovies Response ok: " + response.code());
-                TopRatedMoviesPage mTopRatedMovies = response.body();
-                insertListToDb(mTopRatedMovies);
+                Log.d(Constants.LOG, "upcomingMovies Response ok: " + response.code());
+                UpcomingMoviesPage upcomingMoviesPage = response.body();
+                insertListToDb(upcomingMoviesPage);
                 networkState.postValue(NetworkState.LOADED);
             }
 
             @Override
-            public void onFailure(Call<TopRatedMoviesPage> call, Throwable t) {
-                Log.d(Constants.LOG, "topRatedMovies onFailure: " + t.getMessage());
+            public void onFailure(Call<UpcomingMoviesPage> call, Throwable t) {
+                Log.d(Constants.LOG, "upcomingMovies onFailure: " + t.getMessage());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });
     }
 
 
-    public void insertListToDb(TopRatedMoviesPage page) {
-        List<TopRatedMovie> listOfResults = page.getResults_list();
+    public void insertListToDb(UpcomingMoviesPage page) {
+        List<UpcomingMovie> listOfResults = page.getResults_list();
         Runnable runnable = () -> {
             dao.deleteAllMoviePages();
             dao.insertMoviePage(page);
@@ -108,7 +108,7 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
         return networkState;
     }
 
-    public LiveData<TopRatedMoviesPage> getCurrent_movie_page() {
+    public LiveData<UpcomingMoviesPage> getCurrent_movie_page() {
         return current_movie_page;
     }
 

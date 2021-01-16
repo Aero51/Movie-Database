@@ -11,16 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.ui.viewholder.TopRatedMovieHolder;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.ui.viewholder.NowPlayingngMovieHolder;
 import com.aero51.moviedatabase.utils.MovieClickListener;
-import com.aero51.moviedatabase.utils.TopRatedItemClickListener;
 
-public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMovie, RecyclerView.ViewHolder> {
+public class NowPlayingMoviesPagedListAdapter extends PagedListAdapter<NowPlayingMovie, RecyclerView.ViewHolder> {
     private MovieClickListener itemClickListener;
     private NetworkState networkState;
 
-    public TopRatedMoviesPagedListAdapter(MovieClickListener itemClickListener) {
+    public NowPlayingMoviesPagedListAdapter(MovieClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }
@@ -30,26 +29,26 @@ public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMov
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.movie_item, parent, false);
-        TopRatedMovieHolder viewHolder = new TopRatedMovieHolder(view, itemClickListener);
+        NowPlayingngMovieHolder viewHolder = new NowPlayingngMovieHolder(view, itemClickListener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        TopRatedMovie currentResult = getItem(position);
-        ((TopRatedMovieHolder) holder).bindTo(currentResult, position);
+        NowPlayingMovie currentResult = getItem(position);
+        ((NowPlayingngMovieHolder) holder).bindTo(currentResult, position);
     }
 
 
-    private static DiffUtil.ItemCallback<TopRatedMovie> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<TopRatedMovie>() {
+    private static DiffUtil.ItemCallback<NowPlayingMovie> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<NowPlayingMovie>() {
                 @Override
-                public boolean areItemsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
+                public boolean areItemsTheSame(NowPlayingMovie oldItem, NowPlayingMovie newItem) {
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(TopRatedMovie oldItem, TopRatedMovie newItem) {
+                public boolean areContentsTheSame(NowPlayingMovie oldItem, NowPlayingMovie newItem) {
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };

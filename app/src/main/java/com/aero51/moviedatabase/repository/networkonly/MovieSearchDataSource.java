@@ -8,7 +8,7 @@ import androidx.paging.PageKeyedDataSource;
 
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.Constants;
@@ -22,7 +22,7 @@ import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
-public class MovieSearchDataSource extends PageKeyedDataSource<Integer, TopRatedMovie> {
+public class MovieSearchDataSource extends PageKeyedDataSource<Integer, NowPlayingMovie> {
     public static final int MOVIES_SEARCH_FIRST_PAGE = 1;
 
     private MutableLiveData networkState;
@@ -41,7 +41,7 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, TopRated
 
 
     @Override
-    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, TopRatedMovie> callback) {
+    public void loadInitial(@NonNull LoadInitialParams<Integer> params, @NonNull LoadInitialCallback<Integer, NowPlayingMovie> callback) {
 
         networkState.postValue(NetworkState.LOADING);
 
@@ -49,30 +49,30 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, TopRated
 
             Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY, queryString, MOVIES_SEARCH_FIRST_PAGE);
             Log.d(Constants.LOG, "load initial MovieSearchDataSource ");
-            List<TopRatedMovie> list_of_results = searchMovies(call);
+            List<NowPlayingMovie> list_of_results = searchMovies(call);
             callback.onResult(list_of_results, null, MOVIES_SEARCH_FIRST_PAGE + 1);
 
     }
 
     @Override
-    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TopRatedMovie> callback) {
+    public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, NowPlayingMovie> callback) {
         Log.d(Constants.LOG, "Load before: " + params.key);
     }
 
     @Override
-    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TopRatedMovie> callback) {
+    public void loadAfter(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, NowPlayingMovie> callback) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
             Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY, queryString, params.key);
             Log.d(Constants.LOG, "load after MovieSearchDataSource:params.key " + params.key);
-            List<TopRatedMovie> list_of_results = searchMovies(call);
+            List<NowPlayingMovie> list_of_results = searchMovies(call);
             callback.onResult(list_of_results, params.key + 1);
 
     }
 
-    private List<TopRatedMovie> searchMovies(Call<MovieSearchResult> call) {
-        List<TopRatedMovie> list_of_results = new ArrayList<>();
+    private List<NowPlayingMovie> searchMovies(Call<MovieSearchResult> call) {
+        List<NowPlayingMovie> list_of_results = new ArrayList<>();
         try {
             Response<MovieSearchResult> response = call.execute();
             if (!response.isSuccessful()) {

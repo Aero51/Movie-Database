@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -21,12 +21,12 @@ import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 
 public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
-    private List<Cast> castList;
+    private List<MovieCredits.Cast> castList;
     private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public CastAdapter(Context context, List<Cast> castList) {
+    public CastAdapter(Context context, List<MovieCredits.Cast> castList) {
         this.mInflater = LayoutInflater.from(context);
         this.castList=castList;
     }
@@ -41,7 +41,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Cast cast  = castList.get(position);
+        MovieCredits.Cast cast  = castList.get(position);
         String imageUrl = BASE_IMAGE_URL + PROFILE_SIZE_W185 + cast.getProfile_path();
         Picasso.get().load(imageUrl).into(holder.castProfileImageView);
         holder.textViewCastName.setText(cast.getCharacter());
@@ -77,7 +77,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     }
 
     // convenience method for getting data at click position
-   private Cast getItem(int id) {
+   private MovieCredits.Cast getItem(int id) {
         return castList.get(id);
     }
 

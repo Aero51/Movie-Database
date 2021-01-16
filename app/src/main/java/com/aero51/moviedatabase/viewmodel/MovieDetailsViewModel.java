@@ -10,7 +10,7 @@ import androidx.lifecycle.LiveData;
 import com.aero51.moviedatabase.repository.CreditsRepository;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
@@ -26,7 +26,7 @@ public class MovieDetailsViewModel extends AndroidViewModel {
         creditsRepository = new CreditsRepository(application, executors);
     }
 
-    public LiveData<Resource<List<Cast>>> getMovieCast(Integer movie_id) {
+    public LiveData<Resource<List<MovieCredits.Cast>>> getMovieCast(Integer movie_id) {
         return creditsRepository.loadCastById(movie_id);
     }
 

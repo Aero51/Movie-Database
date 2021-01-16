@@ -18,9 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
@@ -149,9 +148,9 @@ public class MovieDetailsFragment extends Fragment implements CastAdapter.ItemCl
         });
     }
     private void registerMovieDetailsObserver(Integer movieId) {
-        movieDetailsViewModel.getMovieCast(movieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<Cast>>>() {
+        movieDetailsViewModel.getMovieCast(movieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<MovieCredits.Cast>>>() {
             @Override
-            public void onChanged(Resource<List<Cast>> listResource) {
+            public void onChanged(Resource<List<MovieCredits.Cast>> listResource) {
                 // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
                 Log.d(Constants.LOG, "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
                 castAdapter = new CastAdapter(getContext(), listResource.data);

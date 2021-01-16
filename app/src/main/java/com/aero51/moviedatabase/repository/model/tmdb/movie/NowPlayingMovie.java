@@ -8,8 +8,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Entity(tableName = "top_rated_movie")
-public class TopRatedMovie  implements Serializable {
+@Entity(tableName = "now_playing_movie")
+public class NowPlayingMovie implements Serializable {
 
     @PrimaryKey(autoGenerate = true)
     private int db_id;
@@ -30,7 +30,7 @@ public class TopRatedMovie  implements Serializable {
 
 
 
-    public TopRatedMovie( Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
+    public NowPlayingMovie(Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
         this.popularity = popularity;
         this.vote_count = vote_count;
         this.video = video;
@@ -50,7 +50,7 @@ public class TopRatedMovie  implements Serializable {
 
     //for testing purposes
     @Ignore
-    public TopRatedMovie(Integer id, String title) {
+    public NowPlayingMovie(Integer id, String title) {
         this.id = id;
         this.title = title;
     }

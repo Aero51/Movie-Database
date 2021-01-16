@@ -8,8 +8,9 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
@@ -21,13 +22,18 @@ import retrofit2.http.Query;
 public interface TheMovieDbApi {
 
     //region is optional
-    @GET("movie/top_rated")
-    Call<TopRatedMoviesPage> getTopRatedMovies(@Query("api_key") String api_key
+    @GET("movie/popular")
+    Call<PopularMoviesPage> getPopularMovies(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("region") String region);
 
     //region is optional
-    @GET("movie/popular")
-    Call<PopularMoviesPage> getPopularMovies(@Query("api_key") String api_key
+    @GET("movie/now_playing")
+    Call<NowPlayingMoviesPage> getNowPlayingMovies(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("region") String region);
+
+    //region is optional
+    @GET("movie/upcoming")
+    Call<UpcomingMoviesPage> getUpcomingMovies(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("region") String region);
 
     @GET("movie/{movie_id}/credits")

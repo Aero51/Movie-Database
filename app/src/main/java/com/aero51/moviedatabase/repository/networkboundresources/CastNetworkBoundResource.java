@@ -9,7 +9,6 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.CreditsDao;
 import com.aero51.moviedatabase.repository.db.Database;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Cast;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
@@ -22,7 +21,7 @@ import java.util.List;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
-public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits, List<Cast>> {
+public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits, List<MovieCredits.Cast>> {
     private Integer movie_id;
     private Database database;
     private CreditsDao creditsDao;
@@ -48,13 +47,13 @@ public class CastNetworkBoundResource extends NetworkBoundResource<MovieCredits,
     }
 
     @Override
-    protected boolean shouldFetch(@Nullable List<Cast> data) {
+    protected boolean shouldFetch(@Nullable List<MovieCredits.Cast> data) {
         return data.size() == 0;
     }
 
     @NonNull
     @Override
-    protected LiveData<List<Cast>> loadFromDb() {
+    protected LiveData<List<MovieCredits.Cast>> loadFromDb() {
         return creditsDao.getTitleCast(movie_id);
     }
 

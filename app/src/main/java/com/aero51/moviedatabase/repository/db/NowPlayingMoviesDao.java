@@ -10,16 +10,16 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 
 import java.util.List;
 
 @Dao
-public interface TopRatedMoviesDao {
+public interface NowPlayingMoviesDao {
 
     /**
-     * Get the top rated Movies from the table.
+     * Get the now playing Movies from the table.
      * -------------------------------
      * Since the DB use as caching, we  return LiveData.
      * We  get update every time the database update.
@@ -30,46 +30,46 @@ public interface TopRatedMoviesDao {
      */
 
     @Insert
-    void insert(TopRatedMovie top_rated_result);
+    void insert(NowPlayingMovie now_playing_result);
 
     //@Transaction
     @Insert
-    void insertList(List<TopRatedMovie> top_rated_results);
+    void insertList(List<NowPlayingMovie> now_playing_results);
 
     @Update
-    void update(TopRatedMovie top_rated_result);
+    void update(NowPlayingMovie now_playing_result);
 
     @Delete
-    void delete(TopRatedMovie top_rated_result);
+    void delete(NowPlayingMovie now_playing_result);
 
 
     //  @Query("SELECT * FROM note_table ORDER BY priority DESC")
-    @Query("SELECT * FROM top_rated_movie")
-    LiveData<List<TopRatedMovie>> getAllResultsLiveData();
+    @Query("SELECT * FROM now_playing_movie")
+    LiveData<List<NowPlayingMovie>> getAllResultsLiveData();
 
 
    // @Query("SELECT * FROM top_rated_movie WHERE CollectionsName=1")
-    @Query("SELECT * FROM top_rated_movie")
-    DataSource.Factory<Integer, TopRatedMovie> getAllResults();
+    @Query("SELECT * FROM now_playing_movie")
+    DataSource.Factory<Integer, NowPlayingMovie> getAllResults();
 
    // @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
    // LiveData<Top_Rated_Movies_Page> getLatestMoviePage();
 
-   @Query("SELECT * FROM top_rated_movies_page LIMIT 1")
-   TopRatedMoviesPage getMoviePage();
+   @Query("SELECT * FROM now_playing_movies_page LIMIT 1")
+   NowPlayingMoviesPage getMoviePage();
 
-    @Query("SELECT * FROM top_rated_movies_page LIMIT 1")
-    LiveData<TopRatedMoviesPage> getLiveDataMoviePage();
+    @Query("SELECT * FROM now_playing_movies_page LIMIT 1")
+    LiveData<NowPlayingMoviesPage> getLiveDataMoviePage();
 
-   @Query("DELETE FROM top_rated_movies_page")
+   @Query("DELETE FROM now_playing_movies_page")
     void deleteAllMoviePages();
 
     @Insert
-    void insertMoviePage(TopRatedMoviesPage top_rated_movies_page);
+    void insertMoviePage(NowPlayingMoviesPage nowPlayingMoviesPage);
 
 
-    @Query("SELECT * FROM top_rated_movie")
-    PositionalDataSource<TopRatedMovie> getAlltestResultsNew();
+    @Query("SELECT * FROM now_playing_movie")
+    PositionalDataSource<NowPlayingMovie> getAlltestResultsNew();
 
 }
 
