@@ -1,7 +1,7 @@
 package com.aero51.moviedatabase.utils;
 
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 
 public interface PopularItemClickListener {
-    void OnItemClick(PopularMovie result, int position);
+    void OnItemClick(PopularMoviesPage.PopularMovie result, int position);
 }

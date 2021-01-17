@@ -8,9 +8,9 @@ import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.utils.SingleLiveEvent;
 import com.google.gson.Gson;
 
@@ -75,17 +75,17 @@ public class SharedViewModel extends ViewModel {
     public void changeToMoviedetailsFragment(Object movieObject,Integer position)
     {
         Movie movie = new Movie();
-        if (movieObject instanceof NowPlayingMovie)
+        if (movieObject instanceof NowPlayingMoviesPage.NowPlayingMovie)
         {
-            NowPlayingMovie nowPlayingMovie =(NowPlayingMovie)movieObject;
+            NowPlayingMoviesPage.NowPlayingMovie nowPlayingMovie =(NowPlayingMoviesPage.NowPlayingMovie)movieObject;
             movie=transformTopRatedMovie(nowPlayingMovie);
         }
-        if (movieObject instanceof PopularMovie){
-            PopularMovie popularMovie=(PopularMovie) movieObject;
+        if (movieObject instanceof PopularMoviesPage.PopularMovie){
+            PopularMoviesPage.PopularMovie popularMovie=(PopularMoviesPage.PopularMovie) movieObject;
             movie=transformPopularMovie(popularMovie);
         }
-        if (movieObject instanceof UpcomingMovie){
-            UpcomingMovie upcomingMovie=(UpcomingMovie) movieObject;
+        if (movieObject instanceof UpcomingMoviesPage.UpcomingMovie){
+            UpcomingMoviesPage.UpcomingMovie upcomingMovie=(UpcomingMoviesPage.UpcomingMovie) movieObject;
             movie=transformUpcomingMovie(upcomingMovie);
         }
         this.movieIndex=position;
@@ -127,16 +127,16 @@ public class SharedViewModel extends ViewModel {
 
 
     //deserialization and searialization
-    Movie transformTopRatedMovie (NowPlayingMovie original) {
+    Movie transformTopRatedMovie (NowPlayingMoviesPage.NowPlayingMovie original) {
         Gson gson= new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }
 
-    Movie transformPopularMovie (PopularMovie original) {
+    Movie transformPopularMovie (PopularMoviesPage.PopularMovie original) {
         Gson gson= new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }
-    Movie transformUpcomingMovie (UpcomingMovie original) {
+    Movie transformUpcomingMovie (UpcomingMoviesPage.UpcomingMovie original) {
         Gson gson= new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }

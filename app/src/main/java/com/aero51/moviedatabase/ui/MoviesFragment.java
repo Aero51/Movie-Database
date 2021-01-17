@@ -17,11 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.PopularMoviesPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter;
@@ -100,6 +97,7 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
 
         popularRecyclerView.setHasFixedSize(true);
         nowPlayingRecyclerView.setHasFixedSize(true);
+        upcomingRecyclerView.setHasFixedSize(true);
 
         popularAdapter = new PopularMoviesPagedListAdapter(this);
         popularRecyclerView.setAdapter(popularAdapter);
@@ -149,9 +147,9 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
 
     private void registerPopularMoviesObservers() {
 
-        moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMovie>>() {
+        moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMoviesPage.PopularMovie>>() {
             @Override
-            public void onChanged(PagedList<PopularMovie> popularMovies) {
+            public void onChanged(PagedList<PopularMoviesPage.PopularMovie> popularMovies) {
                 //Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
                 popularAdapter.submitList(popularMovies);
             }
@@ -172,9 +170,9 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
     }
 
     private void registerNowPlayingMoviesObservers() {
-        moviesViewModel.getNowPlayingResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<NowPlayingMovie>>() {
+        moviesViewModel.getNowPlayingResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<NowPlayingMoviesPage.NowPlayingMovie>>() {
             @Override
-            public void onChanged(PagedList<NowPlayingMovie> now_playing_results) {
+            public void onChanged(PagedList<NowPlayingMoviesPage.NowPlayingMovie> now_playing_results) {
                 Log.d(Constants.LOG, "now playing MoviesFragment  onChanged list size: " + now_playing_results.size());
                 nowPlayingAdapter.submitList(now_playing_results);
                 /*
@@ -211,9 +209,9 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
     }
 
     private void registerUpcomingMoviesObservers() {
-        moviesViewModel.getUpcomingResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<UpcomingMovie>>() {
+        moviesViewModel.getUpcomingResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<UpcomingMoviesPage.UpcomingMovie>>() {
             @Override
-            public void onChanged(PagedList<UpcomingMovie> upcoming_results) {
+            public void onChanged(PagedList<UpcomingMoviesPage.UpcomingMovie> upcoming_results) {
                 Log.d(Constants.LOG, "upcoming MoviesFragment  onChanged list size: " + upcoming_results.size());
                 upcomingAdapter.submitList(upcoming_results);
             }
@@ -255,9 +253,8 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
 
     }
 */
-
     @Override
-    public  void OnObjectItemClick(Object movie, int position) {
+    public  void onObjectItemClick(Object movie, int position) {
         sharedViewModel.changeToMoviedetailsFragment(movie,position);
     }
 

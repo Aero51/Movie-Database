@@ -8,7 +8,6 @@ import androidx.room.Query;
 
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 
 import java.util.List;
 

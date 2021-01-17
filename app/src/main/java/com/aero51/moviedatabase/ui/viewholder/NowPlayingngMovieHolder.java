@@ -9,7 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.squareup.picasso.Callback;
@@ -19,7 +19,7 @@ import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
 public class NowPlayingngMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-    private NowPlayingMovie result;
+    private NowPlayingMoviesPage.NowPlayingMovie result;
     private int position;
 
     private ImageView imageView;
@@ -40,7 +40,7 @@ public class NowPlayingngMovieHolder extends RecyclerView.ViewHolder implements 
 
     }
 
-    public void bindTo(NowPlayingMovie result, int position) {
+    public void bindTo(NowPlayingMoviesPage.NowPlayingMovie result, int position) {
         this.result = result;
         this.position=position;
 
@@ -64,7 +64,7 @@ public class NowPlayingngMovieHolder extends RecyclerView.ViewHolder implements 
     @Override
     public void onClick(View v) {
         if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
-            itemClickListener.OnObjectItemClick(result,position); // call the onClick in the OnItemClickListener
+            itemClickListener.onObjectItemClick(result,position); // call the onClick in the OnItemClickListener
             Log.d(Constants.LOG, " Item clicked inside now playing holder : " + position);
         }
     }

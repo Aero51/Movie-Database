@@ -15,19 +15,17 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
-@androidx.room.Database(entities = {NowPlayingMovie.class, NowPlayingMoviesPage.class, PopularMovie.class,
-        PopularMoviesPage.class, UpcomingMovie.class, UpcomingMoviesPage.class, MovieCredits.class, MovieCredits.Cast.class, MovieCredits.Crew.class,
+@androidx.room.Database(entities = {NowPlayingMoviesPage.NowPlayingMovie.class, NowPlayingMoviesPage.class, PopularMoviesPage.PopularMovie.class,
+        PopularMoviesPage.class, UpcomingMoviesPage.UpcomingMovie.class, UpcomingMoviesPage.class, PopularTvShowsPage.class, PopularTvShowsPage.PopularTvShow.class, MovieCredits.class, MovieCredits.Cast.class, MovieCredits.Crew.class,
         Actor.class, ActorImagesResponse.ActorImage.class, EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Database extends RoomDatabase {
@@ -38,6 +36,7 @@ public abstract class Database extends RoomDatabase {
     public abstract PopularMoviesDao get_popular_movies_dao();
     public abstract NowPlayingMoviesDao get_now_playing_movies_dao();
     public abstract UpcomingMoviesDao get_upcoming_movies_dao();
+    public abstract PopularTvShowsDao get_popular_tv_shows_dao();
 
     public abstract CreditsDao get_credits_dao();
     public abstract EpgTvDao get_epg_tv_dao();

@@ -11,7 +11,6 @@ import androidx.paging.PagedList;
 import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.UpcomingMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
@@ -24,11 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.aero51.moviedatabase.utils.Constants.REGION;
+import static com.aero51.moviedatabase.utils.Constants.MOVIES_FIRST_PAGE;
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
-import static com.aero51.moviedatabase.utils.Constants.UPCOMING_MOVIES_FIRST_PAGE;
 
-public class UpcomingMoviesBoundaryCallback extends PagedList.BoundaryCallback<UpcomingMovie> {
+public class UpcomingMoviesBoundaryCallback extends PagedList.BoundaryCallback<UpcomingMoviesPage.UpcomingMovie> {
     private AppExecutors executors;
     private Database database;
     private UpcomingMoviesDao dao;
@@ -48,17 +46,17 @@ public class UpcomingMoviesBoundaryCallback extends PagedList.BoundaryCallback<U
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
         //Log.d(Constants.LOG, "upcomingMovies onzeroitemsloaded");
-        fetchUpcomingMovies(UPCOMING_MOVIES_FIRST_PAGE);
+        fetchUpcomingMovies(MOVIES_FIRST_PAGE);
     }
 
     @Override
-    public void onItemAtFrontLoaded(@NonNull UpcomingMovie itemAtFront) {
+    public void onItemAtFrontLoaded(@NonNull UpcomingMoviesPage.UpcomingMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
         Log.d(Constants.LOG, "upcomingMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
-    public void onItemAtEndLoaded(@NonNull UpcomingMovie itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull UpcomingMoviesPage.UpcomingMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
         //Log.d(Constants.LOG, "upcomingMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
@@ -93,7 +91,7 @@ public class UpcomingMoviesBoundaryCallback extends PagedList.BoundaryCallback<U
 
 
     public void insertListToDb(UpcomingMoviesPage page) {
-        List<UpcomingMovie> listOfResults = page.getResults_list();
+        List<UpcomingMoviesPage.UpcomingMovie> listOfResults = page.getResults_list();
         Runnable runnable = () -> {
             dao.deleteAllMoviePages();
             dao.insertMoviePage(page);

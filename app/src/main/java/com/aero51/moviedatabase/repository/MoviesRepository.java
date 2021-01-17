@@ -14,19 +14,16 @@ import com.aero51.moviedatabase.repository.db.NowPlayingMoviesDao;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.db.UpcomingMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.utils.AppExecutors;
 
 public class MoviesRepository {
 
-    private LiveData<PagedList<PopularMovie>> popularMoviesPagedList;
-    private LiveData<PagedList<NowPlayingMovie>> nowPlayingMoviesPagedList;
-    private LiveData<PagedList<UpcomingMovie>> upcomingMoviesPagedList;
+    private LiveData<PagedList<PopularMoviesPage.PopularMovie>> popularMoviesPagedList;
+    private LiveData<PagedList<NowPlayingMoviesPage.NowPlayingMovie>> nowPlayingMoviesPagedList;
+    private LiveData<PagedList<UpcomingMoviesPage.UpcomingMovie>> upcomingMoviesPagedList;
     private PopularMoviesBoundaryCallback popularMoviesBoundaryCallback;
     private NowPlayingMoviesBoundaryCallback nowPlayingMoviesBoundaryCallback;
     private UpcomingMoviesBoundaryCallback upcomingMoviesBoundaryCallback;
@@ -73,7 +70,7 @@ public class MoviesRepository {
     }
 
 
-    public LiveData<PagedList<PopularMovie>> getPopularResultsPagedList() {
+    public LiveData<PagedList<PopularMoviesPage.PopularMovie>> getPopularResultsPagedList() {
         return popularMoviesPagedList;
     }
 
@@ -85,7 +82,7 @@ public class MoviesRepository {
         return popularMoviesBoundaryCallback.getCurrent_movie_page();
     }
 
-    public LiveData<PagedList<NowPlayingMovie>> getNowPlayingResultsPagedList() {
+    public LiveData<PagedList<NowPlayingMoviesPage.NowPlayingMovie>> getNowPlayingResultsPagedList() {
         return nowPlayingMoviesPagedList;
     }
 
@@ -97,7 +94,7 @@ public class MoviesRepository {
         return nowPlayingMoviesBoundaryCallback.getCurrent_movie_page();
     }
 
-    public LiveData<PagedList<UpcomingMovie>> getUpcomingResultsPagedList() {
+    public LiveData<PagedList<UpcomingMoviesPage.UpcomingMovie>> getUpcomingResultsPagedList() {
         return upcomingMoviesPagedList;
     }
 

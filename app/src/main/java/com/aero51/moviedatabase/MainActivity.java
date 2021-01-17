@@ -29,6 +29,7 @@ import android.view.WindowManager;
 import com.aero51.moviedatabase.ui.ActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
+import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
 import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
 import com.aero51.moviedatabase.ui.EpgDetailsFragment;
@@ -56,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgAllProgramsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -232,9 +234,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return 0;
             }
         };
+        tvShowsFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsFragment.class.getSimpleName(),null) {
+            @Override
+            protected Fragment createFragment() {
+                TvShowsFragment tvShowsFragment=TvShowsFragment.newInstance("","");
+                return tvShowsFragment;
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
 
         dynamicFragmentPagerAdapter.addFragment(epgFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(moviesFragmentIdentifier);
+        dynamicFragmentPagerAdapter.addFragment(tvShowsFragmentIdentifier);
     }
 
 

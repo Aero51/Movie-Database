@@ -14,7 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter;
 import com.aero51.moviedatabase.utils.NowPlayingItemClickListener;
@@ -96,7 +96,7 @@ public class TvShowsSearchFragment extends Fragment implements NowPlayingItemCli
     }
 
     @Override
-    public void OnItemClick(NowPlayingMovie result, int position) {
+    public void OnItemClick(NowPlayingMoviesPage.NowPlayingMovie result, int position) {
 
     }
 }

@@ -8,9 +8,9 @@ public class MovieSearchResult {
     private Integer total_results;
     private Integer total_pages;
 
-    private List<NowPlayingMovie> results;
+    private List<NowPlayingMoviesPage.NowPlayingMovie> results;
 
-    public MovieSearchResult(Integer page, Integer total_results, Integer total_pages, List<NowPlayingMovie> results) {
+    public MovieSearchResult(Integer page, Integer total_results, Integer total_pages, List<NowPlayingMoviesPage.NowPlayingMovie> results) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
@@ -26,7 +26,7 @@ public class MovieSearchResult {
         this.page = page;
     }
 
-    public List<NowPlayingMovie> getResults() {
+    public List<NowPlayingMoviesPage.NowPlayingMovie> getResults() {
         return results;
     }
 

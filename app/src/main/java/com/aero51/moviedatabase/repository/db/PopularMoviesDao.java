@@ -6,7 +6,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 
 import java.util.List;
@@ -15,22 +14,22 @@ import java.util.List;
 public interface PopularMoviesDao {
 
     /**
-     * Get the top rated Movies from the table.
+     * Get the top popular Movies from the table.
      * -------------------------------
      * Since the DB use as caching, we  return LiveData.
      * We  get update every time the database update.
      * We are using the get query when application start. So, we able to display
      * data fast and in case we don't have connection to work offline.
      *
-     * @return the top rated  movies from the table
+     * @return the popular  movies from the table
      */
 
     //@Transaction
     @Insert
-    void insertList(List<PopularMovie> popular_results);
+    void insertList(List<PopularMoviesPage.PopularMovie> popular_results);
 
     @Query("SELECT * FROM popular_movie")
-    DataSource.Factory<Integer, PopularMovie> getAllResults();
+    DataSource.Factory<Integer, PopularMoviesPage.PopularMovie> getAllResults();
 
 
     @Query("SELECT * FROM popular_movies_page LIMIT 1")

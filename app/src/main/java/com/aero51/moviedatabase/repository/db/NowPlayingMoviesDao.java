@@ -10,7 +10,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 
 import java.util.List;
@@ -30,27 +29,27 @@ public interface NowPlayingMoviesDao {
      */
 
     @Insert
-    void insert(NowPlayingMovie now_playing_result);
+    void insert(NowPlayingMoviesPage.NowPlayingMovie now_playing_result);
 
     //@Transaction
     @Insert
-    void insertList(List<NowPlayingMovie> now_playing_results);
+    void insertList(List<NowPlayingMoviesPage.NowPlayingMovie> now_playing_results);
 
     @Update
-    void update(NowPlayingMovie now_playing_result);
+    void update(NowPlayingMoviesPage.NowPlayingMovie now_playing_result);
 
     @Delete
-    void delete(NowPlayingMovie now_playing_result);
+    void delete(NowPlayingMoviesPage.NowPlayingMovie now_playing_result);
 
 
     //  @Query("SELECT * FROM note_table ORDER BY priority DESC")
     @Query("SELECT * FROM now_playing_movie")
-    LiveData<List<NowPlayingMovie>> getAllResultsLiveData();
+    LiveData<List<NowPlayingMoviesPage.NowPlayingMovie>> getAllResultsLiveData();
 
 
    // @Query("SELECT * FROM top_rated_movie WHERE CollectionsName=1")
     @Query("SELECT * FROM now_playing_movie")
-    DataSource.Factory<Integer, NowPlayingMovie> getAllResults();
+    DataSource.Factory<Integer, NowPlayingMoviesPage.NowPlayingMovie> getAllResults();
 
    // @Query("SELECT * FROM top_rated_movie_page WHERE page= (SELECT MAX(page) FROM top_rated_movie_page)")
    // LiveData<Top_Rated_Movies_Page> getLatestMoviePage();
@@ -69,7 +68,7 @@ public interface NowPlayingMoviesDao {
 
 
     @Query("SELECT * FROM now_playing_movie")
-    PositionalDataSource<NowPlayingMovie> getAlltestResultsNew();
+    PositionalDataSource<NowPlayingMoviesPage.NowPlayingMovie> getAlltestResultsNew();
 
 }
 

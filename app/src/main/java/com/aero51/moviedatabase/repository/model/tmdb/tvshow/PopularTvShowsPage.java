@@ -1,20 +1,33 @@
 package com.aero51.moviedatabase.repository.model.tmdb.tvshow;
 
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.util.List;
 
-public class TvShowSearchResult {
+@Entity(tableName = "popular_tv_shows_page")
+public class PopularTvShowsPage {
 
+    @PrimaryKey(autoGenerate = false)
     private Integer page;
     private Integer total_results;
     private Integer total_pages;
+    @Ignore
+    private List<PopularTvShow> results;
 
-    private List<TvShow> results;
-
-    public TvShowSearchResult(Integer page, Integer total_results, Integer total_pages, List<TvShow> results) {
+    @Ignore
+    public PopularTvShowsPage(Integer page, Integer total_results, Integer total_pages, List<PopularTvShow> results) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
         this.results = results;
+    }
+
+    public PopularTvShowsPage(Integer page, Integer total_results, Integer total_pages) {
+        this.page = page;
+        this.total_results = total_results;
+        this.total_pages = total_pages;
     }
 
     public Integer getPage() {
@@ -29,13 +42,15 @@ public class TvShowSearchResult {
         return total_pages;
     }
 
-    public List<TvShow> getResults() {
+    public List<PopularTvShow> getResults() {
         return results;
     }
 
+    @Entity(tableName = "popular_tv_show")
+    public static class PopularTvShow {
 
-    public static class TvShow {
-
+        @PrimaryKey(autoGenerate = true)
+        private int db_id;
         private String backdrop_path;
         private String first_air_date;
         private List<Integer> genre_ids;
@@ -51,8 +66,7 @@ public class TvShowSearchResult {
         private Integer vote_count;
 
 
-
-        public TvShow(String backdrop_path, String first_air_date, List<Integer> genre_ids, Integer id, String name, List<String> origin_country, String original_language, String original_name, String overview, Double popularity, String poster_path, Double vote_average, Integer vote_count) {
+        public PopularTvShow(String backdrop_path, String first_air_date, List<Integer> genre_ids, Integer id, String name, List<String> origin_country, String original_language, String original_name, String overview, Double popularity, String poster_path, Double vote_average, Integer vote_count) {
             this.backdrop_path = backdrop_path;
             this.first_air_date = first_air_date;
             this.genre_ids = genre_ids;
@@ -120,5 +134,14 @@ public class TvShowSearchResult {
         public Integer getVote_count() {
             return vote_count;
         }
+
+        public int getDb_id() {
+            return db_id;
+        }
+
+        public void setDb_id(int db_id) {
+            this.db_id = db_id;
+        }
     }
+
 }

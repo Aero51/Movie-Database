@@ -11,7 +11,6 @@ import androidx.paging.PagedList;
 import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.PopularMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
@@ -26,9 +25,8 @@ import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 import static com.aero51.moviedatabase.utils.Constants.MOVIES_FIRST_PAGE;
-import static com.aero51.moviedatabase.utils.Constants.REGION;
 
-public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<PopularMovie> {
+public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<PopularMoviesPage.PopularMovie> {
     private AppExecutors executors;
     private Database database;
     private PopularMoviesDao dao;
@@ -53,13 +51,13 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     }
 
     @Override
-    public void onItemAtFrontLoaded(@NonNull PopularMovie itemAtFront) {
+    public void onItemAtFrontLoaded(@NonNull PopularMoviesPage.PopularMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
         Log.d(Constants.LOG, "popularMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
-    public void onItemAtEndLoaded(@NonNull PopularMovie itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull PopularMoviesPage.PopularMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
         //Log.d(Constants.LOG, "popularMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
@@ -94,7 +92,7 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     }
 
     public void insertListToDb(PopularMoviesPage page) {
-        List<PopularMovie> listOfResults = page.getResults_list();
+        List<PopularMoviesPage.PopularMovie> listOfResults = page.getResults_list();
 
         Runnable runnable = () -> {
             dao.deleteAllMoviePages();

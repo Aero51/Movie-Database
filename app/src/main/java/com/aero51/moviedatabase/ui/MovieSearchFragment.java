@@ -15,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
@@ -88,9 +88,9 @@ public class MovieSearchFragment extends Fragment implements MovieClickListener 
     }
 
     private void registerMovieSearchObserver(){
-        searchViewModel.getMovieSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<NowPlayingMovie>>() {
+        searchViewModel.getMovieSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<NowPlayingMoviesPage.NowPlayingMovie>>() {
             @Override
-            public void onChanged(PagedList<NowPlayingMovie> nowPlayingMovies) {
+            public void onChanged(PagedList<NowPlayingMoviesPage.NowPlayingMovie> nowPlayingMovies) {
                 moviesSearchAdapter.submitList(nowPlayingMovies);
             }
         });
@@ -98,7 +98,7 @@ public class MovieSearchFragment extends Fragment implements MovieClickListener 
     }
 
     @Override
-    public void OnObjectItemClick(Object movie, int position) {
+    public void onObjectItemClick(Object movie, int position) {
         Log.d(Constants.LOG, "MovieSearchFragment OnItemClick on position:"+position);
     }
 }

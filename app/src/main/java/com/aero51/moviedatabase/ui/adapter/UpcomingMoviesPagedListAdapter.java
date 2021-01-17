@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.ui.viewholder.UpcomingMovieHolder;
 import com.aero51.moviedatabase.utils.MovieClickListener;
 
-public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMovie, RecyclerView.ViewHolder> {
+public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMoviesPage.UpcomingMovie, RecyclerView.ViewHolder> {
     private MovieClickListener itemClickListener;
     private NetworkState networkState;
 
@@ -35,20 +35,20 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        UpcomingMovie currentResult = getItem(position);
+        UpcomingMoviesPage.UpcomingMovie currentResult = getItem(position);
         ((UpcomingMovieHolder) holder).bindTo(currentResult, position);
     }
 
 
-    private static DiffUtil.ItemCallback<UpcomingMovie> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<UpcomingMovie>() {
+    private static DiffUtil.ItemCallback<UpcomingMoviesPage.UpcomingMovie> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<UpcomingMoviesPage.UpcomingMovie>() {
                 @Override
-                public boolean areItemsTheSame(UpcomingMovie oldItem, UpcomingMovie newItem) {
+                public boolean areItemsTheSame(UpcomingMoviesPage.UpcomingMovie oldItem, UpcomingMoviesPage.UpcomingMovie newItem) {
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(UpcomingMovie oldItem, UpcomingMovie newItem) {
+                public boolean areContentsTheSame(UpcomingMoviesPage.UpcomingMovie oldItem, UpcomingMoviesPage.UpcomingMovie newItem) {
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };

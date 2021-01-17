@@ -10,11 +10,8 @@ import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.MoviesRepository;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Constants;
@@ -31,7 +28,7 @@ public class MoviesViewModel extends AndroidViewModel {
 
 
 
-    public LiveData<PagedList<PopularMovie>> getPopularResultsPagedList() {
+    public LiveData<PagedList<PopularMoviesPage.PopularMovie>> getPopularResultsPagedList() {
         return moviesRepository.getPopularResultsPagedList();
     }
 
@@ -45,7 +42,7 @@ public class MoviesViewModel extends AndroidViewModel {
     }
 
 
-    public LiveData<PagedList<NowPlayingMovie>> getNowPlayingResultsPagedList() {
+    public LiveData<PagedList<NowPlayingMoviesPage.NowPlayingMovie>> getNowPlayingResultsPagedList() {
         return moviesRepository.getNowPlayingResultsPagedList();
     }
 
@@ -57,7 +54,7 @@ public class MoviesViewModel extends AndroidViewModel {
     public LiveData<NetworkState> getNowPlayingMoviesNetworkState() {
         return moviesRepository.getNowPlayingNetworkState();
     }
-    public LiveData<PagedList<UpcomingMovie>> getUpcomingResultsPagedList() {
+    public LiveData<PagedList<UpcomingMoviesPage.UpcomingMovie>> getUpcomingResultsPagedList() {
         return moviesRepository.getUpcomingResultsPagedList();
     }
 

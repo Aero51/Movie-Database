@@ -11,7 +11,6 @@ import androidx.paging.PagedList;
 import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.NowPlayingMoviesDao;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMovie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
@@ -24,11 +23,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.aero51.moviedatabase.utils.Constants.MOVIES_FIRST_PAGE;
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
-import static com.aero51.moviedatabase.utils.Constants.REGION;
-import static com.aero51.moviedatabase.utils.Constants.NOW_PLAYING_MOVIES_FIRST_PAGE;
 
-public class NowPlayingMoviesBoundaryCallback extends PagedList.BoundaryCallback<NowPlayingMovie> {
+public class NowPlayingMoviesBoundaryCallback extends PagedList.BoundaryCallback<NowPlayingMoviesPage.NowPlayingMovie> {
     private AppExecutors executors;
     private Database database;
     private NowPlayingMoviesDao dao;
@@ -48,17 +46,17 @@ public class NowPlayingMoviesBoundaryCallback extends PagedList.BoundaryCallback
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
         //Log.d(Constants.LOG, "nowPlayingMovies onzeroitemsloaded");
-        fetchNowPlayingMovies(NOW_PLAYING_MOVIES_FIRST_PAGE);
+        fetchNowPlayingMovies(MOVIES_FIRST_PAGE);
     }
 
     @Override
-    public void onItemAtFrontLoaded(@NonNull NowPlayingMovie itemAtFront) {
+    public void onItemAtFrontLoaded(@NonNull NowPlayingMoviesPage.NowPlayingMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
         Log.d(Constants.LOG, "nowPlayingMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
-    public void onItemAtEndLoaded(@NonNull NowPlayingMovie itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull NowPlayingMoviesPage.NowPlayingMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
         //Log.d(Constants.LOG, "nowPlayingMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
@@ -94,7 +92,7 @@ public class NowPlayingMoviesBoundaryCallback extends PagedList.BoundaryCallback
 
 
     public void insertListToDb(NowPlayingMoviesPage page) {
-        List<NowPlayingMovie> listOfResults = page.getResults_list();
+        List<NowPlayingMoviesPage.NowPlayingMovie> listOfResults = page.getResults_list();
         Runnable runnable = () -> {
             dao.deleteAllMoviePages();
             dao.insertMoviePage(page);

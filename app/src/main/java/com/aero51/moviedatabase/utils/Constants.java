@@ -45,8 +45,7 @@ public class Constants {
     public static final String LOG2 = "moviedatabaselog2";
     public static final String DATABASE_NAME = "Movie.db";
     public static final int MOVIES_FIRST_PAGE = 1;
-    public static final int NOW_PLAYING_MOVIES_FIRST_PAGE = 1;
-    public static final int UPCOMING_MOVIES_FIRST_PAGE = 1;
+    public static final int TV_SHOWS_FIRST_PAGE = 1;
     public static final int TOP_RATED_MOVIE_TYPE_ID = 0;
     public static final int POPULAR_MOVIE_TYPE_ID = 1;
 
