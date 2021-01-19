@@ -24,6 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.aero51.moviedatabase.utils.Constants.MOVIES_FIRST_PAGE;
+import static com.aero51.moviedatabase.utils.Constants.REGION;
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
 public class NowPlayingMoviesBoundaryCallback extends PagedList.BoundaryCallback<NowPlayingMoviesPage.NowPlayingMovie> {
@@ -66,8 +67,7 @@ public class NowPlayingMoviesBoundaryCallback extends PagedList.BoundaryCallback
     public void fetchNowPlayingMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        //Call<NowPlayingMoviesPage> call = theMovieDbApi.getNowPlayingMovies(TMDB_API_KEY, pageNumber, REGION);
-        Call<NowPlayingMoviesPage> call = theMovieDbApi.getNowPlayingMovies(TMDB_API_KEY, pageNumber, "");
+        Call<NowPlayingMoviesPage> call = theMovieDbApi.getNowPlayingMovies(TMDB_API_KEY, pageNumber, REGION);
         call.enqueue(new Callback<NowPlayingMoviesPage>() {
             @Override
             public void onResponse(Call<NowPlayingMoviesPage> call, Response<NowPlayingMoviesPage> response) {

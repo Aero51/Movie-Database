@@ -16,7 +16,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
+import com.aero51.moviedatabase.ui.adapter.AiringTvShowsPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.PopularTvShowsPagedListAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
@@ -42,6 +44,7 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
 
     private TvShowsViewModel tvShowsViewModel;
     private PopularTvShowsPagedListAdapter popularAdapter;
+    private AiringTvShowsPagedListAdapter airingAdapter;
     private SharedViewModel sharedViewModel;
 
     public TvShowsFragment() {
@@ -83,18 +86,26 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_tv_shows, container, false);
         TextView textViewPopularTvShow = view.findViewById(R.id.text_view_popular_tv_show);
-
         textViewPopularTvShow.setText("Popular tv shows:");
+        TextView textViewAiringTvShow = view.findViewById(R.id.text_view_airing_tv_show);
+        textViewAiringTvShow.setText("Airing tv shows:");
         TextView emptyViewText = view.findViewById(R.id.empty_view);
 
         RecyclerView popularRecyclerView = view.findViewById(R.id.popular_tv_shows_recycler_view_horizontal);
         popularRecyclerView.setHasFixedSize(true);
-
         popularAdapter = new PopularTvShowsPagedListAdapter(this) ;
         popularRecyclerView.setAdapter(popularAdapter);
-
         LinearLayoutManager popularlinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         popularRecyclerView.setLayoutManager(popularlinearLayoutManager);
+
+        RecyclerView airingRecyclerView = view.findViewById(R.id.airing_tv_shows_recycler_view_horizontal);
+        airingRecyclerView.setHasFixedSize(true);
+        airingAdapter = new AiringTvShowsPagedListAdapter(this) ;
+        airingRecyclerView.setAdapter(airingAdapter);
+        LinearLayoutManager airinglinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+        airingRecyclerView.setLayoutManager(airinglinearLayoutManager);
+
+
 
         registerHasEpgTvFragmentFinishedLoadingObserver();
         return view;
@@ -108,6 +119,7 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
             public void onChanged(Boolean aBoolean) {
                 if (aBoolean) {
                     registerPopularTvShowsObservers();
+                    registerAiringTvShowsObservers();
                 }
             }
         });
@@ -135,7 +147,27 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
 
         });
     }
+    private void registerAiringTvShowsObservers() {
 
+        tvShowsViewModel.getTvAiringResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<AiringTvShowsPage.AiringTvShow>>() {
+            @Override
+            public void onChanged(PagedList<AiringTvShowsPage.AiringTvShow> airingTvShows) {
+                airingAdapter.submitList(airingTvShows);
+            }
+        });
+        tvShowsViewModel.getAiringLiveTvShowPage().observe(getViewLifecycleOwner(), new Observer<AiringTvShowsPage>() {
+            @Override
+            public void onChanged(AiringTvShowsPage airingTvShowsPage) {
+                Integer page_number;
+                if (airingTvShowsPage == null) {
+                    page_number = 0;
+                } else {
+                    page_number = airingTvShowsPage.getPage();
+                }
+                Log.d(Constants.LOG, "airing Tv shows Fragment onChanged movie_page: " + page_number);
+            }
+        });
+    }
 
 
     @Override

@@ -23,6 +23,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.aero51.moviedatabase.utils.Constants.REGION;
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 import static com.aero51.moviedatabase.utils.Constants.MOVIES_FIRST_PAGE;
 
@@ -67,8 +68,7 @@ public class PopularMoviesBoundaryCallback extends PagedList.BoundaryCallback<Po
     public void fetchPopularMovies(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        //Call<PopularMoviesPage> call = theMovieDbApi.getPopularMovies(TMDB_API_KEY, pageNumber, REGION);
-        Call<PopularMoviesPage> call = theMovieDbApi.getPopularMovies(TMDB_API_KEY, pageNumber,"");
+        Call<PopularMoviesPage> call = theMovieDbApi.getPopularMovies(TMDB_API_KEY, pageNumber,REGION);
         call.enqueue(new Callback<PopularMoviesPage>() {
             @Override
             public void onResponse(Call<PopularMoviesPage> call, Response<PopularMoviesPage> response) {

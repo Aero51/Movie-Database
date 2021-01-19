@@ -13,7 +13,7 @@ public interface PopularTvShowsDao {
 
 
     /**
-     * Get the top popular Movies from the table.
+     * Get the popular Tv shows from the table.
      * -------------------------------
      * Since the DB use as caching, we  return LiveData.
      * We  get update every time the database update.

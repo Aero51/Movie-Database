@@ -11,6 +11,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -40,6 +41,11 @@ public interface TheMovieDbApi {
     //region is optional
     @GET("tv/popular")
     Call<PopularTvShowsPage> getPopularTvShows(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("region") String region);
+
+    //region is optional
+    @GET("tv/on_the_air")
+    Call<AiringTvShowsPage> getAiringTvShows(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("region") String region);
 
     @GET("movie/{movie_id}/credits")
