@@ -6,10 +6,12 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
@@ -23,10 +25,19 @@ import retrofit2.http.Query;
 
 public interface TheMovieDbApi {
 
+
+
     //region is optional
-    @GET("movie/popular")
+    @GET("discover/movie")
+    Call<TopRatedMoviesPage> getTopRatedMovies(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("region") String region, @Query("vote_count.gte") Integer vote_count, @Query("sort_by") String sort_by, @Query("without_genres") Integer  without_genres);
+
+    //region is optional
+    @GET("discover/movie")
     Call<PopularMoviesPage> getPopularMovies(@Query("api_key") String api_key
-            , @Query("page") Integer page, @Query("region") String region);
+            , @Query("page") Integer page, @Query("region") String region,@Query("vote_count.gte") Integer vote_count,@Query("sort_by") String sort_by);
+
+
 
     //region is optional
     @GET("movie/now_playing")
@@ -42,6 +53,13 @@ public interface TheMovieDbApi {
     @GET("tv/popular")
     Call<PopularTvShowsPage> getPopularTvShows(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("region") String region);
+
+    @GET("discover/tv")
+    Call<PopularTvShowsPage> getPopularTvShows(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("watch_region") String region, @Query("sort_by") String sort_by, @Query("vote_count.gte") Integer vote_count);
+
+
+
 
     //region is optional
     @GET("tv/on_the_air")
@@ -74,6 +92,10 @@ public interface TheMovieDbApi {
     @GET("search/tv")
     Call<TvShowSearchResult> getTvShowsSearch(@Query("api_key") String api_key, @Query("query") String movieSearch, @Query("page") Integer page);
 
+    @GET("genre/movie/list")
+    LiveData<ApiResponse<MovieGenresResponse>> getLiveMovieGenres(@Query("api_key") String api_key);
+
+    //https://api.themoviedb.org/3/genre/movie/list?api_key=8ba72532be79fd82366e924e791e0c71&language=en-US
 
     //region is optional
     //  @GET("movie/top_rated")

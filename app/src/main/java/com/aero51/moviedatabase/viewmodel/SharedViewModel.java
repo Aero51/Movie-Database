@@ -10,6 +10,7 @@ import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.utils.SingleLiveEvent;
 import com.google.gson.Gson;
@@ -72,23 +73,25 @@ public class SharedViewModel extends ViewModel {
     }
 
     //done like this to reduce code duplication(fragments, listeners, main activity identifiers
-    public void changeToMoviedetailsFragment(Object movieObject,Integer position)
-    {
+    public void changeToMoviedetailsFragment(Object movieObject, Integer position) {
         Movie movie = new Movie();
-        if (movieObject instanceof NowPlayingMoviesPage.NowPlayingMovie)
-        {
-            NowPlayingMoviesPage.NowPlayingMovie nowPlayingMovie =(NowPlayingMoviesPage.NowPlayingMovie)movieObject;
-            movie=transformTopRatedMovie(nowPlayingMovie);
+        if (movieObject instanceof TopRatedMoviesPage.TopRatedMovie) {
+            TopRatedMoviesPage.TopRatedMovie topRatedMovie = (TopRatedMoviesPage.TopRatedMovie) movieObject;
+            movie = transformTopRatedMovie(topRatedMovie);
         }
-        if (movieObject instanceof PopularMoviesPage.PopularMovie){
-            PopularMoviesPage.PopularMovie popularMovie=(PopularMoviesPage.PopularMovie) movieObject;
-            movie=transformPopularMovie(popularMovie);
+        if (movieObject instanceof NowPlayingMoviesPage.NowPlayingMovie) {
+            NowPlayingMoviesPage.NowPlayingMovie nowPlayingMovie = (NowPlayingMoviesPage.NowPlayingMovie) movieObject;
+            movie = transformNowPlayingMovie(nowPlayingMovie);
         }
-        if (movieObject instanceof UpcomingMoviesPage.UpcomingMovie){
-            UpcomingMoviesPage.UpcomingMovie upcomingMovie=(UpcomingMoviesPage.UpcomingMovie) movieObject;
-            movie=transformUpcomingMovie(upcomingMovie);
+        if (movieObject instanceof PopularMoviesPage.PopularMovie) {
+            PopularMoviesPage.PopularMovie popularMovie = (PopularMoviesPage.PopularMovie) movieObject;
+            movie = transformPopularMovie(popularMovie);
         }
-        this.movieIndex=position;
+        if (movieObject instanceof UpcomingMoviesPage.UpcomingMovie) {
+            UpcomingMoviesPage.UpcomingMovie upcomingMovie = (UpcomingMoviesPage.UpcomingMovie) movieObject;
+            movie = transformUpcomingMovie(upcomingMovie);
+        }
+        this.movieIndex = position;
         liveMovie.setValue(movie);
         shouldSwitchMovieDetailFragment.setValue(true);
 
@@ -97,6 +100,7 @@ public class SharedViewModel extends ViewModel {
     public LiveData<Movie> getLiveDataMovie() {
         return liveMovie;
     }
+
     public LiveData<Boolean> getSingleLiveShouldSwitchMovieDetailsFragment() {
         return shouldSwitchMovieDetailFragment;
     }
@@ -127,17 +131,23 @@ public class SharedViewModel extends ViewModel {
 
 
     //deserialization and searialization
-    Movie transformTopRatedMovie (NowPlayingMoviesPage.NowPlayingMovie original) {
-        Gson gson= new Gson();
+    Movie transformTopRatedMovie(TopRatedMoviesPage.TopRatedMovie original) {
+        Gson gson = new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }
 
-    Movie transformPopularMovie (PopularMoviesPage.PopularMovie original) {
-        Gson gson= new Gson();
+    Movie transformNowPlayingMovie(NowPlayingMoviesPage.NowPlayingMovie original) {
+        Gson gson = new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }
-    Movie transformUpcomingMovie (UpcomingMoviesPage.UpcomingMovie original) {
-        Gson gson= new Gson();
+
+    Movie transformPopularMovie(PopularMoviesPage.PopularMovie original) {
+        Gson gson = new Gson();
+        return gson.fromJson(gson.toJson(original), Movie.class);
+    }
+
+    Movie transformUpcomingMovie(UpcomingMoviesPage.UpcomingMovie original) {
+        Gson gson = new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);
     }
 }

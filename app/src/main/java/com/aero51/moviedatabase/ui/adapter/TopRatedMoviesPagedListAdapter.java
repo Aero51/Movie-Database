@@ -8,13 +8,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+
 import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
+
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.squareup.picasso.Callback;
@@ -23,11 +25,12 @@ import com.squareup.picasso.Picasso;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
-public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMoviesPage.UpcomingMovie, RecyclerView.ViewHolder> {
+
+public class TopRatedMoviesPagedListAdapter extends PagedListAdapter<TopRatedMoviesPage.TopRatedMovie, RecyclerView.ViewHolder> {
     private MovieClickListener itemClickListener;
     private NetworkState networkState;
 
-    public UpcomingMoviesPagedListAdapter(MovieClickListener itemClickListener) {
+    public TopRatedMoviesPagedListAdapter(MovieClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }
@@ -37,32 +40,33 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.movie_item, parent, false);
-        UpcomingMovieHolder viewHolder = new UpcomingMovieHolder(view, itemClickListener);
+        TopRatedMovieHolder viewHolder = new TopRatedMovieHolder(view, itemClickListener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        UpcomingMoviesPage.UpcomingMovie currentResult = getItem(position);
-        ((UpcomingMovieHolder) holder).bindTo(currentResult, position);
+        TopRatedMoviesPage.TopRatedMovie currentResult = getItem(position);
+        ((TopRatedMovieHolder) holder).bindTo(currentResult, position);
     }
 
 
-    private static DiffUtil.ItemCallback<UpcomingMoviesPage.UpcomingMovie> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<UpcomingMoviesPage.UpcomingMovie>() {
+    private static DiffUtil.ItemCallback<TopRatedMoviesPage.TopRatedMovie> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TopRatedMoviesPage.TopRatedMovie>() {
                 @Override
-                public boolean areItemsTheSame(UpcomingMoviesPage.UpcomingMovie oldItem, UpcomingMoviesPage.UpcomingMovie newItem) {
+                public boolean areItemsTheSame(TopRatedMoviesPage.TopRatedMovie oldItem, TopRatedMoviesPage.TopRatedMovie newItem) {
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(UpcomingMoviesPage.UpcomingMovie oldItem, UpcomingMoviesPage.UpcomingMovie newItem) {
+                public boolean areContentsTheSame(TopRatedMoviesPage.TopRatedMovie oldItem, TopRatedMoviesPage.TopRatedMovie newItem) {
                     return oldItem.getTitle().equals(newItem.getTitle());
                 }
             };
 
-    public static class UpcomingMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private UpcomingMoviesPage.UpcomingMovie result;
+
+    public static class TopRatedMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TopRatedMoviesPage.TopRatedMovie result;
         private int position;
 
         private ImageView imageView;
@@ -72,20 +76,19 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
         private MovieClickListener itemClickListener;
 
 
-        public UpcomingMovieHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
+        public TopRatedMovieHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_program);
             textViewPosition = itemView.findViewById(R.id.text_view_position);
             textViewtitle = itemView.findViewById(R.id.text_view_title);
-
             this.itemClickListener = itemClickListener;
             itemView.setOnClickListener(this);
 
         }
 
-        public void bindTo(UpcomingMoviesPage.UpcomingMovie result, int position) {
+        public void bindTo(TopRatedMoviesPage.TopRatedMovie result, int position) {
             this.result = result;
-            this.position = position;
+            this.position=position;
 
             textViewPosition.setText(String.valueOf(position + 1));
             textViewtitle.setText(result.getTitle());
@@ -96,7 +99,6 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
                 @Override
                 public void onSuccess() {
                 }
-
                 @Override
                 public void onError(Exception e) {
                     imageView.setBackgroundResource(R.drawable.picture_template);
@@ -107,11 +109,10 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
 
         @Override
         public void onClick(View v) {
-            if (itemClickListener != null && position != RecyclerView.NO_POSITION) {
-                itemClickListener.onObjectItemClick(result, position); // call the onClick in the OnItemClickListener
-                Log.d(Constants.LOG, " Item clicked inside upcoming holder : " + position);
+            if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
+                itemClickListener.onObjectItemClick(result,position); // call the onClick in the OnItemClickListener
+                Log.d(Constants.LOG, " Item clicked inside top rated holder : " + position);
             }
         }
-
     }
 }

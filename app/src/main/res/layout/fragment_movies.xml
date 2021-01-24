@@ -20,8 +20,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-
-
             <TextView
                 android:id="@+id/empty_view"
                 android:layout_width="match_parent"
@@ -30,6 +28,34 @@
                 android:visibility="gone"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:text="No data available" />
+
+
+            <TextView
+                android:id="@+id/text_view_top_rated_movie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Popular"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_rated_movies_recycler_view_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal" />
+
+            <View
+                android:id="@+id/activityMainDivider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:background="#31C7C7CC" />
+
+
             <TextView
                 android:id="@+id/text_view_popular_movie"
                 android:layout_width="wrap_content"
@@ -47,9 +73,23 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal" />
+            <View
+                android:id="@+id/activityMainDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:background="#31C7C7CC" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/movie_genres_recycler_view_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal" />
 
             <View
-                android:id="@+id/activityMainDivider"
+                android:id="@+id/activityMainDivider3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
@@ -74,7 +114,7 @@
                 android:orientation="horizontal"
                 />
             <View
-                android:id="@+id/activityMainDivider2"
+                android:id="@+id/activityMainDivider4"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"

@@ -67,7 +67,8 @@ public class PopularTvShowsBoundaryCallback extends PagedList.BoundaryCallback<P
     public void fetchPopularTvShows(int pageNumber) {
         networkState.postValue(NetworkState.LOADING);
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        Call<PopularTvShowsPage> call = theMovieDbApi.getPopularTvShows(TMDB_API_KEY, pageNumber,REGION);
+        Call<PopularTvShowsPage> call = theMovieDbApi.getPopularTvShows(TMDB_API_KEY, pageNumber,REGION,"popularity.desc",3000);
+        //Call<PopularTvShowsPage> call = theMovieDbApi.getPopularTvShows(TMDB_API_KEY, pageNumber,REGION);
         call.enqueue(new Callback<PopularTvShowsPage>() {
             @Override
             public void onResponse(Call<PopularTvShowsPage> call, Response<PopularTvShowsPage> response) {

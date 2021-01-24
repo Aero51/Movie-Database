@@ -10,11 +10,16 @@ import androidx.paging.PagedList;
 
 import com.aero51.moviedatabase.repository.MoviesRepository;
 import com.aero51.moviedatabase.repository.model.NetworkState;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.utils.Resource;
+
+import java.util.List;
 
 public class MoviesViewModel extends AndroidViewModel {
 
@@ -26,7 +31,18 @@ public class MoviesViewModel extends AndroidViewModel {
         moviesRepository = new MoviesRepository(application, executors);
     }
 
+    public LiveData<PagedList<TopRatedMoviesPage.TopRatedMovie>> getTopRatedResultsPagedList() {
+        return moviesRepository.getTopRatedResultsPagedList();
+    }
 
+    //used to get the page number by adding observer
+    public LiveData<TopRatedMoviesPage> getTopRatedLiveMoviePage() {
+        return moviesRepository.getLastTopRatedMoviePage();
+    }
+
+    public LiveData<NetworkState> getTopRatedMoviesNetworkState() {
+        return moviesRepository.getTopRatedNetworkState();
+    }
 
     public LiveData<PagedList<PopularMoviesPage.PopularMovie>> getPopularResultsPagedList() {
         return moviesRepository.getPopularResultsPagedList();
@@ -65,6 +81,10 @@ public class MoviesViewModel extends AndroidViewModel {
 
     public LiveData<NetworkState> getUpcomingMoviesNetworkState() {
         return moviesRepository.getUpcomingNetworkState();
+    }
+
+    public LiveData<Resource<List<MovieGenresResponse.MovieGenre>>> getMoviesGenres() {
+        return moviesRepository.loadMoviesGenres();
     }
 
     @Override
