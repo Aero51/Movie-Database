@@ -8,7 +8,7 @@ import androidx.lifecycle.LiveData;
 
 import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.db.GenresDao;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.ApiResponse;
@@ -19,44 +19,44 @@ import java.util.List;
 
 import static com.aero51.moviedatabase.utils.Constants.TMDB_API_KEY;
 
-public class MovieGenresNetworkBoundResource  extends NetworkBoundResource<MovieGenresResponse, List<MovieGenresResponse.MovieGenre>> {
+public class TvShowGenresNetworkBoundresource  extends NetworkBoundResource<TvShowGenresResponse, List<TvShowGenresResponse.TvShowGenre>> {
     private Database database;
     private GenresDao genresDao;
 
-    public MovieGenresNetworkBoundResource(AppExecutors appExecutors, Application application) {
+
+    public TvShowGenresNetworkBoundresource(AppExecutors appExecutors, Application application) {
         super(appExecutors);
         database = Database.getInstance(application);
         genresDao = database.get_genres_dao();
     }
 
-
     @Override
-    protected void saveCallResult(@NonNull MovieGenresResponse item) {
+    protected void saveCallResult(@NonNull TvShowGenresResponse item) {
         //this is executed on background thread
         database.runInTransaction(new Runnable() {
             @Override
             public void run() {
-                genresDao.insertMovieGenreList(item.getGenres());
+                genresDao.insertTvShowGenreList(item.getGenres());
             }
         });
 
     }
 
     @Override
-    protected boolean shouldFetch(@Nullable List<MovieGenresResponse.MovieGenre> data) {
+    protected boolean shouldFetch(@Nullable List<TvShowGenresResponse.TvShowGenre> data) {
         return data.size() == 0;
     }
 
     @NonNull
     @Override
-    protected LiveData<List<MovieGenresResponse.MovieGenre>> loadFromDb() {
-        return genresDao.getMoviesGenres();
+    protected LiveData<List<TvShowGenresResponse.TvShowGenre>> loadFromDb() {
+        return genresDao.getTvShowsGenres();
     }
 
     @NonNull
     @Override
-    protected LiveData<ApiResponse<MovieGenresResponse>> createCall() {
+    protected LiveData<ApiResponse<TvShowGenresResponse>> createCall() {
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
-        return theMovieDbApi.getLiveMovieGenres(TMDB_API_KEY);
+        return theMovieDbApi.getLiveTvGenres(TMDB_API_KEY);
     }
 }

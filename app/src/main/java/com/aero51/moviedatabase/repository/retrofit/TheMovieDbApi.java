@@ -15,6 +15,8 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
@@ -58,13 +60,14 @@ public interface TheMovieDbApi {
     Call<PopularTvShowsPage> getPopularTvShows(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("watch_region") String region, @Query("sort_by") String sort_by, @Query("vote_count.gte") Integer vote_count);
 
-
-
-
     //region is optional
     @GET("tv/on_the_air")
     Call<AiringTvShowsPage> getAiringTvShows(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("region") String region);
+
+    @GET("trending/tv/week")
+    Call<TrendingTvShowsPage> getTrendingTvShows(@Query("api_key") String api_key
+            , @Query("page") Integer page);
 
     @GET("movie/{movie_id}/credits")
     Call<MovieCredits> getMovieCredits(@Query("api_key") String api_key, @Path("movie_id") Integer movie_id);
@@ -95,12 +98,7 @@ public interface TheMovieDbApi {
     @GET("genre/movie/list")
     LiveData<ApiResponse<MovieGenresResponse>> getLiveMovieGenres(@Query("api_key") String api_key);
 
-    //https://api.themoviedb.org/3/genre/movie/list?api_key=8ba72532be79fd82366e924e791e0c71&language=en-US
-
-    //region is optional
-    //  @GET("movie/top_rated")
-    // Call<MoviesPage> getNewTopRatedMovies(@Query("api_key") String api_key
-    //   , @Query("page") Integer page, @Query("region") String region);
-
+    @GET("genre/tv/list")
+    LiveData<ApiResponse<TvShowGenresResponse>> getLiveTvGenres(@Query("api_key") String api_key);
 
 }

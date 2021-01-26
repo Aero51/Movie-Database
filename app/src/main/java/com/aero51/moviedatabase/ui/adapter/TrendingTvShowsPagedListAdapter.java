@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.squareup.picasso.Callback;
@@ -23,50 +23,44 @@ import com.squareup.picasso.Picasso;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
-
-public class AiringTvShowsPagedListAdapter extends PagedListAdapter<AiringTvShowsPage.AiringTvShow, RecyclerView.ViewHolder> {
+public class TrendingTvShowsPagedListAdapter  extends PagedListAdapter<TrendingTvShowsPage.TrendingTvShow, RecyclerView.ViewHolder> {
     private MovieClickListener itemClickListener;
     private NetworkState networkState;
 
 
-
-    public AiringTvShowsPagedListAdapter(MovieClickListener itemClickListener) {
+    public TrendingTvShowsPagedListAdapter(MovieClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }
-
 
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.movie_item, parent, false);
-        AiringTvShowHolder viewHolder = new AiringTvShowHolder(view, itemClickListener);
+        TrendingTvShowHolder viewHolder = new TrendingTvShowHolder(view, itemClickListener);
         return viewHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        AiringTvShowsPage.AiringTvShow currentResult = getItem(position);
-        ((AiringTvShowHolder) holder).bindTo(currentResult, position);
+        TrendingTvShowsPage.TrendingTvShow currentResult = getItem(position);
+        ((TrendingTvShowHolder) holder).bindTo(currentResult, position);
     }
-
-
-    private static DiffUtil.ItemCallback<AiringTvShowsPage.AiringTvShow> DIFF_CALLBACK =
-            new DiffUtil.ItemCallback<AiringTvShowsPage.AiringTvShow>() {
+    private static DiffUtil.ItemCallback<TrendingTvShowsPage.TrendingTvShow> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<TrendingTvShowsPage.TrendingTvShow>() {
                 @Override
-                public boolean areItemsTheSame(AiringTvShowsPage.AiringTvShow oldItem, AiringTvShowsPage.AiringTvShow newItem) {
+                public boolean areItemsTheSame(TrendingTvShowsPage.TrendingTvShow oldItem, TrendingTvShowsPage.TrendingTvShow newItem) {
                     return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(AiringTvShowsPage.AiringTvShow oldItem, AiringTvShowsPage.AiringTvShow newItem) {
+                public boolean areContentsTheSame(TrendingTvShowsPage.TrendingTvShow oldItem, TrendingTvShowsPage.TrendingTvShow newItem) {
                     return oldItem.getName().equals(newItem.getName());
                 }
             };
-
-    public static class AiringTvShowHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private AiringTvShowsPage.AiringTvShow result;
+    public static class TrendingTvShowHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TrendingTvShowsPage.TrendingTvShow result;
         private int position;
         private ImageView imageView;
         private TextView textViewPosition;
@@ -74,7 +68,7 @@ public class AiringTvShowsPagedListAdapter extends PagedListAdapter<AiringTvShow
         private TextView textViewVoteAverage;
         private MovieClickListener itemClickListener;
 
-        public AiringTvShowHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
+        public TrendingTvShowHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_program);
             textViewPosition = itemView.findViewById(R.id.text_view_position);
@@ -82,7 +76,7 @@ public class AiringTvShowsPagedListAdapter extends PagedListAdapter<AiringTvShow
             this.itemClickListener = itemClickListener;
             itemView.setOnClickListener(this);
         }
-        public void bindTo(AiringTvShowsPage.AiringTvShow result, int position) {
+        public void bindTo(TrendingTvShowsPage.TrendingTvShow result, int position) {
             this.result = result;
             this.position=position;
 
@@ -109,9 +103,8 @@ public class AiringTvShowsPagedListAdapter extends PagedListAdapter<AiringTvShow
         public void onClick(View v) {
             if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
                 itemClickListener.onObjectItemClick(result,position); // call the onClick in the OnItemClickListener
-                Log.d(Constants.LOG, " Item clicked inside airing shows holder : " + position);
+                Log.d(Constants.LOG, " Item clicked inside trending holder : " + position);
             }
         }
-
     }
 }

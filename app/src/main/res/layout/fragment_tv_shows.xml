@@ -44,7 +44,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popular_tv_shows_recycler_view_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal" />
@@ -55,6 +55,41 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
                 android:background="#31C7C7CC" />
+            <TextView
+                android:id="@+id/text_view_trending_tv_show"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Popular"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/trending_tv_shows_recycler_view_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal" />
+            <View
+                android:id="@+id/activityMainDivider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:background="#31C7C7CC" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/tv_show_genres_recycler_view_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal" />
+
+
 
             <TextView
                 android:id="@+id/text_view_airing_tv_show"
@@ -70,7 +105,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/airing_tv_shows_recycler_view_horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal" />

@@ -11,7 +11,13 @@ import com.aero51.moviedatabase.repository.TvShowsRepository;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
+import com.aero51.moviedatabase.repository.networkboundresources.TvShowGenresNetworkBoundresource;
 import com.aero51.moviedatabase.utils.AppExecutors;
+import com.aero51.moviedatabase.utils.Resource;
+
+import java.util.List;
 
 public class TvShowsViewModel extends AndroidViewModel {
     private TvShowsRepository tvShowsRepository;
@@ -47,4 +53,21 @@ public class TvShowsViewModel extends AndroidViewModel {
     public LiveData<NetworkState> getAiringTvShowsNetworkState() {
         return tvShowsRepository.getAiringNetworkState();
     }
+
+    public LiveData<PagedList<TrendingTvShowsPage.TrendingTvShow>> getTvTrendingResultsPagedList() {
+        return tvShowsRepository.getTvTrendingResultsPagedList();
+    }
+
+    //used to get the page number by adding observer
+    public LiveData<TrendingTvShowsPage> getTrendingLiveTvShowPage() {
+        return tvShowsRepository.getLastTrendingTvShowPage();
+    }
+
+    public LiveData<NetworkState> getTrendingTvShowsNetworkState() {
+        return tvShowsRepository.getTrendingNetworkState();
+    }
+    public LiveData<Resource<List<TvShowGenresResponse.TvShowGenre>>> getTvShowsGenres() {
+        return  tvShowsRepository.loadTvShowsGenres();
+    }
+
 }

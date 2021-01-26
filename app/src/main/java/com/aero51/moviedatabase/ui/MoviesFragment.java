@@ -30,6 +30,7 @@ import com.aero51.moviedatabase.ui.adapter.UpcomingMoviesPagedListAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.aero51.moviedatabase.utils.Resource;
+import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
@@ -52,8 +53,7 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
     private UpcomingMoviesPagedListAdapter upcomingAdapter;
     private SharedViewModel sharedViewModel;
 
-    private  RecyclerView movieGenreRecyclerView;
-
+    private RecyclerView movieGenreRecyclerView;
 
 
     /**
@@ -106,7 +106,7 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
         RecyclerView popularRecyclerView = view.findViewById(R.id.popular_movies_recycler_view_horizontal);
         RecyclerView nowPlayingRecyclerView = view.findViewById(R.id.now_playing_movies_recycler_view_horizontal);
         RecyclerView upcomingRecyclerView = view.findViewById(R.id.upcoming_movies_recycler_view_horizontal);
-         movieGenreRecyclerView = view.findViewById(R.id.movie_genres_recycler_view_horizontal);
+        movieGenreRecyclerView = view.findViewById(R.id.movie_genres_recycler_view_horizontal);
 
 
         topRatedRecyclerView.setHasFixedSize(true);
@@ -127,7 +127,7 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
         popularRecyclerView.setAdapter(popularAdapter);
         nowPlayingAdapter = new NowPlayingMoviesPagedListAdapter(this);
         nowPlayingRecyclerView.setAdapter(nowPlayingAdapter);
-        upcomingAdapter=new UpcomingMoviesPagedListAdapter(this);
+        upcomingAdapter = new UpcomingMoviesPagedListAdapter(this);
         upcomingRecyclerView.setAdapter(upcomingAdapter);
 
 
@@ -173,7 +173,6 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
     }
 
 
-
     private void registerTopRatedMoviesObservers() {
         moviesViewModel.getTopRatedResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<TopRatedMoviesPage.TopRatedMovie>>() {
             @Override
@@ -213,7 +212,6 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
         });
 
     }
-
 
 
     private void registerPopularMoviesObservers() {
@@ -308,39 +306,41 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
         });
 
     }
+
     private void registerMovieGenresObservers() {
         moviesViewModel.getMoviesGenres().observe(getViewLifecycleOwner(), new Observer<Resource<List<MovieGenresResponse.MovieGenre>>>() {
             @Override
             public void onChanged(Resource<List<MovieGenresResponse.MovieGenre>> listResource) {
-
+                if (listResource.status == Status.SUCCESS) {
                     Log.d(Constants.LOG, "MovieGenresObservers list size  " + listResource.data.size());
                     MovieGenresAdapter movieGenresAdapter = new MovieGenresAdapter(listResource.data);
                     movieGenreRecyclerView.setAdapter(movieGenresAdapter);
+                }
 
             }
         });
     }
 
 
-/*
-    @Override
-    public void OnItemClick(TopRatedMovie result, int position) {
-        //  this.OnObjectItemClick(result,position);
-        sharedViewModel.changeToTopRatedMovieFragment(position, result);
-        Log.d(Constants.LOG, "TopRatedMovie OnItemClick title: "+result.getTitle());
-        //Movie movie= transformTopRatedMovie(result);
-        Log.d(Constants.LOG, "Movie title "+movie.getTitle()+" , vote average"+ movie.getVote_average());
-    }
+    /*
+        @Override
+        public void OnItemClick(TopRatedMovie result, int position) {
+            //  this.OnObjectItemClick(result,position);
+            sharedViewModel.changeToTopRatedMovieFragment(position, result);
+            Log.d(Constants.LOG, "TopRatedMovie OnItemClick title: "+result.getTitle());
+            //Movie movie= transformTopRatedMovie(result);
+            Log.d(Constants.LOG, "Movie title "+movie.getTitle()+" , vote average"+ movie.getVote_average());
+        }
 
-    @Override
-    public void OnItemClick(PopularMovie result, int position) {
-        sharedViewModel.changeToPopularMovieFragment(position, result);
+        @Override
+        public void OnItemClick(PopularMovie result, int position) {
+            sharedViewModel.changeToPopularMovieFragment(position, result);
 
-    }
-*/
+        }
+    */
     @Override
-    public  void onObjectItemClick(Object movie, int position) {
-        sharedViewModel.changeToMoviedetailsFragment(movie,position);
+    public void onObjectItemClick(Object movie, int position) {
+        sharedViewModel.changeToMoviedetailsFragment(movie, position);
     }
 
 
