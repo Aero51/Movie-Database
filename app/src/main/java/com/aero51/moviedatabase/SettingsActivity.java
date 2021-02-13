@@ -1,14 +1,8 @@
 package com.aero51.moviedatabase;
 
-import android.app.ActionBar;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.ui.SettingsFragment;
-
-import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
     public static final String

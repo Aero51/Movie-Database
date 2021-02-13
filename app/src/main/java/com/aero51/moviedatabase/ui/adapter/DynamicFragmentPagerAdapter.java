@@ -20,6 +20,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.aero51.moviedatabase.MainActivity;
 import com.aero51.moviedatabase.ui.EpgFragment;
+import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.utils.Constants;
 
 import java.util.ArrayList;
@@ -43,13 +44,13 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                   public int describeContents() {
                       return 0;
                   }
-
                   @Override
                   protected Fragment createFragment() {
                       Log.d(Constants.LOG2, "Parcelable.Creator createFragment! ");
-                      EpgFragment epgFragment = EpgFragment.newInstance("", "");
-                      return epgFragment;
+                      TvShowsFragment tvShowsFragment=TvShowsFragment.newInstance("","");
+                      return tvShowsFragment;
                   }
+
               };
             }
 

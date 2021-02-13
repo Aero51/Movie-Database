@@ -15,8 +15,14 @@ import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHolder> {
@@ -24,6 +30,7 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
     private ProgramItemClickListener mClickListener;
     private SimpleDateFormat fromUser;
     private SimpleDateFormat myFormat;
+
 
     public EpgChildAdapter(ProgramItemClickListener listener) {
         this.mClickListener = listener;
@@ -51,27 +58,10 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
         try {
             String reformattedStartString = myFormat.format(fromUser.parse(program.getStart()));
             holder.tv_epg_tv_child_start.setText(reformattedStartString);
-
-
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tv_epg_tv_child_title.setText(program.getTitle());
-        /*
-        String category = "";
-        try {
-            JSONObject jsonObj = new JSONObject(program.getCategory());
-            JSONArray ja_data = jsonObj.getJSONArray("Category");
-            int length = jsonObj.length();
-            for (int i = 0; i < length; i++) {
-                category = category + " " + ja_data.getString(i);
-
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        holder.tv_epg_tv_child_category.setText(category);
-*/
+        holder.tv_epg_tv_child_title.setText(extractJsonTitles(program.getTitle()).get(0));
         holder.tv_epg_tv_child_category.setText(program.getCategory());
         holder.progressBar.setProgress(0);
         if (position == currentChannelChildItem.getNearestTimePosition()) {
@@ -87,6 +77,24 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
             return currentChannelChildItem.getProgramsList().size();
         }
 
+    }
+
+    private List<String> extractJsonTitles(String titles) {
+
+        List<String> titlesList = new ArrayList<>();
+        if (titles != null) {
+            try {
+                JSONObject jsonObjCredits = new JSONObject(titles);
+                JSONArray ja_titles = jsonObjCredits.getJSONArray("Titles");
+
+                for (int i = 0; i < ja_titles.length(); i++) {
+                    titlesList.add(ja_titles.getString(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return titlesList;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {

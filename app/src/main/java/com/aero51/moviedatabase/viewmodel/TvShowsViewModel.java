@@ -13,7 +13,6 @@ import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
-import com.aero51.moviedatabase.repository.networkboundresources.TvShowGenresNetworkBoundresource;
 import com.aero51.moviedatabase.utils.AppExecutors;
 import com.aero51.moviedatabase.utils.Resource;
 

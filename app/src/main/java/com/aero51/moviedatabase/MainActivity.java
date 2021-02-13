@@ -234,10 +234,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return 0;
             }
         };
-        tvShowsFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsFragment.class.getSimpleName(),null) {
+        tvShowsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                TvShowsFragment tvShowsFragment=TvShowsFragment.newInstance("","");
+                TvShowsFragment tvShowsFragment = TvShowsFragment.newInstance("", "");
                 return tvShowsFragment;
             }
 
@@ -299,10 +299,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchMovieDetailsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                movieDetailsFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsFragment.class.getSimpleName(),null) {
+                movieDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return MovieDetailsFragment.newInstance("","");
+                        return MovieDetailsFragment.newInstance("", "");
                     }
 
                     @Override
@@ -315,8 +315,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(1);
             }
         });
-
-
 
 
         sharedViewModel.getSingleLiveShouldSwitchActorFragment().observe(this, new Observer<Boolean>() {
@@ -360,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case 1:
                 if (currentFragmentTag.equals(MoviesFragment.class.getSimpleName())) {
                     super.onBackPressed();
-                } else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName()) ) {
+                } else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName())) {
                     replaceFragment(1, moviesFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
@@ -441,8 +439,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return true;
         }
         if (id == R.id.action_search) {
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
+            //Intent intent = new Intent(this, SearchActivity.class);
+             //startActivity(intent);
             return true;
         }
 
@@ -452,11 +450,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        String currentFragmentTag="";
+        String currentFragmentTag = "";
         switch (item.getItemId()) {
             case R.id.action_tv_guide:
                 customViewPager.setCurrentItem(0);
-                 currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(0);
+                currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(0);
                 addRemoveBackButton(0, currentFragmentTag);
                 break;
             case R.id.action_movies:

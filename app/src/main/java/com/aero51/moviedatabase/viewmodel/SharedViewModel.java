@@ -41,6 +41,11 @@ public class SharedViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
 
+    public SharedViewModel() {
+        //used when process is killed and tv shows fragment is selected, otherwise tv shows fragment would be empty on relaunch
+        hasEpgTvFragmentFinishedLoading.setValue(true);
+    }
+
 
     public void changeToEpgDetailsFragment(Integer index, EpgProgram epgProgram) {
         this.epgIndex = index;

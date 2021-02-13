@@ -16,13 +16,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
 import com.aero51.moviedatabase.ui.adapter.AiringTvShowsPagedListAdapter;
-import com.aero51.moviedatabase.ui.adapter.MovieGenresAdapter;
 import com.aero51.moviedatabase.ui.adapter.PopularTvShowsPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TrendingTvShowsPagedListAdapter;
 import com.aero51.moviedatabase.ui.adapter.TvShowGenresAdapter;
@@ -145,6 +143,7 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
         sharedViewModel.getHasEpgTvFragmentFinishedLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
+                //Log.d(Constants.LOG, "getHasEpgTvFragmentFinishedLoading: " + aBoolean);
                 if (aBoolean) {
                     registerPopularTvShowsObservers();
                     registerTrendingTvShowsObservers();
