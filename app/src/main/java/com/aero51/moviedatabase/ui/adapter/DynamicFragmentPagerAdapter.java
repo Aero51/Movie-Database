@@ -47,7 +47,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                   @Override
                   protected Fragment createFragment() {
                       Log.d(Constants.LOG2, "Parcelable.Creator createFragment! ");
-                      TvShowsFragment tvShowsFragment=TvShowsFragment.newInstance("","");
+                      TvShowsFragment tvShowsFragment=new TvShowsFragment();
                       return tvShowsFragment;
                   }
 

@@ -107,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
         setContentView(R.layout.activity_main);
 
+
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         SharedPreferences sharedPrefPrivate = this.getPreferences(Context.MODE_PRIVATE);
@@ -212,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         epgFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                EpgFragment epgFragment = EpgFragment.newInstance("", "");
+                EpgFragment epgFragment = new EpgFragment();
                 return epgFragment;
             }
 
@@ -225,8 +226,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         moviesFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                MoviesFragment moviesFragment = MoviesFragment.newInstance("", "");
-                return moviesFragment;
+                return new MoviesFragment();
             }
 
             @Override
@@ -237,8 +237,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         tvShowsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                TvShowsFragment tvShowsFragment = TvShowsFragment.newInstance("", "");
-                return tvShowsFragment;
+                return new TvShowsFragment();
             }
 
             @Override
@@ -262,7 +261,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 epgDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgDetailsFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return EpgDetailsFragment.newInstance("", "");
+                        return new EpgDetailsFragment();
                     }
 
                     @Override
@@ -280,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 epgAllProgramsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgAllProgramsFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return EpgAllProgramsFragment.newInstance("", "");
+                        return new EpgAllProgramsFragment();
                     }
 
                     @Override
@@ -302,7 +301,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 movieDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return MovieDetailsFragment.newInstance("", "");
+                        return new MovieDetailsFragment();
                     }
 
                     @Override
@@ -315,15 +314,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(1);
             }
         });
-
-
+        
         sharedViewModel.getSingleLiveShouldSwitchActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 actorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(ActorFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return ActorFragment.newInstance("");
+                        return new ActorFragment();
                     }
 
                     @Override

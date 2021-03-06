@@ -28,16 +28,9 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ActorFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ActorFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
+
     private String mParam1;
     private MovieDetailsViewModel viewModel;
 
@@ -53,29 +46,12 @@ public class ActorFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @return A new instance of fragment PeopleFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static ActorFragment newInstance(String param1) {
-        ActorFragment fragment = new ActorFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        fragment.setArguments(args);
-        return fragment;
-    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
 
-        }
         viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
     }
@@ -144,9 +120,11 @@ public class ActorFragment extends Fragment {
         viewModel.getActorImages(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImagesResponse.ActorImage>>>() {
             @Override
             public void onChanged(Resource<List<ActorImagesResponse.ActorImage>> listResource) {
-                Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: "+listResource.getData().size() + " ,message: " + listResource.getMessage());
-                ActorImagesAdapter adapter= new ActorImagesAdapter(getContext(),listResource.getData());
-                recycler_view_actor_images.setAdapter(adapter);
+                if(listResource.getData()!=null) {
+                    Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: " + listResource.getData().size() + " ,message: " + listResource.getMessage());
+                    ActorImagesAdapter adapter = new ActorImagesAdapter(getContext(), listResource.getData());
+                    recycler_view_actor_images.setAdapter(adapter);
+                }
             }
         });
 

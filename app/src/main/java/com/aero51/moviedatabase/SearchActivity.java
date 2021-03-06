@@ -81,7 +81,7 @@ public class SearchActivity extends AppCompatActivity {
         moviesSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieSearchFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                MovieSearchFragment movieSearchFragment = MovieSearchFragment.newInstance("", "");
+                MovieSearchFragment movieSearchFragment = new MovieSearchFragment();
                 return movieSearchFragment;
             }
 
@@ -94,7 +94,7 @@ public class SearchActivity extends AppCompatActivity {
         tvShowsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsSearchFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                TvShowsSearchFragment tvShowsSearchFragment = TvShowsSearchFragment.newInstance("", "");
+                TvShowsSearchFragment tvShowsSearchFragment = new TvShowsSearchFragment();
 
                 return tvShowsSearchFragment;
             }
@@ -109,7 +109,7 @@ public class SearchActivity extends AppCompatActivity {
         peopleSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(PeopleSearchFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                PeopleSearchFragment peopleSearchFragment = PeopleSearchFragment.newInstance("", "");
+                PeopleSearchFragment peopleSearchFragment = new PeopleSearchFragment();
 
                 return peopleSearchFragment;
             }
@@ -122,7 +122,7 @@ public class SearchActivity extends AppCompatActivity {
         listsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(ListsSearchFragment.class.getSimpleName(), null) {
             @Override
             protected Fragment createFragment() {
-                ListsSearchFragment listsSearchFragment = ListsSearchFragment.newInstance("", "");
+                ListsSearchFragment listsSearchFragment = new ListsSearchFragment();
 
                 return listsSearchFragment;
             }
