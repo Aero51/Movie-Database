@@ -7,15 +7,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.FragmentTvShowsBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
@@ -36,13 +34,13 @@ import java.util.List;
 
 public class TvShowsFragment extends Fragment implements MovieClickListener {
 
+    private FragmentTvShowsBinding binding;
     private TvShowsViewModel tvShowsViewModel;
     private PopularTvShowsPagedListAdapter popularAdapter;
     private AiringTvShowsPagedListAdapter airingAdapter;
     private TrendingTvShowsPagedListAdapter trendingAdapter;
     private SharedViewModel sharedViewModel;
 
-    private RecyclerView tvShowGenreRecyclerView;
 
     public TvShowsFragment() {
         // Required empty public constructor
@@ -59,49 +57,48 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tv_shows, container, false);
-        TextView textViewPopularTvShow = view.findViewById(R.id.text_view_popular_tv_show);
-        textViewPopularTvShow.setText("Popular tv shows:");
-        TextView textViewAiringTvShow = view.findViewById(R.id.text_view_airing_tv_show);
-        textViewAiringTvShow.setText("Airing tv shows:");
-        TextView textViewTrendingTvShow = view.findViewById(R.id.text_view_trending_tv_show);
-        textViewTrendingTvShow.setText("trending tv shows:");
-        TextView emptyViewText = view.findViewById(R.id.empty_view);
+        binding = FragmentTvShowsBinding.inflate(inflater, container, false);
+        binding.textViewPopularTvShow.setText("Popular tv shows:");
+        binding.textViewAiringTvShow.setText("Airing tv shows:");
+        binding.textViewTrendingTvShow.setText("trending tv shows:");
 
-        RecyclerView popularRecyclerView = view.findViewById(R.id.popular_tv_shows_recycler_view_horizontal);
-        popularRecyclerView.setHasFixedSize(true);
+        binding.popularTvShowsRecyclerViewHorizontal.setHasFixedSize(true);
         popularAdapter = new PopularTvShowsPagedListAdapter(this);
-        popularRecyclerView.setAdapter(popularAdapter);
+        binding.popularTvShowsRecyclerViewHorizontal.setAdapter(popularAdapter);
         LinearLayoutManager popularlinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        popularRecyclerView.setLayoutManager(popularlinearLayoutManager);
-        popularRecyclerView.setNestedScrollingEnabled(false);
+        binding.popularTvShowsRecyclerViewHorizontal.setLayoutManager(popularlinearLayoutManager);
+        binding.popularTvShowsRecyclerViewHorizontal.setNestedScrollingEnabled(false);
 
-        RecyclerView airingRecyclerView = view.findViewById(R.id.airing_tv_shows_recycler_view_horizontal);
-        airingRecyclerView.setHasFixedSize(true);
+
+        binding.airingTvShowsRecyclerViewHorizontal.setHasFixedSize(true);
         airingAdapter = new AiringTvShowsPagedListAdapter(this);
-        airingRecyclerView.setAdapter(airingAdapter);
+        binding.airingTvShowsRecyclerViewHorizontal.setAdapter(airingAdapter);
         LinearLayoutManager airinglinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        airingRecyclerView.setLayoutManager(airinglinearLayoutManager);
-        airingRecyclerView.setNestedScrollingEnabled(false);
+        binding.airingTvShowsRecyclerViewHorizontal.setLayoutManager(airinglinearLayoutManager);
+        binding.airingTvShowsRecyclerViewHorizontal.setNestedScrollingEnabled(false);
 
-        RecyclerView trendingRecyclerView = view.findViewById(R.id.trending_tv_shows_recycler_view_horizontal);
-        trendingRecyclerView.setHasFixedSize(true);
+
+        binding.trendingTvShowsRecyclerViewHorizontal.setHasFixedSize(true);
         trendingAdapter = new TrendingTvShowsPagedListAdapter(this);
-        trendingRecyclerView.setAdapter(trendingAdapter);
+        binding.trendingTvShowsRecyclerViewHorizontal.setAdapter(trendingAdapter);
         LinearLayoutManager trendinglinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        trendingRecyclerView.setLayoutManager(trendinglinearLayoutManager);
-        trendingRecyclerView.setNestedScrollingEnabled(false);
+        binding.trendingTvShowsRecyclerViewHorizontal.setLayoutManager(trendinglinearLayoutManager);
+        binding.trendingTvShowsRecyclerViewHorizontal.setNestedScrollingEnabled(false);
 
-        tvShowGenreRecyclerView = view.findViewById(R.id.tv_show_genres_recycler_view_horizontal);
-        tvShowGenreRecyclerView.setHasFixedSize(true);
-        tvShowGenreRecyclerView.setNestedScrollingEnabled(false);
+
+        binding.tvShowGenresRecyclerViewHorizontal.setHasFixedSize(true);
+        binding.tvShowGenresRecyclerViewHorizontal.setNestedScrollingEnabled(false);
         LinearLayoutManager genreslinearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        tvShowGenreRecyclerView.setLayoutManager(genreslinearLayoutManager);
+        binding.tvShowGenresRecyclerViewHorizontal.setLayoutManager(genreslinearLayoutManager);
 
         registerHasEpgTvFragmentFinishedLoadingObserver();
-        return view;
+        return binding.getRoot();
     }
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding=null;
+    }
 
     private void registerHasEpgTvFragmentFinishedLoadingObserver() {
         sharedViewModel.getHasEpgTvFragmentFinishedLoading().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -193,7 +190,7 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
                 if (listResource.getStatus() == Status.SUCCESS) {
                     Log.d(Constants.LOG, "TvShowGenresObserver list size  " + listResource.getData().size());
                     TvShowGenresAdapter tvShowGenresAdapter = new TvShowGenresAdapter(listResource.getData());
-                    tvShowGenreRecyclerView.setAdapter(tvShowGenresAdapter);
+                    binding.tvShowGenresRecyclerViewHorizontal.setAdapter(tvShowGenresAdapter);
                 }
 
             }

@@ -7,13 +7,12 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.FragmentTvShowsSearchBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter;
@@ -21,7 +20,7 @@ import com.aero51.moviedatabase.utils.NowPlayingItemClickListener;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
 
 public class TvShowsSearchFragment extends Fragment implements NowPlayingItemClickListener {
-
+    private FragmentTvShowsSearchBinding binding;
     private SearchViewModel searchViewModel;
     private TvShowsPagedListAdapter tvShowsSearchPagedListAdapter;
 
@@ -39,14 +38,19 @@ public class TvShowsSearchFragment extends Fragment implements NowPlayingItemCli
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_tv_shows_search, container, false);
-        RecyclerView tvShowSearchRecyclerView = view.findViewById(R.id.tv_shows_search_recycler_view);
-        tvShowSearchRecyclerView.setHasFixedSize(true);
-        tvShowsSearchPagedListAdapter= new TvShowsPagedListAdapter();
-        tvShowSearchRecyclerView.setAdapter(tvShowsSearchPagedListAdapter);
-        tvShowSearchRecyclerView.setLayoutManager(new GridLayoutManager(getContext(),3));
+        binding = FragmentTvShowsSearchBinding.inflate(inflater, container, false);
+
+        binding.tvShowsSearchRecyclerView.setHasFixedSize(true);
+        tvShowsSearchPagedListAdapter = new TvShowsPagedListAdapter();
+        binding.tvShowsSearchRecyclerView.setAdapter(tvShowsSearchPagedListAdapter);
+        binding.tvShowsSearchRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         registerTvShowsSearchObserver();
-        return view;
+        return binding.getRoot();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding=null;
     }
 
     private void registerTvShowsSearchObserver() {

@@ -8,12 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.FragmentListsSearchBinding;
 
 public class ListsSearchFragment extends Fragment {
-
-
-
+    private FragmentListsSearchBinding binding;
 
     public ListsSearchFragment() {
         // Required empty public constructor
@@ -29,6 +27,13 @@ public class ListsSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_lists_search, container, false);
+        binding = FragmentListsSearchBinding.inflate(inflater, container, false);
+        return binding.getRoot();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

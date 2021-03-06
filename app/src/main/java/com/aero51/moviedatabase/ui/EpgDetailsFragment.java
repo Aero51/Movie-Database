@@ -17,11 +17,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.aero51.moviedatabase.BuildConfig;
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.FragmentEpgDetailsBinding;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.ui.adapter.ActorSearchAdapter;
@@ -45,29 +44,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.ItemClickListener{
+public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.ItemClickListener {
 
-
+    private FragmentEpgDetailsBinding binding;
     private SharedViewModel sharedViewModel;
     private EpgDetailsViewModel epgDetailsViewModel;
-
-
-
-    private TextView text_view_title;
-    private TextView text_view_date;
-    private TextView text_view_description;
-    private ImageView image_view_program;
-    private ImageView image_view_channel;
-    private TextView text_view_cast;
-    private RecyclerView actorSearchRecyclerView;
     private ActorSearchAdapter actorSearchAdapter;
     private List<ActorSearchResponse.ActorSearch> actorSearchList;
-
     private MutableLiveData<Boolean> isLoading;
     private EndlessRecyclerViewScrollListener scrollListener;
-
     private List<String> actors;
-
 
     public EpgDetailsFragment() {
         // Required empty public constructor
@@ -86,7 +72,8 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_epg_details, container, false);
+        binding = FragmentEpgDetailsBinding.inflate(inflater, container, false);
+
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         //toolbar.setTitle("text");
@@ -104,22 +91,13 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
         showBottomNavigation(true);
 
 
-        text_view_title = view.findViewById(R.id.text_view_title);
-        text_view_date = view.findViewById(R.id.text_view_date);
-        text_view_description = view.findViewById(R.id.text_view_description);
-        //image_view_program = getActivity().findViewById(R.id.expandedImage);
-        image_view_program = view.findViewById(R.id.image_view_program);
-
-        image_view_channel = view.findViewById(R.id.image_view_channel);
-        text_view_cast = view.findViewById(R.id.text_view_cast);
-        actorSearchRecyclerView =view.findViewById(R.id.epg_cast_recycler_view);
         //actorSearchRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        actorSearchRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.actorSearchRecyclerView.setLayoutManager(linearLayoutManager);
 
         actorSearchList = new ArrayList<>();
-        actorSearchAdapter = new ActorSearchAdapter(actorSearchList,EpgDetailsFragment.this::onItemClick);
-        actorSearchRecyclerView.setAdapter(actorSearchAdapter);
+        actorSearchAdapter = new ActorSearchAdapter(actorSearchList, EpgDetailsFragment.this::onItemClick);
+        binding.actorSearchRecyclerView.setAdapter(actorSearchAdapter);
 
         scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
             @Override
@@ -128,50 +106,51 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 multipleActorsFetch();
             }
         };
-        actorSearchRecyclerView.addOnScrollListener(scrollListener);
+        binding.actorSearchRecyclerView.addOnScrollListener(scrollListener);
 
         sharedViewModel.getLiveDataProgram().observe(getViewLifecycleOwner(), new Observer<EpgProgram>() {
             @Override
             public void onChanged(EpgProgram epgProgram) {
                 // sharedViewModel.getLiveDataProgram().removeObserver(this);
-                text_view_title.setText(epgProgram.getTitle());
-                text_view_date.setText(epgProgram.getDate() + "");
-                text_view_description.setText(epgProgram.getDesc());
+                binding.textViewTitle.setText(epgProgram.getTitle());
+                binding.textViewDate.setText(epgProgram.getDate() + "");
+                binding.textViewDescription.setText(epgProgram.getDesc());
                 // Picasso.get().load(epgProgram.getIcon()).into(image_view);
                 Log.d(Constants.LOG, "icon: " + epgProgram.getIcon());
                 //  Picasso.get().load(epgProgram.getIcon()).into(image_view);
-                Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(image_view_program, new Callback() {
+                Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding.imageViewProgram, new Callback() {
                     @Override
                     public void onSuccess() {
                     }
 
                     @Override
                     public void onError(Exception e) {
-                        image_view_program.setBackgroundResource(R.drawable.picture_template);
+                        binding.imageViewProgram.setBackgroundResource(R.drawable.picture_template);
                     }
                 });
 
                 Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + epgProgram.getChannel());
-                Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(image_view_channel);
-                text_view_cast.setText(epgProgram.getCredits());
-
+                Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(binding.imageViewChannel);
+                binding.textViewCast.setText(epgProgram.getCredits());
 
                 extractJsonCredits(epgProgram.getCredits());
-
-
             }
         });
+        return binding.getRoot();
+    }
 
-
-        return view;
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding=null;
     }
 
 
-    private void extractJsonCredits(String credits){
+    private void extractJsonCredits(String credits) {
 
-        List<String> writers=new ArrayList<>();
-        List<String> directors=new ArrayList<>();
-        actors=new ArrayList<>();
+        List<String> writers = new ArrayList<>();
+        List<String> directors = new ArrayList<>();
+        actors = new ArrayList<>();
         if (credits != null) {
             try {
                 JSONObject jsonObjCredits = new JSONObject(credits);
@@ -181,12 +160,12 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                     writers.add(ja_writers.getString(i));
                 }
 
-                JSONArray ja_directors= jsonObjCredits.getJSONArray("Directors");
+                JSONArray ja_directors = jsonObjCredits.getJSONArray("Directors");
                 for (int i = 0; i < ja_directors.length(); i++) {
-                    directors.add(ja_directors.getString(i)) ;
+                    directors.add(ja_directors.getString(i));
                 }
 
-                JSONArray ja_actors= jsonObjCredits.getJSONArray("Actors");
+                JSONArray ja_actors = jsonObjCredits.getJSONArray("Actors");
                 for (int i = 0; i < ja_actors.length(); i++) {
                     actors.add(ja_actors.getString(i));
                 }
@@ -203,11 +182,11 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
     }
 
-    private void multipleActorsFetch(){
-        isLoading=new MutableLiveData<>();
+    private void multipleActorsFetch() {
+        isLoading = new MutableLiveData<>();
         isLoading.setValue(false);
 
-        actorSearchRecyclerView.removeOnScrollListener(scrollListener);
+        binding.actorSearchRecyclerView.removeOnScrollListener(scrollListener);
 
         int temp = actorSearchAdapter.getItemCount();
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -216,9 +195,9 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 if (!loading) {
                     int adapterItemCount = actorSearchAdapter.getItemCount();
                     if (adapterItemCount < temp + 5 && actors.size() > adapterItemCount) {
-                              registerGetActor(actors.get(adapterItemCount));
+                        registerGetActor(actors.get(adapterItemCount));
                     } else {
-                        actorSearchRecyclerView.addOnScrollListener(scrollListener);
+                        binding.actorSearchRecyclerView.addOnScrollListener(scrollListener);
                         isLoading.removeObserver(this);
                     }
                 }
@@ -227,16 +206,16 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
     }
 
-    private void registerGetActor(String actor_name){
+    private void registerGetActor(String actor_name) {
         isLoading.setValue(true);
         epgDetailsViewModel.getActorSearch(actor_name).observe(getViewLifecycleOwner(), new Observer<Resource<ActorSearchResponse.ActorSearch>>() {
             @Override
             public void onChanged(Resource<ActorSearchResponse.ActorSearch> actorSearchResource) {
-                if(actorSearchResource.getStatus() == Status.SUCCESS&&actorSearchResource.getData()!=null){
+                if (actorSearchResource.getStatus() == Status.SUCCESS && actorSearchResource.getData() != null) {
                     epgDetailsViewModel.getLiveActorSearchResult().removeObserver(this);
-                    Log.d(Constants.LOG, "actorSearchResource: "+actorSearchResource.getData().getName()+" , "+actorSearchResource.getData().getId());
+                    Log.d(Constants.LOG, "actorSearchResource: " + actorSearchResource.getData().getName() + " , " + actorSearchResource.getData().getId());
                     actorSearchList.add(actorSearchResource.getData());
-                    actorSearchAdapter.notifyItemInserted(actorSearchList.size()-1);
+                    actorSearchAdapter.notifyItemInserted(actorSearchList.size() - 1);
                     isLoading.setValue(false);
                 }
             }

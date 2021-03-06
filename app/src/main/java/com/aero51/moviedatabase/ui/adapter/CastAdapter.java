@@ -4,17 +4,12 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.CastItemBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
@@ -34,8 +29,7 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     // inflates the row layout from xml when needed
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.cast_item, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(CastItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     // binds the data to the TextView in each row
@@ -43,9 +37,9 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         MovieCredits.Cast cast  = castList.get(position);
         String imageUrl = BASE_IMAGE_URL + PROFILE_SIZE_W185 + cast.getProfile_path();
-        Picasso.get().load(imageUrl).into(holder.castProfileImageView);
-        holder.textViewCastName.setText(cast.getCharacter());
-        holder.textViewRealName.setText(cast.getName());
+        Picasso.get().load(imageUrl).into(holder.binding.castProfileImageView);
+        holder.binding.textViewCastName.setText(cast.getCharacter());
+        holder.binding.textViewRealName.setText(cast.getName());
     }
 
     // total number of rows
@@ -57,16 +51,12 @@ public class CastAdapter extends RecyclerView.Adapter<CastAdapter.ViewHolder> {
 
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        CircleImageView castProfileImageView;
-        TextView textViewCastName;
-        TextView textViewRealName;
+        CastItemBinding binding;
 
-        ViewHolder(View itemView) {
-            super(itemView);
-            castProfileImageView=itemView.findViewById(R.id.cast_profile_image_view);
-            textViewCastName= itemView.findViewById(R.id.text_view_cast_name);
-            textViewRealName=itemView.findViewById(R.id.text_view_real_name);
-            itemView.setOnClickListener(this);
+        ViewHolder(CastItemBinding b) {
+            super(b.getRoot());
+            binding=b;
+            binding.getRoot().setOnClickListener(this);
         }
 
         @Override

@@ -7,19 +7,18 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.paging.PagedList;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.FragmentPeopleSearchBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.ui.adapter.PeopleSearchPagedListAdapter;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
 
 public class PeopleSearchFragment extends Fragment {
-
+    private FragmentPeopleSearchBinding binding;
     private SearchViewModel searchViewModel;
     private PeopleSearchPagedListAdapter peopleAdapter;
 
@@ -37,17 +36,22 @@ public class PeopleSearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_people_search, container, false);
-        RecyclerView peopleRecyclerView = view.findViewById(R.id.people_recycler_view);
-        peopleRecyclerView.setHasFixedSize(true);
+        binding = FragmentPeopleSearchBinding.inflate(inflater, container, false);
+
+        binding.peopleRecyclerView.setHasFixedSize(true);
         peopleAdapter = new PeopleSearchPagedListAdapter();
-        peopleRecyclerView.setAdapter(peopleAdapter);
-        peopleRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        binding.peopleRecyclerView.setAdapter(peopleAdapter);
+        binding.peopleRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         registerPeopleSearchObserver();
-        return view;
+        return binding.getRoot();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 
     private void registerPeopleSearchObserver() {
         searchViewModel.getPeopleSearchResult().observe(getViewLifecycleOwner(), new Observer<PagedList<ActorSearchResponse.ActorSearch>>() {

@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.BuildConfig;
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.ActorImageItemBinding;
+import com.aero51.moviedatabase.databinding.EpgParentItemBinding;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.utils.ChannelItemClickListener;
@@ -46,21 +48,21 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
     @NonNull
     @Override
     public EpgTvViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.epg_parent_item, parent, false);
-        return new EpgTvViewHolder(view);
+
+        return new EpgTvViewHolder(EpgParentItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull EpgTvViewHolder holder, int position) {
         ChannelWithPrograms currentChannelChildItem = programsForChannellList.get(position);
         Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + channelList.get(position).getName());
-        Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(holder.image_view_channel);
+        Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(holder.binding.imageViewChannel);
 
-        holder.text_view_channel_name.setText(channelList.get(position).getDisplay_name());
-        holder.child_recycler.setRecycledViewPool(viewPool);
+        holder.binding.textViewChannelName.setText(channelList.get(position).getDisplay_name());
+        holder.binding.rvChild.setRecycledViewPool(viewPool);
 
         holder.epgChildAdapter.setList(currentChannelChildItem);
-        holder.child_recycler.scrollToPosition(currentChannelChildItem.getNearestTimePosition());
+        holder.binding.rvChild.scrollToPosition(currentChannelChildItem.getNearestTimePosition());
     }
 
     @Override
@@ -70,40 +72,32 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
 
 
     public class EpgTvViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private RelativeLayout channel_relative_layout;
-        public ImageView image_view_channel;
-        public TextView text_view_channel_name;
-
+        EpgParentItemBinding binding;
         public ConcatAdapter mainAdapter;
-        public RecyclerView child_recycler;
-
         public EpgHeaderChildAdapter epgHeaderChildAdapter;
         public EpgChildAdapter epgChildAdapter;
 
-        EpgTvViewHolder(View itemView) {
-            super(itemView);
+        EpgTvViewHolder(EpgParentItemBinding b) {
+            super(b.getRoot());
+            binding=b;
 
-            channel_relative_layout = itemView.findViewById(R.id.channel_relative_layout);
-            image_view_channel = itemView.findViewById(R.id.image_view_channel);
-            text_view_channel_name = itemView.findViewById(R.id.text_view_channel_name);
-            channel_relative_layout.setOnClickListener(this);
+            binding.channelRelativeLayout.setOnClickListener(this);
 
-            child_recycler = itemView.findViewById(R.id.rv_child);
-            child_recycler.setHasFixedSize(true);
-            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(child_recycler.getContext(), LinearLayoutManager.HORIZONTAL, false);
-            child_recycler.setLayoutManager(linearLayoutManager);
-            child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), linearLayoutManager.getOrientation()));
-           // child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), DividerItemDecoration.HORIZONTAL));
 
-            child_recycler.setNestedScrollingEnabled(false);
+            binding.rvChild.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(binding.rvChild.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            binding.rvChild.setLayoutManager(linearLayoutManager);
+            binding.rvChild.addItemDecoration(new DividerItemDecoration(binding.rvChild.getContext(), linearLayoutManager.getOrientation()));
+            // child_recycler.addItemDecoration(new DividerItemDecoration(child_recycler.getContext(), DividerItemDecoration.HORIZONTAL));
+
+            binding.rvChild.setNestedScrollingEnabled(false);
             epgHeaderChildAdapter = new EpgHeaderChildAdapter();
             epgChildAdapter = new EpgChildAdapter(programItemClickListener);
 
             mainAdapter = new ConcatAdapter();
             //mainAdapter.addAdapter(epgTvHeaderChildAdapter);
             mainAdapter.addAdapter(epgChildAdapter);
-            child_recycler.setAdapter(mainAdapter);
+            binding.rvChild.setAdapter(mainAdapter);
             //child_recycler.setAdapter(epgTvChildAdapter);
         }
 

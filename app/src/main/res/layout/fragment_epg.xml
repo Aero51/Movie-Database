@@ -25,7 +25,7 @@
                  />
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler_view_cro_parent"
+                android:id="@+id/recycler_view_epg_parent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:isScrollContainer="true" />

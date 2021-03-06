@@ -8,16 +8,16 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+
 
 import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie;
 import com.aero51.moviedatabase.ui.adapter.CastAdapter;
@@ -33,27 +33,14 @@ import static com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 
 public class MovieDetailsFragment extends Fragment implements CastAdapter.ItemClickListener {
-
-
+    private FragmentMovieDetailsBinding binding;
     private MovieDetailsViewModel movieDetailsViewModel;
-    private ImageView cover_image_view;
-    private TextView title_text_view;
-    private TextView release_date_text_view;
-    private TextView overview_text_view;
-
-    private RecyclerView castRecyclerView;
     private CastAdapter castAdapter;
-
     private SharedViewModel sharedViewModel;
-
-
-
-
 
     public MovieDetailsFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,18 +52,14 @@ public class MovieDetailsFragment extends Fragment implements CastAdapter.ItemCl
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_movie_details, container, false);
+        binding = FragmentMovieDetailsBinding.inflate(inflater, container, false);
         // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
         //cover_image_view = getActivity().findViewById(R.id.expandedImage);
-        cover_image_view = view.findViewById(R.id.cover);
-        title_text_view = view.findViewById(R.id.title);
-        release_date_text_view = view.findViewById(R.id.releaseDate);
-        overview_text_view = view.findViewById(R.id.overview);
 
-        castRecyclerView = view.findViewById(R.id.cast_recycler_view);
-        castRecyclerView.setHasFixedSize(true);
+
+        binding.castRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        castRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.castRecyclerView.setLayoutManager(linearLayoutManager);
         //castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         registerSharedViewModelObserver();
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -91,7 +74,12 @@ public class MovieDetailsFragment extends Fragment implements CastAdapter.ItemCl
         });
         showBackButton(true);
 
-        return view;
+        return binding.getRoot();
+    }
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding=null;
     }
 
     public void showBackButton(boolean show) {
@@ -104,27 +92,28 @@ public class MovieDetailsFragment extends Fragment implements CastAdapter.ItemCl
         sharedViewModel.getLiveDataMovie().observe(getViewLifecycleOwner(), new Observer<Movie>() {
             @Override
             public void onChanged(Movie movie) {
-                title_text_view.setText(movie.getTitle());
-                release_date_text_view.setText(String.valueOf(movie.getId()));
-                overview_text_view.setText(movie.getOverview());
+                binding.title.setText(movie.getTitle());
+                binding.releaseDate.setText(String.valueOf(movie.getId()));
+                binding.overview.setText(movie.getOverview());
 
                 String imageUrl = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.getBackdrop_path();
-                Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(cover_image_view);
-                cover_image_view.setVisibility(View.VISIBLE);
+                Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding.coverImageView);
+                binding.coverImageView.setVisibility(View.VISIBLE);
                 registerMovieDetailsObserver(movie.getId());
             }
         });
     }
+
     private void registerMovieDetailsObserver(Integer movieId) {
         movieDetailsViewModel.getMovieCast(movieId).observe(getViewLifecycleOwner(), new Observer<Resource<List<MovieCredits.Cast>>>() {
             @Override
             public void onChanged(Resource<List<MovieCredits.Cast>> listResource) {
                 // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
-                if(listResource.getData()!=null) {
+                if (listResource.getData() != null) {
                     Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: " + listResource.getData().size());
                     castAdapter = new CastAdapter(getContext(), listResource.getData());
                     castAdapter.setClickListener(MovieDetailsFragment.this::onItemClick);
-                    castRecyclerView.setAdapter(castAdapter);
+                    binding.castRecyclerView.setAdapter(castAdapter);
                 }
             }
         });

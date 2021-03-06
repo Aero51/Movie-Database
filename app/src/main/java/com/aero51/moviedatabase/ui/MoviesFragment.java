@@ -39,8 +39,6 @@ import java.util.List;
 
 public class MoviesFragment extends Fragment implements MovieClickListener {
 
-
-
     private MoviesViewModel moviesViewModel;
     private TopRatedMoviesPagedListAdapter topRatedAdapter;
     private NowPlayingMoviesPagedListAdapter nowPlayingAdapter;
@@ -159,7 +157,6 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
                     emptyViewText.setVisibility(View.GONE);
                 }
 */
-
             }
         });
         moviesViewModel.getTopRatedLiveMoviePage().observe(getViewLifecycleOwner(), new Observer<TopRatedMoviesPage>() {
@@ -186,7 +183,6 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
 
 
     private void registerPopularMoviesObservers() {
-
         moviesViewModel.getPopularResultsPagedList().observe(getViewLifecycleOwner(), new Observer<PagedList<PopularMoviesPage.PopularMovie>>() {
             @Override
             public void onChanged(PagedList<PopularMoviesPage.PopularMovie> popularMovies) {

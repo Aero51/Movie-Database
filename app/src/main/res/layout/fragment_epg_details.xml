@@ -72,7 +72,7 @@
             android:layout_marginBottom="5dp"
             android:background="@color/grey" />
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/epg_cast_recycler_view"
+            android:id="@+id/actor_search_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider"/>
@@ -82,7 +82,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="5dp"
-            android:layout_below="@+id/epg_cast_recycler_view"
+            android:layout_below="@+id/actor_search_recycler_view"
             android:background="@color/grey" />
     </RelativeLayout>
     </androidx.core.widget.NestedScrollView>

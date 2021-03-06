@@ -314,7 +314,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(1);
             }
         });
-        
+
         sharedViewModel.getSingleLiveShouldSwitchActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {

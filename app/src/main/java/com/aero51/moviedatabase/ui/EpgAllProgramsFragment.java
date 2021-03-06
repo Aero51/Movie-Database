@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.aero51.moviedatabase.R;
+
+import com.aero51.moviedatabase.databinding.FragmentEpgAllProgramsBinding;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.ui.adapter.EpgAllProgramsAdapter;
 import com.aero51.moviedatabase.utils.Constants;
@@ -24,17 +26,13 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 
 public class EpgAllProgramsFragment extends Fragment {
-
-
-
+    private FragmentEpgAllProgramsBinding binding;
     private SharedViewModel sharedViewModel;
     private RecyclerView recycler_view_all_programs;
 
     public EpgAllProgramsFragment() {
         // Required empty public constructor
     }
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,20 +44,19 @@ public class EpgAllProgramsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_epg_all_programs, container, false);
-        recycler_view_all_programs = view.findViewById(R.id.all_programs_recycler_view);
-        recycler_view_all_programs.setHasFixedSize(true);
+        binding = FragmentEpgAllProgramsBinding.inflate(inflater, container, false);
+        binding.allProgramsRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recycler_view_all_programs.setLayoutManager(linearLayoutManager);
-        recycler_view_all_programs.addItemDecoration(new DividerItemDecoration(recycler_view_all_programs.getContext(), linearLayoutManager.getOrientation()));
+        binding.allProgramsRecyclerView.setLayoutManager(linearLayoutManager);
+        binding.allProgramsRecyclerView.addItemDecoration(new DividerItemDecoration(recycler_view_all_programs.getContext(), linearLayoutManager.getOrientation()));
 
         sharedViewModel.getLiveDataChannelWithPrograms().observe(getViewLifecycleOwner(), new Observer<ChannelWithPrograms>() {
             @Override
             public void onChanged(ChannelWithPrograms channelWithPrograms) {
 
-                EpgAllProgramsAdapter adapter =new EpgAllProgramsAdapter(channelWithPrograms);
-                recycler_view_all_programs.setAdapter(adapter);
-                recycler_view_all_programs.scrollToPosition(channelWithPrograms.getNearestTimePosition());
+                EpgAllProgramsAdapter adapter = new EpgAllProgramsAdapter(channelWithPrograms);
+                binding.allProgramsRecyclerView.setAdapter(adapter);
+                binding.allProgramsRecyclerView.scrollToPosition(channelWithPrograms.getNearestTimePosition());
             }
         });
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
@@ -73,8 +70,15 @@ public class EpgAllProgramsFragment extends Fragment {
             }
         });
         showBackButton(true);
-        return view;
+        return binding.getRoot();
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+
     public void showBackButton(boolean show) {
         if (getActivity() instanceof AppCompatActivity) {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(show);

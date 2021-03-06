@@ -4,13 +4,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
+
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.aero51.moviedatabase.R;
+import com.aero51.moviedatabase.databinding.EpgAllProgramsItemBinding;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.Constants;
@@ -33,27 +32,25 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
     @NonNull
     @Override
     public EpgAllProgramsAdapter.EpgAllProgramsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.epg_all_programs_item, parent, false);
-
-        return new EpgAllProgramsAdapter.EpgAllProgramsViewHolder(view);
+        return new EpgAllProgramsAdapter.EpgAllProgramsViewHolder(EpgAllProgramsItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull EpgAllProgramsAdapter.EpgAllProgramsViewHolder holder, int position) {
-      holder.tv_epg_all_programs_position.setText(String.valueOf(position));
+      holder.binding.tvEpgAllProgramsPosition.setText(String.valueOf(position));
       EpgProgram epgProgram= channelWithPrograms.getProgramsList().get(position);
         try {
             String reformattedStartString = myFormat.format(fromUser.parse(epgProgram.getStart()));
-            holder.tv_epg_all_programs_start.setText(reformattedStartString);
+            holder.binding.tvEpgAllProgramsStart.setText(reformattedStartString);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.tv_epg_all_programs_title.setText(epgProgram.getTitle());
-        holder.tv_epg_all_programs_category.setText(epgProgram.getCategory());
+        holder.binding.tvEpgAllProgramsTitle.setText(epgProgram.getTitle());
+        holder.binding.tvEpgAllProgramsCategory.setText(epgProgram.getCategory());
 
-        holder.progressBar.setProgress(0);
+        holder.binding.allProgramsProgressBar.setProgress(0);
         if (position == channelWithPrograms.getNearestTimePosition()) {
-            holder.progressBar.setProgress(channelWithPrograms.getNowPlayingPercentage());
+            holder.binding.allProgramsProgressBar.setProgress(channelWithPrograms.getNowPlayingPercentage());
         }
 
 
@@ -66,22 +63,12 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
 
 
     public class EpgAllProgramsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        EpgAllProgramsItemBinding binding;
 
-        private ProgressBar progressBar;
-        public TextView tv_epg_all_programs_position;
-        public TextView tv_epg_all_programs_start;
-        public TextView tv_epg_all_programs_title;
-        public TextView tv_epg_all_programs_category;
-
-
-        EpgAllProgramsViewHolder(View itemView) {
-            super(itemView);
-            progressBar=itemView.findViewById(R.id.all_programs_progress_bar);
-            tv_epg_all_programs_position = itemView.findViewById(R.id.tv_epg_all_programs_position);
-            tv_epg_all_programs_start = itemView.findViewById(R.id.tv_epg_all_programs_start);
-            tv_epg_all_programs_title = itemView.findViewById(R.id.tv_epg_all_programs_title);
-            tv_epg_all_programs_category = itemView.findViewById(R.id.tv_epg_all_programs_category);
-            itemView.setOnClickListener(this);
+        EpgAllProgramsViewHolder(EpgAllProgramsItemBinding b) {
+            super(b.getRoot());
+            binding=b;
+            binding.getRoot().setOnClickListener(this);
         }
 
 
