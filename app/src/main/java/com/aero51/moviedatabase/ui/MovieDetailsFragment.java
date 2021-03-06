@@ -152,10 +152,12 @@ public class MovieDetailsFragment extends Fragment implements CastAdapter.ItemCl
             @Override
             public void onChanged(Resource<List<MovieCredits.Cast>> listResource) {
                 // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
-                Log.d(Constants.LOG, "getMovieCast code: " + listResource.code + " , status: " + listResource.status + " list size: " + listResource.data.size());
-                castAdapter = new CastAdapter(getContext(), listResource.data);
-                castAdapter.setClickListener(MovieDetailsFragment.this::onItemClick);
-                castRecyclerView.setAdapter(castAdapter);
+                if(listResource.getData()!=null) {
+                    Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: " + listResource.getData().size());
+                    castAdapter = new CastAdapter(getContext(), listResource.getData());
+                    castAdapter.setClickListener(MovieDetailsFragment.this::onItemClick);
+                    castRecyclerView.setAdapter(castAdapter);
+                }
             }
         });
     }

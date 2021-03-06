@@ -311,9 +311,9 @@ public class MoviesFragment extends Fragment implements MovieClickListener {
         moviesViewModel.getMoviesGenres().observe(getViewLifecycleOwner(), new Observer<Resource<List<MovieGenresResponse.MovieGenre>>>() {
             @Override
             public void onChanged(Resource<List<MovieGenresResponse.MovieGenre>> listResource) {
-                if (listResource.status == Status.SUCCESS) {
-                    Log.d(Constants.LOG, "MovieGenresObservers list size  " + listResource.data.size());
-                    MovieGenresAdapter movieGenresAdapter = new MovieGenresAdapter(listResource.data);
+                if (listResource.getStatus() == Status.SUCCESS) {
+                    Log.d(Constants.LOG, "MovieGenresObservers list size  " + listResource.getData().size());
+                    MovieGenresAdapter movieGenresAdapter = new MovieGenresAdapter(listResource.getData());
                     movieGenreRecyclerView.setAdapter(movieGenresAdapter);
                 }
 

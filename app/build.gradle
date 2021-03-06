@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 // Apply the Crashlytics Gradle plugin
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -9,6 +11,11 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += "-Xopt-in=androidx.paging.ExperimentalPagingApi"
+        freeCompilerArgs += "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
     }
 
 
@@ -49,8 +56,8 @@ dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     //implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation "androidx.recyclerview:recyclerview:1.2.0-beta01"
-    implementation 'androidx.navigation:navigation-fragment:2.3.2'
-    implementation 'androidx.navigation:navigation-ui:2.3.2'
+    implementation 'androidx.navigation:navigation-fragment:2.3.3'
+    implementation 'androidx.navigation:navigation-ui:2.3.3'
 
     testImplementation 'junit:junit:4.13.1'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
@@ -58,15 +65,17 @@ dependencies {
 
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation("com.squareup.okhttp3:logging-interceptor:4.7.2")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.0")
 
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     // ViewModel
-    def lifecycle_version = "2.2.0"
+    def lifecycle_version = "2.3.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
     // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
+    kapt "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
 
     // Annotation processor
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
@@ -75,6 +84,7 @@ dependencies {
 
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
+    kapt  "androidx.room:room-compiler:$room_version"
 
     def paging_version = "2.1.2"
     implementation "androidx.paging:paging-runtime:$paging_version"

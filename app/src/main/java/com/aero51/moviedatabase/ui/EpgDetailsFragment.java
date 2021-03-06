@@ -265,10 +265,10 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
         epgDetailsViewModel.getActorSearch(actor_name).observe(getViewLifecycleOwner(), new Observer<Resource<ActorSearchResponse.ActorSearch>>() {
             @Override
             public void onChanged(Resource<ActorSearchResponse.ActorSearch> actorSearchResource) {
-                if(actorSearchResource.status == Status.SUCCESS&&actorSearchResource.data!=null){
+                if(actorSearchResource.getStatus() == Status.SUCCESS&&actorSearchResource.getData()!=null){
                     epgDetailsViewModel.getLiveActorSearchResult().removeObserver(this);
-                    Log.d(Constants.LOG, "actorSearchResource: "+actorSearchResource.data.getName()+" , "+actorSearchResource.data.getId());
-                    actorSearchList.add(actorSearchResource.data);
+                    Log.d(Constants.LOG, "actorSearchResource: "+actorSearchResource.getData().getName()+" , "+actorSearchResource.getData().getId());
+                    actorSearchList.add(actorSearchResource.getData());
                     actorSearchAdapter.notifyItemInserted(actorSearchList.size()-1);
                     isLoading.setValue(false);
                 }

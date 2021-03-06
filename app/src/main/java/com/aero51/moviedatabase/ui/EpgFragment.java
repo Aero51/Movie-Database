@@ -202,23 +202,23 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,status: " + listResource.status + " , " + listResource.code + " ,message: " + listResource.message);
-                if (listResource.status == Status.LOADING) {
+                Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,status: " + listResource.getStatus()  + " ,message: " + listResource.getMessage());
+                if (listResource.getStatus() == Status.LOADING) {
                     if (!isNetworkAvailable()) {
                         showSnackbar(getResources().getString(R.string.no_internet_message),Snackbar.LENGTH_INDEFINITE);
                     }
-                } else if (listResource.data.size() > 0 && listResource.status == Status.SUCCESS) {
+                } else if (listResource.getData().size() > 0 && listResource.getStatus() == Status.SUCCESS) {
                     progressBar.setVisibility(View.GONE);
                     epgViewModel.getResourceLiveData().removeObserver(this);
-                    ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.data);
+                    ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.getData());
                     programsForChannellList.add(item);
                     epgAdapter.notifyItemInserted(programsForChannellList.size() - 1);
                     isLoading.setValue(false);
 
-                } else if (listResource.status == Status.ERROR) {
+                } else if (listResource.getStatus() == Status.ERROR) {
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     //happens when epg server is restarting
-                    if (listResource.message.equals("timeout")) {
+                    if (listResource.getMessage().equals("timeout")) {
                         showSnackbar(getResources().getString(R.string.server_timeout_message),Snackbar.LENGTH_LONG);
                     }
                 }

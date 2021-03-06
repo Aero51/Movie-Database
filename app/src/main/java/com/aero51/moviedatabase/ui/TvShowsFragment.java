@@ -226,9 +226,9 @@ public class TvShowsFragment extends Fragment implements MovieClickListener {
         tvShowsViewModel.getTvShowsGenres().observe(getViewLifecycleOwner(), new Observer<Resource<List<TvShowGenresResponse.TvShowGenre>>>() {
             @Override
             public void onChanged(Resource<List<TvShowGenresResponse.TvShowGenre>> listResource) {
-                if (listResource.status == Status.SUCCESS) {
-                    Log.d(Constants.LOG, "TvShowGenresObserver list size  " + listResource.data.size());
-                    TvShowGenresAdapter tvShowGenresAdapter = new TvShowGenresAdapter(listResource.data);
+                if (listResource.getStatus() == Status.SUCCESS) {
+                    Log.d(Constants.LOG, "TvShowGenresObserver list size  " + listResource.getData().size());
+                    TvShowGenresAdapter tvShowGenresAdapter = new TvShowGenresAdapter(listResource.getData());
                     tvShowGenreRecyclerView.setAdapter(tvShowGenresAdapter);
                 }
 

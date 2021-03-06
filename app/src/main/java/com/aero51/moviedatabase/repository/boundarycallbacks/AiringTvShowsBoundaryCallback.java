@@ -12,7 +12,6 @@ import com.aero51.moviedatabase.repository.db.AiringTvShowsDao;
 import com.aero51.moviedatabase.repository.db.Database;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance;
 import com.aero51.moviedatabase.repository.retrofit.TheMovieDbApi;
 import com.aero51.moviedatabase.utils.AppExecutors;

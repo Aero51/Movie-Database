@@ -127,9 +127,9 @@ public class ActorFragment extends Fragment {
         viewModel.getActorDetails(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {
-                Log.d(Constants.LOG, "getActorDetails code: " + actorResource.code + " , status: " + actorResource.status + " list size: " + " ,message: " + actorResource.message);
-                if (actorResource.status == Status.SUCCESS) {
-                    Actor actor=actorResource.data;
+                Log.d(Constants.LOG, " status: " + actorResource.getStatus() + " list size: " + " ,message: " + actorResource.getMessage());
+                if (actorResource.getStatus() == Status.SUCCESS) {
+                    Actor actor=actorResource.getData();
                     text_view_actor_name.setText(actor.getName());
                     text_view_actor_birthday.setText(actor.getBirthday());
                     text_view_actor_place_of_birth.setText(actor.getPlace_of_birth());
@@ -144,8 +144,8 @@ public class ActorFragment extends Fragment {
         viewModel.getActorImages(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<List<ActorImagesResponse.ActorImage>>>() {
             @Override
             public void onChanged(Resource<List<ActorImagesResponse.ActorImage>> listResource) {
-                Log.d(Constants.LOG, "getActorImages code: " + listResource.code + " , status: " + listResource.status + " list size: "+listResource.data.size() + " ,message: " + listResource.message);
-                ActorImagesAdapter adapter= new ActorImagesAdapter(getContext(),listResource.data);
+                Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: "+listResource.getData().size() + " ,message: " + listResource.getMessage());
+                ActorImagesAdapter adapter= new ActorImagesAdapter(getContext(),listResource.getData());
                 recycler_view_actor_images.setAdapter(adapter);
             }
         });
