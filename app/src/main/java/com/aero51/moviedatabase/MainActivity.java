@@ -437,8 +437,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             return true;
         }
         if (id == R.id.action_search) {
-            //Intent intent = new Intent(this, SearchActivity.class);
-             //startActivity(intent);
+            Intent intent = new Intent(this, SearchActivity.class);
+             startActivity(intent);
             return true;
         }
 

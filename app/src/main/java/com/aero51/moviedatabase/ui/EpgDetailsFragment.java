@@ -99,7 +99,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
         actorSearchAdapter = new ActorSearchAdapter(actorSearchList, EpgDetailsFragment.this::onItemClick);
         binding.actorSearchRecyclerView.setAdapter(actorSearchAdapter);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(5,linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
@@ -125,7 +125,9 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
                     @Override
                     public void onError(Exception e) {
-                        binding.imageViewProgram.setBackgroundResource(R.drawable.picture_template);
+                        if(binding!=null) {
+                            binding.imageViewProgram.setBackgroundResource(R.drawable.picture_template);
+                        }
                     }
                 });
 

@@ -120,7 +120,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgAdapter = new EpgAdapter(getContext(), channelList, programsForChannellList, this, this);
         binding.recyclerViewEpgParent.setAdapter(epgAdapter);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(5,linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);

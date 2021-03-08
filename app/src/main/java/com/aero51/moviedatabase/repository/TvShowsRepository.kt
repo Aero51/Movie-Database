@@ -71,7 +71,7 @@ class TvShowsRepository(private val application: Application, private val execut
     val lastAiringTvShowPage: LiveData<AiringTvShowsPage>
         get() = airingTvShowsBoundaryCallback.current_Tv_shows_page
     val airingNetworkState: LiveData<NetworkState>
-        get() = airingTvShowsBoundaryCallback.networkState
+        get() = airingTvShowsBoundaryCallback.getNetworkState()
 
     private fun createTrendingTvShowsPagedList(dao: TrendingTvShowsDao) {
         tvTrendingResultsPagedList = LivePagedListBuilder(dao.allResults, pagedListConfig)
