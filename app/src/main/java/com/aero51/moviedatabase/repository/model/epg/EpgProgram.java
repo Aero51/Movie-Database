@@ -16,7 +16,7 @@ public class EpgProgram implements Serializable {
     private String subTitle;
     private String desc;
     private String credits;
-    private Integer date;
+    private String date;
     private String category;
     private String icon;
     private String channel;
@@ -60,11 +60,11 @@ public class EpgProgram implements Serializable {
         this.credits = credits;
     }
 
-    public Integer getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Integer date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

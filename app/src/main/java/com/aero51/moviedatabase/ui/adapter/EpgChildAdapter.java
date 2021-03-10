@@ -57,7 +57,7 @@ public class EpgChildAdapter extends RecyclerView.Adapter<EpgChildAdapter.ViewHo
             e.printStackTrace();
         }
         holder.binding.tvEpgTvChildTitle.setText(extractJsonTitles(program.getTitle()).get(0));
-        holder.binding.tvEpgTvChildCategory.setText(program.getCategory());
+        //holder.binding.tvEpgTvChildCategory.setText(program.getCategory());
         holder.binding.childItemProgressBar.setProgress(0);
         if (position == currentChannelChildItem.getNearestTimePosition()) {
             holder.binding.childItemProgressBar.setProgress(currentChannelChildItem.getNowPlayingPercentage());
