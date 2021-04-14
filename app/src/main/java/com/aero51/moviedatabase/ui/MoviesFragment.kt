@@ -12,18 +12,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMoviesBinding
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.Constants
+import com.aero51.moviedatabase.utils.MovieGenreClickListener
 import com.aero51.moviedatabase.utils.MovieClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
-class MoviesFragment : Fragment(), MovieClickListener {
+class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
     private var moviesViewModel: MoviesViewModel? = null
     private var topRatedAdapter: TopRatedMoviesPagedListAdapter? = null
     private var nowPlayingAdapter: NowPlayingMoviesPagedListAdapter? = null
     private var popularAdapter: PopularMoviesPagedListAdapter? = null
     private var upcomingAdapter: UpcomingMoviesPagedListAdapter? = null
-    private var sharedViewModel: SharedViewModel? = null
+    private lateinit var sharedViewModel: SharedViewModel
     private var binding: FragmentMoviesBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -96,7 +97,7 @@ class MoviesFragment : Fragment(), MovieClickListener {
     }
 
     private fun registerTopRatedMoviesObservers() {
-        moviesViewModel!!.topRatedResultsPagedList.observe(viewLifecycleOwner, { top_rated_results ->
+        moviesViewModel!!.topRatedResultsPagedList?.observe(viewLifecycleOwner, { top_rated_results ->
             Log.d(Constants.LOG, "topRated MoviesFragment  onChanged list size: " + top_rated_results.size)
             topRatedAdapter!!.submitList(top_rated_results)
             /*
@@ -125,7 +126,7 @@ class MoviesFragment : Fragment(), MovieClickListener {
     }
 
     private fun registerPopularMoviesObservers() {
-        moviesViewModel!!.popularResultsPagedList.observe(viewLifecycleOwner, { popularMovies -> //Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
+        moviesViewModel!!.popularResultsPagedList?.observe(viewLifecycleOwner, { popularMovies -> //Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
             popularAdapter!!.submitList(popularMovies)
         })
         moviesViewModel!!.popularLiveMoviePage.observe(viewLifecycleOwner, { popularMoviesPage ->
@@ -140,7 +141,7 @@ class MoviesFragment : Fragment(), MovieClickListener {
     }
 
     private fun registerNowPlayingMoviesObservers() {
-        moviesViewModel!!.nowPlayingResultsPagedList.observe(viewLifecycleOwner, { now_playing_results ->
+        moviesViewModel!!.nowPlayingResultsPagedList?.observe(viewLifecycleOwner, { now_playing_results ->
             Log.d(Constants.LOG, "now playing MoviesFragment  onChanged list size: " + now_playing_results.size)
             nowPlayingAdapter!!.submitList(now_playing_results)
             /*
@@ -169,7 +170,7 @@ class MoviesFragment : Fragment(), MovieClickListener {
     }
 
     private fun registerUpcomingMoviesObservers() {
-        moviesViewModel!!.upcomingResultsPagedList.observe(viewLifecycleOwner, { upcoming_results ->
+        moviesViewModel!!.upcomingResultsPagedList?.observe(viewLifecycleOwner, { upcoming_results ->
             Log.d(Constants.LOG, "upcoming MoviesFragment  onChanged list size: " + upcoming_results.size)
             upcomingAdapter!!.submitList(upcoming_results)
         })
@@ -192,7 +193,7 @@ class MoviesFragment : Fragment(), MovieClickListener {
         moviesViewModel!!.moviesGenres.observe(viewLifecycleOwner, { (status, data) ->
             if (status === Status.SUCCESS) {
                 Log.d(Constants.LOG, "MovieGenresObservers list size  " + data!!.size)
-                val movieGenresAdapter = MovieGenresAdapter(data)
+                val movieGenresAdapter = MovieGenresAdapter(data,this)
                 binding!!.movieGenresRecyclerViewHorizontal.adapter = movieGenresAdapter
             }
         })
@@ -215,8 +216,14 @@ class MoviesFragment : Fragment(), MovieClickListener {
         }
     */
     override fun onObjectItemClick(movie: Any, position: Int) {
-        sharedViewModel!!.changeToMoviedetailsFragment(movie, position)
+        sharedViewModel.changeToMoviedetailsFragment(movie, position)
 
     }
+
+    override fun onGenreItemClick(genreId: Int, position: Int) {
+        sharedViewModel.changeToMovieGenresFragment(genreId,position)
+    }
+
+
 }
 

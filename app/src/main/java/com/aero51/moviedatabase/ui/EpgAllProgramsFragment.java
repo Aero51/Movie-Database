@@ -48,7 +48,7 @@ public class EpgAllProgramsFragment extends Fragment {
         binding.allProgramsRecyclerView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         binding.allProgramsRecyclerView.setLayoutManager(linearLayoutManager);
-        binding.allProgramsRecyclerView.addItemDecoration(new DividerItemDecoration(recycler_view_all_programs.getContext(), linearLayoutManager.getOrientation()));
+        binding.allProgramsRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), linearLayoutManager.getOrientation()));
 
         sharedViewModel.getLiveDataChannelWithPrograms().observe(getViewLifecycleOwner(), new Observer<ChannelWithPrograms>() {
             @Override

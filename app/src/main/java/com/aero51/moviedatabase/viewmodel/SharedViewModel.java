@@ -39,6 +39,10 @@ public class SharedViewModel extends ViewModel {
     private SingleLiveEvent<Boolean> shouldSwitchActorFragment = new SingleLiveEvent<>();
     private Integer castIndex;
 
+    private MutableLiveData<Integer> liveGenreId = new MutableLiveData<>();
+    private SingleLiveEvent<Boolean> shouldSwitchGenreListFragment = new SingleLiveEvent<>();
+
+
     private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
 
     public SharedViewModel() {
@@ -118,12 +122,25 @@ public class SharedViewModel extends ViewModel {
 
     }
 
+    public void changeToMovieGenresFragment(Integer genreId, Integer position ) {
+
+        liveGenreId.setValue(genreId);
+        shouldSwitchGenreListFragment.setValue(true);
+
+    }
+
     public LiveData<Integer> getLiveDataActorId() {
         return liveActorId;
     }
 
     public LiveData<Boolean> getSingleLiveShouldSwitchActorFragment() {
         return shouldSwitchActorFragment;
+    }
+    public LiveData<Integer> getLiveDataGenreId() {
+        return liveGenreId;
+    }
+    public LiveData<Boolean> getSingleLiveShouldSwitchGenreListFragment() {
+        return shouldSwitchGenreListFragment;
     }
 
     public void setHasEpgTvFragmentFinishedLoading(boolean hasEpgTvFragmentFinishedLoading) {
@@ -135,7 +152,7 @@ public class SharedViewModel extends ViewModel {
     }
 
 
-    //deserialization and searialization
+    //deserialization and serialization
     Movie transformTopRatedMovie(TopRatedMoviesPage.TopRatedMovie original) {
         Gson gson = new Gson();
         return gson.fromJson(gson.toJson(original), Movie.class);

@@ -65,7 +65,8 @@ public class NowPlayingMoviesPagedListAdapter extends PagedListAdapter<NowPlayin
 
     public static class NowPlayingngMovieHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private NowPlayingMoviesPage.NowPlayingMovie result;
-        private int position;
+        
+        private int adapterPosition;
 
         private ImageView imageView;
         private TextView textViewPosition;
@@ -87,7 +88,7 @@ public class NowPlayingMoviesPagedListAdapter extends PagedListAdapter<NowPlayin
 
         public void bindTo(NowPlayingMoviesPage.NowPlayingMovie result, int position) {
             this.result = result;
-            this.position=position;
+            this.adapterPosition = position;
 
             textViewPosition.setText(String.valueOf(position + 1));
             textViewtitle.setText(result.getTitle());
@@ -108,9 +109,9 @@ public class NowPlayingMoviesPagedListAdapter extends PagedListAdapter<NowPlayin
 
         @Override
         public void onClick(View v) {
-            if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
-                itemClickListener.onObjectItemClick(result,position); // call the onClick in the OnItemClickListener
-                Log.d(Constants.LOG, " Item clicked inside now playing holder : " + position);
+            if (itemClickListener != null&& adapterPosition != RecyclerView.NO_POSITION) {
+                itemClickListener.onObjectItemClick(result, adapterPosition); // call the onClick in the OnItemClickListener
+                Log.d(Constants.LOG, " Item clicked inside now playing holder : " + adapterPosition);
             }
         }
     }

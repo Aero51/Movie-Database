@@ -28,6 +28,7 @@ import android.view.WindowManager;
 
 import com.aero51.moviedatabase.ui.ActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
+import com.aero51.moviedatabase.ui.GenreListFragment;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
@@ -46,6 +47,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_PREFERENCE;
+import static com.aero51.moviedatabase.utils.Constants.LOG2;
 import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFERENCE;
 
@@ -60,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier genreListFragmentIdentifier;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SharedViewModel sharedViewModel;
     private Integer actorFragmentBackPosition;
@@ -333,7 +336,30 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(1);
             }
         });
+
+
+        sharedViewModel.getSingleLiveShouldSwitchGenreListFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                genreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(GenreListFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new GenreListFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(1, genreListFragmentIdentifier);
+                customViewPager.setCurrentItem(1);
+            }
+        });
+
+
     }
+
 
     @Override
     public void onBackPressed() {
@@ -362,7 +388,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     replaceFragment(1, movieDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
-
+                } else if(currentFragmentTag.equals(GenreListFragment.class.getSimpleName())){
+                    replaceFragment(1, moviesFragmentIdentifier);
+                    customViewPager.setCurrentItem(1);
                 }
                 break;
         }
@@ -438,7 +466,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         }
         if (id == R.id.action_search) {
             Intent intent = new Intent(this, SearchActivity.class);
-             startActivity(intent);
+            startActivity(intent);
             return true;
         }
 

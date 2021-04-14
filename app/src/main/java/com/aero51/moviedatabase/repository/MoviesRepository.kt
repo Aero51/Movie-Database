@@ -90,15 +90,15 @@ class MoviesRepository(private val application: Application, private val executo
     val lastTopRatedMoviePage: LiveData<TopRatedMoviesPage>
         get() = topRatedMoviesBoundaryCallback.current_movie_page
     val popularNetworkState: LiveData<NetworkState>
-        get() = popularMoviesBoundaryCallback.networkState
+        get() = popularMoviesBoundaryCallback.getNetworkState()
     val lastPopularMoviePage: LiveData<PopularMoviesPage>
         get() = popularMoviesBoundaryCallback.current_movie_page
     val nowPlayingNetworkState: LiveData<NetworkState>
-        get() = nowPlayingMoviesBoundaryCallback.networkState
+        get() = nowPlayingMoviesBoundaryCallback.getNetworkState()
     val lastNowPlayingMoviePage: LiveData<NowPlayingMoviesPage>
         get() = nowPlayingMoviesBoundaryCallback.current_movie_page
     val upcomingNetworkState: LiveData<NetworkState>
-        get() = upcomingMoviesBoundaryCallback.networkState
+        get() = upcomingMoviesBoundaryCallback.getNetworkState()
     val lastUpcomingMoviePage: LiveData<UpcomingMoviesPage>
         get() = upcomingMoviesBoundaryCallback.current_movie_page
 
