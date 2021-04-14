@@ -19,12 +19,13 @@ import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
 class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
-    private var moviesViewModel: MoviesViewModel? = null
+    private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var moviesViewModel: MoviesViewModel
     private var topRatedAdapter: TopRatedMoviesPagedListAdapter? = null
     private var nowPlayingAdapter: NowPlayingMoviesPagedListAdapter? = null
     private var popularAdapter: PopularMoviesPagedListAdapter? = null
     private var upcomingAdapter: UpcomingMoviesPagedListAdapter? = null
-    private lateinit var sharedViewModel: SharedViewModel
+
     private var binding: FragmentMoviesBinding? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

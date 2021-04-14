@@ -14,6 +14,12 @@ import com.aero51.moviedatabase.utils.Resource
 
 class MoviesViewModel(application: Application) : AndroidViewModel(application) {
     private val moviesRepository: MoviesRepository
+
+    init {
+        val executors = AppExecutors()
+        moviesRepository = MoviesRepository(application, executors)
+    }
+
     val topRatedResultsPagedList: LiveData<PagedList<TopRatedMoviesPage.TopRatedMovie>>?
         get() = moviesRepository.topRatedResultsPagedList
 
@@ -60,7 +66,9 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
     val genreList: LiveData<Resource<List<MovieGenresResponse.MovieGenre>>>
         get() = moviesRepository.loadMoviesGenres()
 
-
+    fun getMoviesByGenre(genreId:String){
+          moviesRepository.loadMoviesByGenre()
+    }
 
 
     override fun onCleared() {
@@ -69,8 +77,5 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
         super.onCleared()
     }
 
-    init {
-        val executors = AppExecutors()
-        moviesRepository = MoviesRepository(application, executors)
-    }
+
 }

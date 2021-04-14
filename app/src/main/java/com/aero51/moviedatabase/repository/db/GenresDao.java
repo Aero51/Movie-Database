@@ -27,4 +27,8 @@ public interface GenresDao {
 
     @Query("SELECT * FROM movie_genre")
     public abstract LiveData<List<TvShowGenresResponse.TvShowGenre>> getTvShowsGenres();
+
+
+    @Query("SELECT * FROM genre_movie WHERE ")
+    public abstract LiveData<List<MovieGenresResponse.MovieGenre>> getMoviesByGenre();
 }

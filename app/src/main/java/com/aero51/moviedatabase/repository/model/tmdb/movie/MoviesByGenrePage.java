@@ -7,8 +7,8 @@ import androidx.room.PrimaryKey;
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(tableName = "genre_list_movie_page")
-public class GenreListMoviePage {
+@Entity(tableName = "movies_by_genre_page")
+public class MoviesByGenrePage {
 
     @PrimaryKey(autoGenerate = false)
     private Integer page;
@@ -18,14 +18,14 @@ public class GenreListMoviePage {
     private List<GenreMovie> results;
 
     @Ignore
-    public GenreListMoviePage(Integer page, Integer total_results, Integer total_pages, List<GenreMovie> results) {
+    public MoviesByGenrePage(Integer page, Integer total_results, Integer total_pages, List<GenreMovie> results) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
         this.results = results;
     }
 
-    public GenreListMoviePage(Integer page, Integer total_results, Integer total_pages) {
+    public MoviesByGenrePage(Integer page, Integer total_results, Integer total_pages) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;

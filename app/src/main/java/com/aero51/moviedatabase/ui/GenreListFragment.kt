@@ -16,6 +16,7 @@ import com.aero51.moviedatabase.databinding.FragmentGenreListBinding
 import com.aero51.moviedatabase.ui.adapter.GenrePagedListAdapter
 import com.aero51.moviedatabase.utils.Constants.LOG2
 import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
@@ -24,12 +25,15 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class GenreListFragment : Fragment(),MovieClickListener {
 
     private lateinit var sharedViewModel: SharedViewModel
+    private lateinit var moviesViewModel: MoviesViewModel
+
     private var binding: FragmentGenreListBinding? = null
     private lateinit var genreAdapter: GenrePagedListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        moviesViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(MoviesViewModel::class.java)
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -53,6 +57,7 @@ class GenreListFragment : Fragment(),MovieClickListener {
     private fun registerSharedViewModelObserver() {
         sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
                    Log.d(LOG2,"GenreListFragment  genreId: "+genreId)
+
         })
     }
 

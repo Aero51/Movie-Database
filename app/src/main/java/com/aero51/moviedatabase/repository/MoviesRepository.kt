@@ -126,5 +126,8 @@ class MoviesRepository(private val application: Application, private val executo
         }.asLiveData()
     }
 
+    fun loadMoviesByGenre(): LiveData<Resource<List<MoviesByGenrePage.GenreMovie>>> {
+
+    }
 
 }
