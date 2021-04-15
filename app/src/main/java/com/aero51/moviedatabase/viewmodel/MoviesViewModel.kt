@@ -4,6 +4,7 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.viewModelScope
 import androidx.paging.PagedList
 import com.aero51.moviedatabase.repository.MoviesRepository
 import com.aero51.moviedatabase.repository.model.NetworkState
@@ -11,6 +12,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.utils.AppExecutors
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Resource
+import kotlinx.coroutines.launch
 
 class MoviesViewModel(application: Application) : AndroidViewModel(application) {
     private val moviesRepository: MoviesRepository
@@ -76,6 +78,15 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
         Log.d(Constants.LOG, "view model on cleared ")
         // repository.getMoviePageLd().removeObserver(repository.getObserver());
         super.onCleared()
+    }
+
+       fun  dataValidationCheck(genreId: Int){
+           viewModelScope.launch {
+               // suspend and resume make this database request main-safe
+               // so our ViewModel doesn't need to worry about threading
+               moviesRepository.checkIfDataValid(genreId)
+           }
+
     }
 
 

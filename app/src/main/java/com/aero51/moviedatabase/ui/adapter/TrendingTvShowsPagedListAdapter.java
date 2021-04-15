@@ -63,7 +63,7 @@ public class TrendingTvShowsPagedListAdapter  extends PagedListAdapter<TrendingT
         private TrendingTvShowsPage.TrendingTvShow result;
         private int position;
         private ImageView imageView;
-        private TextView textViewPosition;
+        //private TextView textViewPosition;
         private TextView textViewtitle;
         private TextView textViewVoteAverage;
         private MovieClickListener itemClickListener;
@@ -71,7 +71,7 @@ public class TrendingTvShowsPagedListAdapter  extends PagedListAdapter<TrendingT
         public TrendingTvShowHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_program);
-            textViewPosition = itemView.findViewById(R.id.text_view_position);
+            //textViewPosition = itemView.findViewById(R.id.text_view_position);
             textViewtitle = itemView.findViewById(R.id.text_view_title);
             this.itemClickListener = itemClickListener;
             itemView.setOnClickListener(this);
@@ -80,7 +80,7 @@ public class TrendingTvShowsPagedListAdapter  extends PagedListAdapter<TrendingT
             this.result = result;
             this.position=position;
 
-            textViewPosition.setText(String.valueOf(position + 1));
+            //textViewPosition.setText(String.valueOf(position + 1));
             textViewtitle.setText(result.getName());
 
             String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + result.getPoster_path();

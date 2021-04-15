@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.repository
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
@@ -15,6 +16,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage.T
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage.UpcomingMovie
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
+import com.aero51.moviedatabase.utils.Constants.LOG2
 
 class MoviesRepository(private val application: Application, private val executors: AppExecutors) {
 
@@ -87,8 +89,9 @@ class MoviesRepository(private val application: Application, private val executo
                 .setBoundaryCallback(upcomingMoviesBoundaryCallback).setFetchExecutor(executors.networkIO())
                 .build()
     }
-    private fun createMoviesByGenrePagedList(dao: GenresDao,genreId:Int) {
-        moviesByGenreBoundaryCallback= MoviesByGenreBoundaryCallback(application,executors,genreId)
+
+    private fun createMoviesByGenrePagedList(dao: GenresDao, genreId: Int) {
+        moviesByGenreBoundaryCallback = MoviesByGenreBoundaryCallback(application, executors, genreId)
 
         moviesByGenrePagedList = LivePagedListBuilder(dao.getMoviesByGenre(genreId), pagedListConfig)
                 .setBoundaryCallback(moviesByGenreBoundaryCallback).setFetchExecutor(executors.networkIO())
@@ -122,6 +125,7 @@ class MoviesRepository(private val application: Application, private val executo
             override fun shouldFetch(data: List<MovieGenre>?): Boolean {
                 return data!!.size == 0
             }
+
             override fun loadFromDb(): LiveData<List<MovieGenre>> {
                 return genresDao.moviesGenres
             }
@@ -140,9 +144,27 @@ class MoviesRepository(private val application: Application, private val executo
     }
 
 
-    fun loadMoviesByGenre(genreId: Int):  LiveData<PagedList<MoviesByGenrePage.GenreMovie>>? {
-        createMoviesByGenrePagedList(genresDao,genreId)
-        return  moviesByGenrePagedList
+    fun loadMoviesByGenre(genreId: Int): LiveData<PagedList<MoviesByGenrePage.GenreMovie>>? {
+        createMoviesByGenrePagedList(genresDao, genreId)
+        return moviesByGenrePagedList
     }
+
+    suspend fun checkIfDataValid(genreId: Int) {
+        val genreMovie = genresDao.getFirstMovieByGenre(genreId)
+        if (genreMovie != null) {
+            Log.d(LOG2, "MoviesRepository timestamp: " + genreMovie.timestamp)
+            val oneWeekMillis: Long = 604800000
+            val currentTime: Long = System.currentTimeMillis()
+            if((currentTime - 10000) >= genreMovie.timestamp){
+                // TODO    refresh implemented, need to clean it
+                      genresDao.deleteAllMoviesByGenrePagesSuspended()
+                      genresDao.deleteAllMoviesByGenre(genreId)
+
+
+
+            }
+        }
+    }
+
 
 }

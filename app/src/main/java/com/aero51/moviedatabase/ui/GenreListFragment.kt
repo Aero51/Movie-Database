@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -31,6 +30,7 @@ class GenreListFragment : Fragment(),MovieClickListener {
 
     private var binding: FragmentGenreListBinding? = null
     private lateinit var genreAdapter: GenrePagedListAdapter
+    private var genreId: Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +48,11 @@ class GenreListFragment : Fragment(),MovieClickListener {
         binding!!.genreListRecyclerView.itemAnimator=null
 
 
-
+        binding!!.pullToRefresh.setOnRefreshListener {
+            //refreshData(); // your code
+            binding!!.pullToRefresh.isRefreshing = false
+            moviesViewModel.dataValidationCheck(genreId)
+        }
         /*
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
@@ -72,8 +76,11 @@ class GenreListFragment : Fragment(),MovieClickListener {
 
 
     private fun registerSharedViewModelObserver() {
+        binding?.progressBar?.setVisibility(View.VISIBLE)
         sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
+            this.genreId=genreId
             Log.d(LOG2,"GenreListFragment  genreId: "+genreId)
+            moviesViewModel.dataValidationCheck(genreId)
             registerMoviesByGenrePagedListObserver(genreId)
             registerMoviesByGenrePage()
 
@@ -81,6 +88,7 @@ class GenreListFragment : Fragment(),MovieClickListener {
     }
     private fun registerMoviesByGenrePagedListObserver(genreId: Int) {
         moviesViewModel.getMoviesByGenre(genreId)?.observe(viewLifecycleOwner, Observer { pagedList ->
+            binding?.progressBar?.setVisibility(View.GONE)
             genreAdapter.submitList(pagedList)
             Log.d(LOG2,"registerMoviesByGenrePagedListObserver list size: "+pagedList.size)
         })

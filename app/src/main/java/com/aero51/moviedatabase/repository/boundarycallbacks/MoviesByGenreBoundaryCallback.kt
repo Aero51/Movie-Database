@@ -84,8 +84,10 @@ class MoviesByGenreBoundaryCallback (application: Application?, private val exec
         val runnable = Runnable {
             dao.deleteAllMoviesByGenrePages()
             dao.insertPage(page)
+            val currentTime: Long =System.currentTimeMillis()
             for (movie in listOfResults)
             {
+                movie.timestamp=currentTime
                 movie.genreId=genreId
             }
             dao.insertList(listOfResults)

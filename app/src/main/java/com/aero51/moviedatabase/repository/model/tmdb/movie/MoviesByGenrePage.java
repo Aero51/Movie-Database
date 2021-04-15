@@ -1,10 +1,12 @@
 package com.aero51.moviedatabase.repository.model.tmdb.movie;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 @Entity(tableName = "movies_by_genre_page")
@@ -54,6 +56,8 @@ public class MoviesByGenrePage {
 
         @PrimaryKey(autoGenerate = true)
         private int db_id;
+        @ColumnInfo(defaultValue = "CURRENT_TIMESTAMP")
+        private Long timestamp;
         private Double popularity;
         private Integer vote_count;
         private boolean video;
@@ -167,6 +171,10 @@ public class MoviesByGenrePage {
         public Integer getGenreId() { return genreId; }
 
         public void setGenreId(Integer genreId) { this.genreId = genreId; }
+
+        public Long getTimestamp() { return timestamp; }
+
+        public void setTimestamp(Long timestamp) { this.timestamp = timestamp; }
 
     }
 }

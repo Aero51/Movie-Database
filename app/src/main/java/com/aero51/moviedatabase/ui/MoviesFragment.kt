@@ -218,8 +218,8 @@ class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
     */
     override fun onObjectItemClick(movie: Any, position: Int) {
         sharedViewModel.changeToMoviedetailsFragment(movie, position)
-
     }
+
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
         sharedViewModel.changeToMovieGenresFragment(genreId,position)

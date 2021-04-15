@@ -66,7 +66,7 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
         private int position;
 
         private ImageView imageView;
-        private TextView textViewPosition;
+        //private TextView textViewPosition;
         private TextView textViewtitle;
         private TextView textViewVoteAverage;
         private MovieClickListener itemClickListener;
@@ -75,7 +75,7 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
         public UpcomingMovieHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_program);
-            textViewPosition = itemView.findViewById(R.id.text_view_position);
+            //textViewPosition = itemView.findViewById(R.id.text_view_position);
             textViewtitle = itemView.findViewById(R.id.text_view_title);
 
             this.itemClickListener = itemClickListener;
@@ -87,7 +87,7 @@ public class UpcomingMoviesPagedListAdapter extends PagedListAdapter<UpcomingMov
             this.result = result;
             this.position = position;
 
-            textViewPosition.setText(String.valueOf(position + 1));
+            //textViewPosition.setText(String.valueOf(position + 1));
             textViewtitle.setText(result.getTitle());
 
             String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + result.getPoster_path();

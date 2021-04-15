@@ -39,7 +39,7 @@ public class TvShowsPagedListAdapter extends PagedListAdapter<TvShowSearchResult
     @Override
     public void onBindViewHolder(@NonNull TvShowsPagedListAdapter.ViewHolder holder, int position) {
         TvShowSearchResult.TvShow currentTvShow = getItem(position);
-        holder.textViewPosition.setText(String.valueOf(position + 1));
+        //holder.textViewPosition.setText(String.valueOf(position + 1));
         holder.textViewtitle.setText(currentTvShow.getName());
 
         String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + currentTvShow.getPoster_path();
@@ -58,14 +58,14 @@ public class TvShowsPagedListAdapter extends PagedListAdapter<TvShowSearchResult
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView imageView;
-        private TextView textViewPosition;
+        //private TextView textViewPosition;
         private TextView textViewtitle;
 
 
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_program);
-            textViewPosition = itemView.findViewById(R.id.text_view_position);
+            //textViewPosition = itemView.findViewById(R.id.text_view_position);
             textViewtitle = itemView.findViewById(R.id.text_view_title);
             itemView.setOnClickListener(this);
         }

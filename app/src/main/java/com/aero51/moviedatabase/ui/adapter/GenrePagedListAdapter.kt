@@ -40,15 +40,23 @@ class GenrePagedListAdapter(private val itemClickListener: MovieClickListener): 
         private var result: MoviesByGenrePage.GenreMovie? = null
         private var adapterposition = 0
         private val imageView: ImageView
-        private val textViewPosition: TextView
+        //private val textViewPosition: TextView
         private val textViewtitle: TextView
         private val textViewVoteAverage: TextView? = null
         private val itemClickListener: MovieClickListener?
 
+        init {
+            imageView = itemView.findViewById(R.id.image_view_program)
+            //textViewPosition = itemView.findViewById(R.id.text_view_position)
+            textViewtitle = itemView.findViewById(R.id.text_view_title)
+            this.itemClickListener = itemClickListener
+            itemView.setOnClickListener(this)
+        }
+
         fun bindTo(result: MoviesByGenrePage.GenreMovie?, position: Int) {
             this.result = result
             this.adapterposition = position
-            textViewPosition.text = (position + 1).toString()
+            //textViewPosition.text = (position + 1).toString()
             textViewtitle.text = result!!.title
             val imageUrl: String = BASE_IMAGE_URL + POSTER_SIZE_W154 + result.poster_path
             // .placeholder(R.drawable.picture_template)
@@ -67,13 +75,6 @@ class GenrePagedListAdapter(private val itemClickListener: MovieClickListener): 
             }
         }
 
-        init {
-            imageView = itemView.findViewById(R.id.image_view_program)
-            textViewPosition = itemView.findViewById(R.id.text_view_position)
-            textViewtitle = itemView.findViewById(R.id.text_view_title)
-            this.itemClickListener = itemClickListener
-            itemView.setOnClickListener(this)
-        }
     }
 
 
