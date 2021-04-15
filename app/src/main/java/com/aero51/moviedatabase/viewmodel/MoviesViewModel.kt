@@ -63,11 +63,12 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
     val moviesGenres: LiveData<Resource<List<MovieGenresResponse.MovieGenre>>>
         get() = moviesRepository.loadMoviesGenres()
 
-    val genreList: LiveData<Resource<List<MovieGenresResponse.MovieGenre>>>
-        get() = moviesRepository.loadMoviesGenres()
+    //used to get the page number by adding observer
+    val moviesByGenrePage: LiveData<MoviesByGenrePage>
+        get() = moviesRepository.lastMoviesByGenrePage
 
-    fun getMoviesByGenre(genreId:String){
-          moviesRepository.loadMoviesByGenre()
+    fun getMoviesByGenre(genreId: Int):  LiveData<PagedList<MoviesByGenrePage.GenreMovie>>?{
+          return moviesRepository.loadMoviesByGenre(genreId)
     }
 
 

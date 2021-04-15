@@ -8,6 +8,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieSearchResult;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage;
 
@@ -100,5 +101,12 @@ public interface TheMovieDbApi {
 
     @GET("genre/tv/list")
     LiveData<ApiResponse<TvShowGenresResponse>> getLiveTvGenres(@Query("api_key") String api_key);
+
+    @GET("discover/movie")
+    Call<MoviesByGenrePage> getMoviesByGenre(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("with_genres") Integer with_genres, @Query("sort_by") String sort_by, @Query("vote_count.gte") Integer vote_count);
+
+
+
 
 }

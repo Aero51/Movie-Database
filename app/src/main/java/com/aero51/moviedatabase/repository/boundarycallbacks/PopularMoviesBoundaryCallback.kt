@@ -25,6 +25,16 @@ class PopularMoviesBoundaryCallback(application: Application?, private val execu
     private val dao: PopularMoviesDao
     private val networkState: MutableLiveData<NetworkState>
     val current_movie_page: LiveData<PopularMoviesPage>
+
+    init {
+        // super();
+        database = Database.getInstance(application)
+        dao = database._popular_movies_dao
+        networkState = MutableLiveData()
+        current_movie_page = dao.liveDataMoviePage
+    }
+
+
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
         //Log.d(Constants.LOG, "popularMovies onzeroitemsloaded");
@@ -82,11 +92,5 @@ class PopularMoviesBoundaryCallback(application: Application?, private val execu
         return networkState
     }
 
-    init {
-        // super();
-        database = Database.getInstance(application)
-        dao = database._popular_movies_dao
-        networkState = MutableLiveData()
-        current_movie_page = dao.liveDataMoviePage
-    }
+
 }

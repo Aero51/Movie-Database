@@ -388,7 +388,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     replaceFragment(1, movieDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
-                } else if(currentFragmentTag.equals(GenreListFragment.class.getSimpleName())){
+                } else if (currentFragmentTag.equals(GenreListFragment.class.getSimpleName())) {
                     replaceFragment(1, moviesFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
                 }
@@ -418,7 +418,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                } else if (currentFragmentTag.equals(GenreListFragment.class.getSimpleName())){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
+
                 break;
         }
 
@@ -456,22 +459,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+        switch (item.getItemId()) {
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-            return true;
+            case R.id.action_settings:
+                Intent intent = new Intent(this, SettingsActivity.class);
+                startActivity(intent);
+                return true;
+            case R.id.action_search:
+                Intent intent2 = new Intent(this, SearchActivity.class);
+                startActivity(intent2);
+                return true;
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        if (id == R.id.action_search) {
-            Intent intent = new Intent(this, SearchActivity.class);
-            startActivity(intent);
-            return true;
-        }
-
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

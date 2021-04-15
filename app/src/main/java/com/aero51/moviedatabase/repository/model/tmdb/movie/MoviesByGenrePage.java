@@ -69,6 +69,8 @@ public class MoviesByGenrePage {
         private String overview;
         private String release_date;
 
+        private Integer genreId;
+
 
 
         public GenreMovie(Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
@@ -162,6 +164,9 @@ public class MoviesByGenrePage {
             this.db_id = db_id;
         }
 
+        public Integer getGenreId() { return genreId; }
+
+        public void setGenreId(Integer genreId) { this.genreId = genreId; }
 
     }
 }

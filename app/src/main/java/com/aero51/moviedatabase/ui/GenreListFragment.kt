@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentGenreListBinding
 import com.aero51.moviedatabase.ui.adapter.GenrePagedListAdapter
+import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Constants.LOG2
 import com.aero51.moviedatabase.utils.MovieClickListener
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
@@ -43,9 +45,24 @@ class GenreListFragment : Fragment(),MovieClickListener {
         genreAdapter = GenrePagedListAdapter(this)
         binding!!.genreListRecyclerView.adapter = genreAdapter
         binding!!.genreListRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding!!.genreListRecyclerView.itemAnimator=null
 
-        showBackButton(true)
+
+
+        /*
+        val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
+        //toolbar.setTitle("text");
+        //toolbar.setTitle("text");
+        toolbar.setNavigationOnClickListener {
+            requireActivity().onBackPressed()
+            Log.d(Constants.LOG, "Toolbar clicked!")
+            showBackButton(false)
+        }
+*/
+
+
         showToolbar(true)
+        showBackButton(true)
         showBottomNavigation(true)
 
         registerSharedViewModelObserver()
@@ -56,9 +73,29 @@ class GenreListFragment : Fragment(),MovieClickListener {
 
     private fun registerSharedViewModelObserver() {
         sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
-                   Log.d(LOG2,"GenreListFragment  genreId: "+genreId)
+            Log.d(LOG2,"GenreListFragment  genreId: "+genreId)
+            registerMoviesByGenrePagedListObserver(genreId)
+            registerMoviesByGenrePage()
 
         })
+    }
+    private fun registerMoviesByGenrePagedListObserver(genreId: Int) {
+        moviesViewModel.getMoviesByGenre(genreId)?.observe(viewLifecycleOwner, Observer { pagedList ->
+            genreAdapter.submitList(pagedList)
+            Log.d(LOG2,"registerMoviesByGenrePagedListObserver list size: "+pagedList.size)
+        })
+    }
+
+    private fun registerMoviesByGenrePage(){
+       moviesViewModel.moviesByGenrePage.observe(viewLifecycleOwner, Observer {moviesByGenrePage ->
+           val page_number: Int
+           page_number = if (moviesByGenrePage == null) {
+               0
+           } else {
+               moviesByGenrePage.page
+           }
+           Log.d(Constants.LOG, "GenreListFragment onChanged page: $page_number")
+       })
     }
 
 
@@ -90,6 +127,11 @@ class GenreListFragment : Fragment(),MovieClickListener {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 
 }
