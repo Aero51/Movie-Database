@@ -7,13 +7,13 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse.MovieGenre
-import com.aero51.moviedatabase.utils.MovieGenreClickListener
+import com.aero51.moviedatabase.utils.GenreObjectClickListener
 
 class MovieGenresAdapter // private ActorImagesResponse.ActorImage getItem(int id) {
 //    return imagesList.get(id);
 //}
 // data is passed into the constructor
-(private val movieGenreList: List<MovieGenre>, private val mClickListener: MovieGenreClickListener) : RecyclerView.Adapter<MovieGenresAdapter.ViewHolder>() {
+(private val movieGenreList: List<MovieGenre>, private val mClickListener: GenreObjectClickListener) : RecyclerView.Adapter<MovieGenresAdapter.ViewHolder>() {
 
     // inflates the row layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -36,15 +36,17 @@ class MovieGenresAdapter // private ActorImagesResponse.ActorImage getItem(int i
     // stores and recycles views as they are scrolled off screen
     inner class ViewHolder (itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var genreTextView: TextView
-        override fun onClick(v: View) {
-            val adapter_position = bindingAdapterPosition
-            mClickListener.onGenreItemClick(movieGenreList[adapter_position].id, adapter_position)
-        }
 
         init {
             genreTextView = itemView.findViewById(R.id.tv_genre)
             genreTextView.setOnClickListener(this)
         }
+        override fun onClick(v: View) {
+            val adapter_position = bindingAdapterPosition
+            mClickListener.onGenreItemClick(movieGenreList[adapter_position].id, adapter_position)
+        }
+
+
     } // convenience method for getting data at click position
 
 }

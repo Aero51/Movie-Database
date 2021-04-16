@@ -25,12 +25,13 @@ import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowsByGenrePage;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Converters;
 
 import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
 
-@androidx.room.Database(entities = {TopRatedMoviesPage.class,TopRatedMoviesPage.TopRatedMovie.class,
+@androidx.room.Database(entities = {TopRatedMoviesPage.class, TopRatedMoviesPage.TopRatedMovie.class,
         NowPlayingMoviesPage.NowPlayingMovie.class, NowPlayingMoviesPage.class,
         PopularMoviesPage.PopularMovie.class,
         PopularMoviesPage.class, UpcomingMoviesPage.UpcomingMovie.class, UpcomingMoviesPage.class,
@@ -39,7 +40,8 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
         TrendingTvShowsPage.class, TrendingTvShowsPage.TrendingTvShow.class,
         MovieCredits.class, MovieCredits.Cast.class, MovieCredits.Crew.class, Actor.class,
         ActorImagesResponse.ActorImage.class, EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class,
-        MovieGenresResponse.MovieGenre.class, TvShowGenresResponse.TvShowGenre.class, MoviesByGenrePage.class,MoviesByGenrePage.GenreMovie.class}, version = 1)
+        MovieGenresResponse.MovieGenre.class, TvShowGenresResponse.TvShowGenre.class, MoviesByGenrePage.class, MoviesByGenrePage.MovieByGenre.class
+        , TvShowsByGenrePage.class, TvShowsByGenrePage.TvShowByGenre.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Database extends RoomDatabase {
 
@@ -47,15 +49,23 @@ public abstract class Database extends RoomDatabase {
     private static Database instanceOnMainThread;
 
     public abstract TopRatedMoviesDao get_top_rated_movies_dao();
+
     public abstract PopularMoviesDao get_popular_movies_dao();
+
     public abstract NowPlayingMoviesDao get_now_playing_movies_dao();
+
     public abstract UpcomingMoviesDao get_upcoming_movies_dao();
+
     public abstract PopularTvShowsDao get_popular_tv_shows_dao();
+
     public abstract AiringTvShowsDao get_airing_tv_shows_dao();
+
     public abstract TrendingTvShowsDao get_trending_tv_shows_dao();
+
     public abstract GenresDao get_genres_dao();
 
     public abstract CreditsDao get_credits_dao();
+
     public abstract EpgTvDao get_epg_tv_dao();
 
     public static synchronized Database getInstance(Context context) {

@@ -69,8 +69,18 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
     val moviesByGenrePage: LiveData<MoviesByGenrePage>
         get() = moviesRepository.lastMoviesByGenrePage
 
-    fun getMoviesByGenre(genreId: Int):  LiveData<PagedList<MoviesByGenrePage.GenreMovie>>?{
-          return moviesRepository.loadMoviesByGenre(genreId)
+    fun getMoviesByGenre(genreId: Int): LiveData<PagedList<MoviesByGenrePage.MovieByGenre>>? {
+        return moviesRepository.loadMoviesByGenre(genreId)
+    }
+
+
+    fun moviesByGenreDataValidationCheck(genreId: Int) {
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            moviesRepository.checkIfMoviesByGenreNeedsRefresh(genreId)
+        }
+
     }
 
 
@@ -78,15 +88,6 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
         Log.d(Constants.LOG, "view model on cleared ")
         // repository.getMoviePageLd().removeObserver(repository.getObserver());
         super.onCleared()
-    }
-
-       fun  dataValidationCheck(genreId: Int){
-           viewModelScope.launch {
-               // suspend and resume make this database request main-safe
-               // so our ViewModel doesn't need to worry about threading
-               moviesRepository.checkIfDataValid(genreId)
-           }
-
     }
 
 

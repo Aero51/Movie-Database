@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMoviesBinding
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.utils.MovieGenreClickListener
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.GenreObjectClickListener
+import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
-class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
+class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var moviesViewModel: MoviesViewModel
     private var topRatedAdapter: TopRatedMoviesPagedListAdapter? = null
@@ -71,12 +71,15 @@ class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
         binding!!.upcomingMoviesRecyclerViewHorizontal.layoutManager = upcomingLinearLayoutManager
         val genresLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.movieGenresRecyclerViewHorizontal.layoutManager = genresLinearLayoutManager
+
+        registerHasEpgTvFragmentFinishedLoadingObserver()
+
         val handler = Handler()
         handler.postDelayed({
             //Do something after 100ms
             //   Log.d(Constants.LOG, "runnable runned! " );
         }, 3000)
-        registerHasEpgTvFragmentFinishedLoadingObserver()
+
         return binding!!.root
     }
 
@@ -86,8 +89,9 @@ class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
     }
 
     private fun registerHasEpgTvFragmentFinishedLoadingObserver() {
-        sharedViewModel!!.hasEpgTvFragmentFinishedLoading.observe(viewLifecycleOwner, { aBoolean ->
+        sharedViewModel.hasEpgTvFragmentFinishedLoading.observe(viewLifecycleOwner, { aBoolean ->
             if (aBoolean) {
+                sharedViewModel.hasEpgTvFragmentFinishedLoading.removeObservers(viewLifecycleOwner)
                 registerTopRatedMoviesObservers()
                 registerPopularMoviesObservers()
                 registerNowPlayingMoviesObservers()
@@ -222,7 +226,7 @@ class MoviesFragment : Fragment(), MovieClickListener,MovieGenreClickListener {
 
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel.changeToMovieGenresFragment(genreId,position)
+        sharedViewModel.changeToMoviesByGenreListFragment(genreId,position)
     }
 
 

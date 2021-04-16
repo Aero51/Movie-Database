@@ -19,6 +19,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowsByGenrePage;
 import com.aero51.moviedatabase.utils.ApiResponse;
 
 import retrofit2.Call;
@@ -105,6 +106,11 @@ public interface TheMovieDbApi {
     @GET("discover/movie")
     Call<MoviesByGenrePage> getMoviesByGenre(@Query("api_key") String api_key
             , @Query("page") Integer page, @Query("with_genres") Integer with_genres, @Query("sort_by") String sort_by, @Query("vote_count.gte") Integer vote_count);
+
+
+    @GET("discover/tv")
+    Call<TvShowsByGenrePage> getTvShowsByGenre(@Query("api_key") String api_key
+            , @Query("page") Integer page, @Query("with_genres") Integer with_genres, @Query("sort_by") String sort_by, @Query("vote_count.gte") Integer vote_count,@Query("without_genres") Integer without_genre);
 
 
 

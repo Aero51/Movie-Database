@@ -16,7 +16,7 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.NetworkState;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.utils.Constants;
-import com.aero51.moviedatabase.utils.MovieClickListener;
+import com.aero51.moviedatabase.utils.ObjectClickListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -25,12 +25,12 @@ import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
 
 public class AiringTvShowsPagedListAdapter extends PagedListAdapter<AiringTvShowsPage.AiringTvShow, RecyclerView.ViewHolder> {
-    private MovieClickListener itemClickListener;
+    private ObjectClickListener itemClickListener;
     private NetworkState networkState;
 
 
 
-    public AiringTvShowsPagedListAdapter(MovieClickListener itemClickListener) {
+    public AiringTvShowsPagedListAdapter(ObjectClickListener itemClickListener) {
         super(DIFF_CALLBACK);
         this.itemClickListener = itemClickListener;
     }
@@ -72,9 +72,9 @@ public class AiringTvShowsPagedListAdapter extends PagedListAdapter<AiringTvShow
         //private TextView textViewPosition;
         private TextView textViewtitle;
         private TextView textViewVoteAverage;
-        private MovieClickListener itemClickListener;
+        private ObjectClickListener itemClickListener;
 
-        public AiringTvShowHolder(@NonNull View itemView, MovieClickListener itemClickListener) {
+        public AiringTvShowHolder(@NonNull View itemView, ObjectClickListener itemClickListener) {
             super(itemView);
             imageView = itemView.findViewById(R.id.image_view_program);
             //textViewPosition = itemView.findViewById(R.id.text_view_position);

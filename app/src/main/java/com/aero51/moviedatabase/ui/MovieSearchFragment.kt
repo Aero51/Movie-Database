@@ -11,10 +11,10 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMovieSearchBinding
 import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter
 import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 
-class MovieSearchFragment : Fragment(), MovieClickListener {
+class MovieSearchFragment : Fragment(), ObjectClickListener {
     private var binding: FragmentMovieSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private var moviesSearchAdapter: NowPlayingMoviesPagedListAdapter? = null

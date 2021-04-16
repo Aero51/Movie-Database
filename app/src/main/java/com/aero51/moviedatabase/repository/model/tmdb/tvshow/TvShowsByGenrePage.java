@@ -1,32 +1,34 @@
-package com.aero51.moviedatabase.repository.model.tmdb.movie;
+package com.aero51.moviedatabase.repository.model.tmdb.tvshow;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage;
+
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(tableName = "movies_by_genre_page")
-public class MoviesByGenrePage {
+@Entity(tableName = "tv_shows_by_genre_page")
+public class TvShowsByGenrePage {
 
     @PrimaryKey(autoGenerate = false)
     private Integer page;
     private Integer total_results;
     private Integer total_pages;
     @Ignore
-    private List<MovieByGenre> results;
+    private List<TvShowByGenre> results;
 
     @Ignore
-    public MoviesByGenrePage(Integer page, Integer total_results, Integer total_pages, List<MovieByGenre> results) {
+    public TvShowsByGenrePage(Integer page, Integer total_results, Integer total_pages, List<TvShowByGenre> results) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
         this.results = results;
     }
 
-    public MoviesByGenrePage(Integer page, Integer total_results, Integer total_pages) {
+    public TvShowsByGenrePage(Integer page, Integer total_results, Integer total_pages) {
         this.page = page;
         this.total_results = total_results;
         this.total_pages = total_pages;
@@ -46,12 +48,12 @@ public class MoviesByGenrePage {
         return total_pages;
     }
 
-    public List<MovieByGenre> getResults_list() {
+    public List<TvShowByGenre> getResults_list() {
         return results;
     }
 
-    @Entity(tableName = "movie_by_genre")
-    public static class MovieByGenre implements Serializable {
+    @Entity(tableName = "tv_show_by_genre")
+    public static class TvShowByGenre implements Serializable {
 
         @PrimaryKey(autoGenerate = true)
         private int db_id;
@@ -76,7 +78,7 @@ public class MoviesByGenrePage {
 
 
 
-        public MovieByGenre(Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
+        public TvShowByGenre(Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
             this.popularity = popularity;
             this.vote_count = vote_count;
             this.video = video;
@@ -96,7 +98,7 @@ public class MoviesByGenrePage {
 
         //for testing purposes
         @Ignore
-        public MovieByGenre(Integer id, String title) {
+        public TvShowByGenre(Integer id, String title) {
             this.id = id;
             this.title = title;
         }
@@ -105,7 +107,6 @@ public class MoviesByGenrePage {
         public int getDb_id() {
             return db_id;
         }
-
 
         public Double getPopularity() {
             return popularity;

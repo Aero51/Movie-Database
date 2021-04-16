@@ -40,7 +40,8 @@ public class SharedViewModel extends ViewModel {
     private Integer castIndex;
 
     private MutableLiveData<Integer> liveGenreId = new MutableLiveData<>();
-    private SingleLiveEvent<Boolean> shouldSwitchGenreListFragment = new SingleLiveEvent<>();
+    private SingleLiveEvent<Boolean> shouldSwitchMoviesByGenreListFragment = new SingleLiveEvent<>();
+    private SingleLiveEvent<Boolean> shouldSwitchTvShowsByGenreListFragment = new SingleLiveEvent<>();
 
 
     private MutableLiveData<Boolean> hasEpgTvFragmentFinishedLoading = new MutableLiveData<>();
@@ -122,10 +123,16 @@ public class SharedViewModel extends ViewModel {
 
     }
 
-    public void changeToMovieGenresFragment(Integer genreId, Integer position ) {
+    public void changeToMoviesByGenreListFragment(Integer genreId, Integer position ) {
 
         liveGenreId.setValue(genreId);
-        shouldSwitchGenreListFragment.setValue(true);
+        shouldSwitchMoviesByGenreListFragment.setValue(true);
+
+    }
+    public void changeToTvShowsByGenreListFragment(Integer genreId, Integer position ) {
+
+        liveGenreId.setValue(genreId);
+        shouldSwitchTvShowsByGenreListFragment.setValue(true);
 
     }
 
@@ -139,8 +146,11 @@ public class SharedViewModel extends ViewModel {
     public LiveData<Integer> getLiveDataGenreId() {
         return liveGenreId;
     }
-    public LiveData<Boolean> getSingleLiveShouldSwitchGenreListFragment() {
-        return shouldSwitchGenreListFragment;
+    public LiveData<Boolean> getSingleLiveShouldSwitchMoviesByGenreListFragment() {
+        return shouldSwitchMoviesByGenreListFragment;
+    }
+    public LiveData<Boolean> getSingleLiveShouldSwitchTvShowsByGenreListFragment() {
+        return shouldSwitchTvShowsByGenreListFragment;
     }
 
     public void setHasEpgTvFragmentFinishedLoading(boolean hasEpgTvFragmentFinishedLoading) {

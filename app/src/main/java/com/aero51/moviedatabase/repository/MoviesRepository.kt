@@ -21,7 +21,7 @@ import com.aero51.moviedatabase.utils.Constants.LOG2
 class MoviesRepository(private val application: Application, private val executors: AppExecutors) {
 
     private val database: Database
-
+    private var genresDao: GenresDao
 
     var topRatedResultsPagedList: LiveData<PagedList<TopRatedMovie>>? = null
         private set
@@ -31,14 +31,13 @@ class MoviesRepository(private val application: Application, private val executo
         private set
     var upcomingResultsPagedList: LiveData<PagedList<UpcomingMovie>>? = null
         private set
-    var moviesByGenrePagedList: LiveData<PagedList<MoviesByGenrePage.GenreMovie>>? = null
+    var moviesByGenrePagedList: LiveData<PagedList<MoviesByGenrePage.MovieByGenre>>? = null
         private set
     private val topRatedMoviesBoundaryCallback: TopRatedMoviesBoundaryCallback
     private val popularMoviesBoundaryCallback: PopularMoviesBoundaryCallback
     private val nowPlayingMoviesBoundaryCallback: NowPlayingMoviesBoundaryCallback
     private val upcomingMoviesBoundaryCallback: UpcomingMoviesBoundaryCallback
     private lateinit var moviesByGenreBoundaryCallback: MoviesByGenreBoundaryCallback
-    private var genresDao: GenresDao
 
     private val pagedListConfig: PagedList.Config
         private get() = PagedList.Config.Builder()
@@ -46,7 +45,6 @@ class MoviesRepository(private val application: Application, private val executo
                 .setPrefetchDistance(40)
                 .setInitialLoadSizeHint(60)
                 .setPageSize(20).build()
-
 
     init {
         database = Database.getInstance(application)
@@ -65,6 +63,10 @@ class MoviesRepository(private val application: Application, private val executo
         createNowPlayingMoviesPagedList(nowPlayingMoviesDao)
         createUpcomingMoviesPagedList(upcomingMoviesDao)
     }
+
+
+
+
 
     private fun createTopRatedMoviesPagedList(dao: TopRatedMoviesDao) {
         topRatedResultsPagedList = LivePagedListBuilder(dao.allResults, pagedListConfig)
@@ -137,6 +139,7 @@ class MoviesRepository(private val application: Application, private val executo
 
             override fun saveCallResult(item: MovieGenresResponse) {
                 //this is executed on background thread
+                Log.d("nikola", "item.genres.size: "+item.genres.size)
                 database.runInTransaction { genresDao.insertMovieGenreList(item.genres) }
             }
 
@@ -144,18 +147,18 @@ class MoviesRepository(private val application: Application, private val executo
     }
 
 
-    fun loadMoviesByGenre(genreId: Int): LiveData<PagedList<MoviesByGenrePage.GenreMovie>>? {
+    fun loadMoviesByGenre(genreId: Int): LiveData<PagedList<MoviesByGenrePage.MovieByGenre>>? {
         createMoviesByGenrePagedList(genresDao, genreId)
         return moviesByGenrePagedList
     }
 
-    suspend fun checkIfDataValid(genreId: Int) {
-        val genreMovie = genresDao.getFirstMovieByGenre(genreId)
-        if (genreMovie != null) {
-            Log.d(LOG2, "MoviesRepository timestamp: " + genreMovie.timestamp)
+    suspend fun checkIfMoviesByGenreNeedsRefresh(genreId: Int) {
+        val movieByGenre = genresDao.getFirstMovieByGenre(genreId)
+        if (movieByGenre != null) {
+            Log.d(LOG2, "MoviesRepository timestamp: " + movieByGenre.timestamp)
             val oneWeekMillis: Long = 604800000
             val currentTime: Long = System.currentTimeMillis()
-            if((currentTime - 10000) >= genreMovie.timestamp){
+            if((currentTime - oneWeekMillis) >= movieByGenre.timestamp){
                 // TODO    refresh implemented, need to clean it
                       genresDao.deleteAllMoviesByGenrePagesSuspended()
                       genresDao.deleteAllMoviesByGenre(genreId)

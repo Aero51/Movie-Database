@@ -28,8 +28,9 @@ import android.view.WindowManager;
 
 import com.aero51.moviedatabase.ui.ActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
-import com.aero51.moviedatabase.ui.GenreListFragment;
+import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
+import com.aero51.moviedatabase.ui.TvShowsByGenreListFragment;
 import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
 import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
@@ -47,7 +48,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 
 import static com.aero51.moviedatabase.utils.Constants.BOSNIAN_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.CROATIAN_CHANNELS_PREFERENCE;
-import static com.aero51.moviedatabase.utils.Constants.LOG2;
 import static com.aero51.moviedatabase.utils.Constants.NEWS_CHANNELS_PREFERENCE;
 import static com.aero51.moviedatabase.utils.Constants.SERBIAN_CHANNELS_PREFERENCE;
 
@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
-    private DynamicFragmentPagerAdapter.FragmentIdentifier genreListFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentIdentifier;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SharedViewModel sharedViewModel;
     private Integer actorFragmentBackPosition;
@@ -207,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         initFirstFragmentIdentifiers();
         registerShouldSwitchEpgFragmentsObservers();
         registerShouldSwitchMovieFragmentsObservers();
+        registerShouldSwitchTvShowFragmentsObservers();
         //transparentStatusAndNavigation();
     }
 
@@ -338,13 +340,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         });
 
 
-        sharedViewModel.getSingleLiveShouldSwitchGenreListFragment().observe(this, new Observer<Boolean>() {
+        sharedViewModel.getSingleLiveShouldSwitchMoviesByGenreListFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                genreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(GenreListFragment.class.getSimpleName(), null) {
+                moviesByGenreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesByGenreListFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return new GenreListFragment();
+                        return new MoviesByGenreListFragment();
                     }
 
                     @Override
@@ -352,10 +354,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                         return 0;
                     }
                 };
-                replaceFragment(1, genreListFragmentIdentifier);
+                replaceFragment(1, moviesByGenreListFragmentIdentifier);
                 customViewPager.setCurrentItem(1);
             }
         });
+
+
+    }
+    private void registerShouldSwitchTvShowFragmentsObservers() {
+       sharedViewModel.getSingleLiveShouldSwitchTvShowsByGenreListFragment().observe(this, new Observer<Boolean>() {
+           @Override
+           public void onChanged(Boolean aBoolean) {
+               tvShowsByGenreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsByGenreListFragment.class.getSimpleName(),null) {
+                   @Override
+                   protected Fragment createFragment() { return new TvShowsByGenreListFragment(); }
+
+                   @Override
+                   public int describeContents() { return 0; }
+               } ;
+               replaceFragment(2, tvShowsByGenreListFragmentIdentifier);
+               customViewPager.setCurrentItem(2);
+           }
+       });
 
 
     }
@@ -388,9 +408,18 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     replaceFragment(1, movieDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
-                } else if (currentFragmentTag.equals(GenreListFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName())) {
                     replaceFragment(1, moviesFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
+                }
+                break;
+            case 2:
+                if (currentFragmentTag.equals(TvShowsFragment.class.getSimpleName())) {
+                    super.onBackPressed();
+                } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName())) {
+                    replaceFragment(2, tvShowsFragmentIdentifier);
+                    customViewPager.setCurrentItem(2);
+
                 }
                 break;
         }
@@ -418,7 +447,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 } else if (currentFragmentTag.equals(ActorFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(GenreListFragment.class.getSimpleName())){
+                } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName())){
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }
+
+            case 2:
+                if (currentFragmentTag.equals(TvShowsFragment.class.getSimpleName())) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
 
