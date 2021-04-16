@@ -80,6 +80,12 @@ class AiringTvShowsBoundaryCallback(application: Application, private val execut
         val runnable = Runnable {
             dao.deleteAllAiringTvShowPages()
             dao.insertAiringTvShowPage(page)
+            val currentTime: Long =System.currentTimeMillis()
+            for(tvShow in listOfResults)
+            {
+                tvShow.timestamp=currentTime
+
+            }
             dao.insertList(listOfResults)
         }
         val diskRunnable = Runnable { database.runInTransaction(runnable) }

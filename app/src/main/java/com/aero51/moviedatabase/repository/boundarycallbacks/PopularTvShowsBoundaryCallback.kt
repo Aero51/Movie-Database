@@ -81,6 +81,12 @@ class PopularTvShowsBoundaryCallback(application: Application?, private val exec
         val runnable = Runnable {
             dao.deleteAllTvShowPages()
             dao.insertTvShowPage(page)
+            val currentTime: Long =System.currentTimeMillis()
+            for(tvShow in listOfResults)
+            {
+                tvShow.timestamp=currentTime
+
+            }
             dao.insertList(listOfResults)
         }
         val diskRunnable = Runnable { database.runInTransaction(runnable) }

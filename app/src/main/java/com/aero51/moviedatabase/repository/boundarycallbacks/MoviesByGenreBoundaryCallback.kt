@@ -55,7 +55,7 @@ class MoviesByGenreBoundaryCallback (application: Application?, private val exec
     fun fetchMoviesByGenre(pageNumber: Int) {
         networkState.postValue(NetworkState.LOADING)
         val theMovieDbApi = RetrofitInstance.getTmdbApiService()
-        val call = theMovieDbApi.getMoviesByGenre(Constants.TMDB_API_KEY, pageNumber,genreId,"vote_average.desc",3000)
+        val call = theMovieDbApi.getMoviesByGenre(Constants.TMDB_API_KEY, pageNumber,genreId,"vote_average.desc",1000)
         call.enqueue(object : Callback<MoviesByGenrePage> {
             override fun onResponse(call: Call<MoviesByGenrePage>, response: Response<MoviesByGenrePage>) {
                 if (!response.isSuccessful) {

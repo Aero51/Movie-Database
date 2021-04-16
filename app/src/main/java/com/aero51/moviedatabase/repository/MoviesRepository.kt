@@ -21,7 +21,11 @@ import com.aero51.moviedatabase.utils.Constants.LOG2
 class MoviesRepository(private val application: Application, private val executors: AppExecutors) {
 
     private val database: Database
-    private var genresDao: GenresDao
+    private lateinit var topRatedMoviesDao: TopRatedMoviesDao
+    private lateinit var popularMoviesDao : PopularMoviesDao
+    private lateinit var nowPlayingMoviesDao: NowPlayingMoviesDao
+    private lateinit var upcomingMoviesDao: UpcomingMoviesDao
+    private lateinit var genresDao: GenresDao
 
     var topRatedResultsPagedList: LiveData<PagedList<TopRatedMovie>>? = null
         private set
@@ -49,10 +53,10 @@ class MoviesRepository(private val application: Application, private val executo
     init {
         database = Database.getInstance(application)
         genresDao = database._genres_dao
-        val topRatedMoviesDao = database._top_rated_movies_dao
-        val popularMoviesDao = database._popular_movies_dao
-        val nowPlayingMoviesDao = database._now_playing_movies_dao
-        val upcomingMoviesDao = database._upcoming_movies_dao
+        topRatedMoviesDao = database._top_rated_movies_dao
+        popularMoviesDao = database._popular_movies_dao
+        nowPlayingMoviesDao = database._now_playing_movies_dao
+        upcomingMoviesDao = database._upcoming_movies_dao
         genresDao = database._genres_dao
         topRatedMoviesBoundaryCallback = TopRatedMoviesBoundaryCallback(application, executors)
         popularMoviesBoundaryCallback = PopularMoviesBoundaryCallback(application, executors)
@@ -169,5 +173,21 @@ class MoviesRepository(private val application: Application, private val executo
         }
     }
 
+
+    suspend fun checkIfTopRatedMoviesNeedsRefresh() {
+        val topRatedMovie = topRatedMoviesDao.getFirstTopRatedMovie()
+        if (topRatedMovie != null) {
+            Log.d(LOG2, "MoviesRepository timestamp: " + topRatedMovie.timestamp)
+            val oneWeekMillis: Long = 604800000
+            val currentTime: Long = System.currentTimeMillis()
+            if((currentTime - oneWeekMillis) >= topRatedMovie.timestamp){
+                // TODO    refresh implemented, need to clean it
+                topRatedMoviesDao.deleteAllTopRatedMoviesPagesSuspended()
+                topRatedMoviesDao.deleteAllTopRatedMoviesSuspended()
+
+
+            }
+        }
+    }
 
 }

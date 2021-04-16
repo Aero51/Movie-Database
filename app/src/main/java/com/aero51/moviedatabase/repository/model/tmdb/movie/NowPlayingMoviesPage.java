@@ -69,6 +69,7 @@ public class NowPlayingMoviesPage {
         private Double vote_average;
         private String overview;
         private String release_date;
+        private Long timestamp;
 
 
 
@@ -163,6 +164,8 @@ public class NowPlayingMoviesPage {
             this.db_id = db_id;
         }
 
+        public Long getTimestamp() { return timestamp; }
 
+        public void setTimestamp(Long timestamp) { this.timestamp = timestamp; }
     }
 }

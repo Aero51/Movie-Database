@@ -142,6 +142,12 @@ public class AiringTvShowsPage {
         public void setDb_id(int db_id) {
             this.db_id = db_id;
         }
+
+        public Long getTimestamp() { return timestamp; }
+
+        public void setTimestamp(Long timestamp) { this.timestamp = timestamp; }
+
+        private Long timestamp;
     }
 
 }

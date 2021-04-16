@@ -80,12 +80,24 @@
                 android:layout_marginBottom="5dp"
                 android:background="#31C7C7CC" />
 
+
+            <TextView
+            android:id="@+id/text_view_genres_static"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:text="Žanrovi:"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/movie_genres_recycler_view_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginStart="10dp"
                 android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal" />
 
             <View

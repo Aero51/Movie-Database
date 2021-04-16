@@ -82,6 +82,11 @@ class PopularMoviesBoundaryCallback(application: Application?, private val execu
         val runnable = Runnable {
             dao.deleteAllMoviePages()
             dao.insertMoviePage(page)
+            val currentTime: Long =System.currentTimeMillis()
+            for (movie in listOfResults)
+            {
+                movie.timestamp=currentTime
+            }
             dao.insertList(listOfResults)
         }
         val diskRunnable = Runnable { database.runInTransaction(runnable) }

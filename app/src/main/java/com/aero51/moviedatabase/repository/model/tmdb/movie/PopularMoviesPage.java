@@ -68,6 +68,7 @@ public class PopularMoviesPage {
         private Double vote_average;
         private String overview;
         private String release_date;
+        private Long timestamp;
 
         public PopularMovie( Double popularity, Integer vote_count, boolean video, String poster_path, Integer id, boolean adult, String backdrop_path, String original_language, String original_title, List<Integer> genre_ids, String title, Double vote_average, String overview, String release_date) {
             this.popularity = popularity;
@@ -160,7 +161,9 @@ public class PopularMoviesPage {
             this.db_id = db_id;
         }
 
+        public Long getTimestamp() { return timestamp; }
 
+        public void setTimestamp(Long timestamp) { this.timestamp = timestamp; }
 
     }
 }

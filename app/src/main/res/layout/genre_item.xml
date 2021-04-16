@@ -11,8 +11,9 @@
         android:id="@+id/tv_genre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="15dp"
         android:background="@drawable/rounded_corner"
+        android:textColor="@color/colorWhite"
         android:text="position"/>
 
 

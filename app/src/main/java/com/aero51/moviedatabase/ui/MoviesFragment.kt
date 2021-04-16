@@ -204,6 +204,9 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
         })
     }
 
+
+
+
     /*
         @Override
         public void OnItemClick(TopRatedMovie result, int position) {
