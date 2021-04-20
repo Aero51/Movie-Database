@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMoviesBinding
+import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.GenreObjectClickListener
@@ -102,6 +103,9 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
     }
 
     private fun registerTopRatedMoviesObservers() {
+        //to check if data is more then week old, then app should refresh with new data from network
+        moviesViewModel.topRatedMoviesDataValidationCheck()
+
         moviesViewModel!!.topRatedResultsPagedList?.observe(viewLifecycleOwner, { top_rated_results ->
             Log.d(Constants.LOG, "topRated MoviesFragment  onChanged list size: " + top_rated_results.size)
             topRatedAdapter!!.submitList(top_rated_results)
@@ -115,6 +119,8 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
                 }
 */
         })
+
+
         moviesViewModel!!.topRatedLiveMoviePage.observe(viewLifecycleOwner, { top_rated_movies_page ->
             val page_number: Int
             page_number = if (top_rated_movies_page == null) {
@@ -131,6 +137,7 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
     }
 
     private fun registerPopularMoviesObservers() {
+        moviesViewModel.popularMoviesDataValidationCheck()
         moviesViewModel!!.popularResultsPagedList?.observe(viewLifecycleOwner, { popularMovies -> //Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
             popularAdapter!!.submitList(popularMovies)
         })
@@ -146,6 +153,7 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
     }
 
     private fun registerNowPlayingMoviesObservers() {
+        moviesViewModel.nowPlayingMoviesDataValidationCheck()
         moviesViewModel!!.nowPlayingResultsPagedList?.observe(viewLifecycleOwner, { now_playing_results ->
             Log.d(Constants.LOG, "now playing MoviesFragment  onChanged list size: " + now_playing_results.size)
             nowPlayingAdapter!!.submitList(now_playing_results)
@@ -175,6 +183,8 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
     }
 
     private fun registerUpcomingMoviesObservers() {
+        //to check if data is more then week old, then app should refresh with new data from network
+        moviesViewModel.upcomingMoviesDataValidationCheck()
         moviesViewModel!!.upcomingResultsPagedList?.observe(viewLifecycleOwner, { upcoming_results ->
             Log.d(Constants.LOG, "upcoming MoviesFragment  onChanged list size: " + upcoming_results.size)
             upcomingAdapter!!.submitList(upcoming_results)

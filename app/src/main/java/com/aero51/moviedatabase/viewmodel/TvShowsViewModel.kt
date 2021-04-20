@@ -71,6 +71,27 @@ class TvShowsViewModel(application: Application) : AndroidViewModel(application)
             tvShowsRepository.checkIfTvShowsByGenreNeedsRefresh(genreId)
         }
     }
+    fun  popularShowsDataValidationCheck(){
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            tvShowsRepository.checkIfPopularTvShowsNeedsRefresh()
+        }
+    }
+    fun  trendingShowsDataValidationCheck(){
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            tvShowsRepository.checkIfTrendingTvShowsNeedsRefresh()
+        }
+    }
 
+    fun  airingShowsDataValidationCheck(){
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            tvShowsRepository.checkIfAiringTvShowsNeedsRefresh()
+        }
+    }
 
 }

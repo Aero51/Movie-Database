@@ -84,7 +84,6 @@ class AiringTvShowsBoundaryCallback(application: Application, private val execut
             for(tvShow in listOfResults)
             {
                 tvShow.timestamp=currentTime
-
             }
             dao.insertList(listOfResults)
         }

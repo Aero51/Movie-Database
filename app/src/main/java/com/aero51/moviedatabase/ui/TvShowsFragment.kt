@@ -98,6 +98,7 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
     }
 
     private fun registerPopularTvShowsObservers() {
+        tvShowsViewModel.popularShowsDataValidationCheck()
         tvShowsViewModel!!.popularLiveTvShowPage.observe(viewLifecycleOwner, Observer { popularTvShowsPage ->
             val page_number: Int
             page_number = if (popularTvShowsPage == null) {
@@ -113,6 +114,7 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
     }
 
     private fun registerAiringTvShowsObservers() {
+        tvShowsViewModel.airingShowsDataValidationCheck()
         tvShowsViewModel!!.tvAiringResultsPagedList!!.observe(viewLifecycleOwner, { airingTvShows -> airingAdapter!!.submitList(airingTvShows) })
         tvShowsViewModel!!.airingLiveTvShowPage.observe(viewLifecycleOwner, Observer { airingTvShowsPage ->
             val page_number: Int
@@ -126,6 +128,7 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
     }
 
     private fun registerTrendingTvShowsObservers() {
+        tvShowsViewModel.trendingShowsDataValidationCheck()
         tvShowsViewModel?.tvTrendingResultsPagedList!!.observe(viewLifecycleOwner, { trendingTvShows -> trendingAdapter!!.submitList(trendingTvShows) })
         tvShowsViewModel!!.trendingLiveTvShowPage.observe(viewLifecycleOwner, Observer { trendingTvShowsPage ->
             val page_number: Int

@@ -17,12 +17,13 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage.U
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.utils.Constants.LOG2
+import com.aero51.moviedatabase.utils.Constants.ONE_WEEK_IN_MILLIS
 
 class MoviesRepository(private val application: Application, private val executors: AppExecutors) {
 
     private val database: Database
     private lateinit var topRatedMoviesDao: TopRatedMoviesDao
-    private lateinit var popularMoviesDao : PopularMoviesDao
+    private lateinit var popularMoviesDao: PopularMoviesDao
     private lateinit var nowPlayingMoviesDao: NowPlayingMoviesDao
     private lateinit var upcomingMoviesDao: UpcomingMoviesDao
     private lateinit var genresDao: GenresDao
@@ -67,9 +68,6 @@ class MoviesRepository(private val application: Application, private val executo
         createNowPlayingMoviesPagedList(nowPlayingMoviesDao)
         createUpcomingMoviesPagedList(upcomingMoviesDao)
     }
-
-
-
 
 
     private fun createTopRatedMoviesPagedList(dao: TopRatedMoviesDao) {
@@ -143,7 +141,7 @@ class MoviesRepository(private val application: Application, private val executo
 
             override fun saveCallResult(item: MovieGenresResponse) {
                 //this is executed on background thread
-                Log.d("nikola", "item.genres.size: "+item.genres.size)
+                Log.d("nikola", "item.genres.size: " + item.genres.size)
                 database.runInTransaction { genresDao.insertMovieGenreList(item.genres) }
             }
 
@@ -160,32 +158,62 @@ class MoviesRepository(private val application: Application, private val executo
         val movieByGenre = genresDao.getFirstMovieByGenre(genreId)
         if (movieByGenre != null) {
             Log.d(LOG2, "MoviesRepository timestamp: " + movieByGenre.timestamp)
-            val oneWeekMillis: Long = 604800000
             val currentTime: Long = System.currentTimeMillis()
-            if((currentTime - oneWeekMillis) >= movieByGenre.timestamp){
+            if ((currentTime - ONE_WEEK_IN_MILLIS) >= movieByGenre.timestamp) {
                 // TODO    refresh implemented, need to clean it
-                      genresDao.deleteAllMoviesByGenrePagesSuspended()
-                      genresDao.deleteAllMoviesByGenre(genreId)
-
-
+                genresDao.deleteAllMoviesByGenrePagesSuspended()
+                genresDao.deleteAllMoviesByGenre(genreId)
 
             }
         }
     }
 
-
     suspend fun checkIfTopRatedMoviesNeedsRefresh() {
         val topRatedMovie = topRatedMoviesDao.getFirstTopRatedMovie()
         if (topRatedMovie != null) {
-            Log.d(LOG2, "MoviesRepository timestamp: " + topRatedMovie.timestamp)
-            val oneWeekMillis: Long = 604800000
+            Log.d(LOG2, "MoviesRepository top rated timestamp: " + topRatedMovie.timestamp)
             val currentTime: Long = System.currentTimeMillis()
-            if((currentTime - oneWeekMillis) >= topRatedMovie.timestamp){
-                // TODO    refresh implemented, need to clean it
+            if ((currentTime - ONE_WEEK_IN_MILLIS) >= topRatedMovie.timestamp) {
                 topRatedMoviesDao.deleteAllTopRatedMoviesPagesSuspended()
                 topRatedMoviesDao.deleteAllTopRatedMoviesSuspended()
 
+            }
+        }
+    }
+    suspend fun checkIfPopularMoviesNeedsRefresh() {
+        val popularMovie = popularMoviesDao.getFirstPopularMovie()
+        if (popularMovie != null) {
+            Log.d(LOG2, "MoviesRepository top rated timestamp: " + popularMovie.timestamp)
+            val currentTime: Long = System.currentTimeMillis()
+            if ((currentTime - ONE_WEEK_IN_MILLIS) >= popularMovie.timestamp) {
+                popularMoviesDao.deleteAllPopularMoviesPagesSuspended()
+                popularMoviesDao.deleteAllPopularMoviesSuspended()
 
+            }
+        }
+    }
+
+    suspend fun checkIfNowPlayingMoviesNeedsRefresh() {
+        val nowPlayingMovie = nowPlayingMoviesDao.getFirstNowPlayingMovie()
+        if (nowPlayingMovie != null) {
+            Log.d(LOG2, "MoviesRepository upcoming timestamp: " + nowPlayingMovie.timestamp)
+            val currentTime: Long = System.currentTimeMillis()
+            if ((currentTime - ONE_WEEK_IN_MILLIS) >= nowPlayingMovie.timestamp) {
+                nowPlayingMoviesDao.deleteAllNowPlayingMoviesPagesSuspended()
+                nowPlayingMoviesDao.deleteAllNowPlayingMoviesSuspended()
+            }
+        }
+    }
+
+
+    suspend fun checkIfUpcomingMoviesNeedsRefresh() {
+        val upcomingMovie = upcomingMoviesDao.getFirstUpcomingMovie()
+        if (upcomingMovie != null) {
+            Log.d(LOG2, "MoviesRepository upcoming timestamp: " + upcomingMovie.timestamp)
+            val currentTime: Long = System.currentTimeMillis()
+            if ((currentTime - ONE_WEEK_IN_MILLIS) >= upcomingMovie.timestamp) {
+                upcomingMoviesDao.deleteAllUpcomingMoviesPagesSuspended()
+                upcomingMoviesDao.deleteAllUpcomingMoviesSuspended()
             }
         }
     }

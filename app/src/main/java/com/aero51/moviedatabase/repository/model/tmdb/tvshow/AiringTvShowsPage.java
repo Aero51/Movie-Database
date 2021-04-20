@@ -64,6 +64,7 @@ public class AiringTvShowsPage {
         private String poster_path;
         private Double vote_average;
         private Integer vote_count;
+        private Long timestamp;
 
 
         public AiringTvShow(String backdrop_path, String first_air_date, List<Integer> genre_ids, Integer id, String name, List<String> origin_country, String original_language, String original_name, String overview, Double popularity, String poster_path, Double vote_average, Integer vote_count) {
@@ -147,7 +148,6 @@ public class AiringTvShowsPage {
 
         public void setTimestamp(Long timestamp) { this.timestamp = timestamp; }
 
-        private Long timestamp;
     }
 
 }

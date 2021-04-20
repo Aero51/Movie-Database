@@ -8,7 +8,6 @@ import androidx.paging.PagedList
 import com.aero51.moviedatabase.repository.boundarycallbacks.*
 import com.aero51.moviedatabase.repository.db.*
 import com.aero51.moviedatabase.repository.model.NetworkState
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage.AiringTvShow
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage.PopularTvShow
@@ -21,6 +20,9 @@ class TvShowsRepository(private val application: Application, private val execut
 
     private val database: Database
     private val genresDao: GenresDao
+    private lateinit var popularTvShowsDao: PopularTvShowsDao
+    private lateinit var airingTvShowsDao: AiringTvShowsDao
+    private lateinit var trendingTvShowsDao: TrendingTvShowsDao
 
     var tvPopularResultsPagedList: LiveData<PagedList<PopularTvShow>>? = null
         private set
@@ -46,9 +48,9 @@ class TvShowsRepository(private val application: Application, private val execut
     init {
         database = Database.getInstance(application)
         genresDao = database._genres_dao
-        val popularTvShowsDao = database._popular_tv_shows_dao
-        val airingTvShowsDao = database._airing_tv_shows_dao
-        val trendingTvShowsDao = database._trending_tv_shows_dao
+        popularTvShowsDao = database._popular_tv_shows_dao
+        airingTvShowsDao = database._airing_tv_shows_dao
+        trendingTvShowsDao = database._trending_tv_shows_dao
         popularTvShowsBoundaryCallback = PopularTvShowsBoundaryCallback(application, executors)
         airingTvShowsBoundaryCallback = AiringTvShowsBoundaryCallback(application, executors)
         trendingTvShowsBoundaryCallback = TrendingTvShowsBoundaryCallback(application, executors)
@@ -141,12 +143,51 @@ class TvShowsRepository(private val application: Application, private val execut
         val tvShowByGenre = genresDao.getFirstTvShowByGenre(genreId)
         if (tvShowByGenre != null) {
             Log.d(Constants.LOG2, "MoviesRepository timestamp: " + tvShowByGenre.timestamp)
-            val oneWeekMillis: Long = 604800000
             val currentTime: Long = System.currentTimeMillis()
-            if((currentTime - oneWeekMillis) >= tvShowByGenre.timestamp){
+            if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= tvShowByGenre.timestamp){
                 // TODO    refresh implemented, need to clean it
                 genresDao.deleteAllMoviesByGenrePagesSuspended()
                 genresDao.deleteAllMoviesByGenre(genreId)
+            }
+        }
+    }
+
+    suspend fun checkIfPopularTvShowsNeedsRefresh() {
+        val popularTvShow = popularTvShowsDao.getFirstPopularTvShow()
+        if (popularTvShow != null) {
+            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + popularTvShow.timestamp)
+            val currentTime: Long = System.currentTimeMillis()
+            if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= popularTvShow.timestamp){
+                // TODO    refresh implemented, need to clean it
+                popularTvShowsDao.deleteAllPopularTvShowsPagesSuspended()
+                popularTvShowsDao.deleteAllPopularTvShowsSuspended()
+            }
+        }
+    }
+
+    suspend fun checkIfTrendingTvShowsNeedsRefresh() {
+        val trendingTvShow = trendingTvShowsDao.getFirstTrendingTvShow()
+        if (trendingTvShow != null) {
+            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + trendingTvShow.timestamp)
+            val currentTime: Long = System.currentTimeMillis()
+            if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= trendingTvShow.timestamp){
+                // TODO    refresh implemented, need to clean it
+                trendingTvShowsDao.deleteAllTrendingTvShowsPagesSuspended()
+                trendingTvShowsDao.deleteAllTrendingTvShowsSuspended()
+            }
+        }
+    }
+
+
+    suspend fun checkIfAiringTvShowsNeedsRefresh() {
+        val airingTvShow = airingTvShowsDao.getFirstAiringTvShow()
+        if (airingTvShow != null) {
+            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + airingTvShow.timestamp)
+            val currentTime: Long = System.currentTimeMillis()
+            if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= airingTvShow.timestamp){
+                // TODO    refresh implemented, need to clean it
+                airingTvShowsDao.deleteAllAiringTvShowsPagesSuspended()
+                airingTvShowsDao.deleteAllAiringTvShowsSuspended()
             }
         }
     }

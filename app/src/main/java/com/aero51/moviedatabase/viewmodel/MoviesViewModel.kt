@@ -82,7 +82,35 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
         }
 
     }
+    fun topRatedMoviesDataValidationCheck() {
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            moviesRepository.checkIfTopRatedMoviesNeedsRefresh()
+        }
 
+    }
+    fun popularMoviesDataValidationCheck() {
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            moviesRepository.checkIfPopularMoviesNeedsRefresh()
+        }
+    }
+    fun upcomingMoviesDataValidationCheck() {
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            moviesRepository.checkIfUpcomingMoviesNeedsRefresh()
+        }
+    }
+    fun nowPlayingMoviesDataValidationCheck() {
+        viewModelScope.launch {
+            // suspend and resume make this database request main-safe
+            // so our ViewModel doesn't need to worry about threading
+            moviesRepository.checkIfNowPlayingMoviesNeedsRefresh()
+        }
+    }
 
     override fun onCleared() {
         Log.d(Constants.LOG, "view model on cleared ")

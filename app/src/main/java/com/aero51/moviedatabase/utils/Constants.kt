@@ -42,4 +42,5 @@ object Constants {
     const val TV_SHOWS_FIRST_PAGE = 1
     const val TOP_RATED_MOVIE_TYPE_ID = 0
     const val POPULAR_MOVIE_TYPE_ID = 1
+    const val ONE_WEEK_IN_MILLIS = 604800000
 }

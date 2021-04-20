@@ -48,7 +48,7 @@ class UpcomingMoviesBoundaryCallback(application: Application?, private val exec
     override fun onItemAtEndLoaded(itemAtEnd: UpcomingMovie) {
         super.onItemAtEndLoaded(itemAtEnd)
         val page_number = current_movie_page.value!!.page + 1
-        //Log.d(Constants.LOG, "upcomingMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
+        Log.d(Constants.LOG, "upcomingMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchUpcomingMovies(page_number)
     }
 
