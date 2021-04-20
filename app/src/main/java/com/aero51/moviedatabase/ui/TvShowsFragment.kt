@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.observe
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentTvShowsBinding
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse.TvShowGenre
@@ -108,14 +109,14 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
             }
             Log.d(Constants.LOG, "popular Tv shows Fragment onChanged popular tv show page: $page_number")
         })
-        tvShowsViewModel!!.tvPopularResultsPagedList!!.observe(viewLifecycleOwner, { popularMovies -> //Log.d(Constants.LOG, "popular Tv shows Fragment  onChanged list size: " + popularMovies.size());
+        tvShowsViewModel!!.tvPopularResultsPagedList!!.observe(viewLifecycleOwner) { popularMovies -> //Log.d(Constants.LOG, "popular Tv shows Fragment  onChanged list size: " + popularMovies.size());
             popularAdapter!!.submitList(popularMovies)
-        })
+        }
     }
 
     private fun registerAiringTvShowsObservers() {
         tvShowsViewModel.airingShowsDataValidationCheck()
-        tvShowsViewModel!!.tvAiringResultsPagedList!!.observe(viewLifecycleOwner, { airingTvShows -> airingAdapter!!.submitList(airingTvShows) })
+        tvShowsViewModel!!.tvAiringResultsPagedList!!.observe(viewLifecycleOwner) { airingTvShows -> airingAdapter!!.submitList(airingTvShows) }
         tvShowsViewModel!!.airingLiveTvShowPage.observe(viewLifecycleOwner, Observer { airingTvShowsPage ->
             val page_number: Int
             page_number = if (airingTvShowsPage == null) {
@@ -129,7 +130,7 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
 
     private fun registerTrendingTvShowsObservers() {
         tvShowsViewModel.trendingShowsDataValidationCheck()
-        tvShowsViewModel?.tvTrendingResultsPagedList!!.observe(viewLifecycleOwner, { trendingTvShows -> trendingAdapter!!.submitList(trendingTvShows) })
+        tvShowsViewModel?.tvTrendingResultsPagedList!!.observe(viewLifecycleOwner) { trendingTvShows -> trendingAdapter!!.submitList(trendingTvShows) }
         tvShowsViewModel!!.trendingLiveTvShowPage.observe(viewLifecycleOwner, Observer { trendingTvShowsPage ->
             val page_number: Int
             page_number = if (trendingTvShowsPage == null) {
@@ -152,7 +153,7 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
     }
 
     override fun onObjectItemClick(tvShow: Any, position: Int) {
-        //sharedViewModel.changeToMoviedetailsFragment(movie,position);
+        sharedViewModel.changeToTvShowDetailsFragment(tvShow,position)
         Log.d(Constants.LOG, "TvShowsFragment onObjectItemClick position: $position")
     }
 

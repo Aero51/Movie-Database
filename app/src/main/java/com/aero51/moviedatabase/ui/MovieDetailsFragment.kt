@@ -17,19 +17,19 @@ import com.aero51.moviedatabase.ui.adapter.CastAdapter
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
-import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel
+import com.aero51.moviedatabase.viewmodel.TmdbDetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
 class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
-    private var movieDetailsViewModel: MovieDetailsViewModel? = null
+    private var tmdbDetailsViewModel: TmdbDetailsViewModel? = null
     private var castAdapter: CastAdapter? = null
     private var sharedViewModel: SharedViewModel? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        movieDetailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(MovieDetailsViewModel::class.java)
+        tmdbDetailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(TmdbDetailsViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -77,7 +77,7 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
     }
 
     private fun registerMovieDetailsObserver(movieId: Int) {
-        movieDetailsViewModel!!.getMovieCast(movieId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
+        tmdbDetailsViewModel!!.getMovieCast(movieId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
             if (data != null) {
                 Log.d(Constants.LOG, " status: " + status + " list size: " + data.size)
                 castAdapter = CastAdapter(context, data)

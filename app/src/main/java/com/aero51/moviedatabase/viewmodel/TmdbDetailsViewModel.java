@@ -17,10 +17,10 @@ import com.aero51.moviedatabase.utils.Resource;
 
 import java.util.List;
 
-public class MovieDetailsViewModel extends AndroidViewModel {
+public class TmdbDetailsViewModel extends AndroidViewModel {
     private CreditsRepository creditsRepository;
 
-    public MovieDetailsViewModel(@NonNull Application application) {
+    public TmdbDetailsViewModel(@NonNull Application application) {
         super(application);
         AppExecutors executors = new AppExecutors();
         creditsRepository = new CreditsRepository(application, executors);

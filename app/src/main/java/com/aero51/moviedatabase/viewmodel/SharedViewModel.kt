@@ -11,6 +11,10 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage.PopularMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage.TopRatedMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage.UpcomingMovie
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow
 import com.aero51.moviedatabase.utils.SingleLiveEvent
 import com.google.gson.Gson
 
@@ -24,8 +28,11 @@ class SharedViewModel : ViewModel() {
     private val shouldSwitchOtherChannelDetailFragment = SingleLiveEvent<Boolean>()
     private val otherChannelIndex: Int? = null
     private val liveMovie = MutableLiveData<Movie>()
+    private val liveTvShow = MutableLiveData<TvShow>()
     private val shouldSwitchMovieDetailFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchTvShowDetailFragment = SingleLiveEvent<Boolean>()
     private var movieIndex: Int? = null
+    private var tvShowIndex: Int? = null
     private val liveActorId = MutableLiveData<Int>()
     private val shouldSwitchActorFragment = SingleLiveEvent<Boolean>()
     private var castIndex: Int? = null
@@ -85,33 +92,36 @@ class SharedViewModel : ViewModel() {
 
     //done like this to reduce code duplication(fragments, listeners, main activity identifiers
     fun changeToTvShowDetailsFragment(tvShowObject: Any?, position: Int?) {
-        var movie = Movie()
-        if (tvShowObject is TopRatedMovie) {
-            val topRatedMovie = tvShowObject as TopRatedMovie
-            movie = transformTopRatedMovie(topRatedMovie)
+        var tvShow = TvShow()
+        if (tvShowObject is PopularTvShowsPage.PopularTvShow) {
+            val popularTvShow = tvShowObject as PopularTvShowsPage.PopularTvShow
+            tvShow = transformPopularTvShow(popularTvShow)
         }
-        if (tvShowObject is NowPlayingMovie) {
-            val nowPlayingMovie = tvShowObject as NowPlayingMovie
-            movie = transformNowPlayingMovie(nowPlayingMovie)
+        if (tvShowObject is TrendingTvShowsPage.TrendingTvShow) {
+            val trendingTvShow = tvShowObject as TrendingTvShowsPage.TrendingTvShow
+            tvShow = transformTrendingTvShow(trendingTvShow)
         }
-        if (tvShowObject is PopularMovie) {
-            val popularMovie = tvShowObject as PopularMovie
-            movie = transformPopularMovie(popularMovie)
+        if (tvShowObject is AiringTvShowsPage.AiringTvShow) {
+            val airingTvShow = tvShowObject as AiringTvShowsPage.AiringTvShow
+            tvShow = transformAiringTvShow(airingTvShow)
         }
-        if (tvShowObject is UpcomingMovie) {
-            val upcomingMovie = tvShowObject as UpcomingMovie
-            movie = transformUpcomingMovie(upcomingMovie)
-        }
-        movieIndex = position
-        liveMovie.setValue(movie)
-        shouldSwitchMovieDetailFragment.setValue(true)
+
+        tvShowIndex = position
+        liveTvShow.setValue(tvShow)
+        shouldSwitchTvShowDetailFragment.setValue(true)
     }
 
     val liveDataMovie: LiveData<Movie>
         get() = liveMovie
 
+    val liveDataTvShow: LiveData<TvShow>
+        get() = liveTvShow
+
     val singleLiveShouldSwitchMovieDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchMovieDetailFragment
+
+    val singleLiveShouldSwitchTvShowDetailsFragment: LiveData<Boolean>
+        get() = shouldSwitchTvShowDetailFragment
 
     fun changeToActorFragment(position: Int?, actorId: Int) {
         castIndex = position
@@ -173,5 +183,18 @@ class SharedViewModel : ViewModel() {
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
 
+
+    fun transformPopularTvShow(original: PopularTvShowsPage.PopularTvShow?): TvShow {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
+    fun transformTrendingTvShow(original: TrendingTvShowsPage.TrendingTvShow?): TvShow {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
+    fun transformAiringTvShow(original: AiringTvShowsPage.AiringTvShow?): TvShow {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
 
 }

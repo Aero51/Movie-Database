@@ -8,30 +8,27 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.databinding.FragmentActorBinding;
-import com.aero51.moviedatabase.databinding.FragmentMoviesBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
-import com.aero51.moviedatabase.viewmodel.MovieDetailsViewModel;
+import com.aero51.moviedatabase.viewmodel.TmdbDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 import java.util.List;
 
 public class ActorFragment extends Fragment {
-    private MovieDetailsViewModel viewModel;
+    private TmdbDetailsViewModel viewModel;
     private SharedViewModel sharedViewModel;
     private FragmentActorBinding binding;
 
@@ -44,7 +41,7 @@ public class ActorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(MovieDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TmdbDetailsViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
     }
 
