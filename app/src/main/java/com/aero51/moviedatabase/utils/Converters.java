@@ -2,11 +2,11 @@ package com.aero51.moviedatabase.utils;
 
 import androidx.room.TypeConverter;
 
+import com.aero51.moviedatabase.repository.model.omdb.OmdbModel;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -50,5 +50,27 @@ public class Converters {
         String json = gson.toJson(list);
         return json;
     }
+
+
+
+    @TypeConverter
+    public static List<OmdbModel.Ratings> toRatingsList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<OmdbModel.Ratings>>() {}.getType();
+        List<OmdbModel.Ratings> ratingsList = gson.fromJson(value, type);
+        return ratingsList;
+    }
+
+    @TypeConverter
+    public static String fromRatingsList(List<OmdbModel.Ratings>  ratings) {
+        Gson gson = new Gson();
+        String json = gson.toJson(ratings);
+        return json;
+    }
+
+
 
 }

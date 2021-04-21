@@ -1,27 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/dark_gray">
 
-    <ImageView
-        android:id="@+id/cover_image_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
-
-    <androidx.core.widget.NestedScrollView
+    <RelativeLayout
         android:id="@+id/main_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@+id/poster_image_view"
         android:clipToPadding="false"
         android:scrollbars="none">
+
+
+    <ImageView
+        android:id="@+id/cover_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:scaleType="centerCrop" />
+
+    <ImageView
+        android:id="@+id/poster_image_view"
+        android:layout_width="150dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="-100dp"
+        android:layout_marginStart="15dp"
+        android:layout_below="@+id/cover_image_view"
+        android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Movie Title"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:layout_toEndOf="@+id/poster_image_view"
+            android:layout_below="@+id/cover_image_view"
+            android:textColor="@color/primaryText"
+            android:layout_marginStart="10dp"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/release_year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="2021"
+            android:ellipsize="end"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:layout_below="@+id/title"
+            android:layout_toEndOf="@+id/poster_image_view"
+            android:textColor="@color/primaryText"
+            android:layout_marginStart="10dp"
+           />
+
+        <TextView
+            android:id="@+id/imdb_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="imbd rating"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:text="Imdb rating"
+            android:drawableLeft="@drawable/imdb_logo"
+            android:drawablePadding="10dp"
+            android:layout_below="@+id/poster_image_view"
+            android:textColor="@color/primaryText"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/rotten_tomatoes_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="rotten rating"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:drawableLeft="@drawable/rotten_tomatoes_logo"
+            android:drawablePadding="10dp"
+            android:layout_below="@+id/poster_image_view"
+            android:layout_toRightOf="@+id/imdb_rating"
+            android:textColor="@color/primaryText"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/tmdb_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="tmbd rating"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:drawableLeft="@drawable/tmbd_logo"
+            android:drawablePadding="10dp"
+            android:layout_below="@+id/imdb_rating"
+            android:textColor="@color/primaryText"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/metacritic_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="metacritic rating"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:drawableLeft="@drawable/metacritic_logo"
+            android:drawablePadding="10dp"
+            android:layout_below="@+id/rotten_tomatoes_rating"
+            android:layout_toRightOf="@+id/tmdb_rating"
+            android:textColor="@color/primaryText"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            />
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tmdb_rating"
             android:orientation="vertical">
 
             <androidx.cardview.widget.CardView
@@ -41,15 +154,7 @@
                     android:orientation="vertical"
                     android:background="@color/dark_gray">
 
-                    <TextView
-                        android:id="@+id/title"
-                        android:layout_width="match_parent"
-                        android:layout_height="80dp"
-                        android:ellipsize="end"
-                        android:gravity="center_vertical"
-                        android:maxLines="2"
-                        android:textColor="@color/primaryText"
-                        android:textSize="28sp" />
+
 
                     <TextView
                         android:id="@+id/releaseDate"
@@ -102,5 +207,5 @@
 
 
 
-    </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+    </RelativeLayout>
+</androidx.core.widget.NestedScrollView>

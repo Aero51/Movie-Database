@@ -4,8 +4,10 @@ import com.aero51.moviedatabase.BuildConfig
 
 object Constants {
     const val TMDB_API_KEY = BuildConfig.API_KEY
+    const val OMDB_API_KEY = "eecebcf1"
     const val TMDB_BASE_URL = "https://api.themoviedb.org/3/"
     const val EPG_BASE_URL = "https://springbootepd.herokuapp.com/"
+    const val OMDB_BASE_URL = "https://www.omdbapi.com/"   // ?apikey=[yourkey]&
     const val REGION = "us"
     const val BASE_IMAGE_URL = "https://image.tmdb.org/t/p/"
     const val BACKDROP_SIZE_W300 = "w300"

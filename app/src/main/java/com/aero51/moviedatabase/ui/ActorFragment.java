@@ -22,13 +22,13 @@ import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
-import com.aero51.moviedatabase.viewmodel.TmdbDetailsViewModel;
+import com.aero51.moviedatabase.viewmodel.DetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 
 import java.util.List;
 
 public class ActorFragment extends Fragment {
-    private TmdbDetailsViewModel viewModel;
+    private DetailsViewModel viewModel;
     private SharedViewModel sharedViewModel;
     private FragmentActorBinding binding;
 
@@ -41,7 +41,7 @@ public class ActorFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(TmdbDetailsViewModel.class);
+        viewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(DetailsViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
     }
 

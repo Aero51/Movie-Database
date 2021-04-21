@@ -15,20 +15,20 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
 import com.aero51.moviedatabase.ui.adapter.CastAdapter
 import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.viewmodel.TmdbDetailsViewModel
+import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
 class TvShowDetailsFragment: Fragment(), CastAdapter.ItemClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
-    private var tmdbDetailsViewModel: TmdbDetailsViewModel? = null
+    private var tmdbDetailsViewModel: DetailsViewModel? = null
     private var castAdapter: CastAdapter? = null
     private var sharedViewModel: SharedViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        tmdbDetailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(TmdbDetailsViewModel::class.java)
+        tmdbDetailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(DetailsViewModel::class.java)
 
     }
 

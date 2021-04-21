@@ -28,7 +28,7 @@
             <TextView
                 android:id="@+id/text_view_channel_name"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/image_view_channel"
                 android:drawableRight="@drawable/right_arrow"
                 android:layout_centerHorizontal="true"
