@@ -44,7 +44,6 @@ public class OmdbModel {
     private String awards;
     @SerializedName("Poster")
     private String poster;
-
     @SerializedName("Ratings")
     private List<Ratings> ratings;
     @SerializedName("Metascore")

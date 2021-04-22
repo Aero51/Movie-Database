@@ -104,6 +104,7 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
                 registerMovieCastObserver(movie.id)
                 registerOmdbMovieDetailsObserver(movie.title)
                 registerMovieVideosObserver(movie.id)
+                registerMovieDetailsObserver(movie.id)
             Log.d("nikola", "registerSharedViewModelObserver movieId: " +movie.id)
 
 
@@ -148,29 +149,33 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
 
 
     private fun registerMovieVideosObserver(movieId: Int) {
+        // TODO   implement traversing trough list to exclude Vimeo videos
         detailsViewModel?.getVideosForMovie(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
-            Log.d("nikola", "registerMovieVideosObserver videosList.status : " + videosList.status)
             if (videosList != null&&videosList.status==Status.SUCCESS) {
-
-                Log.d("nikola", "registerMovieVideosObserver list size : " + (videosList.data?.size
-                        ?: -1))
                 for(movieVideo in videosList.data!!)
                 {
-                    Log.d("nikola", "movie video  : " + movieVideo.name)
+                    Log.d("nikola", "movie video  : " + movieVideo.name + " ,site: " +movieVideo.site)
 
                 }
                 videosGlobalList=videosList.data
-                val adapter: YouTubeVideoAdapter = YouTubeVideoAdapter(requireContext(),videosGlobalList)
+                val adapter = YouTubeVideoAdapter(requireContext(),videosGlobalList)
                 binding?.youtubeRecyclerView?.adapter = adapter
-
-
-
-
-
 
             }
         })
     }
+
+    private fun registerMovieDetailsObserver(movieId: Int) {
+
+        detailsViewModel?.getDetailsForMovie(movieId)?.observe(viewLifecycleOwner, Observer { movieDetails ->
+            if (movieDetails != null&&movieDetails.status==Status.SUCCESS) {
+                Log.d("nikola", "MovieDetailsObserver videosList.status revenue: " + (movieDetails.data?.revenue))
+            }
+        })
+    }
+
+
+
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {
         sharedViewModel!!.changeToActorFragment(position, actorId)

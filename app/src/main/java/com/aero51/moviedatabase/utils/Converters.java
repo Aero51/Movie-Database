@@ -3,6 +3,8 @@ package com.aero51.moviedatabase.utils;
 import androidx.room.TypeConverter;
 
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -71,6 +73,40 @@ public class Converters {
         return json;
     }
 
+    @TypeConverter
+    public static List<MovieDetailsResponse.ProductionCompany> toProductionCompaniesList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<MovieDetailsResponse.ProductionCompany>>() {}.getType();
+        List<MovieDetailsResponse.ProductionCompany> productionCompanies = gson.fromJson(value, type);
+        return productionCompanies;
+    }
+
+    @TypeConverter
+    public static String fromProductionCompaniesList(List<MovieDetailsResponse.ProductionCompany>  productionCompanies) {
+        Gson gson = new Gson();
+        String json = gson.toJson(productionCompanies);
+        return json;
+    }
 
 
+    @TypeConverter
+    public static List<MovieGenresResponse.MovieGenre> toGenresForMovieList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<MovieGenresResponse.MovieGenre>>() {}.getType();
+        List<MovieGenresResponse.MovieGenre> movieGenres = gson.fromJson(value, type);
+        return movieGenres;
+    }
+
+    @TypeConverter
+    public static String fromGenreForMovieList(List<MovieGenresResponse.MovieGenre>  movieGenres) {
+        Gson gson = new Gson();
+        String json = gson.toJson(movieGenres);
+        return json;
+    }
 }

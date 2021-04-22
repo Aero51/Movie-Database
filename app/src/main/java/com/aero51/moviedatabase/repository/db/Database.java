@@ -16,6 +16,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage;
@@ -43,7 +44,8 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
         MovieCredits.class, MovieCredits.Cast.class, MovieCredits.Crew.class, Actor.class,
         ActorImagesResponse.ActorImage.class, EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class,
         MovieGenresResponse.MovieGenre.class, TvShowGenresResponse.TvShowGenre.class, MoviesByGenrePage.class, MoviesByGenrePage.MovieByGenre.class
-        , TvShowsByGenrePage.class, TvShowsByGenrePage.TvShowByGenre.class, OmdbModel.class, MovieVideosResponse.MovieVideo.class}, version = 1)
+        , TvShowsByGenrePage.class, TvShowsByGenrePage.TvShowByGenre.class, OmdbModel.class,
+        MovieVideosResponse.MovieVideo.class, MovieDetailsResponse.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Database extends RoomDatabase {
 
@@ -73,6 +75,8 @@ public abstract class Database extends RoomDatabase {
     public abstract OmdbDao get_omdb_dao();
 
     public abstract MovieVideosDao get_movie_videos_dao();
+    
+    public abstract MovieDetailsDao get_movie_details_dao();
 
 
 
