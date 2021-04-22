@@ -175,5 +175,8 @@ public class MoviesByGenrePage {
 
         public void setTimestamp(Long timestamp) { this.timestamp = timestamp; }
 
+
+
+
     }
 }

@@ -132,6 +132,7 @@
 
 
         <LinearLayout
+            android:id="@+id/details_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tmdb_rating"
@@ -205,6 +206,27 @@
                 android:background="@color/grey" />
         </LinearLayout>
 
+        <View
+            android:id="@+id/divider3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="5dp"
+            android:layout_below="@+id/details_linear_layout"
+            android:background="@color/grey" />
+
+
+        <TextView
+            android:id="@+id/trailers_static_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/divider3"
+            android:text="Traileri:" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/youtube_recycler_view"
+            android:layout_below="@+id/trailers_static_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
 
     </RelativeLayout>

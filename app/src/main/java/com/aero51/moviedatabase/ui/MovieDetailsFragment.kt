@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,12 +13,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
+import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.ui.adapter.CastAdapter
+import com.aero51.moviedatabase.ui.adapter.YouTubeVideoAdapter
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
+import com.aero51.moviedatabase.utils.RecyclerViewOnClickListener
+import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
@@ -27,6 +33,7 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
     private var detailsViewModel: DetailsViewModel? = null
     private var castAdapter: CastAdapter? = null
     private var sharedViewModel: SharedViewModel? = null
+    private lateinit var videosGlobalList: List<MovieVideosResponse.MovieVideo>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
@@ -39,10 +46,27 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
         // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
         //cover_image_view = getActivity().findViewById(R.id.expandedImage);
         binding!!.castRecyclerView.setHasFixedSize(true)
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding!!.castRecyclerView.layoutManager = linearLayoutManager
+        val castLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.castRecyclerView.layoutManager = castLinearLayoutManager
         //castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-        registerSharedViewModelObserver()
+
+        binding!!.youtubeRecyclerView.setHasFixedSize(true)
+        val youtubeLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.youtubeRecyclerView.layoutManager = youtubeLinearLayoutManager
+
+
+        binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
+            startActivity(Intent(requireContext(), YoutubePlayerActivity::class.java)
+                    .putExtra("video_id", videosGlobalList[position].key))
+        }))
+
+
+
+
+
+
+
+    registerSharedViewModelObserver()
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
@@ -67,17 +91,21 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
 
     private fun registerSharedViewModelObserver() {
         sharedViewModel!!.liveDataMovie.observe(viewLifecycleOwner, Observer { movie ->
-            binding!!.title.text = movie.title
-            binding!!.releaseDate.text = movie.id.toString()
-            binding!!.overview.text = movie.overview
-            binding!!.tmdbRating.text= movie.vote_average.toString()
-            val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path
-            val posterUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + movie.poster_path
-            Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.coverImageView)
-            Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
-            binding!!.coverImageView.visibility = View.VISIBLE
-            registerMovieCastObserver(movie.id)
-            registerOmdbMovieDetailsObserver(movie.title)
+
+                binding!!.title.text = movie.title
+                binding!!.releaseDate.text = movie.id.toString()
+                binding!!.overview.text = movie.overview
+                binding!!.tmdbRating.text = movie.vote_average.toString()
+                val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path
+                val posterUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + movie.poster_path
+                Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.coverImageView)
+                Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
+                binding!!.coverImageView.visibility = View.VISIBLE
+                registerMovieCastObserver(movie.id)
+                registerOmdbMovieDetailsObserver(movie.title)
+                registerMovieVideosObserver(movie.id)
+            Log.d("nikola", "registerSharedViewModelObserver movieId: " +movie.id)
+
 
         })
     }
@@ -95,21 +123,57 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
     }
 
     private fun registerOmdbMovieDetailsObserver(movieTitle: String) {
-
-        detailsViewModel!!.getOmbdDetails(movieTitle).observe(viewLifecycleOwner, Observer { (status,data) ->
+        detailsViewModel!!.getOmbdDetails(movieTitle).observe(viewLifecycleOwner, Observer { (status, data) ->
             if (data != null) {
                 Log.d("nikola", "imdbRating: " + (data?.imdbRating))
                 Log.d("nikola", "ratings: " + (data?.ratings?.get(0)?.source) + " , " + data?.ratings?.get(0)?.value)
-                binding!!.imdbRating.text=data?.ratings[0].value
-                binding!!.rottenTomatoesRating.text=data?.ratings[1].value
-                binding!!.metacriticRating.text=data?.ratings[2].value
+
+                //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
+                val movieRatingsList= data?.ratings
+                for(movieRating in movieRatingsList)
+                {
+                   if(movieRating.source.equals("Internet Movie Database")){
+                       binding!!.imdbRating.text = movieRating.value
+                   }
+                    if(movieRating.source.equals("Rotten Tomatoes")){
+                        binding!!.rottenTomatoesRating.text = movieRating.value
+                    }
+                    if(movieRating.source.equals("Metacritic")){
+                        binding!!.metacriticRating.text = movieRating.value
+                    }
+                }
             }
         })
+    }
 
 
+    private fun registerMovieVideosObserver(movieId: Int) {
+        detailsViewModel?.getVideosForMovie(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
+            Log.d("nikola", "registerMovieVideosObserver videosList.status : " + videosList.status)
+            if (videosList != null&&videosList.status==Status.SUCCESS) {
+
+                Log.d("nikola", "registerMovieVideosObserver list size : " + (videosList.data?.size
+                        ?: -1))
+                for(movieVideo in videosList.data!!)
+                {
+                    Log.d("nikola", "movie video  : " + movieVideo.name)
+
+                }
+                videosGlobalList=videosList.data
+                val adapter: YouTubeVideoAdapter = YouTubeVideoAdapter(requireContext(),videosGlobalList)
+                binding?.youtubeRecyclerView?.adapter = adapter
+
+
+
+
+
+
+            }
+        })
     }
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {
         sharedViewModel!!.changeToActorFragment(position, actorId)
     }
+
 }

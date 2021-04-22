@@ -74,6 +74,8 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
     }
 
 
+
+
     fun moviesByGenreDataValidationCheck(genreId: Int) {
         viewModelScope.launch {
             // suspend and resume make this database request main-safe

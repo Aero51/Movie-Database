@@ -27,6 +27,7 @@ class MoviesRepository(private val application: Application, private val executo
     private lateinit var nowPlayingMoviesDao: NowPlayingMoviesDao
     private lateinit var upcomingMoviesDao: UpcomingMoviesDao
     private lateinit var genresDao: GenresDao
+    private lateinit var movieVideosDao: MovieVideosDao
 
     var topRatedResultsPagedList: LiveData<PagedList<TopRatedMovie>>? = null
         private set
@@ -59,6 +60,7 @@ class MoviesRepository(private val application: Application, private val executo
         nowPlayingMoviesDao = database._now_playing_movies_dao
         upcomingMoviesDao = database._upcoming_movies_dao
         genresDao = database._genres_dao
+        movieVideosDao=database._movie_videos_dao
         topRatedMoviesBoundaryCallback = TopRatedMoviesBoundaryCallback(application, executors)
         popularMoviesBoundaryCallback = PopularMoviesBoundaryCallback(application, executors)
         nowPlayingMoviesBoundaryCallback = NowPlayingMoviesBoundaryCallback(application, executors)
@@ -127,7 +129,7 @@ class MoviesRepository(private val application: Application, private val executo
         return object : NetworkBoundResource<MovieGenresResponse, List<MovieGenresResponse.MovieGenre>>(executors) {
 
             override fun shouldFetch(data: List<MovieGenre>?): Boolean {
-                return data!!.size == 0
+                return data!!.isEmpty()
             }
 
             override fun loadFromDb(): LiveData<List<MovieGenre>> {
@@ -153,6 +155,8 @@ class MoviesRepository(private val application: Application, private val executo
         createMoviesByGenrePagedList(genresDao, genreId)
         return moviesByGenrePagedList
     }
+
+
 
     suspend fun checkIfMoviesByGenreNeedsRefresh(genreId: Int) {
         val movieByGenre = genresDao.getFirstMovieByGenre(genreId)

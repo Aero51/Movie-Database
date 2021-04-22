@@ -90,4 +90,9 @@ interface TheMovieDbApi {
     @GET("discover/tv")
     fun getTvShowsByGenre(@Query("api_key") api_key: String
                           , @Query("page") page: Int, @Query("with_genres") with_genres: Int, @Query("sort_by") sort_by: String, @Query("vote_count.gte") vote_count: Int, @Query("without_genres") without_genre: Int): Call<TvShowsByGenrePage>
+
+    @GET("movie/{movie_id}/videos")
+    fun getLiveVideosForMovie(@Path("movie_id")movie_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<MovieVideosResponse>>
+
+
 }
