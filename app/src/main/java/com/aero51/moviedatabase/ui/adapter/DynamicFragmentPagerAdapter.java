@@ -36,6 +36,9 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         //Parcelable protocol requires a Parcelable.Creator object called CREATOR on class com.aero51.moviedatabase.ui
         //this error happens when app is killed by system after cca 30 mins on inactivity
 
+        //TODO implement parcelable creator  for different fragments
+
+
         public static final Parcelable.Creator CREATOR = new Creator<Object>() {
             @Override
             public FragmentIdentifier createFromParcel(Parcel source) {
@@ -50,7 +53,6 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                       TvShowsFragment tvShowsFragment=new TvShowsFragment();
                       return tvShowsFragment;
                   }
-
               };
             }
 

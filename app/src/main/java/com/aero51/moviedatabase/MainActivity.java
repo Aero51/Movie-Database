@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentFromMovieDetailsIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowDetailsFragmentIdentifier;
     private FirebaseAnalytics mFirebaseAnalytics;
@@ -360,7 +361,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(1);
             }
         });
+        sharedViewModel.getSingleLiveShouldSwitchMoviesByGenreListFragmentFromMovieDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                moviesByGenreListFragmentFromMovieDetailsIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesByGenreListFragment.class.getSimpleName()+"FromMovieDetailsFragment", null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MoviesByGenreListFragment();
+                    }
 
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(1, moviesByGenreListFragmentFromMovieDetailsIdentifier);
+                customViewPager.setCurrentItem(1);
+            }
+        });
 
     }
 
@@ -440,6 +458,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName())) {
                     replaceFragment(1, moviesFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
+                }else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName()+"FromMovieDetailsFragment")) {
+                    replaceFragment(1, movieDetailsFragmentIdentifier);
+                    customViewPager.setCurrentItem(1);
                 }
                 break;
             case 2:
@@ -482,8 +503,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                }else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName()+"FromMovieDetailsFragment")) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
-
+                break;
             case 2:
                 if (currentFragmentTag.equals(TvShowsFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);

@@ -17,22 +17,21 @@ import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.ui.adapter.CastAdapter
+import com.aero51.moviedatabase.ui.adapter.MovieGenresAdapter
 import com.aero51.moviedatabase.ui.adapter.YouTubeVideoAdapter
-import com.aero51.moviedatabase.utils.Constants
+import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.RecyclerViewOnClickListener
-import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
+class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObjectClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var castAdapter: CastAdapter? = null
-    private var sharedViewModel: SharedViewModel? = null
+    private lateinit var  sharedViewModel: SharedViewModel
     private lateinit var videosGlobalList: List<MovieVideosResponse.MovieVideo>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +52,11 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
         binding!!.youtubeRecyclerView.setHasFixedSize(true)
         val youtubeLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.youtubeRecyclerView.layoutManager = youtubeLinearLayoutManager
+
+        binding!!.movieGenresRecyclerViewHorizontal.setHasFixedSize(true)
+        binding!!.movieGenresRecyclerViewHorizontal.isNestedScrollingEnabled = false
+        val genresLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.movieGenresRecyclerViewHorizontal.layoutManager = genresLinearLayoutManager
 
 
         binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
@@ -170,6 +174,18 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
         detailsViewModel?.getDetailsForMovie(movieId)?.observe(viewLifecycleOwner, Observer { movieDetails ->
             if (movieDetails != null&&movieDetails.status==Status.SUCCESS) {
                 Log.d("nikola", "MovieDetailsObserver videosList.status revenue: " + (movieDetails.data?.revenue))
+
+                binding!!.originalTitleTextView.text= movieDetails.data?.original_title
+                binding!!.releasedTextView.text= movieDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
+                binding!!.runtimeTextView.text= movieDetails.data?.runtime.toString()+" minutes"
+                binding!!.productionCompaniesTextView.text= "TODO" // movieDetails.data?.production_companies.toString()
+                binding!!.budgetTextView.text= movieDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+                binding!!.revenueTextView.text= movieDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+
+
+                val movieGenresAdapter = movieDetails.data?.genres?.let { MovieGenresAdapter(it, this) }
+                binding?.movieGenresRecyclerViewHorizontal?.adapter =movieGenresAdapter
+
             }
         })
     }
@@ -179,6 +195,11 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener {
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {
         sharedViewModel!!.changeToActorFragment(position, actorId)
+    }
+
+    override fun onGenreItemClick(genreId: Int, position: Int) {
+        Log.d("nikola", "onGenreItemClick genre Item clicked: " + genreId  + " ,position: "+position)
+        sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId,position)
     }
 
 }

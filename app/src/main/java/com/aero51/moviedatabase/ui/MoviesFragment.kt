@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMoviesBinding
-import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.GenreObjectClickListener
