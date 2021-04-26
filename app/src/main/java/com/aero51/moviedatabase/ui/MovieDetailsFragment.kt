@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
+import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.ui.adapter.CastAdapter
 import com.aero51.moviedatabase.ui.adapter.MovieGenresAdapter
@@ -95,7 +97,6 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
 
     private fun registerSharedViewModelObserver() {
         sharedViewModel!!.liveDataMovie.observe(viewLifecycleOwner, Observer { movie ->
-
                 binding!!.title.text = movie.title
                 binding!!.releaseDate.text = movie.id.toString()
                 binding!!.overview.text = movie.overview
@@ -109,6 +110,7 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
                 registerOmdbMovieDetailsObserver(movie.title)
                 registerMovieVideosObserver(movie.id)
                 registerMovieDetailsObserver(movie.id)
+                isMovieFavourite(movie.id)
             Log.d("nikola", "registerSharedViewModelObserver movieId: " +movie.id)
 
 
@@ -186,11 +188,37 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
                 val movieGenresAdapter = movieDetails.data?.genres?.let { MovieGenresAdapter(it, this) }
                 binding?.movieGenresRecyclerViewHorizontal?.adapter =movieGenresAdapter
 
+                setFavouriteOnClickListener(movieDetails.data!!)
+
             }
         })
     }
 
+    private fun isMovieFavourite(movieId: Int){
+        //Checking if already added to favourite
+        //val entry: LiveData<MovieFavourite>? = detailsViewModel?.checkIfMovieIsFavourite(movieId)
 
+        detailsViewModel?.checkIfMovieIsFavourite(movieId)?.observe(viewLifecycleOwner, Observer {
+            binding?.addToFavouritesCheckBox!!.isChecked = it != null
+
+        })
+
+    }
+
+    private fun setFavouriteOnClickListener(movie: MovieDetailsResponse) {
+           val addToFavoritesCheckBox = binding?.addToFavouritesCheckBox
+        addToFavoritesCheckBox!!.setOnClickListener {
+
+            if(addToFavoritesCheckBox.isChecked){
+                detailsViewModel!!.insertFavouriteMovie(movie)
+            }
+            else {
+                detailsViewModel!!.deleteFavouriteMovie(movie)
+            }
+
+        }
+
+    }
 
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {

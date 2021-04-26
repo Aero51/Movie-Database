@@ -29,6 +29,7 @@ class MoviesRepository(private val application: Application, private val executo
     private lateinit var genresDao: GenresDao
     private lateinit var movieVideosDao: MovieVideosDao
 
+
     var topRatedResultsPagedList: LiveData<PagedList<TopRatedMovie>>? = null
         private set
     var popularResultsPagedList: LiveData<PagedList<PopularMovie>>? = null
@@ -221,5 +222,9 @@ class MoviesRepository(private val application: Application, private val executo
             }
         }
     }
+
+
+
+
 
 }

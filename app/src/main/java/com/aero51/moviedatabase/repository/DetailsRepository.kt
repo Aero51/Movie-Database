@@ -4,9 +4,12 @@ import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
 import com.aero51.moviedatabase.repository.db.Database
+import com.aero51.moviedatabase.repository.db.FavouritesDao
 import com.aero51.moviedatabase.repository.db.MovieDetailsDao
 import com.aero51.moviedatabase.repository.db.MovieVideosDao
+import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
@@ -18,10 +21,12 @@ class DetailsRepository(application: Application, private val executors: AppExec
     private var movieVideosDao: MovieVideosDao
     private var movieDetailsDao: MovieDetailsDao
     private val theMovieDbApi = RetrofitInstance.getTmdbApiService()
+    private lateinit var favouritesDao: FavouritesDao
 
     init {
         movieVideosDao = database._movie_videos_dao
         movieDetailsDao=database._movie_details_dao
+        favouritesDao=database._favourites_dao
     }
 
     fun loadVideosForMovie(movie_id: Int): LiveData<Resource<List<MovieVideosResponse.MovieVideo>>> {
@@ -84,4 +89,30 @@ class DetailsRepository(application: Application, private val executors: AppExec
             }
         }.asLiveData()
     }
+
+    fun getMovieFavourites(movieId: Int): LiveData<MovieFavourite>{
+        //Checking if already added to favourite
+        return favouritesDao.checkIfFavourite(movieId)
+    }
+
+    fun insertFavouriteMovie(movie: MovieFavourite){
+
+        val runnable = Runnable {
+           favouritesDao.insertFavourite(movie)
+        }
+        val diskRunnable = Runnable { database.runInTransaction(runnable) }
+        executors.diskIO().execute(diskRunnable)
+
+    }
+
+    fun deleteFavouriteMovie(movie: MovieFavourite){
+
+        val runnable = Runnable {
+            favouritesDao.deleteFavourite(movie)
+        }
+        val diskRunnable = Runnable { database.runInTransaction(runnable) }
+        executors.diskIO().execute(diskRunnable)
+
+    }
+
 }

@@ -114,6 +114,10 @@ class MoviesViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+
+
+
+
     override fun onCleared() {
         Log.d(Constants.LOG, "view model on cleared ")
         // repository.getMoviePageLd().removeObserver(repository.getObserver());

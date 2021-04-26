@@ -21,6 +21,29 @@
         android:layout_height="250dp"
         android:scaleType="centerCrop" />
 
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/background_image_view"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/black"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+             />
+        <CheckBox
+            android:id="@+id/add_to_favourites_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="16dp"
+            android:button="@null"
+            android:checked="false"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/like_icon" />
+
+
+
     <ImageView
         android:id="@+id/poster_image_view"
         android:layout_width="150dp"

@@ -171,36 +171,36 @@ class SharedViewModel : ViewModel() {
     }
 
     //deserialization and serialization
-    fun transformTopRatedMovie(original: TopRatedMovie?): Movie {
+    private fun transformTopRatedMovie(original: TopRatedMovie?): Movie {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
 
-    fun transformNowPlayingMovie(original: NowPlayingMovie?): Movie {
+    private fun transformNowPlayingMovie(original: NowPlayingMovie?): Movie {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
 
-    fun transformPopularMovie(original: PopularMovie?): Movie {
+    private fun transformPopularMovie(original: PopularMovie?): Movie {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
 
-    fun transformUpcomingMovie(original: UpcomingMovie?): Movie {
+    private fun transformUpcomingMovie(original: UpcomingMovie?): Movie {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
 
 
-    fun transformPopularTvShow(original: PopularTvShowsPage.PopularTvShow?): TvShow {
+    private fun transformPopularTvShow(original: PopularTvShowsPage.PopularTvShow?): TvShow {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }
-    fun transformTrendingTvShow(original: TrendingTvShowsPage.TrendingTvShow?): TvShow {
+    private fun transformTrendingTvShow(original: TrendingTvShowsPage.TrendingTvShow?): TvShow {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }
-    fun transformAiringTvShow(original: AiringTvShowsPage.AiringTvShow?): TvShow {
+    private fun transformAiringTvShow(original: AiringTvShowsPage.AiringTvShow?): TvShow {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }

@@ -11,11 +11,11 @@ import com.aero51.moviedatabase.repository.model.omdb.OmdbModel
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse.ActorImage
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.Cast
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
+import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.utils.AppExecutors
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Resource
+import com.google.gson.Gson
 
 class DetailsViewModel(application: Application) : AndroidViewModel(application) {
     private val creditsRepository: CreditsRepository
@@ -55,5 +55,23 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         return detailsRepository.loadDetailsForMovie(movie_id)
     }
 
+    fun checkIfMovieIsFavourite(movieId: Int) : LiveData<MovieFavourite>{
+        return detailsRepository.getMovieFavourites(movieId)
+
+    }
+
+    fun insertFavouriteMovie(movie: MovieDetailsResponse){
+        val movieFavourite = transformMovieDetails(movie)
+        detailsRepository.insertFavouriteMovie(movieFavourite)
+    }
+    fun deleteFavouriteMovie(movie: MovieDetailsResponse){
+        val movieFavourite = transformMovieDetails(movie)
+        detailsRepository.deleteFavouriteMovie(movieFavourite)
+    }
+
+    private fun transformMovieDetails(movie: MovieDetailsResponse) :MovieFavourite{
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(movie), MovieFavourite::class.java)
+    }
 
 }
