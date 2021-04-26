@@ -21,6 +21,7 @@
     <string name="tab1">Tv vodič</string>
     <string name="tab2">Filmovi</string>
     <string name="tab3">Serije</string>
+    <string name="tab4">Favoriti</string>
 
     <string-array name="list_preference_entries">
         <item>Test</item>

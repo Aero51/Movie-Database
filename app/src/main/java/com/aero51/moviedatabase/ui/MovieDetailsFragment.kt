@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -15,7 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
-import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.ui.adapter.CastAdapter
@@ -130,8 +130,9 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
     }
 
     private fun registerOmdbMovieDetailsObserver(movieTitle: String) {
+        //TODO  upcoming movies are not yet present on omd api
         detailsViewModel!!.getOmbdDetails(movieTitle).observe(viewLifecycleOwner, Observer { (status, data) ->
-            if (data != null) {
+            if (data != null && status== Status.SUCCESS) {
                 Log.d("nikola", "imdbRating: " + (data?.imdbRating))
                 Log.d("nikola", "ratings: " + (data?.ratings?.get(0)?.source) + " , " + data?.ratings?.get(0)?.value)
 
@@ -211,9 +212,11 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
 
             if(addToFavoritesCheckBox.isChecked){
                 detailsViewModel!!.insertFavouriteMovie(movie)
+                Toast.makeText(context,movie.original_title +" dodan u listu favorita.",Toast.LENGTH_LONG).show();
             }
             else {
                 detailsViewModel!!.deleteFavouriteMovie(movie)
+                Toast.makeText(context,movie.original_title +" maknut iz liste favorita.",Toast.LENGTH_LONG).show();
             }
 
         }

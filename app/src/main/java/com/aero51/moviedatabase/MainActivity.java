@@ -28,6 +28,7 @@ import android.view.WindowManager;
 
 import com.aero51.moviedatabase.ui.ActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
+import com.aero51.moviedatabase.ui.FavouritesFragment;
 import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.TvShowDetailsFragment;
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgAllProgramsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier favouritesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier actorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentIdentifier;
@@ -253,10 +255,22 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 return 0;
             }
         };
+        favouritesFragmentIdentifier=new DynamicFragmentPagerAdapter.FragmentIdentifier(FavouritesFragment.class.getSimpleName(),null) {
+            @Override
+            protected Fragment createFragment() {
+                return new FavouritesFragment();
+            }
+
+            @Override
+            public int describeContents() {
+                return 0;
+            }
+        };
 
         dynamicFragmentPagerAdapter.addFragment(epgFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(moviesFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(tvShowsFragmentIdentifier);
+        dynamicFragmentPagerAdapter.addFragment(favouritesFragmentIdentifier);
     }
 
 
@@ -476,6 +490,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
                 }
                 break;
+            case 3:
+                if (currentFragmentTag.equals(FavouritesFragment.class.getSimpleName())) {
+                    super.onBackPressed();
+                }
         }
 
 
@@ -515,8 +533,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
-
                 break;
+            case 3:
+                if (currentFragmentTag.equals(FavouritesFragment.class.getSimpleName())) {
+                    getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+                }
         }
 
     }
@@ -588,6 +609,11 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_tv_shows:
                 customViewPager.setCurrentItem(2);
                 currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(2);
+                addRemoveBackButton(0, currentFragmentTag);
+                break;
+            case R.id.action_favourites:
+                customViewPager.setCurrentItem(3);
+                currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(3);
                 addRemoveBackButton(0, currentFragmentTag);
                 break;
         }

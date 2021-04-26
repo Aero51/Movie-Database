@@ -26,6 +26,8 @@ public class MovieDetailsResponse {
     private String title;
     private Double vote_average;
     private Integer vote_count;
+    private String backdrop_path;
+    private String poster_path;
 
 
     public MovieDetailsResponse() {
@@ -159,6 +161,14 @@ public class MovieDetailsResponse {
     public void setDb_id(int db_id) {
         this.db_id = db_id;
     }
+
+    public String getBackdrop_path() { return backdrop_path; }
+
+    public void setBackdrop_path(String backdrop_path) { this.backdrop_path = backdrop_path; }
+
+    public String getPoster_path() { return poster_path; }
+
+    public void setPoster_path(String poster_path) { this.poster_path = poster_path; }
 
 
     public static class ProductionCompany {

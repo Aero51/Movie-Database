@@ -60,6 +60,7 @@
         android:layout_gravity="bottom"
         android:background="@color/colorPrimaryDark"
         app:itemBackground="@color/colorPrimaryDark"
+        app:labelVisibilityMode="labeled"
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:itemTextColor="@drawable/bottom_navigation_color_selector"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"

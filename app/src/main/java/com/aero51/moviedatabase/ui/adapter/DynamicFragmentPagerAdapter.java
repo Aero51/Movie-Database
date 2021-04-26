@@ -126,6 +126,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
+            /*
             case 0:
                 return "Filmovi";
             case 1:
@@ -134,7 +135,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 return "Osobe";
             case 3:
                 return "Liste";
-
+            */
         }
         return null;
     }

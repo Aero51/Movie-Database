@@ -125,6 +125,14 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 if(epgProgram.getDate()==null)epgProgram.setDate("");
                 binding.textViewDate.setText(epgProgram.getDate());
                 binding.textViewDescription.setText(epgProgram.getDesc());
+                //TODO   implement and test this:
+
+                /*
+                if(epgProgram.getDesc().equals("Nema informačia.")){
+                    binding.textViewDescription.setText("Nema informacija.");
+                }else{ binding.textViewDescription.setText(epgProgram.getDesc());}
+                */
+
                 Log.d(Constants.LOG, "icon: " + epgProgram.getIcon());
                 //.placeholder(R.drawable.picture_template)
                 if (epgProgram.getIcon().contains("epg.bnet.hr/images/")) {
