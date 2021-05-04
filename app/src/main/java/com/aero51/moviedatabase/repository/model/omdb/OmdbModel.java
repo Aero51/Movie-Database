@@ -19,7 +19,7 @@ public class OmdbModel {
     @SerializedName("Title")
     private String title;
     @SerializedName("Year")
-    private Integer year;
+    private String year;
     @SerializedName("Rated")
     private String rated;
     @SerializedName("Released")
@@ -112,11 +112,11 @@ public class OmdbModel {
         this.title = title;
     }
 
-    public Integer getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(String year) {
         this.year = year;
     }
 

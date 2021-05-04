@@ -18,7 +18,7 @@ import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
-import com.aero51.moviedatabase.ui.adapter.CastAdapter
+import com.aero51.moviedatabase.ui.adapter.MovieCastAdapter
 import com.aero51.moviedatabase.ui.adapter.MovieGenresAdapter
 import com.aero51.moviedatabase.ui.adapter.YouTubeVideoAdapter
 import com.aero51.moviedatabase.utils.*
@@ -29,11 +29,11 @@ import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObjectClickListener {
+class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
-    private var castAdapter: CastAdapter? = null
-    private lateinit var  sharedViewModel: SharedViewModel
+    private var movieCastAdapter: MovieCastAdapter? = null
+    private lateinit var sharedViewModel: SharedViewModel
     private lateinit var videosGlobalList: List<MovieVideosResponse.MovieVideo>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,12 +67,7 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
         }))
 
 
-
-
-
-
-
-    registerSharedViewModelObserver()
+        registerSharedViewModelObserver()
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
@@ -97,21 +92,21 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
 
     private fun registerSharedViewModelObserver() {
         sharedViewModel!!.liveDataMovie.observe(viewLifecycleOwner, Observer { movie ->
-                binding!!.title.text = movie.title
-                binding!!.releaseDate.text = movie.id.toString()
-                binding!!.overview.text = movie.overview
-                binding!!.tmdbRating.text = movie.vote_average.toString()
-                val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path
-                val posterUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + movie.poster_path
-                Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.coverImageView)
-                Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
-                binding!!.coverImageView.visibility = View.VISIBLE
-                registerMovieCastObserver(movie.id)
-                registerOmdbMovieDetailsObserver(movie.title)
-                registerMovieVideosObserver(movie.id)
-                registerMovieDetailsObserver(movie.id)
-                isMovieFavourite(movie.id)
-            Log.d("nikola", "registerSharedViewModelObserver movieId: " +movie.id)
+            binding!!.title.text = movie.title
+            binding!!.releaseDate.text = movie.id.toString()
+            binding!!.overview.text = movie.overview
+            binding!!.tmdbRating.text = movie.vote_average.toString()
+            val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path
+            val posterUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + movie.poster_path
+            Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.coverImageView)
+            Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
+            binding!!.coverImageView.visibility = View.VISIBLE
+            registerMovieCastObserver(movie.id)
+            registerOmdbMovieDetailsObserver(movie.title)
+            registerMovieVideosObserver(movie.id)
+            registerMovieDetailsObserver(movie.id)
+            isMovieFavourite(movie.id)
+            Log.d("nikola", "registerSharedViewModelObserver movieId: " + movie.id)
 
 
         })
@@ -121,9 +116,9 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
         detailsViewModel!!.getMovieCast(movieId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
             if (data != null) {
                 Log.d(Constants.LOG, " status: " + status + " list size: " + data.size)
-                castAdapter = CastAdapter(context, data)
-                castAdapter!!.setClickListener { view: View, actorId: Int, position: Int -> onItemClick(view, actorId, position) }
-                binding!!.castRecyclerView.adapter = castAdapter
+                movieCastAdapter = MovieCastAdapter(context, data)
+                movieCastAdapter!!.setClickListener { view: View, actorId: Int, position: Int -> onItemClick(view, actorId, position) }
+                binding!!.castRecyclerView.adapter = movieCastAdapter
             }
         })
 
@@ -132,21 +127,20 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
     private fun registerOmdbMovieDetailsObserver(movieTitle: String) {
         //TODO  upcoming movies are not yet present on omd api
         detailsViewModel!!.getOmbdDetails(movieTitle).observe(viewLifecycleOwner, Observer { (status, data) ->
-            if (data != null && status== Status.SUCCESS) {
+            if (data != null && status == Status.SUCCESS) {
                 Log.d("nikola", "imdbRating: " + (data?.imdbRating))
                 Log.d("nikola", "ratings: " + (data?.ratings?.get(0)?.source) + " , " + data?.ratings?.get(0)?.value)
 
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
-                val movieRatingsList= data?.ratings
-                for(movieRating in movieRatingsList)
-                {
-                   if(movieRating.source.equals("Internet Movie Database")){
-                       binding!!.imdbRating.text = movieRating.value
-                   }
-                    if(movieRating.source.equals("Rotten Tomatoes")){
+                val movieRatingsList = data.ratings
+                for (movieRating in movieRatingsList) {
+                    if (movieRating.source.equals("Internet Movie Database")) {
+                        binding!!.imdbRating.text = movieRating.value
+                    }
+                    if (movieRating.source.equals("Rotten Tomatoes")) {
                         binding!!.rottenTomatoesRating.text = movieRating.value
                     }
-                    if(movieRating.source.equals("Metacritic")){
+                    if (movieRating.source.equals("Metacritic")) {
                         binding!!.metacriticRating.text = movieRating.value
                     }
                 }
@@ -158,14 +152,13 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
     private fun registerMovieVideosObserver(movieId: Int) {
         // TODO   implement traversing trough list to exclude Vimeo videos
         detailsViewModel?.getVideosForMovie(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
-            if (videosList != null&&videosList.status==Status.SUCCESS) {
-                for(movieVideo in videosList.data!!)
-                {
-                    Log.d("nikola", "movie video  : " + movieVideo.name + " ,site: " +movieVideo.site)
+            if (videosList != null && videosList.status == Status.SUCCESS) {
+                for (movieVideo in videosList.data!!) {
+                    Log.d("nikola", "movie video  : " + movieVideo.name + " ,site: " + movieVideo.site)
 
                 }
-                videosGlobalList=videosList.data
-                val adapter = YouTubeVideoAdapter(requireContext(),videosGlobalList)
+                videosGlobalList = videosList.data
+                val adapter = YouTubeVideoAdapter(requireContext(), videosGlobalList)
                 binding?.youtubeRecyclerView?.adapter = adapter
 
             }
@@ -175,19 +168,19 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
     private fun registerMovieDetailsObserver(movieId: Int) {
 
         detailsViewModel?.getDetailsForMovie(movieId)?.observe(viewLifecycleOwner, Observer { movieDetails ->
-            if (movieDetails != null&&movieDetails.status==Status.SUCCESS) {
+            if (movieDetails != null && movieDetails.status == Status.SUCCESS) {
                 Log.d("nikola", "MovieDetailsObserver videosList.status revenue: " + (movieDetails.data?.revenue))
 
-                binding!!.originalTitleTextView.text= movieDetails.data?.original_title
-                binding!!.releasedTextView.text= movieDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
-                binding!!.runtimeTextView.text= movieDetails.data?.runtime.toString()+" minutes"
-                binding!!.productionCompaniesTextView.text= "TODO" // movieDetails.data?.production_companies.toString()
-                binding!!.budgetTextView.text= movieDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
-                binding!!.revenueTextView.text= movieDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+                binding!!.originalTitleTextView.text = movieDetails.data?.original_title
+                binding!!.releasedTextView.text = movieDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
+                binding!!.runtimeTextView.text = movieDetails.data?.runtime.toString() + " minutes"
+                binding!!.productionCompaniesTextView.text = "TODO" // movieDetails.data?.production_companies.toString()
+                binding!!.budgetTextView.text = movieDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+                binding!!.revenueTextView.text = movieDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
 
 
                 val movieGenresAdapter = movieDetails.data?.genres?.let { MovieGenresAdapter(it, this) }
-                binding?.movieGenresRecyclerViewHorizontal?.adapter =movieGenresAdapter
+                binding?.movieGenresRecyclerViewHorizontal?.adapter = movieGenresAdapter
 
                 setFavouriteOnClickListener(movieDetails.data!!)
 
@@ -195,7 +188,7 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
         })
     }
 
-    private fun isMovieFavourite(movieId: Int){
+    private fun isMovieFavourite(movieId: Int) {
         //Checking if already added to favourite
         //val entry: LiveData<MovieFavourite>? = detailsViewModel?.checkIfMovieIsFavourite(movieId)
 
@@ -207,16 +200,15 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
     }
 
     private fun setFavouriteOnClickListener(movie: MovieDetailsResponse) {
-           val addToFavoritesCheckBox = binding?.addToFavouritesCheckBox
+        val addToFavoritesCheckBox = binding?.addToFavouritesCheckBox
         addToFavoritesCheckBox!!.setOnClickListener {
 
-            if(addToFavoritesCheckBox.isChecked){
+            if (addToFavoritesCheckBox.isChecked) {
                 detailsViewModel!!.insertFavouriteMovie(movie)
-                Toast.makeText(context,movie.original_title +" dodan u listu favorita.",Toast.LENGTH_LONG).show();
-            }
-            else {
+                Toast.makeText(context, movie.original_title + " dodan u listu favorita.", Toast.LENGTH_LONG).show();
+            } else {
                 detailsViewModel!!.deleteFavouriteMovie(movie)
-                Toast.makeText(context,movie.original_title +" maknut iz liste favorita.",Toast.LENGTH_LONG).show();
+                Toast.makeText(context, movie.original_title + " maknut iz liste favorita.", Toast.LENGTH_LONG).show();
             }
 
         }
@@ -229,8 +221,8 @@ class MovieDetailsFragment : Fragment(), CastAdapter.ItemClickListener, GenreObj
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        Log.d("nikola", "onGenreItemClick genre Item clicked: " + genreId  + " ,position: "+position)
-        sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId,position)
+        Log.d("nikola", "onGenreItemClick genre Item clicked: " + genreId + " ,position: " + position)
+        sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId, position)
     }
 
 }

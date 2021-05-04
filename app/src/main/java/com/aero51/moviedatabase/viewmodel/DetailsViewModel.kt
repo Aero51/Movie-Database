@@ -10,7 +10,8 @@ import com.aero51.moviedatabase.repository.OmdbRepository
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse.ActorImage
-import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.Cast
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.utils.AppExecutors
 import com.aero51.moviedatabase.utils.Constants
@@ -28,8 +29,11 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         omdbRepository = OmdbRepository(application, executors)
         detailsRepository= DetailsRepository(application,executors)
     }
-    fun getMovieCast(movie_id: Int?): LiveData<Resource<List<Cast>>> {
-        return creditsRepository.loadCastById(movie_id!!)
+    fun getMovieCast(movie_id: Int): LiveData<Resource<List<MovieCast>>> {
+        return creditsRepository.loadMovieCastById(movie_id)
+    }
+    fun getTvShowCast(tv_show_id: Int): LiveData<Resource<List<TvShowCredits.TvShowCast>>> {
+        return creditsRepository.loadTvShowCastById(tv_show_id)
     }
 
     fun getActorDetails(actor_id: Int): LiveData<Resource<Actor>> {
@@ -43,8 +47,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getOmbdDetails(title: String): LiveData<Resource<OmdbModel>> {
-        //TODO   implement omdb fetching
-        return omdbRepository.loadOmdbMovieBytitle(title)
+        return omdbRepository.loadOmdbBytitle(title)
     }
 
     fun getVideosForMovie(movie_id: Int): LiveData<Resource<List<MovieVideosResponse.MovieVideo>>> {

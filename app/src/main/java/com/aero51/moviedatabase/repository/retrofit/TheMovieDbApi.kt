@@ -1,10 +1,7 @@
 package com.aero51.moviedatabase.repository.retrofit
 
 import androidx.lifecycle.LiveData
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse
-import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits
+import com.aero51.moviedatabase.repository.model.tmdb.credits.*
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.*
 import com.aero51.moviedatabase.utils.ApiResponse
@@ -57,6 +54,9 @@ interface TheMovieDbApi {
 
     @GET("movie/{movie_id}/credits")
     fun getLiveMovieCredits(@Path("movie_id") movie_id: Int, @Query("api_key") api_key: String): LiveData<ApiResponse<MovieCredits>>
+
+    @GET("tv/{tv_show_id}/credits")
+    fun getLiveTvShowCredits(@Path("tv_show_id") tv_show_id: Int, @Query("api_key") api_key: String): LiveData<ApiResponse<TvShowCredits>>
 
     @GET("person/{person_id}")
     fun getLivePerson(@Path("person_id") person_id: Int, @Query("api_key") api_key: String): LiveData<ApiResponse<Actor>>

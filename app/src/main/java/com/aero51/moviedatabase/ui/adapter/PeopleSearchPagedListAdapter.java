@@ -21,7 +21,7 @@ import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 
 
 public class PeopleSearchPagedListAdapter extends PagedListAdapter<ActorSearchResponse.ActorSearch, PeopleSearchPagedListAdapter.ViewHolder> {
-    private CastAdapter.ItemClickListener mClickListener;
+    private MovieCastAdapter.ItemClickListener mClickListener;
 
 
     public PeopleSearchPagedListAdapter() {
@@ -65,7 +65,7 @@ public class PeopleSearchPagedListAdapter extends PagedListAdapter<ActorSearchRe
     }
 
     // allows clicks events to be caught
-    public void setClickListener(CastAdapter.ItemClickListener itemClickListener) {
+    public void setClickListener(MovieCastAdapter.ItemClickListener itemClickListener) {
         this.mClickListener = itemClickListener;
     }
 

@@ -12,6 +12,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits;
 
 
 import java.util.List;
@@ -23,20 +24,36 @@ public abstract class CreditsDao {
     // @Query("SELECT first_name, last_name FROM user WHERE region IN (:regions)")
     //public LiveData<List<User>> loadUsersFromRegionsSync(List<String> regions);
 
-   public  void insertCredits(MovieCredits movieCreditsRaw){
-       insertMovieCredits(movieCreditsRaw);
-       List<MovieCredits.Cast> castList=movieCreditsRaw.getCast();
-       for(int i=0;i<castList.size();i++){
-           castList.get(i).setMovie_id(movieCreditsRaw.getId());
-       }
-       insertCastList(castList);
 
-       List<MovieCredits.Crew> crewList=movieCreditsRaw.getCrew();
-       for(int i=0;i<crewList.size();i++){
-           crewList.get(i).setMovie_id(movieCreditsRaw.getId());
+
+   public  void insertMovCredits(MovieCredits movieCreditsRaw){
+       insertMovieCredits(movieCreditsRaw);
+       List<MovieCredits.MovieCast> movieCastList = movieCreditsRaw.getMovieCast();
+       for(int i = 0; i< movieCastList.size(); i++){
+           movieCastList.get(i).setMovie_id(movieCreditsRaw.getId());
        }
-       insertCrewList(crewList);
+       insertMovieCastList(movieCastList);
+
+       List<MovieCredits.MovieCrew> movieCrewList =movieCreditsRaw.getMovieCrew();
+       for(int i = 0; i< movieCrewList.size(); i++){
+           movieCrewList.get(i).setMovie_id(movieCreditsRaw.getId());
+       }
+       insertMovieCrewList(movieCrewList);
    }
+    public  void insertTvCredits(TvShowCredits tvShowCreditsRaw){
+        insertTvShowCredits(tvShowCreditsRaw);
+        List<TvShowCredits.TvShowCast> tvShowCastList =tvShowCreditsRaw.getTvShowCast();
+        for(int i = 0; i< tvShowCastList.size(); i++){
+            tvShowCastList.get(i).setTv_show_id(tvShowCreditsRaw.getId());
+        }
+        insertTvShowCastList(tvShowCastList);
+
+        List<TvShowCredits.TvShowCrew> tvShowCrewList =tvShowCreditsRaw.getTvShowCrew();
+        for(int i = 0; i< tvShowCrewList.size(); i++){
+            tvShowCrewList.get(i).setTv_show_id(tvShowCreditsRaw.getId());
+        }
+        insertTvShowCrewList(tvShowCrewList);
+    }
     public  void insertActorImagesResponse(ActorImagesResponse response){
       List<ActorImagesResponse.ActorImage>  actorImageList= response.getImages();
         for(int i=0;i<actorImageList.size();i++){
@@ -48,25 +65,37 @@ public abstract class CreditsDao {
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertCastList(List<MovieCredits.Cast> castList);
+    public abstract void insertMovieCastList(List<MovieCredits.MovieCast> movieCastList);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    public abstract void insertCrewList(List<MovieCredits.Crew> crewList);
+    public abstract void insertMovieCrewList(List<MovieCredits.MovieCrew> movieCrewList);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
    public abstract void insertMovieCredits(MovieCredits movieCredits);
 
-    @Query("SELECT * FROM movie_credit WHERE id = :movie_id LIMIT 1")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertTvShowCastList(List<TvShowCredits.TvShowCast> movieCastList);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertTvShowCrewList(List<TvShowCredits.TvShowCrew> movieCrewList);
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    public abstract void insertTvShowCredits(TvShowCredits tvShowCredits);
+
+    @Query("SELECT * FROM movie_credits WHERE id = :movie_id LIMIT 1")
     public abstract MovieCredits getMovieCredits(Integer movie_id);
 
-    @Query("SELECT * FROM movie_credit WHERE id = :movie_id LIMIT 1")
+    @Query("SELECT * FROM movie_credits WHERE id = :movie_id LIMIT 1")
     public abstract LiveData<MovieCredits> getLiveMovieCredits(Integer movie_id);
 
-    @Query("SELECT * FROM `cast` WHERE movie_id =:movie_id ORDER BY `order` ASC")   //"SELECT * FROM Movie WHERE id =:id"
-    public  abstract LiveData<List<MovieCredits.Cast>> getTitleCast(Integer movie_id);
+    @Query("SELECT * FROM `movie_cast` WHERE movie_id =:movie_id ORDER BY `order` ASC")   //"SELECT * FROM Movie WHERE id =:id"
+    public  abstract LiveData<List<MovieCredits.MovieCast>> getMovieCast(Integer movie_id);
 
-    @Query("SELECT * FROM `Crew` WHERE movie_id = :movie_id ORDER BY `id` ASC")
-    public abstract List<MovieCredits.Crew> getTitleCrew(Integer movie_id);
+    @Query("SELECT * FROM `tv_show_cast` WHERE tv_show_id =:tv_show_id ORDER BY `order` ASC")   //"SELECT * FROM Movie WHERE id =:id"
+    public  abstract LiveData<List<TvShowCredits.TvShowCast>> getTvShowCast(Integer tv_show_id);
+
+    @Query("SELECT * FROM `movie_crew` WHERE movie_id = :movie_id ORDER BY `id` ASC")
+    public abstract List<MovieCredits.MovieCrew> getTitleCrew(Integer movie_id);
 
     @Query("SELECT * FROM actor WHERE id = :id LIMIT 1")
     public  abstract LiveData<Actor> getActor(Integer id);

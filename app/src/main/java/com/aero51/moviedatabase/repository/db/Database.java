@@ -16,6 +16,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
@@ -42,8 +43,10 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
         PopularTvShowsPage.class, PopularTvShowsPage.PopularTvShow.class,
         AiringTvShowsPage.class, AiringTvShowsPage.AiringTvShow.class,
         TrendingTvShowsPage.class, TrendingTvShowsPage.TrendingTvShow.class,
-        MovieCredits.class, MovieCredits.Cast.class, MovieCredits.Crew.class, Actor.class,
-        ActorImagesResponse.ActorImage.class, EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class,
+        MovieCredits.class, MovieCredits.MovieCast.class, MovieCredits.MovieCrew.class,
+        TvShowCredits.class, TvShowCredits.TvShowCast.class, TvShowCredits.TvShowCrew.class,
+        Actor.class, ActorImagesResponse.ActorImage.class,
+        EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class,
         MovieGenresResponse.MovieGenre.class, TvShowGenresResponse.TvShowGenre.class, MoviesByGenrePage.class, MoviesByGenrePage.MovieByGenre.class
         , TvShowsByGenrePage.class, TvShowsByGenrePage.TvShowByGenre.class, OmdbModel.class,
         MovieVideosResponse.MovieVideo.class, MovieDetailsResponse.class, MovieFavourite.class}, version = 1)

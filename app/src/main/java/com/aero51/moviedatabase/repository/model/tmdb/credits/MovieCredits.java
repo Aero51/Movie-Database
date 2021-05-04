@@ -4,25 +4,29 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.List;
 
-@Entity(tableName = "movie_credit")
+@Entity(tableName = "movie_credits")
 public class MovieCredits {
     @PrimaryKey(autoGenerate = false)
     private Integer id;
 
     @Ignore
-    private List<Cast> cast;
+    @SerializedName("cast")
+    private List<MovieCast> movieCast;
 
     @Ignore
-    private List<Crew> crew;
+    @SerializedName("crew")
+    private List<MovieCrew> movieCrew;
 
     @Ignore
-    public MovieCredits(Integer id, List<Cast> cast, List<Crew> crew) {
+    public MovieCredits(Integer id, List<MovieCast> movieCast, List<MovieCrew> movieCrew) {
         this.id = id;
-        this.cast = cast;
-        this.crew = crew;
+        this.movieCast = movieCast;
+        this.movieCrew = movieCrew;
     }
 
     public MovieCredits(Integer id) {
@@ -33,20 +37,20 @@ public class MovieCredits {
         return id;
     }
 
-    public List<Cast> getCast() {
-        return cast;
+    public List<MovieCast> getMovieCast() {
+        return movieCast;
     }
 
-    public List<Crew> getCrew() {
-        return crew;
+    public List<MovieCrew> getMovieCrew() {
+        return movieCrew;
     }
 
-    public void setCast(List<Cast> cast) { this.cast = cast; }
+    public void setMovieCast(List<MovieCast> movieCast) { this.movieCast = movieCast; }
 
-    public void setCrew(List<Crew> crew) { this.crew = crew; }
+    public void setMovieCrew(List<MovieCrew> movieCrew) { this.movieCrew = movieCrew; }
 
-    @Entity(tableName = "crew")
-    public static class Crew {
+    @Entity(tableName = "movie_crew")
+    public static class MovieCrew {
 
 
         @PrimaryKey(autoGenerate = true)
@@ -128,8 +132,8 @@ public class MovieCredits {
         public void setMovie_id(Integer movie_id) { this.movie_id = movie_id; }
     }
 
-    @Entity(tableName = "cast")
-    public static class Cast implements Serializable {
+    @Entity(tableName = "movie_cast")
+    public static class MovieCast implements Serializable {
 
 
         @PrimaryKey(autoGenerate = true)

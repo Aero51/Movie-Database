@@ -21,7 +21,7 @@ class OmdbRepository(
     }
 
 
-    fun loadOmdbMovieBytitle(movie_title: String): LiveData<Resource<OmdbModel>> {
+    fun loadOmdbBytitle(movie_title: String): LiveData<Resource<OmdbModel>> {
         Log.d(Constants.LOG, "loadOmdbMovieBytitle title: $movie_title")
         //return ActorNetworkBoundResource(executors, application, actor_id).asLiveData()
         return object : NetworkBoundResource<OmdbModel, OmdbModel>(executors) {

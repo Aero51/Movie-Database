@@ -20,6 +20,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 import com.aero51.moviedatabase.MainActivity;
 import com.aero51.moviedatabase.ui.EpgFragment;
+import com.aero51.moviedatabase.ui.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.utils.Constants;
 
@@ -37,8 +38,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         //this error happens when app is killed by system after cca 30 mins on inactivity
 
         //TODO implement parcelable creator  for different fragments
-
-
+/*
         public static final Parcelable.Creator CREATOR = new Creator<Object>() {
             @Override
             public FragmentIdentifier createFromParcel(Parcel source) {
@@ -50,7 +50,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                   @Override
                   protected Fragment createFragment() {
                       Log.d(Constants.LOG2, "Parcelable.Creator createFragment! ");
-                      TvShowsFragment tvShowsFragment=new TvShowsFragment();
+                      MovieDetailsFragment tvShowsFragment=new MovieDetailsFragment();
                       return tvShowsFragment;
                   }
               };
@@ -61,7 +61,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 return new FragmentIdentifier[size];
             }
         };
-
+*/
 
         private final String fragmentTag;
         private final Bundle args;
@@ -255,9 +255,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         bundle.setClassLoader(loader);
 
 
-        fragmentIdentifiers = bundle.getParcelableArrayList("fragmentIdentifiers");
         try {
-
+            fragmentIdentifiers = bundle.getParcelableArrayList("fragmentIdentifiers");
 
         } catch (BadParcelableException e) {
             e.printStackTrace();
@@ -270,7 +269,8 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         Intent intent = new Intent(context, myClass);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(intent);
-        Runtime.getRuntime().exit(0);
+        //Runtime.getRuntime().exit(0);
+
 
     }
 

@@ -9,7 +9,8 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse.ActorImage
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits
-import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.Cast
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
 
@@ -24,17 +25,17 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
         Log.d(Constants.LOG2, "CreditsRepository constructor!")
     }
 
-    fun loadCastById(movie_id: Int): LiveData<Resource<List<Cast>>> {
+    fun loadMovieCastById(movie_id: Int): LiveData<Resource<List<MovieCast>>> {
         Log.d(Constants.LOG, "loadCastByMovieId id: $movie_id")
         //return CastNetworkBoundResource(executors, application, movie_id).asLiveData()
-        return object : NetworkBoundResource<MovieCredits, List<MovieCredits.Cast>>(executors) {
+        return object : NetworkBoundResource<MovieCredits, List<MovieCast>>(executors) {
 
-            override fun shouldFetch(data: List<Cast>?): Boolean {
+            override fun shouldFetch(data: List<MovieCast>?): Boolean {
                 return data!!.size == 0
             }
 
-            override fun loadFromDb(): LiveData<List<Cast>> {
-                return creditsDao.getTitleCast(movie_id)
+            override fun loadFromDb(): LiveData<List<MovieCast>> {
+                return creditsDao.getMovieCast(movie_id)
             }
 
             override fun createCall(): LiveData<ApiResponse<MovieCredits>> {
@@ -44,8 +45,34 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
 
             override fun saveCallResult(item: MovieCredits) {
                 //this is executed on background thread
-                database.runInTransaction { creditsDao.insertCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + item.cast.size)
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id )
+                database.runInTransaction { creditsDao.insertMovCredits(item) }
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + item.movieCast.size)
+            }
+        }.asLiveData()
+    }
+    fun loadTvShowCastById(tv_show_id: Int): LiveData<Resource<List<TvShowCredits.TvShowCast>>> {
+        Log.d(Constants.LOG, "loadCastByTvShowId id: $tv_show_id")
+        //return CastNetworkBoundResource(executors, application, movie_id).asLiveData()
+        return object : NetworkBoundResource<TvShowCredits, List<TvShowCredits.TvShowCast>>(executors) {
+
+            override fun shouldFetch(data: List<TvShowCredits.TvShowCast>?): Boolean {
+                return data!!.isEmpty()
+            }
+
+            override fun loadFromDb(): LiveData<List<TvShowCredits.TvShowCast>> {
+                return creditsDao.getTvShowCast(tv_show_id)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TvShowCredits>> {
+                val theMovieDbApi = RetrofitInstance.getTmdbApiService()
+                return theMovieDbApi.getLiveTvShowCredits(tv_show_id, Constants.TMDB_API_KEY)
+            }
+
+            override fun saveCallResult(item: TvShowCredits) {
+                //this is executed on background thread
+                database.runInTransaction { creditsDao.insertTvCredits(item) }
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + item.tvShowCast.size)
             }
         }.asLiveData()
     }
