@@ -1,14 +1,14 @@
-package com.aero51.moviedatabase.repository.model.tmdb.movie;
+package com.aero51.moviedatabase.repository.model.tmdb.tvshow;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.List;
 
-public class MovieVideosResponse {
+public class TvShowVideoResponse {
 
     private Integer id;
-    private List<MovieVideo> results;
+    private List<TvShowVideo> results;
 
 
     public Integer getId() {
@@ -19,22 +19,20 @@ public class MovieVideosResponse {
         this.id = id;
     }
 
-    public List<MovieVideo> getResults() {
+    public List<TvShowVideo> getResults() {
         return results;
     }
 
-    public void setResults(List<MovieVideo> results) {
+    public void setResults(List<TvShowVideo> results) {
         this.results = results;
     }
 
 
-    @Entity(tableName = "movie_video")
-    public static class MovieVideo {
-
-
+    @Entity(tableName = "tv_show_video")
+    public static class TvShowVideo {
         @PrimaryKey(autoGenerate = true)
         private int db_id;
-        private int movie_id;
+        private int tv_show_id;
         private String id;
         private String key;
         private String name;
@@ -42,10 +40,8 @@ public class MovieVideosResponse {
         private String type;
         private Integer size;
 
-
-        public MovieVideo() {
+        public TvShowVideo() {
         }
-
 
         public String getId() {
             return id;
@@ -95,13 +91,20 @@ public class MovieVideosResponse {
             this.size = size;
         }
 
-        public int getDb_id() { return db_id; }
+        public int getDb_id() {
+            return db_id;
+        }
 
-        public void setDb_id(int db_id) { this.db_id = db_id; }
+        public void setDb_id(int db_id) {
+            this.db_id = db_id;
+        }
 
-        public int getMovie_id() { return movie_id; }
+        public int getTv_show_id() {
+            return tv_show_id;
+        }
 
-        public void setMovie_id(int movie_id) { this.movie_id = movie_id; }
+        public void setTv_show_id(int tv_show_id) {
+            this.tv_show_id = tv_show_id;
+        }
     }
-
 }

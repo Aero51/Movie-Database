@@ -94,9 +94,14 @@ interface TheMovieDbApi {
     @GET("movie/{movie_id}/videos")
     fun getLiveVideosForMovie(@Path("movie_id")movie_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<MovieVideosResponse>>
 
+    @GET("tv/{tv_show_id}/videos")
+    fun getLiveVideosForTvShow(@Path("tv_show_id")tv_show_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<TvShowVideoResponse>>
+
 
     @GET("movie/{movie_id}")
     fun getLiveMovieDetails(@Path("movie_id")movie_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<MovieDetailsResponse>>
 
+    @GET("tv/{tv_show_id}")
+    fun getLivetvShowDetails(@Path("tv_show_id")tv_show_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<TvShowDetailsResponse>>
 
 }

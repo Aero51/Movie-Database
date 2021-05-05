@@ -20,7 +20,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.ui.adapter.MovieCastAdapter
 import com.aero51.moviedatabase.ui.adapter.MovieGenresAdapter
-import com.aero51.moviedatabase.ui.adapter.YouTubeVideoAdapter
+import com.aero51.moviedatabase.ui.adapter.YouTubeMovieVideoAdapter
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
@@ -158,7 +158,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
 
                 }
                 videosGlobalList = videosList.data
-                val adapter = YouTubeVideoAdapter(requireContext(), videosGlobalList)
+                val adapter = YouTubeMovieVideoAdapter(requireContext(), videosGlobalList)
                 binding?.youtubeRecyclerView?.adapter = adapter
 
             }

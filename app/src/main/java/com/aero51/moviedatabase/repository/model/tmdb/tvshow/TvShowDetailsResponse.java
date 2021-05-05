@@ -1,24 +1,27 @@
-package com.aero51.moviedatabase.repository.model.tmdb.movie;
+package com.aero51.moviedatabase.repository.model.tmdb.tvshow;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
+
 import java.util.List;
 
-@Entity(tableName = "movie_details")
-public class MovieDetailsResponse {
+@Entity(tableName = "tv_show_details")
+public class TvShowDetailsResponse {
 
-
+    //TODO change values according to json below
     @PrimaryKey(autoGenerate = true)
     private int db_id;
     private Integer budget;
-    private List<MovieGenresResponse.MovieGenre> genres;
+    private List<TvShowGenresResponse.TvShowGenre> genres;
     private Integer id;
     private String imdb_id;
     private String original_title;
     private String overview;
     private Double popularity;
-    private List<ProductionCompany> production_companies;
+    private List<TvShowDetailsResponse.ProductionCompany> production_companies;
     private String release_date;
     private Integer revenue;
     private Integer runtime;
@@ -30,7 +33,59 @@ public class MovieDetailsResponse {
     private String poster_path;
 
 
-    public MovieDetailsResponse() {
+    /*
+    "backdrop_path": "/sP4jYXcK11YGpoyF698Cs219VZp.jpg",
+            "created_by": [
+    {
+        "id": 1076694,
+            "credit_id": "52534acc19c29579400f39f8",
+            "name": "Jeffrey Jarrett",
+            "gender": 2,
+            "profile_path": "/sbepieYzkAqlwQF65Bh9mks2Lc2.jpg"
+    },
+    {
+        "id": 1215100,
+            "credit_id": "52534acc19c29579400f39b4",
+            "name": "Vince Russo",
+            "gender": 0,
+            "profile_path": "/jc0ZL99Pj7TAVtFKwF1KSBQjoXq.jpg"
+    }
+    ],
+            "episode_run_time": [],
+            "first_air_date": null,
+            "genres": [],
+            "homepage": "",
+            "id": 276,
+            "in_production": true,
+            "languages": [],
+            "last_air_date": null,
+            "last_episode_to_air": null,
+            "name": "TNA Global Impact!",
+            "next_episode_to_air": null,
+            "networks": [],
+            "number_of_episodes": 0,
+            "number_of_seasons": 0,
+            "origin_country": [],
+            "original_language": "en",
+            "original_name": "TNA Global Impact!",
+            "overview": "Global iMPACT! was a free online professional wrestling show produced by Total Nonstop Action Wrestling that existed in 2006. Global iMPACT!, which was hosted by TNA interviewers Jeremy Borash and Christy Hemme, featured \"exclusive footage, interviews, news updates, matches and more\".",
+            "popularity": 0.6,
+            "poster_path": "/2J4DLJBFl4PwdNNrnt6UokVhqLi.jpg",
+            "production_companies": [],
+            "production_countries": [],
+            "seasons": [],
+            "spoken_languages": [],
+            "status": "Ended",
+            "tagline": "",
+            "type": "Scripted",
+            "vote_average": 0.0,
+            "vote_count": 0
+}
+
+    */
+
+
+    public TvShowDetailsResponse() {
     }
 
 
@@ -42,11 +97,11 @@ public class MovieDetailsResponse {
         this.budget = budget;
     }
 
-    public List<MovieGenresResponse.MovieGenre> getGenres() {
+    public List<TvShowGenresResponse.TvShowGenre> getGenres() {
         return genres;
     }
 
-    public void setGenres(List<MovieGenresResponse.MovieGenre> genres) {
+    public void setGenres(List<TvShowGenresResponse.TvShowGenre> genres) {
         this.genres = genres;
     }
 
@@ -90,11 +145,11 @@ public class MovieDetailsResponse {
         this.popularity = popularity;
     }
 
-    public List<ProductionCompany> getProduction_companies() {
+    public List<TvShowDetailsResponse.ProductionCompany> getProduction_companies() {
         return production_companies;
     }
 
-    public void setProduction_companies(List<ProductionCompany> production_companies) {
+    public void setProduction_companies(List<TvShowDetailsResponse.ProductionCompany> production_companies) {
         this.production_companies = production_companies;
     }
 

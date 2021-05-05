@@ -5,6 +5,8 @@ import androidx.room.TypeConverter;
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -26,15 +28,15 @@ public class Converters {
     }
 
 
-
     @TypeConverter
     public static List<Integer> fromString(String value) {
-        Type listType = new TypeToken<List<Integer>>() {}.getType();
+        Type listType = new TypeToken<List<Integer>>() {
+        }.getType();
         return new Gson().fromJson(value, listType);
     }
 
     @TypeConverter
-    public static String fromArrayList(List<Integer>  list) {
+    public static String fromArrayList(List<Integer> list) {
         Gson gson = new Gson();
         String json = gson.toJson(list);
         return json;
@@ -42,7 +44,8 @@ public class Converters {
 
     @TypeConverter
     public static List<String> fromString2(String value) {
-        Type listType = new TypeToken<List<String>>() {}.getType();
+        Type listType = new TypeToken<List<String>>() {
+        }.getType();
         return new Gson().fromJson(value, listType);
     }
 
@@ -54,43 +57,62 @@ public class Converters {
     }
 
 
-
     @TypeConverter
     public static List<OmdbModel.Ratings> toRatingsList(String value) {
         if (value == null) {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<OmdbModel.Ratings>>() {}.getType();
+        Type type = new TypeToken<List<OmdbModel.Ratings>>() {
+        }.getType();
         List<OmdbModel.Ratings> ratingsList = gson.fromJson(value, type);
         return ratingsList;
     }
 
     @TypeConverter
-    public static String fromRatingsList(List<OmdbModel.Ratings>  ratings) {
+    public static String fromRatingsList(List<OmdbModel.Ratings> ratings) {
         Gson gson = new Gson();
         String json = gson.toJson(ratings);
         return json;
     }
 
     @TypeConverter
-    public static List<MovieDetailsResponse.ProductionCompany> toProductionCompaniesList(String value) {
+    public static List<MovieDetailsResponse.ProductionCompany> toMovieProductionCompaniesList(String value) {
         if (value == null) {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<MovieDetailsResponse.ProductionCompany>>() {}.getType();
+        Type type = new TypeToken<List<MovieDetailsResponse.ProductionCompany>>() {
+        }.getType();
         List<MovieDetailsResponse.ProductionCompany> productionCompanies = gson.fromJson(value, type);
         return productionCompanies;
     }
 
     @TypeConverter
-    public static String fromProductionCompaniesList(List<MovieDetailsResponse.ProductionCompany>  productionCompanies) {
+    public static String fromMovieProductionCompaniesList(List<MovieDetailsResponse.ProductionCompany> productionCompanies) {
         Gson gson = new Gson();
         String json = gson.toJson(productionCompanies);
         return json;
     }
 
+    @TypeConverter
+    public static List<TvShowDetailsResponse.ProductionCompany> toTvShowProductionCompaniesList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<TvShowDetailsResponse.ProductionCompany>>() {
+        }.getType();
+        List<TvShowDetailsResponse.ProductionCompany> productionCompanies = gson.fromJson(value, type);
+        return productionCompanies;
+    }
+
+    @TypeConverter
+    public static String fromTvShowProductionCompaniesList(List<TvShowDetailsResponse.ProductionCompany> productionCompanies) {
+        Gson gson = new Gson();
+        String json = gson.toJson(productionCompanies);
+        return json;
+    }
 
     @TypeConverter
     public static List<MovieGenresResponse.MovieGenre> toGenresForMovieList(String value) {
@@ -98,15 +120,35 @@ public class Converters {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<MovieGenresResponse.MovieGenre>>() {}.getType();
+        Type type = new TypeToken<List<MovieGenresResponse.MovieGenre>>() {
+        }.getType();
         List<MovieGenresResponse.MovieGenre> movieGenres = gson.fromJson(value, type);
         return movieGenres;
     }
 
     @TypeConverter
-    public static String fromGenreForMovieList(List<MovieGenresResponse.MovieGenre>  movieGenres) {
+    public static String fromGenreForMovieList(List<MovieGenresResponse.MovieGenre> movieGenres) {
         Gson gson = new Gson();
         String json = gson.toJson(movieGenres);
+        return json;
+    }
+
+    @TypeConverter
+    public static List<TvShowGenresResponse.TvShowGenre> toGenresForTvShowList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<MovieGenresResponse.MovieGenre>>() {
+        }.getType();
+        List<TvShowGenresResponse.TvShowGenre> tvShowGenres = gson.fromJson(value, type);
+        return tvShowGenres;
+    }
+
+    @TypeConverter
+    public static String fromGenreForTvShowList(List<TvShowGenresResponse.TvShowGenre> tvShowGenres) {
+        Gson gson = new Gson();
+        String json = gson.toJson(tvShowGenres);
         return json;
     }
 }

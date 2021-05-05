@@ -13,6 +13,8 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.utils.AppExecutors
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Resource
@@ -54,9 +56,17 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         return detailsRepository.loadVideosForMovie(movie_id)
     }
 
+    fun getVideosForTvShow(tv_show_id: Int): LiveData<Resource<List<TvShowVideoResponse.TvShowVideo>>> {
+        return detailsRepository.loadVideosForTvShow(tv_show_id)
+    }
+
     fun getDetailsForMovie(movie_id: Int): LiveData<Resource<MovieDetailsResponse>> {
         return detailsRepository.loadDetailsForMovie(movie_id)
     }
+    fun getDetailsForTvShow(tv_show_id: Int): LiveData<Resource<TvShowDetailsResponse>> {
+        return detailsRepository.loadDetailsForTvShow(tv_show_id)
+    }
+
 
     fun checkIfMovieIsFavourite(movieId: Int) : LiveData<MovieFavourite>{
         return detailsRepository.getMovieFavourites(movieId)

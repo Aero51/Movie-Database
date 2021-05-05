@@ -5,8 +5,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,16 +15,15 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubeThumbnailLoader;
 import com.google.android.youtube.player.YouTubeThumbnailView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class YouTubeVideoAdapter extends RecyclerView.Adapter<YouTubeViewHolder> {
-    private static final String TAG = YouTubeVideoAdapter.class.getSimpleName();
+public class YouTubeMovieVideoAdapter extends RecyclerView.Adapter<YouTubeViewHolder> {
+    private static final String TAG = YouTubeMovieVideoAdapter.class.getSimpleName();
     private Context context;
     private List<MovieVideosResponse.MovieVideo> youtubeVideoModelArrayList;
 
 
-    public YouTubeVideoAdapter(Context context, List<MovieVideosResponse.MovieVideo> youtubeVideoModelArrayList) {
+    public YouTubeMovieVideoAdapter(Context context, List<MovieVideosResponse.MovieVideo> youtubeVideoModelArrayList) {
         this.context = context;
         this.youtubeVideoModelArrayList = youtubeVideoModelArrayList;
     }
@@ -80,6 +77,7 @@ public class YouTubeVideoAdapter extends RecyclerView.Adapter<YouTubeViewHolder>
 
     @Override
     public int getItemCount() {
+
         return youtubeVideoModelArrayList != null ? youtubeVideoModelArrayList.size() : 0;
     }
 

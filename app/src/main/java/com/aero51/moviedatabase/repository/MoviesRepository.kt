@@ -27,7 +27,7 @@ class MoviesRepository(private val application: Application, private val executo
     private lateinit var nowPlayingMoviesDao: NowPlayingMoviesDao
     private lateinit var upcomingMoviesDao: UpcomingMoviesDao
     private lateinit var genresDao: GenresDao
-    private lateinit var movieVideosDao: MovieVideosDao
+    private lateinit var tmdbVideosDao: TmdbVideosDao
 
 
     var topRatedResultsPagedList: LiveData<PagedList<TopRatedMovie>>? = null
@@ -61,7 +61,7 @@ class MoviesRepository(private val application: Application, private val executo
         nowPlayingMoviesDao = database._now_playing_movies_dao
         upcomingMoviesDao = database._upcoming_movies_dao
         genresDao = database._genres_dao
-        movieVideosDao=database._movie_videos_dao
+        tmdbVideosDao=database._movie_videos_dao
         topRatedMoviesBoundaryCallback = TopRatedMoviesBoundaryCallback(application, executors)
         popularMoviesBoundaryCallback = PopularMoviesBoundaryCallback(application, executors)
         nowPlayingMoviesBoundaryCallback = NowPlayingMoviesBoundaryCallback(application, executors)

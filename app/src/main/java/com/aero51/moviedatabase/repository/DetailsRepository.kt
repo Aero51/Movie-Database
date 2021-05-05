@@ -5,12 +5,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.aero51.moviedatabase.repository.db.Database
 import com.aero51.moviedatabase.repository.db.FavouritesDao
-import com.aero51.moviedatabase.repository.db.MovieDetailsDao
-import com.aero51.moviedatabase.repository.db.MovieVideosDao
-import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
+import com.aero51.moviedatabase.repository.db.TmdbDetailsDao
+import com.aero51.moviedatabase.repository.db.TmdbVideosDao
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
 
@@ -18,14 +19,14 @@ class DetailsRepository(application: Application, private val executors: AppExec
 
 
     private val database: Database = Database.getInstance(application)
-    private var movieVideosDao: MovieVideosDao
-    private var movieDetailsDao: MovieDetailsDao
+    private var tmdbVideosDao: TmdbVideosDao
+    private var tmdbDetailsDao: TmdbDetailsDao
     private val theMovieDbApi = RetrofitInstance.getTmdbApiService()
     private lateinit var favouritesDao: FavouritesDao
 
     init {
-        movieVideosDao = database._movie_videos_dao
-        movieDetailsDao=database._movie_details_dao
+        tmdbVideosDao = database._movie_videos_dao
+        tmdbDetailsDao=database._movie_details_dao
         favouritesDao=database._favourites_dao
     }
 
@@ -37,7 +38,7 @@ class DetailsRepository(application: Application, private val executors: AppExec
             }
 
             override fun loadFromDb(): LiveData<List<MovieVideosResponse.MovieVideo>> {
-                return movieVideosDao.getMovieVideos(movie_id)
+                return tmdbVideosDao.getMovieVideos(movie_id)
 
             }
 
@@ -57,12 +58,44 @@ class DetailsRepository(application: Application, private val executors: AppExec
                         movieVideo.movie_id = movie_id
 
                     }
-                    movieVideosDao.insertMovieVideosList(movieVideosList) }
+                    tmdbVideosDao.insertMovieVideosList(movieVideosList) }
             }
 
         }.asLiveData()
     }
+    fun loadVideosForTvShow(tv_show_id: Int): LiveData<Resource<List<TvShowVideoResponse.TvShowVideo>>> {
+        return object : NetworkBoundResource<TvShowVideoResponse, List<TvShowVideoResponse.TvShowVideo>>(executors) {
 
+            override fun shouldFetch(data: List<TvShowVideoResponse.TvShowVideo>?): Boolean {
+                return data!!.isEmpty()
+            }
+
+            override fun loadFromDb(): LiveData<List<TvShowVideoResponse.TvShowVideo>> {
+                return tmdbVideosDao.getTvShowVideos(tv_show_id)
+
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TvShowVideoResponse>> {
+
+                return theMovieDbApi.getLiveVideosForTvShow(tv_show_id, Constants.TMDB_API_KEY)
+            }
+
+            override fun saveCallResult(item: TvShowVideoResponse) {
+                //this is executed on background thread
+                Log.d("nikola", "movie videos.size: " + item.results.size)
+                database.runInTransaction {
+
+                    val tvShowVideosList: List<TvShowVideoResponse.TvShowVideo>  =item.results
+                    for(tvShowVideo in tvShowVideosList)
+                    {
+                        tvShowVideo.tv_show_id = tv_show_id
+
+                    }
+                    tmdbVideosDao.insertTvShowVideosList(tvShowVideosList) }
+            }
+
+        }.asLiveData()
+    }
 
     fun loadDetailsForMovie(movie_id: Int): LiveData<Resource<MovieDetailsResponse>> {
         return object : NetworkBoundResource<MovieDetailsResponse, MovieDetailsResponse>(executors) {
@@ -73,7 +106,7 @@ class DetailsRepository(application: Application, private val executors: AppExec
 
             override fun loadFromDb(): LiveData<MovieDetailsResponse> {
 
-                return movieDetailsDao.getMovieDetails(movie_id)
+                return tmdbDetailsDao.getMovieDetails(movie_id)
             }
 
             override fun createCall(): LiveData<ApiResponse<MovieDetailsResponse>> {
@@ -84,7 +117,32 @@ class DetailsRepository(application: Application, private val executors: AppExec
 
             override fun saveCallResult(item: MovieDetailsResponse) {
                 database.runInTransaction {
-                    movieDetailsDao.insertMovieDetails(item)
+                    tmdbDetailsDao.insertMovieDetails(item)
+                }
+            }
+        }.asLiveData()
+    }
+    fun loadDetailsForTvShow(tv_show_id: Int): LiveData<Resource<TvShowDetailsResponse>> {
+        return object : NetworkBoundResource<TvShowDetailsResponse, TvShowDetailsResponse>(executors) {
+
+            override fun shouldFetch(data: TvShowDetailsResponse?): Boolean {
+                return data==null
+            }
+
+            override fun loadFromDb(): LiveData<TvShowDetailsResponse> {
+
+                return tmdbDetailsDao.getTvShowDetails(tv_show_id)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TvShowDetailsResponse>> {
+
+                return theMovieDbApi.getLivetvShowDetails(tv_show_id,Constants.TMDB_API_KEY)
+
+            }
+
+            override fun saveCallResult(item: TvShowDetailsResponse) {
+                database.runInTransaction {
+                    tmdbDetailsDao.insertTvShowDetails(item)
                 }
             }
         }.asLiveData()

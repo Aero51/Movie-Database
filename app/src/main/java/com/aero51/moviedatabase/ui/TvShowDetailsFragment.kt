@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,20 +13,21 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
+import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
-import com.aero51.moviedatabase.ui.adapter.MovieCastAdapter
-import com.aero51.moviedatabase.ui.adapter.TvShowCastAdapter
-import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.utils.Status
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
+import com.aero51.moviedatabase.ui.adapter.*
+import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener {
+class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener,GenreObjectClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var tvShowCastAdapter: TvShowCastAdapter? = null
     private var sharedViewModel: SharedViewModel? = null
+    private lateinit var videosGlobalList: List<TvShowVideoResponse.TvShowVideo>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +45,15 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener {
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.castRecyclerView.layoutManager = linearLayoutManager
         //castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        binding!!.youtubeRecyclerView.setHasFixedSize(true)
+        val youtubeLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.youtubeRecyclerView.layoutManager = youtubeLinearLayoutManager
+
+        binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
+            startActivity(Intent(requireContext(), YoutubePlayerActivity::class.java)
+                    .putExtra("video_id", videosGlobalList[position].key))
+        }))
+
         registerSharedViewModelObserver()
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
@@ -68,6 +79,8 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener {
             binding!!.coverImageView.visibility = View.VISIBLE
             registerTvShowCastObserver(tvShow.id)
             registerOmdbDetailsObserver(tvShow.name)
+            registerTvShowVideosObserver(tvShow.id)
+            registerTvShowDetailsObserver(tvShow.id)
         })
     }
     private fun registerTvShowCastObserver(tvShowId: Int) {
@@ -105,6 +118,46 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener {
         })
     }
 
+    private fun registerTvShowVideosObserver(movieId: Int) {
+        // TODO   implement traversing trough list to exclude Vimeo videos
+        detailsViewModel?.getVideosForTvShow(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
+            if (videosList != null && videosList.status == Status.SUCCESS) {
+                for (tvShowVideo in videosList.data!!) {
+                    Log.d("nikola", "movie video  : " + tvShowVideo.name + " ,site: " + tvShowVideo.site)
+
+                }
+                videosGlobalList = videosList.data
+                val adapter = YouTubeTvShowVideoAdapter(requireContext(), videosGlobalList)
+                binding?.youtubeRecyclerView?.adapter = adapter
+
+            }
+        })
+    }
+    private fun registerTvShowDetailsObserver(tvShowId: Int) {
+
+        detailsViewModel?.getDetailsForTvShow(tvShowId)?.observe(viewLifecycleOwner, Observer { tvShowDetails ->
+            if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
+                Log.d("nikola", "TvShowDetailsObserver videosList.status revenue: " + (tvShowDetails.data?.revenue))
+
+                binding!!.originalTitleTextView.text = tvShowDetails.data?.original_title
+                binding!!.releasedTextView.text = tvShowDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
+                binding!!.runtimeTextView.text = tvShowDetails.data?.runtime.toString() + " minutes"
+                binding!!.productionCompaniesTextView.text = "TODO" // tvShowDetails.data?.production_companies.toString()
+                binding!!.budgetTextView.text = tvShowDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+                binding!!.revenueTextView.text = tvShowDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+
+
+                val movieGenresAdapter = tvShowDetails.data?.genres?.let { TvShowGenresAdapter(it, this) }
+                binding?.movieGenresRecyclerViewHorizontal?.adapter = movieGenresAdapter
+
+                //setFavouriteOnClickListener(tvShowDetails.data!!)
+
+            }
+        })
+    }
+
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
@@ -118,5 +171,10 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener {
 
     override fun onItemClick(view: View?, actorId: Int, position: Int) {
         sharedViewModel!!.changeToActorFragment(position, actorId)
+    }
+
+    override fun onGenreItemClick(genreId: Int, position: Int) {
+        Log.d("nikola", "onGenreItemClick genre Item clicked: " + genreId + " ,position: " + position)
+        sharedViewModel?.changeToTvShowsByGenreListFragment(genreId, position)
     }
 }

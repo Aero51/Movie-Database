@@ -29,7 +29,9 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowsByGenrePage;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.Converters;
@@ -49,7 +51,7 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
         EpgChannel.class, EpgProgram.class, ActorSearchResponse.ActorSearch.class,
         MovieGenresResponse.MovieGenre.class, TvShowGenresResponse.TvShowGenre.class, MoviesByGenrePage.class, MoviesByGenrePage.MovieByGenre.class
         , TvShowsByGenrePage.class, TvShowsByGenrePage.TvShowByGenre.class, OmdbModel.class,
-        MovieVideosResponse.MovieVideo.class, MovieDetailsResponse.class, MovieFavourite.class}, version = 1)
+        MovieVideosResponse.MovieVideo.class, TvShowVideoResponse.TvShowVideo.class, MovieDetailsResponse.class, TvShowDetailsResponse.class, MovieFavourite.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Database extends RoomDatabase {
 
@@ -78,9 +80,9 @@ public abstract class Database extends RoomDatabase {
 
     public abstract OmdbDao get_omdb_dao();
 
-    public abstract MovieVideosDao get_movie_videos_dao();
+    public abstract TmdbVideosDao get_movie_videos_dao();
     
-    public abstract MovieDetailsDao get_movie_details_dao();
+    public abstract TmdbDetailsDao get_movie_details_dao();
 
     public abstract FavouritesDao get_favourites_dao();
 
