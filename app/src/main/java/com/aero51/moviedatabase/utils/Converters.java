@@ -139,7 +139,7 @@ public class Converters {
             return (null);
         }
         Gson gson = new Gson();
-        Type type = new TypeToken<List<MovieGenresResponse.MovieGenre>>() {
+        Type type = new TypeToken<List<TvShowGenresResponse.TvShowGenre>>() {
         }.getType();
         List<TvShowGenresResponse.TvShowGenre> tvShowGenres = gson.fromJson(value, type);
         return tvShowGenres;

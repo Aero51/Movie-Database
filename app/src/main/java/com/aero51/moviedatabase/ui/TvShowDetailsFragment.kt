@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
+import com.aero51.moviedatabase.databinding.FragmentTvShowDetailsBinding
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.*
@@ -22,8 +23,8 @@ import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener,GenreObjectClickListener {
-    private var binding: FragmentMovieDetailsBinding? = null
+class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
+    private var binding: FragmentTvShowDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var tvShowCastAdapter: TvShowCastAdapter? = null
     private var sharedViewModel: SharedViewModel? = null
@@ -38,13 +39,19 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener,Genr
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
+        binding = FragmentTvShowDetailsBinding.inflate(inflater, container, false)
         // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
         //cover_image_view = getActivity().findViewById(R.id.expandedImage);
         binding!!.castRecyclerView.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.castRecyclerView.layoutManager = linearLayoutManager
         //castRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+
+        binding!!.movieGenresRecyclerViewHorizontal.setHasFixedSize(true)
+        binding!!.movieGenresRecyclerViewHorizontal.isNestedScrollingEnabled = false
+        val genresLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.movieGenresRecyclerViewHorizontal.layoutManager = genresLinearLayoutManager
+
         binding!!.youtubeRecyclerView.setHasFixedSize(true)
         val youtubeLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.youtubeRecyclerView.layoutManager = youtubeLinearLayoutManager
@@ -95,22 +102,21 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener,Genr
     }
     private fun registerOmdbDetailsObserver(tvShowTitle: String) {
         //TODO  upcoming movies are not yet present on omd api
-        detailsViewModel!!.getOmbdDetails(tvShowTitle).observe(viewLifecycleOwner, Observer { (status, data,errorMsg) ->
-            if (data != null && status== Status.SUCCESS) {
+        detailsViewModel!!.getOmbdDetails(tvShowTitle).observe(viewLifecycleOwner, Observer { (status, data, errorMsg) ->
+            if (data != null && status == Status.SUCCESS) {
                 Log.d("nikola", "imdbRating: " + (data.imdbRating))
                 Log.d("nikola", "ratings: " + (data.ratings?.get(0)?.source) + " , " + data.ratings?.get(0)?.value)
 
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
-                val tvShowRatingsList= data.ratings
-                for(tvShowRating in tvShowRatingsList)
-                {
-                    if(tvShowRating.source.equals("Internet Movie Database")){
+                val tvShowRatingsList = data.ratings
+                for (tvShowRating in tvShowRatingsList) {
+                    if (tvShowRating.source.equals("Internet Movie Database")) {
                         binding!!.imdbRating.text = tvShowRating.value
                     }
-                    if(tvShowRating.source.equals("Rotten Tomatoes")){
+                    if (tvShowRating.source.equals("Rotten Tomatoes")) {
                         binding!!.rottenTomatoesRating.text = tvShowRating.value
                     }
-                    if(tvShowRating.source.equals("Metacritic")){
+                    if (tvShowRating.source.equals("Metacritic")) {
                         binding!!.metacriticRating.text = tvShowRating.value
                     }
                 }
@@ -133,8 +139,9 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener,Genr
             }
         })
     }
-    private fun registerTvShowDetailsObserver(tvShowId: Int) {
 
+    private fun registerTvShowDetailsObserver(tvShowId: Int) {
+       //TODO  put tvShowDetails.data  in variable
         detailsViewModel?.getDetailsForTvShow(tvShowId)?.observe(viewLifecycleOwner, Observer { tvShowDetails ->
             if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
                 Log.d("nikola", "TvShowDetailsObserver videosList.status revenue: " + (tvShowDetails.data?.revenue))
@@ -143,19 +150,19 @@ class TvShowDetailsFragment: Fragment(), MovieCastAdapter.ItemClickListener,Genr
                 binding!!.releasedTextView.text = tvShowDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
                 binding!!.runtimeTextView.text = tvShowDetails.data?.runtime.toString() + " minutes"
                 binding!!.productionCompaniesTextView.text = "TODO" // tvShowDetails.data?.production_companies.toString()
-                binding!!.budgetTextView.text = tvShowDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+                //binding!!.budgetTextView.text = tvShowDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
                 binding!!.revenueTextView.text = tvShowDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
 
+                Log.d("nikola", "genres size:" + tvShowDetails.data?.genres?.size)
 
-                val movieGenresAdapter = tvShowDetails.data?.genres?.let { TvShowGenresAdapter(it, this) }
-                binding?.movieGenresRecyclerViewHorizontal?.adapter = movieGenresAdapter
+                val tvShowGenresAdapter = tvShowDetails.data?.genres?.let { TvShowGenresAdapter(it, this) }
+                binding?.movieGenresRecyclerViewHorizontal?.adapter = tvShowGenresAdapter
 
                 //setFavouriteOnClickListener(tvShowDetails.data!!)
 
             }
         })
     }
-
 
 
     override fun onDestroyView() {
