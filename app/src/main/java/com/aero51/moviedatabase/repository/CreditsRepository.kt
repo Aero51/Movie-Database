@@ -47,7 +47,7 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
                 //this is executed on background thread
                 Log.d(Constants.LOG, "saveCallResult movie id: " + item.id )
                 database.runInTransaction { creditsDao.insertMovCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + item.movieCast.size)
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.movieCast?.size ?: 0))
             }
         }.asLiveData()
     }
@@ -72,7 +72,7 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: TvShowCredits) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertTvCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + item.tvShowCast.size)
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.tvShowCast?.size ?: 0))
             }
         }.asLiveData()
     }
@@ -127,7 +127,7 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
 
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertActorImagesResponse(item) }
-                Log.d(Constants.LOG, "saveCallResult actor id: " + item.getId() + " ,images list  size: " + item.getImages().size)
+                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id + " ,images list  size: " + (item.images?.size ?: 0))
             }
         }.asLiveData()
     }

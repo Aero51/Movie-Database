@@ -22,11 +22,11 @@ import com.aero51.moviedatabase.utils.Constants.ONE_WEEK_IN_MILLIS
 class MoviesRepository(private val application: Application, private val executors: AppExecutors) {
 
     private val database: Database
-    private lateinit var topRatedMoviesDao: TopRatedMoviesDao
-    private lateinit var popularMoviesDao: PopularMoviesDao
-    private lateinit var nowPlayingMoviesDao: NowPlayingMoviesDao
-    private lateinit var upcomingMoviesDao: UpcomingMoviesDao
-    private lateinit var genresDao: GenresDao
+    private var topRatedMoviesDao: TopRatedMoviesDao
+    private var popularMoviesDao: PopularMoviesDao
+    private var nowPlayingMoviesDao: NowPlayingMoviesDao
+    private var upcomingMoviesDao: UpcomingMoviesDao
+    private var genresDao: GenresDao
     private lateinit var tmdbVideosDao: TmdbVideosDao
 
 

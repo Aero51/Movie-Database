@@ -58,7 +58,7 @@ public abstract class CreditsDao {
 
     public void insertActorImagesResponse(ActorImagesResponse response) {
         List<ActorImagesResponse.ActorImage> actorImageList = response.getImages();
-        for (int i = 0; i < Objects.requireNonNull(actorImageList).size(); i++) {
+        for (int i = 0; i < (actorImageList != null ? actorImageList.size() : 0); i++) {
             actorImageList.get(i).setActor_id(response.getId());
         }
         insertActorImages(actorImageList);

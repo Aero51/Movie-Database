@@ -133,15 +133,17 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
 
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
                 val movieRatingsList = data.ratings
-                for (movieRating in movieRatingsList) {
-                    if (movieRating.source.equals("Internet Movie Database")) {
-                        binding!!.imdbRating.text = movieRating.value
-                    }
-                    if (movieRating.source.equals("Rotten Tomatoes")) {
-                        binding!!.rottenTomatoesRating.text = movieRating.value
-                    }
-                    if (movieRating.source.equals("Metacritic")) {
-                        binding!!.metacriticRating.text = movieRating.value
+                if (movieRatingsList != null) {
+                    for (movieRating in movieRatingsList) {
+                        if (movieRating.source.equals("Internet Movie Database")) {
+                            binding!!.imdbRating.text = movieRating.value
+                        }
+                        if (movieRating.source.equals("Rotten Tomatoes")) {
+                            binding!!.rottenTomatoesRating.text = movieRating.value
+                        }
+                        if (movieRating.source.equals("Metacritic")) {
+                            binding!!.metacriticRating.text = movieRating.value
+                        }
                     }
                 }
             }

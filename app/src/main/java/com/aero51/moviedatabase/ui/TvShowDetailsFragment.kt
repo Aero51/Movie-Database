@@ -109,15 +109,17 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
 
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
                 val tvShowRatingsList = data.ratings
-                for (tvShowRating in tvShowRatingsList) {
-                    if (tvShowRating.source.equals("Internet Movie Database")) {
-                        binding!!.imdbRating.text = tvShowRating.value
-                    }
-                    if (tvShowRating.source.equals("Rotten Tomatoes")) {
-                        binding!!.rottenTomatoesRating.text = tvShowRating.value
-                    }
-                    if (tvShowRating.source.equals("Metacritic")) {
-                        binding!!.metacriticRating.text = tvShowRating.value
+                if (tvShowRatingsList != null) {
+                    for (tvShowRating in tvShowRatingsList) {
+                        if (tvShowRating.source.equals("Internet Movie Database")) {
+                            binding!!.imdbRating.text = tvShowRating.value
+                        }
+                        if (tvShowRating.source.equals("Rotten Tomatoes")) {
+                            binding!!.rottenTomatoesRating.text = tvShowRating.value
+                        }
+                        if (tvShowRating.source.equals("Metacritic")) {
+                            binding!!.metacriticRating.text = tvShowRating.value
+                        }
                     }
                 }
             }
@@ -143,6 +145,8 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     private fun registerTvShowDetailsObserver(tvShowId: Int) {
        //TODO  put tvShowDetails.data  in variable
         detailsViewModel?.getDetailsForTvShow(tvShowId)?.observe(viewLifecycleOwner, Observer { tvShowDetails ->
+            Log.d("nikola", "tvShowDetails.message:" + tvShowDetails.message)
+            Log.d("nikola", "tvShowDetails.status:" + tvShowDetails.status)
             if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
 
                 binding!!.productionCompaniesTextView.text = "TODO" // tvShowDetails.data?.production_companies.toString()
