@@ -144,14 +144,9 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
        //TODO  put tvShowDetails.data  in variable
         detailsViewModel?.getDetailsForTvShow(tvShowId)?.observe(viewLifecycleOwner, Observer { tvShowDetails ->
             if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
-                Log.d("nikola", "TvShowDetailsObserver videosList.status revenue: " + (tvShowDetails.data?.revenue))
 
-                binding!!.originalTitleTextView.text = tvShowDetails.data?.original_title
-                binding!!.releasedTextView.text = tvShowDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
-                binding!!.runtimeTextView.text = tvShowDetails.data?.runtime.toString() + " minutes"
                 binding!!.productionCompaniesTextView.text = "TODO" // tvShowDetails.data?.production_companies.toString()
                 //binding!!.budgetTextView.text = tvShowDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
-                binding!!.revenueTextView.text = tvShowDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
 
                 Log.d("nikola", "genres size:" + tvShowDetails.data?.genres?.size)
 

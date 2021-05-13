@@ -3,6 +3,7 @@ package com.aero51.moviedatabase.utils;
 import androidx.room.TypeConverter;
 
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse;
@@ -149,6 +150,62 @@ public class Converters {
     public static String fromGenreForTvShowList(List<TvShowGenresResponse.TvShowGenre> tvShowGenres) {
         Gson gson = new Gson();
         String json = gson.toJson(tvShowGenres);
+        return json;
+    }
+
+    @TypeConverter
+    public static List<TvShowDetailsResponse.CreatedBy> toCreatedByList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<TvShowDetailsResponse.CreatedBy>>() {
+        }.getType();
+        List<TvShowDetailsResponse.CreatedBy> createdByList = gson.fromJson(value, type);
+        return createdByList;
+    }
+
+    @TypeConverter
+    public static String fromCreatedByList(List<TvShowDetailsResponse.CreatedBy> createdByList) {
+        Gson gson = new Gson();
+        String json = gson.toJson(createdByList);
+        return json;
+    }
+    @TypeConverter
+    public static List<TvShowDetailsResponse.Season> toSeasonsList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<TvShowDetailsResponse.Season>>() {
+        }.getType();
+        List<TvShowDetailsResponse.Season> seasonsList = gson.fromJson(value, type);
+        return seasonsList;
+    }
+
+    @TypeConverter
+    public static String fromSeasonsList(List<TvShowDetailsResponse.Season> seasonsList) {
+        Gson gson = new Gson();
+        String json = gson.toJson(seasonsList);
+        return json;
+    }
+
+    @TypeConverter
+    public static List<ActorSearchResponse.KnownFor> toKnownForList(String value) {
+        if (value == null) {
+            return (null);
+        }
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<ActorSearchResponse.KnownFor>>() {
+        }.getType();
+        List<ActorSearchResponse.KnownFor> knownForList = gson.fromJson(value, type);
+        return knownForList;
+    }
+
+    @TypeConverter
+    public static String fromKnownForList(List<ActorSearchResponse.KnownFor> knownForList) {
+        Gson gson = new Gson();
+        String json = gson.toJson(knownForList);
         return json;
     }
 }

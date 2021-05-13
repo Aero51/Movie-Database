@@ -122,11 +122,12 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
     }
 
     // this method is not needed because app uses bottom navigation view instead of tab layout
+    //it is needed for search activity
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
         switch (position) {
-            /*
+
             case 0:
                 return "Filmovi";
             case 1:
@@ -135,7 +136,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 return "Osobe";
             case 3:
                 return "Liste";
-            */
+
         }
         return null;
     }

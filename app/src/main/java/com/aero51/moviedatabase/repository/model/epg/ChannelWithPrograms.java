@@ -6,9 +6,6 @@ public class ChannelWithPrograms {
     private Integer nearestTimePosition;
     private Integer nowPlayingPercentage;
     private List<EpgProgram> programsList;
-
-
-
     private  EpgChannel channel;
 
     public Integer getNearestTimePosition() {

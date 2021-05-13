@@ -79,7 +79,7 @@ public class PeopleSearchPagedListAdapter extends PagedListAdapter<ActorSearchRe
             new DiffUtil.ItemCallback<ActorSearchResponse.ActorSearch>() {
                 @Override
                 public boolean areItemsTheSame(ActorSearchResponse.ActorSearch oldItem, ActorSearchResponse.ActorSearch newItem) {
-                    return oldItem.getId().equals(newItem.getId());
+                    return oldItem.getId()==newItem.getId();
                 }
 
                 @Override

@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms
-import com.aero51.moviedatabase.repository.model.epg.EpgOtherChannel
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage.NowPlayingMovie
@@ -24,7 +23,6 @@ class SharedViewModel : ViewModel() {
     private var epgIndex: Int? = null
     private val liveChannelWithPrograms = MutableLiveData<ChannelWithPrograms>()
     private val shouldSwitchToEpgAllProgramsFragment = SingleLiveEvent<Boolean>()
-    private val liveEpgOtherChannel = MutableLiveData<EpgOtherChannel>()
     private val shouldSwitchOtherChannelDetailFragment = SingleLiveEvent<Boolean>()
     private val otherChannelIndex: Int? = null
     private val liveMovie = MutableLiveData<Movie>()

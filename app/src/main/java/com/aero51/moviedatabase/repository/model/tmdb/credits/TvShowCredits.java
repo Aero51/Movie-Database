@@ -11,6 +11,8 @@ import java.util.List;
 
 @Entity(tableName = "tv_show_credits")
 public class TvShowCredits {
+
+
     @PrimaryKey(autoGenerate = false)
     private Integer id;
 
@@ -22,19 +24,17 @@ public class TvShowCredits {
     @SerializedName("crew")
     private List<TvShowCrew> tvShowCrew;
 
-    @Ignore
-    public TvShowCredits(Integer id, List<TvShowCast> tvShowCast, List<TvShowCrew> tvShowCrew) {
-        this.id = id;
-        this.tvShowCast = tvShowCast;
-        this.tvShowCrew = tvShowCrew;
-    }
 
-    public TvShowCredits(Integer id) {
-        this.id = id;
+    public TvShowCredits() {
+
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<TvShowCast> getTvShowCast() {
@@ -45,9 +45,13 @@ public class TvShowCredits {
         return tvShowCrew;
     }
 
-    public void setTvShowCast(List<TvShowCast> tvShowCast) { this.tvShowCast = tvShowCast; }
+    public void setTvShowCast(List<TvShowCast> tvShowCast) {
+        this.tvShowCast = tvShowCast;
+    }
 
-    public void setTvShowCrew(List<TvShowCrew> tvShowCrew) { this.tvShowCrew = tvShowCrew; }
+    public void setTvShowCrew(List<TvShowCrew> tvShowCrew) {
+        this.tvShowCrew = tvShowCrew;
+    }
 
     @Entity(tableName = "tv_show_crew")
     public static class TvShowCrew {
@@ -73,7 +77,9 @@ public class TvShowCredits {
             return gender;
         }
 
-        public Integer getId() { return id; }
+        public Integer getId() {
+            return id;
+        }
 
         public String getJob() {
             return job;
@@ -127,9 +133,13 @@ public class TvShowCredits {
             return credit_id;
         }
 
-        public Integer getTv_show_id() { return tv_show_id; }
+        public Integer getTv_show_id() {
+            return tv_show_id;
+        }
 
-        public void setTv_show_id(Integer tv_show_id) { this.tv_show_id = tv_show_id; }
+        public void setTv_show_id(Integer tv_show_id) {
+            this.tv_show_id = tv_show_id;
+        }
     }
 
     @Entity(tableName = "tv_show_cast")
@@ -213,9 +223,13 @@ public class TvShowCredits {
             this.profile_path = profile_path;
         }
 
-        public Integer getTv_show_id() { return tv_show_id; }
+        public Integer getTv_show_id() {
+            return tv_show_id;
+        }
 
-        public void setTv_show_id(Integer tv_show_id) { this.tv_show_id = tv_show_id; }
+        public void setTv_show_id(Integer tv_show_id) {
+            this.tv_show_id = tv_show_id;
+        }
 
         public Integer getDb_id() {
             return db_id;

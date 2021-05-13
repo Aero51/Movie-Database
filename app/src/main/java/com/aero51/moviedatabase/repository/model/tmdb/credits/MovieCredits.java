@@ -11,6 +11,8 @@ import java.util.List;
 
 @Entity(tableName = "movie_credits")
 public class MovieCredits {
+
+
     @PrimaryKey(autoGenerate = false)
     private Integer id;
 
@@ -22,19 +24,18 @@ public class MovieCredits {
     @SerializedName("crew")
     private List<MovieCrew> movieCrew;
 
-    @Ignore
-    public MovieCredits(Integer id, List<MovieCast> movieCast, List<MovieCrew> movieCrew) {
-        this.id = id;
-        this.movieCast = movieCast;
-        this.movieCrew = movieCrew;
-    }
 
-    public MovieCredits(Integer id) {
-        this.id = id;
+
+    public MovieCredits() {
+
     }
 
     public Integer getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public List<MovieCast> getMovieCast() {
