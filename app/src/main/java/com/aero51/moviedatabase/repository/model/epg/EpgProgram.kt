@@ -14,7 +14,7 @@ data class EpgProgram(
         var credits: String? =null,
         var date: String? =null,
         var category: String,
-        var icon: String,
+        var icon: String?=null,
         var channel: String,
         var channel_display_name: String,
         var start: String,

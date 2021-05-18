@@ -28,6 +28,7 @@ import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
+import com.aero51.moviedatabase.utils.StringHelper;
 import com.aero51.moviedatabase.viewmodel.EpgDetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.appbar.AppBarLayout;
@@ -155,8 +156,8 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + epgProgram.getChannel());
                 Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(binding.imageViewChannel);
 
-                binding.textViewDirectors.setText("Režiser: "+join(", ",directors));
-                binding.textViewWriters.setText("Pisac: "+join(", ",writers));
+                binding.textViewDirectors.setText("Režiser: "+ StringHelper.Companion.join(", ", directors));
+                binding.textViewWriters.setText("Pisac: "+StringHelper.Companion.join(", ",writers));
 
 
                 multipleActorsFetch();
@@ -298,27 +299,8 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
     @Override
     public void onItemClick(ActorSearchResponse.ActorSearch actorSearch, int position) {
-        sharedViewModel.changeToActorFragment(position, actorSearch.getId());
+        sharedViewModel.changeToEpgActorFragment(position, actorSearch.getId());
     }
 
-    private static String join(String separator, List<String> input) {
 
-        if (input == null || input.size() <= 0) return "";
-
-        StringBuilder sb = new StringBuilder();
-
-        for (int i = 0; i < input.size(); i++) {
-
-            sb.append(input.get(i));
-
-            // if not the last item
-            if (i != input.size() - 1) {
-                sb.append(separator);
-            }
-
-        }
-
-        return sb.toString();
-
-    }
 }

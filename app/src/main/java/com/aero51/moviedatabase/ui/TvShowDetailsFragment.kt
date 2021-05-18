@@ -14,7 +14,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
-import com.aero51.moviedatabase.databinding.FragmentMovieDetailsBinding
 import com.aero51.moviedatabase.databinding.FragmentTvShowDetailsBinding
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.ui.adapter.*
@@ -105,7 +104,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
         detailsViewModel!!.getOmbdDetails(tvShowTitle).observe(viewLifecycleOwner, Observer { (status, data, errorMsg) ->
             if (data != null && status == Status.SUCCESS) {
                 Log.d("nikola", "imdbRating: " + (data.imdbRating))
-                Log.d("nikola", "ratings: " + (data.ratings?.get(0)?.source) + " , " + data.ratings?.get(0)?.value)
+                //Log.d("nikola", "ratings: " + (data.ratings?.get(0)?.source) + " , " + data.ratings?.get(0)?.value)
 
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
                 val tvShowRatingsList = data.ratings
@@ -149,14 +148,18 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
             Log.d("nikola", "tvShowDetails.status:" + tvShowDetails.status)
             if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
 
-                binding!!.productionCompaniesTextView.text = "TODO" // tvShowDetails.data?.production_companies.toString()
-                //binding!!.budgetTextView.text = tvShowDetails.data?.budget?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
+
 
                 Log.d("nikola", "genres size:" + tvShowDetails.data?.genres?.size)
 
                 val tvShowGenresAdapter = tvShowDetails.data?.genres?.let { TvShowGenresAdapter(it, this) }
                 binding?.movieGenresRecyclerViewHorizontal?.adapter = tvShowGenresAdapter
 
+                val productionCompanies: MutableList<String> = mutableListOf()
+                for(production_company in tvShowDetails.data?.production_companies!!){
+                    production_company.name?.let { productionCompanies.add(it) }
+                }
+                binding!!.productionCompaniesTextView.text = StringHelper.join(", ",productionCompanies)
                 //setFavouriteOnClickListener(tvShowDetails.data!!)
 
             }
@@ -176,7 +179,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     }
 
     override fun onItemClick(view: View?, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToActorFragment(position, actorId)
+        sharedViewModel!!.changeToTvActorFragment(position, actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {

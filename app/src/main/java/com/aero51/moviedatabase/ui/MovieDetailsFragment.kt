@@ -129,7 +129,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         detailsViewModel!!.getOmbdDetails(movieTitle).observe(viewLifecycleOwner, Observer { (status, data) ->
             if (data != null && status == Status.SUCCESS) {
                 Log.d("nikola", "imdbRating: " + (data?.imdbRating))
-                Log.d("nikola", "ratings: " + (data?.ratings?.get(0)?.source) + " , " + data?.ratings?.get(0)?.value)
+                //Log.d("nikola", "ratings: " + (data?.ratings?.get(0)?.source) + " , " + data?.ratings?.get(0)?.value)
 
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
                 val movieRatingsList = data.ratings
@@ -181,6 +181,15 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
                 binding!!.revenueTextView.text = movieDetails.data?.revenue?.toDouble()?.let { CurrencyConverter.currencyFormat(it) }
 
 
+                val productionCompanies: MutableList<String> = mutableListOf()
+                for(production_company in movieDetails.data?.production_companies!!){
+                    production_company.name?.let { productionCompanies.add(it) }
+                }
+                binding!!.productionCompaniesTextView.text = StringHelper.join(", ",productionCompanies)
+                //setFavouriteOnClickListener(tvShowDetails.data!!)
+
+
+
                 val movieGenresAdapter = movieDetails.data?.genres?.let { MovieGenresAdapter(it, this) }
                 binding?.movieGenresRecyclerViewHorizontal?.adapter = movieGenresAdapter
 
@@ -219,7 +228,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
 
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToActorFragment(position, actorId)
+        sharedViewModel!!.changeToMovieActorFragment(position, actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {

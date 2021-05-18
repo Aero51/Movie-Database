@@ -344,34 +344,12 @@
             tools:text="120 minutes" />
 
 
-        <TextView
-            android:id="@+id/production_companies_static_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/runtime_static_text_view"
-            android:textColor="@color/white"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Produkcija:" />
-
-        <TextView
-            android:id="@+id/production_companies_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/runtime_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
-            tools:text="Warner bros" />
-
 
         <TextView
             android:id="@+id/budget_static_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/production_companies_static_text_view"
+            android:layout_below="@+id/runtime_static_text_view"
             android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -382,7 +360,7 @@
             android:id="@+id/budget_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/production_companies_static_text_view"
+            android:layout_below="@+id/runtime_static_text_view"
             android:layout_alignStart="@+id/original_title_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
@@ -397,7 +375,6 @@
             android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
             android:textStyle="bold"
             android:text="Prihod:" />
 
@@ -413,13 +390,36 @@
             android:layout_centerInParent="true"
             tools:text="150$" />
 
+        <TextView
+            android:id="@+id/production_companies_static_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/revenue_static_text_view"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:text="Produkcija:" />
+
+        <TextView
+            android:id="@+id/production_companies_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/revenue_static_text_view"
+            android:layout_alignStart="@+id/original_title_text_view"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_centerInParent="true"
+            tools:text="Warner bros" />
 
         <View
             android:id="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="5dp"
-            android:layout_below="@+id/revenue_static_text_view"
+            android:layout_below="@+id/production_companies_text_view"
             android:background="@color/white" />
 
 

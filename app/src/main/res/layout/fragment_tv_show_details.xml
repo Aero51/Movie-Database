@@ -46,7 +46,7 @@
 
         <ImageView
             android:id="@+id/poster_image_view"
-            android:layout_width="150dp"
+            android:layout_width="140dp"
             android:layout_height="200dp"
             android:layout_marginTop="-100dp"
             android:layout_marginStart="15dp"
@@ -273,7 +273,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:text="Informacije o filmu:" />
+            android:text="Informacije o seriji:" />
 
         <TextView
             android:id="@+id/original_title_static_text_view"
@@ -294,7 +294,7 @@
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_centerInParent="true"
-            tools:text="naslov filma" />
+            tools:text="naslov serije" />
 
 
 
