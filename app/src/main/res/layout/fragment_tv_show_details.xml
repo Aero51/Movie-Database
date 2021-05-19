@@ -320,12 +320,56 @@
             android:layout_centerInParent="true"
             tools:text="2021" />
 
+        <TextView
+            android:id="@+id/number_of_episodes_static_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/released_text_view"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Epizoda:" />
+
+        <TextView
+            android:id="@+id/number_of_episodes_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/released_text_view"
+            android:layout_alignStart="@+id/original_title_text_view"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
+            tools:text="17" />
+
+        <TextView
+            android:id="@+id/number_of_seasons_static_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/number_of_episodes_text_view"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Sezona:" />
+
+        <TextView
+            android:id="@+id/number_of_seasons_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/number_of_episodes_text_view"
+            android:layout_alignStart="@+id/original_title_text_view"
+            android:textColor="@color/white"
+            android:layout_marginTop="10dp"
+            android:layout_centerInParent="true"
+            tools:text="2" />
+
 
         <TextView
             android:id="@+id/runtime_static_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/released_static_text_view"
+            android:layout_below="@+id/number_of_seasons_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
@@ -336,7 +380,7 @@
             android:id="@+id/runtime_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/released_static_text_view"
+            android:layout_below="@+id/number_of_seasons_text_view"
             android:layout_alignStart="@+id/original_title_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
@@ -345,10 +389,32 @@
 
 
         <TextView
+            android:id="@+id/created_by_static_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/runtime_text_view"
+            android:textColor="@color/white"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:text="Kreator:" />
+
+        <TextView
+            android:id="@+id/created_by_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/runtime_text_view"
+            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/white"
+            android:layout_centerInParent="true"
+            tools:text="David Chase" />
+
+        <TextView
             android:id="@+id/production_companies_static_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/runtime_static_text_view"
+            android:layout_below="@+id/created_by_static_text_view"
             android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
@@ -359,67 +425,20 @@
             android:id="@+id/production_companies_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/runtime_static_text_view"
+            android:layout_below="@+id/created_by_static_text_view"
             android:layout_alignStart="@+id/original_title_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
             android:layout_centerInParent="true"
             tools:text="Warner bros" />
-
-
-        <TextView
-            android:id="@+id/budget_static_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/production_companies_static_text_view"
-            android:textColor="@color/white"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Buđet:" />
-
-        <TextView
-            android:id="@+id/budget_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/production_companies_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
-            tools:text="100$" />
-
-        <TextView
-            android:id="@+id/revenue_static_text_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/budget_static_text_view"
-            android:textColor="@color/white"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:text="Prihod:" />
-
-        <TextView
-            android:id="@+id/revenue_text_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/budget_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:textColor="@color/white"
-            android:layout_centerInParent="true"
-            tools:text="150$" />
-
 
         <View
             android:id="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginBottom="5dp"
-            android:layout_below="@+id/revenue_static_text_view"
+            android:layout_below="@+id/production_companies_text_view"
             android:background="@color/white" />
 
 

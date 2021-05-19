@@ -185,7 +185,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
                 for(production_company in movieDetails.data?.production_companies!!){
                     production_company.name?.let { productionCompanies.add(it) }
                 }
-                binding!!.productionCompaniesTextView.text = StringHelper.join(", ",productionCompanies)
+                binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ",productionCompanies)
                 //setFavouriteOnClickListener(tvShowDetails.data!!)
 
 

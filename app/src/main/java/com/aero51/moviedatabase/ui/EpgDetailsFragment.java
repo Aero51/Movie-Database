@@ -156,8 +156,8 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + epgProgram.getChannel());
                 Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(binding.imageViewChannel);
 
-                binding.textViewDirectors.setText("Režiser: "+ StringHelper.Companion.join(", ", directors));
-                binding.textViewWriters.setText("Pisac: "+StringHelper.Companion.join(", ",writers));
+                binding.textViewDirectors.setText("Režiser: "+ StringHelper.Companion.joinStrings(", ", directors));
+                binding.textViewWriters.setText("Pisac: "+StringHelper.Companion.joinStrings(", ",writers));
 
 
                 multipleActorsFetch();

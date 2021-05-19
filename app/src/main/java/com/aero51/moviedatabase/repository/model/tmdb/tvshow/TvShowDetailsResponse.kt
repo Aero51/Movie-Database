@@ -20,6 +20,7 @@ class TvShowDetailsResponse {
     var backdrop_path: String? = null
     var poster_path: String? = null
     var first_air_date: String? = null
+     var episode_run_time: List<Int>? = null
     //TODO var next_episode_to_air: String? = null  array is needed
     var original_name: String? = null
     var number_of_episodes: Int? = null

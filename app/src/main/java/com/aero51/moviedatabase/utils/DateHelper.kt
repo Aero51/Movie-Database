@@ -16,7 +16,7 @@ class DateHelper {
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
-            val defaultLocaleTargetFormat = SimpleDateFormat(newDateFormat, Locale("en", "US"))
+            val defaultLocaleTargetFormat = SimpleDateFormat(newDateFormat, Locale("hr", "US"))
             return if(date != null)
                 defaultLocaleTargetFormat.format(date)
             else ""

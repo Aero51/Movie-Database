@@ -89,6 +89,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
             registerTvShowDetailsObserver(tvShow.id)
         })
     }
+
     private fun registerTvShowCastObserver(tvShowId: Int) {
         detailsViewModel!!.getTvShowCast(tvShowId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
             if (data != null) {
@@ -99,6 +100,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
             }
         })
     }
+
     private fun registerOmdbDetailsObserver(tvShowTitle: String) {
         //TODO  upcoming movies are not yet present on omd api
         detailsViewModel!!.getOmbdDetails(tvShowTitle).observe(viewLifecycleOwner, Observer { (status, data, errorMsg) ->
@@ -142,25 +144,39 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     }
 
     private fun registerTvShowDetailsObserver(tvShowId: Int) {
-       //TODO  put tvShowDetails.data  in variable
+        //TODO  put tvShowDetails.data  in variable
         detailsViewModel?.getDetailsForTvShow(tvShowId)?.observe(viewLifecycleOwner, Observer { tvShowDetails ->
             Log.d("nikola", "tvShowDetails.message:" + tvShowDetails.message)
             Log.d("nikola", "tvShowDetails.status:" + tvShowDetails.status)
             if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
 
-
-
+                binding?.originalTitleTextView?.text = tvShowDetails.data?.original_name.toString()
+                binding?.releasedTextView?.text = tvShowDetails.data?.first_air_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
+                binding?.numberOfEpisodesTextView?.text = tvShowDetails.data?.number_of_episodes.toString()
+                binding?.numberOfSeasonsTextView?.text = tvShowDetails.data?.number_of_seasons.toString()
+                val runtimes: MutableList<Int> = mutableListOf()
+                for (runtime in tvShowDetails.data?.episode_run_time!!) {
+                    runtime.let { runtimes.add(it) }
+                }
+                binding?.runtimeTextView?.text = StringHelper.joinInts(", ", runtimes) + " minuta"
                 Log.d("nikola", "genres size:" + tvShowDetails.data?.genres?.size)
 
                 val tvShowGenresAdapter = tvShowDetails.data?.genres?.let { TvShowGenresAdapter(it, this) }
                 binding?.movieGenresRecyclerViewHorizontal?.adapter = tvShowGenresAdapter
 
+                val creatorsList: MutableList<String> = mutableListOf()
+                for (created_by in tvShowDetails.data?.created_by!!) {
+                    created_by.name?.let { creatorsList.add(it) }
+                }
+                binding!!.createdByTextView.text = StringHelper.joinStrings(", ", creatorsList)
+
                 val productionCompanies: MutableList<String> = mutableListOf()
-                for(production_company in tvShowDetails.data?.production_companies!!){
+                for (production_company in tvShowDetails.data?.production_companies!!) {
                     production_company.name?.let { productionCompanies.add(it) }
                 }
-                binding!!.productionCompaniesTextView.text = StringHelper.join(", ",productionCompanies)
+                binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ", productionCompanies)
                 //setFavouriteOnClickListener(tvShowDetails.data!!)
+
 
             }
         })
