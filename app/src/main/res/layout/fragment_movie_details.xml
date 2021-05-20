@@ -172,31 +172,15 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/white"
-               >
+                android:background="@color/white">
 
                 <LinearLayout
+                    android:id="@+id/overview_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="10dp"
                     android:background="@color/dark_gray">
-
-
-
-                    <TextView
-                        android:id="@+id/releaseDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_calendar"
-                        android:drawablePadding="16dp"
-                        android:minHeight="48dp" />
-
-                    <LinearLayout
-                        android:id="@+id/overview_container"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
 
                         <TextView
                             style="@style/HeaderTextView"
@@ -210,7 +194,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
 
-                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
             <View

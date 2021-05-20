@@ -93,7 +93,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
     private fun registerSharedViewModelObserver() {
         sharedViewModel!!.liveDataMovie.observe(viewLifecycleOwner, Observer { movie ->
             binding!!.title.text = movie.title
-            binding!!.releaseDate.text = movie.id.toString()
             binding!!.overview.text = movie.overview
             binding!!.tmdbRating.text = movie.vote_average.toString()
             val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path

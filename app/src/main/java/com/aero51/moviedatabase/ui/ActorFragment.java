@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.ui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,20 +19,30 @@ import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.databinding.FragmentActorBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
-import com.aero51.moviedatabase.ui.adapter.ActorImagesAdapter;
+import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter;
 import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.utils.DateHelper;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel;
 import com.aero51.moviedatabase.viewmodel.SharedViewModel;
+import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
+import com.smarteist.autoimageslider.SliderAnimations;
+import com.smarteist.autoimageslider.SliderView;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
+import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_H632;
+import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 
 public class ActorFragment extends Fragment {
     private DetailsViewModel viewModel;
     private SharedViewModel sharedViewModel;
     private FragmentActorBinding binding;
-
+    private SliderImageAdapter adapter;
+    private String actorName;
     public ActorFragment() {
         // Required empty public constructor
     }
@@ -51,8 +62,18 @@ public class ActorFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentActorBinding.inflate(inflater, container, false);
 
-        binding.actorImagesRecyclerView.setHasFixedSize(true);
-        binding.actorImagesRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+
+        adapter = new SliderImageAdapter(getContext());
+        binding.imageSlider.setSliderAdapter(adapter);
+        binding.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM); //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
+        binding.imageSlider.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
+        binding.imageSlider.setAutoCycleDirection(SliderView.LAYOUT_DIRECTION_LTR);
+        binding.imageSlider.setIndicatorSelectedColor(Color.WHITE);
+        binding.imageSlider.setIndicatorUnselectedColor(Color.GRAY);
+        binding.imageSlider.setScrollTimeInSec(3);
+        binding.imageSlider.setAutoCycle(true);
+        binding.imageSlider.startAutoCycle();
+
 
         sharedViewModel.getLiveDataActorId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
@@ -95,12 +116,16 @@ public class ActorFragment extends Fragment {
                 Log.d(Constants.LOG, " status: " + actorResource.getStatus() + " list size: " + " ,message: " + actorResource.getMessage());
                 if (actorResource.getStatus() == Status.SUCCESS) {
                     Actor actor = actorResource.getData();
-                    binding.textViewActorName.setText(actor.getName());
-                    binding.textViewActorBirthday.setText(actor.getBirthday());
+                    actorName=actor.getName();
+                    binding.textViewActorName.setText(actorName);
+                    binding.textViewActorBirthday.setText(DateHelper.Companion.formatDateStringToDefaultLocale(actor.getBirthday(), "yyyy-MM-dd", "dd MMMM yyyy"));
                     binding.textViewActorPlaceOfBirth.setText(actor.getPlace_of_birth());
                     binding.textViewActorHomepage.setText(actor.getHomepage());
-                    binding.textViewImdb.setText(actor.getImdb_id());
+                    binding.textViewImdb.setText(String.valueOf(actor.getId()));
                     binding.textViewBiography.setText(actor.getBiography());
+
+                    String  imageUrl = BASE_IMAGE_URL + PROFILE_SIZE_W185 + actor.getProfile_path();
+                    Picasso.get().load(imageUrl).fit().centerCrop().into(binding.posterImageView);
                 }
 
             }
@@ -111,8 +136,9 @@ public class ActorFragment extends Fragment {
             public void onChanged(Resource<List<ActorImagesResponse.ActorImage>> listResource) {
                 if (listResource.getData() != null) {
                     Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: " + listResource.getData().size() + " ,message: " + listResource.getMessage());
-                    ActorImagesAdapter adapter = new ActorImagesAdapter(getContext(), listResource.getData());
-                    binding.actorImagesRecyclerView.setAdapter(adapter);
+                    //ActorImagesAdapter adapter = new ActorImagesAdapter(getContext(), listResource.getData());
+                    //binding.actorImagesRecyclerView.setAdapter(adapter);
+                    adapter.renewItems(listResource.getData());
                 }
             }
         });

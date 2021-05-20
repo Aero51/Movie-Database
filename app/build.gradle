@@ -109,5 +109,6 @@ dependencies {
 
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
 
-
+    //for image slider with dots indicator
+    implementation 'com.github.smarteist:autoimageslider:1.4.0'
 }

@@ -79,5 +79,6 @@ public class ActorImagesResponse {
         public void setActor_id(Integer actor_id) {
             this.actor_id = actor_id;
         }
+
     }
 }
