@@ -1,6 +1,6 @@
 package com.aero51.moviedatabase.repository.model.tmdb.movie
 
-class Movie {
+ class Movie {
     var db_id: Int = 0
     var popularity: Double? = null
     var vote_count: Int? = null

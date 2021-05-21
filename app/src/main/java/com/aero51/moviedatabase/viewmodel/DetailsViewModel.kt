@@ -11,6 +11,7 @@ import com.aero51.moviedatabase.repository.model.omdb.OmdbModel
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse.ActorImage
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
@@ -39,13 +40,17 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun getActorDetails(actor_id: Int): LiveData<Resource<Actor>> {
-        Log.d(Constants.LOG, "MovieDetailsViewModel getActorDetails id: $actor_id")
+        Log.d(Constants.LOG, "DetailsViewModel getActorDetails id: $actor_id")
         return creditsRepository.loadActorById(actor_id)
     }
 
     fun getActorImages(actor_id: Int): LiveData<Resource<List<ActorImage>>> {
-        Log.d(Constants.LOG, "MovieDetailsViewModel getActorImages actor id: $actor_id")
+        Log.d(Constants.LOG, "DetailsViewModel getActorImages actor id: $actor_id")
         return creditsRepository.loadActorImagesByActorId(actor_id)
+    }
+    fun getMoviesWithPerson(person_id: Int): LiveData<Resource<MoviesWithPerson>> {
+        Log.d(Constants.LOG, "DetailsViewModel getMoviesWithPerson person_id: $person_id")
+        return creditsRepository.loadMoviesByActorId(person_id)
     }
 
     fun getOmbdDetails(title: String): LiveData<Resource<OmdbModel>> {
@@ -68,9 +73,11 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     }
 
 
+
+
+
     fun checkIfMovieIsFavourite(movieId: Int) : LiveData<MovieFavourite>{
         return detailsRepository.getMovieFavourites(movieId)
-
     }
 
     fun insertFavouriteMovie(movie: MovieDetailsResponse){

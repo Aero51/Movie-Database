@@ -104,4 +104,7 @@ interface TheMovieDbApi {
     @GET("tv/{tv_show_id}")
     fun getLivetvShowDetails(@Path("tv_show_id")tv_show_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<TvShowDetailsResponse>>
 
+    @GET("person/{person_id}/movie_credits")
+    fun getLiveMoviesWithPerson(@Path("person_id")person_id: Int,@Query("api_key") api_key: String): LiveData<ApiResponse<MoviesWithPerson>>
+
 }

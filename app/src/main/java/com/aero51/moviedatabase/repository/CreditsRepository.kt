@@ -5,12 +5,9 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import com.aero51.moviedatabase.repository.db.CreditsDao
 import com.aero51.moviedatabase.repository.db.Database
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse
+import com.aero51.moviedatabase.repository.model.tmdb.credits.*
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse.ActorImage
-import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
-import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
 
@@ -45,12 +42,14 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
 
             override fun saveCallResult(item: MovieCredits) {
                 //this is executed on background thread
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id )
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id)
                 database.runInTransaction { creditsDao.insertMovCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.movieCast?.size ?: 0))
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.movieCast?.size
+                        ?: 0))
             }
         }.asLiveData()
     }
+
     fun loadTvShowCastById(tv_show_id: Int): LiveData<Resource<List<TvShowCredits.TvShowCast>>> {
         Log.d(Constants.LOG, "loadCastByTvShowId id: $tv_show_id")
         //return CastNetworkBoundResource(executors, application, movie_id).asLiveData()
@@ -72,7 +71,8 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: TvShowCredits) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertTvCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.tvShowCast?.size ?: 0))
+                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.tvShowCast?.size
+                        ?: 0))
             }
         }.asLiveData()
     }
@@ -124,10 +124,34 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
 
             override fun saveCallResult(item: ActorImagesResponse) {
                 //this is executed on background thread
-
-                //this is executed on background thread
                 database.runInTransaction { creditsDao.insertActorImagesResponse(item) }
-                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id + " ,images list  size: " + (item.images?.size ?: 0))
+                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id + " ,images list  size: " + (item.images?.size
+                        ?: 0))
+            }
+        }.asLiveData()
+    }
+
+    fun loadMoviesByActorId(actor_id: Int): LiveData<Resource<MoviesWithPerson>> {
+        Log.d(Constants.LOG, "loadMoviesByActorId  actor id: $actor_id")
+        return object : NetworkBoundResource<MoviesWithPerson, MoviesWithPerson>(executors) {
+
+            override fun shouldFetch(data: MoviesWithPerson?): Boolean {
+                return data == null
+            }
+
+            override fun loadFromDb(): LiveData<MoviesWithPerson> {
+                return creditsDao.getMoviesWithPerson(actor_id)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<MoviesWithPerson>> {
+                val theMovieDbApi = RetrofitInstance.getTmdbApiService()
+                return theMovieDbApi.getLiveMoviesWithPerson(actor_id, Constants.TMDB_API_KEY)
+            }
+
+            override fun saveCallResult(item: MoviesWithPerson) {
+                //this is executed on background thread
+                database.runInTransaction { creditsDao.insertMoviesWithPerson(item) }
+                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id)
             }
         }.asLiveData()
     }

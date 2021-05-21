@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/grey"
     android:orientation="vertical"
-    tools:context=".ui.ActorFragment">
+    tools:context=".ui.MovieActorFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestednewScrollView"
