@@ -116,7 +116,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         detailsViewModel!!.getMovieCast(movieId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
             if (data != null) {
                 Log.d(Constants.LOG, " status: " + status + " list size: " + data.size)
-                movieCastAdapter = MovieCastAdapter(context, data)
+                movieCastAdapter = MovieCastAdapter(data)
                 movieCastAdapter!!.setClickListener { view: View, actorId: Int, position: Int -> onItemClick(view, actorId, position) }
                 binding!!.castRecyclerView.adapter = movieCastAdapter
             }

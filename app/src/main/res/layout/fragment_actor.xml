@@ -97,7 +97,7 @@
                     android:id="@+id/biography_ll_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/dark_gray"
+                    android:background="@color/light_grey"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -113,11 +113,33 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+            <TextView
+                android:id="@+id/text_view_starred_in"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_below="@+id/biography_card_view"
+                android:text="Starred in"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/starred_in_recycler_view_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="320dp"
+                android:layout_marginStart="10dp"
+                android:layout_below="@+id/text_view_starred_in"
+                android:layout_marginBottom="15dp"
+                android:orientation="horizontal" />
+
+
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/cv_slider"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/biography_card_view"
+                android:layout_below="@+id/starred_in_recycler_view_horizontal"
                 app:cardCornerRadius="8dp">
 
                 <com.smarteist.autoimageslider.SliderView

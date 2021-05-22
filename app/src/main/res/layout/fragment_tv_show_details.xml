@@ -179,7 +179,7 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="10dp"
-                    android:background="@color/dark_gray">
+                    android:background="@color/light_grey">
 
 
 

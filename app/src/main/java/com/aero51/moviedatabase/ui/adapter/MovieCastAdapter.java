@@ -17,12 +17,10 @@ import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 public class MovieCastAdapter extends RecyclerView.Adapter<MovieCastAdapter.ViewHolder> {
 
     private List<MovieCredits.MovieCast> movieCastList;
-    private LayoutInflater mInflater;
     private ItemClickListener mClickListener;
 
     // data is passed into the constructor
-    public MovieCastAdapter(Context context, List<MovieCredits.MovieCast> movieCastList) {
-        this.mInflater = LayoutInflater.from(context);
+    public MovieCastAdapter( List<MovieCredits.MovieCast> movieCastList) {
         this.movieCastList = movieCastList;
     }
 

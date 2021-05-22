@@ -45,6 +45,7 @@ public class NowPlayingMoviesPagedListAdapter extends PagedListAdapter<NowPlayin
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         NowPlayingMoviesPage.NowPlayingMovie currentResult = getItem(position);
         ((NowPlayingngMovieHolder) holder).bindTo(currentResult, position);
+
     }
 
 

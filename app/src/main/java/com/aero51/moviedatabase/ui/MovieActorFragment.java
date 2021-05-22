@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,6 +21,7 @@ import com.aero51.moviedatabase.databinding.FragmentActorBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson;
+import com.aero51.moviedatabase.ui.adapter.MediaWithPersonAdapter;
 import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.DateHelper;
@@ -44,6 +46,7 @@ public class MovieActorFragment extends Fragment {
     private FragmentActorBinding binding;
     private SliderImageAdapter adapter;
     private String actorName;
+    private MediaWithPersonAdapter mediaWithPersonAdapter;
     public MovieActorFragment() {
         // Required empty public constructor
     }
@@ -75,6 +78,12 @@ public class MovieActorFragment extends Fragment {
         binding.imageSlider.setAutoCycle(true);
         binding.imageSlider.startAutoCycle();
 
+        binding.starredInRecyclerViewHorizontal.setHasFixedSize(true);
+        binding.starredInRecyclerViewHorizontal.setNestedScrollingEnabled(false);
+        LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
+        binding.starredInRecyclerViewHorizontal.setLayoutManager(linearLayoutManager);
+        mediaWithPersonAdapter=new MediaWithPersonAdapter();
+        binding.starredInRecyclerViewHorizontal.setAdapter(mediaWithPersonAdapter);
 
         sharedViewModel.getLiveDataActorId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
@@ -147,6 +156,7 @@ public class MovieActorFragment extends Fragment {
             @Override
             public void onChanged(Resource<MoviesWithPerson> moviesWithPersonResource) {
                 if(moviesWithPersonResource.getData()!=null) {
+                   mediaWithPersonAdapter.setList(moviesWithPersonResource.component2().getCast());
                     Log.d("nikola", " list size: " + moviesWithPersonResource.getData().component2().size());
                 }
             }
