@@ -23,7 +23,7 @@ class MoviesByGenrePagedListAdapter(private val itemClickListener: ObjectClickLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.movie_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.movie_by_genre_grid_item, parent, false)
         val viewHolder = GenreMovieHolder(view, itemClickListener)
         return viewHolder
     }

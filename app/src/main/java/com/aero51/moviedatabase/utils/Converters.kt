@@ -4,6 +4,7 @@ import androidx.room.TypeConverter
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel.Ratings
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse.KnownFor
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse.MovieGenre
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
@@ -232,5 +233,39 @@ object Converters {
     fun fromMoviesWithPersonCrew(crew: List<MoviesWithPerson.Crew>): String {
         val gson = Gson()
         return gson.toJson(crew)
+    }
+    @JvmStatic
+    @TypeConverter
+    fun toTvShowsWithPersonCrew(value: String?): List<TvShowsWithPerson.Crew>? {
+        if (value == null) {
+            return null
+        }
+        val gson = Gson()
+        val type = object : TypeToken<List<TvShowsWithPerson.Crew>>() {}.type
+        return gson.fromJson(value, type)
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun fromTvShowsWithPersonCrew(crew: List<TvShowsWithPerson.Crew>): String {
+        val gson = Gson()
+        return gson.toJson(crew)
+    }
+    @JvmStatic
+    @TypeConverter
+    fun toTvShowsWithPersonCast(value: String?): List<TvShowsWithPerson.Cast>? {
+        if (value == null) {
+            return null
+        }
+        val gson = Gson()
+        val type = object : TypeToken<List<TvShowsWithPerson.Cast>>() {}.type
+        return gson.fromJson(value, type)
+    }
+
+    @JvmStatic
+    @TypeConverter
+    fun fromTvShowsWithPersonCast(cast: List<TvShowsWithPerson.Cast>): String {
+        val gson = Gson()
+        return gson.toJson(cast)
     }
 }

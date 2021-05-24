@@ -66,7 +66,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
             Log.d(Constants.LOG, "Toolbar clicked!")
-            showBackButton(false)
+            //showBackButton(false)
         }
         showBackButton(true)
         return binding!!.root

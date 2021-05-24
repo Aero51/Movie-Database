@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage.NowPlayingMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage.PopularMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage.TopRatedMovie
@@ -85,6 +86,9 @@ class SharedViewModel : ViewModel() {
         }
         if (movieObject is UpcomingMovie) {
             movie = transformUpcomingMovie(movieObject)
+        }
+        if (movieObject is MoviesByGenrePage.MovieByGenre) {
+            movie = transformMovieByGenre(movieObject)
         }
         movieIndex = position
         liveMovie.value = movie
@@ -203,6 +207,10 @@ class SharedViewModel : ViewModel() {
     }
 
     private fun transformUpcomingMovie(original: UpcomingMovie?): Movie {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), Movie::class.java)
+    }
+    private fun transformMovieByGenre(original: MoviesByGenrePage.MovieByGenre?): Movie {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }

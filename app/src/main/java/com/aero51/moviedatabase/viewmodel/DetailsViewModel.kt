@@ -13,6 +13,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
@@ -51,6 +52,10 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     fun getMoviesWithPerson(person_id: Int): LiveData<Resource<MoviesWithPerson>> {
         Log.d(Constants.LOG, "DetailsViewModel getMoviesWithPerson person_id: $person_id")
         return creditsRepository.loadMoviesByActorId(person_id)
+    }
+    fun getTvShowsWithPerson(person_id: Int): LiveData<Resource<TvShowsWithPerson>> {
+        Log.d(Constants.LOG, "DetailsViewModel getTvShowsWithPerson person_id: $person_id")
+        return creditsRepository.loadTvShowsByActorId(person_id)
     }
 
     fun getOmbdDetails(title: String): LiveData<Resource<OmdbModel>> {

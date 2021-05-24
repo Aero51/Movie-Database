@@ -155,4 +155,28 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             }
         }.asLiveData()
     }
+    fun loadTvShowsByActorId(actor_id: Int): LiveData<Resource<TvShowsWithPerson>> {
+        Log.d(Constants.LOG, "loadTvShowsByActorId  actor id: $actor_id")
+        return object : NetworkBoundResource<TvShowsWithPerson, TvShowsWithPerson>(executors) {
+
+            override fun shouldFetch(data: TvShowsWithPerson?): Boolean {
+                return data == null
+            }
+
+            override fun loadFromDb(): LiveData<TvShowsWithPerson> {
+                return creditsDao.getTvShowsWithPerson(actor_id)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<TvShowsWithPerson>> {
+                val theMovieDbApi = RetrofitInstance.getTmdbApiService()
+                return theMovieDbApi.getLiveTvShowsWithPerson(actor_id, Constants.TMDB_API_KEY)
+            }
+
+            override fun saveCallResult(item: TvShowsWithPerson) {
+                //this is executed on background thread
+                database.runInTransaction { creditsDao.insertTvShowsWithPerson(item) }
+                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id)
+            }
+        }.asLiveData()
+    }
 }

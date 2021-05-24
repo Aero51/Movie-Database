@@ -18,6 +18,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite;
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse;
@@ -54,7 +55,7 @@ import static com.aero51.moviedatabase.utils.Constants.DATABASE_NAME;
         , TvShowsByGenrePage.class, TvShowsByGenrePage.TvShowByGenre.class, OmdbModel.class,
         MovieVideosResponse.MovieVideo.class, TvShowVideoResponse.TvShowVideo.class,
         MovieDetailsResponse.class, TvShowDetailsResponse.class, MovieFavourite.class,
-        MoviesWithPerson.class}, version = 1)
+        MoviesWithPerson.class, TvShowsWithPerson.class}, version = 1)
 @TypeConverters({Converters.class})
 public abstract class Database extends RoomDatabase {
 

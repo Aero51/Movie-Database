@@ -31,6 +31,7 @@ import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.FavouritesFragment;
 import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
+import com.aero51.moviedatabase.ui.TvShowActorFragment;
 import com.aero51.moviedatabase.ui.TvShowDetailsFragment;
 import com.aero51.moviedatabase.ui.TvShowsByGenreListFragment;
 import com.aero51.moviedatabase.ui.TvShowsFragment;
@@ -399,7 +400,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchMovieActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                movieActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("Movie" + MovieActorFragment.class.getSimpleName(), null) {
+                movieActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieActorFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
                         return new MovieActorFragment();
@@ -462,10 +463,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchTvActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                tvActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("Tv" + MovieActorFragment.class.getSimpleName(), null) {
+                tvActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowActorFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return new MovieActorFragment();
+                        return new TvShowActorFragment();
                     }
 
                     @Override
@@ -517,9 +518,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment")) {
                     replaceFragment(1, movieDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
-                } else if (currentFragmentTag.equals("Movie" + MovieActorFragment.class.getSimpleName())) {
-                    replaceFragment(1, movieDetailsFragmentIdentifier);
-                    customViewPager.setCurrentItem(1);
                 }
                 break;
             case 2:
@@ -532,7 +530,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName())) {
                     replaceFragment(2, tvShowsFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
-                } else if (currentFragmentTag.equals("Tv" + MovieActorFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(TvShowActorFragment.class.getSimpleName())) {
                     replaceFragment(2, tvShowDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
                 }
@@ -552,34 +550,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case 0:
                 if (currentFragmentTag.equals(EpgFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                } else if (currentFragmentTag.equals(EpgDetailsFragment.class.getSimpleName())) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(EpgAllProgramsFragment.class.getSimpleName())) {
+                } else {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
+
                 break;
 
             case 1:
                 if (currentFragmentTag.equals(MoviesFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                } else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName())) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(MovieActorFragment.class.getSimpleName())) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName())) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment")) {
+                } else {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
                 break;
             case 2:
                 if (currentFragmentTag.equals(TvShowsFragment.class.getSimpleName())) {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                } else if (currentFragmentTag.equals(TvShowDetailsFragment.class.getSimpleName())) {
-                    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-                } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName())) {
+                } else {
                     getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 }
+
                 break;
             case 3:
                 if (currentFragmentTag.equals(FavouritesFragment.class.getSimpleName())) {
@@ -651,17 +641,17 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case R.id.action_movies:
                 customViewPager.setCurrentItem(1);
                 currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(1);
-                addRemoveBackButton(0, currentFragmentTag);
+                addRemoveBackButton(1, currentFragmentTag);
                 break;
             case R.id.action_tv_shows:
                 customViewPager.setCurrentItem(2);
                 currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(2);
-                addRemoveBackButton(0, currentFragmentTag);
+                addRemoveBackButton(2, currentFragmentTag);
                 break;
             case R.id.action_favourites:
                 customViewPager.setCurrentItem(3);
                 currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(3);
-                addRemoveBackButton(0, currentFragmentTag);
+                addRemoveBackButton(3, currentFragmentTag);
                 break;
         }
         return false;

@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="150dp"
-    android:layout_height="320dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_marginStart="2dp"
     android:layout_marginTop="4dp"
     android:layout_marginEnd="2dp"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/light_grey">
+    app:cardBackgroundColor="@color/grey">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="200dp"
+        android:layout_height="320dp"
         android:padding="2dp">
 
         <TextView
             android:id="@+id/text_view_title"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:ellipsize="end"
             android:maxLines="2"
@@ -25,26 +25,15 @@
             android:textAppearance="@style/TextAppearance.AppCompat.Medium"
             android:textColor="@color/primaryText" />
         <ImageView
-            android:id="@+id/image_view_media"
+            android:id="@+id/image_view_program"
             android:layout_width="match_parent"
-            android:layout_height="230dp"
-            android:layout_below="@+id/text_view_title"
+            android:layout_height="270dp"
+            android:layout_alignParentBottom="true"
 
             />
 
 
 
-        <TextView
-            android:id="@+id/text_view_role"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/image_view_media"
-            android:gravity="center_horizontal"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:text="Role"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
-            android:textColor="@color/primaryText" />
 
 
     </RelativeLayout>

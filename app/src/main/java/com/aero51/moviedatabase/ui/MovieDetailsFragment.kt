@@ -72,8 +72,8 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
-            Log.d(Constants.LOG, "Toolbar clicked!")
-            showBackButton(false)
+            Log.d("nikolaus", "Toolbar clicked!")
+            //showBackButton(false)
         }
         showBackButton(true)
         return binding!!.root

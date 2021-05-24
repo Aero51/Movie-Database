@@ -44,7 +44,7 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
         binding!!.genreListRecyclerView.setHasFixedSize(true)
         moviesByGenreAdapter = MoviesByGenrePagedListAdapter(this)
         binding!!.genreListRecyclerView.adapter = moviesByGenreAdapter
-        binding!!.genreListRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding!!.genreListRecyclerView.layoutManager = GridLayoutManager(context, 2)
         binding!!.genreListRecyclerView.itemAnimator=null
 
 
@@ -65,9 +65,9 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
 */
 
 
-        showToolbar(true)
-        showBackButton(true)
-        showBottomNavigation(true)
+        //showToolbar(true)
+        //showBackButton(true)
+        //showBottomNavigation(true)
 
         registerSharedViewModelObserver()
 
@@ -108,10 +108,10 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
 
 
     override fun onObjectItemClick(movie: Any?, position: Int) {
-        TODO("Not yet implemented")
+        sharedViewModel.changeToMoviedetailsFragment(movie, position)
     }
 
-    fun showBackButton(show: Boolean) {
+    private fun showBackButton(show: Boolean) {
         if (activity is AppCompatActivity) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(show)
         }

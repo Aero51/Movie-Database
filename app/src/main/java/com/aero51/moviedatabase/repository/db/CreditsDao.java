@@ -13,6 +13,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson;
 
 
 import java.util.List;
@@ -124,4 +125,11 @@ public abstract class CreditsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     public abstract void insertMoviesWithPerson(MoviesWithPerson moviesWithPerson);
+
+    @Query("SELECT * FROM tv_shows_with_person WHERE id = :person_id LIMIT 1")
+    public abstract LiveData<TvShowsWithPerson> getTvShowsWithPerson(Integer person_id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    public abstract void insertTvShowsWithPerson(TvShowsWithPerson tvShowsWithPerson);
+
 }

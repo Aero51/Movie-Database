@@ -2,6 +2,10 @@ package com.aero51.moviedatabase.ui;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -10,18 +14,15 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.databinding.FragmentActorBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson;
 import com.aero51.moviedatabase.ui.adapter.MoviesWithPersonCastAdapter;
 import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter;
+import com.aero51.moviedatabase.ui.adapter.TvShowsWithPersonCastAdapter;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.DateHelper;
 import com.aero51.moviedatabase.utils.Resource;
@@ -38,14 +39,14 @@ import java.util.List;
 import static com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL;
 import static com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185;
 
-public class MovieActorFragment extends Fragment {
+public class TvShowActorFragment extends Fragment {
     private DetailsViewModel viewModel;
     private SharedViewModel sharedViewModel;
     private FragmentActorBinding binding;
     private SliderImageAdapter adapter;
     private String actorName;
-    private MoviesWithPersonCastAdapter moviesWithPersonCastAdapter;
-    public MovieActorFragment() {
+    private TvShowsWithPersonCastAdapter tvShowsWithPersonCastAdapter;
+    public TvShowActorFragment() {
         // Required empty public constructor
     }
 
@@ -80,8 +81,8 @@ public class MovieActorFragment extends Fragment {
         binding.starredInRecyclerViewHorizontal.setNestedScrollingEnabled(false);
         LinearLayoutManager linearLayoutManager= new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL,false);
         binding.starredInRecyclerViewHorizontal.setLayoutManager(linearLayoutManager);
-        moviesWithPersonCastAdapter =new MoviesWithPersonCastAdapter();
-        binding.starredInRecyclerViewHorizontal.setAdapter(moviesWithPersonCastAdapter);
+        tvShowsWithPersonCastAdapter =new TvShowsWithPersonCastAdapter();
+        binding.starredInRecyclerViewHorizontal.setAdapter(tvShowsWithPersonCastAdapter);
 
         sharedViewModel.getLiveDataActorId().observe(getViewLifecycleOwner(), new Observer<Integer>() {
             @Override
@@ -150,12 +151,12 @@ public class MovieActorFragment extends Fragment {
                 }
             }
         });
-        viewModel.getMoviesWithPerson(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<MoviesWithPerson>>() {
+        viewModel.getTvShowsWithPerson(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<TvShowsWithPerson>>() {
             @Override
-            public void onChanged(Resource<MoviesWithPerson> moviesWithPersonResource) {
-                if(moviesWithPersonResource.getData()!=null) {
-                   moviesWithPersonCastAdapter.setList(moviesWithPersonResource.component2().getCast());
-                    Log.d("nikola", " list size: " + moviesWithPersonResource.getData().component2().size());
+            public void onChanged(Resource<TvShowsWithPerson> tvShowsWithPersonResource) {
+                if(tvShowsWithPersonResource.getData()!=null) {
+                    tvShowsWithPersonCastAdapter.setList(tvShowsWithPersonResource.component2().getCast());
+                    Log.d("nikola", " list size: " + tvShowsWithPersonResource.getData().getCast().size());
                 }
             }
         });
