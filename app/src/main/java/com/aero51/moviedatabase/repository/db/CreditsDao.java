@@ -95,6 +95,9 @@ public abstract class CreditsDao {
     //"SELECT * FROM Movie WHERE id =:id"
     public abstract LiveData<List<MovieCredits.MovieCast>> getMovieCast(Integer movie_id);
 
+    @Query("SELECT * FROM `movie_crew` WHERE movie_id =:movie_id ORDER BY `db_id` ASC")
+    public abstract LiveData<List<MovieCredits.MovieCrew>> getMovieCrew(Integer movie_id);
+
     @Query("SELECT * FROM `tv_show_cast` WHERE tv_show_id =:tv_show_id ORDER BY `order` ASC")
     //"SELECT * FROM Movie WHERE id =:id"
     public abstract LiveData<List<TvShowCredits.TvShowCast>> getTvShowCast(Integer tv_show_id);

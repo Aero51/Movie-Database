@@ -109,7 +109,6 @@ public class PopularMoviesPagedListAdapter extends PagedListAdapter<PopularMovie
         public void onClick(View v) {
             if (itemClickListener != null&& position != RecyclerView.NO_POSITION) {
                 itemClickListener.onObjectItemClick(result,position); // call the onClick in the OnItemClickListener
-                Log.d(Constants.LOG, " Item clicked inside popular holder : " + position);
             }
         }
     }

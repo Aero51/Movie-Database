@@ -53,7 +53,6 @@ public class NearestTimeHelper {
                 }
             }
         }
-        //Log.d(Constants.LOG, "index: " + index );
         return index;
     }
 

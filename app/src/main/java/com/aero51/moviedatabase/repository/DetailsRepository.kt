@@ -49,7 +49,6 @@ class DetailsRepository(application: Application, private val executors: AppExec
 
             override fun saveCallResult(item: MovieVideosResponse) {
                 //this is executed on background thread
-                Log.d("nikola", "movie videos.size: " + (item.results?.size ?: 0))
                 database.runInTransaction {
 
                     val movieVideosList: List<MovieVideosResponse.MovieVideo>? = item.results
@@ -86,7 +85,6 @@ class DetailsRepository(application: Application, private val executors: AppExec
 
             override fun saveCallResult(item: TvShowVideoResponse) {
                 //this is executed on background thread
-                Log.d("nikola", "movie videos.size: " + (item.results?.size ?: 0))
                 database.runInTransaction {
 
                     val tvShowVideosList: List<TvShowVideoResponse.TvShowVideo>? = item.results

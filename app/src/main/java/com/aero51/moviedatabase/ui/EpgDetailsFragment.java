@@ -84,7 +84,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
-                Log.d(Constants.LOG, "Toolbar clicked!");
                 showBackButton(false);
             }
         });
@@ -105,7 +104,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
         scrollListener = new EndlessRecyclerViewScrollListener(5, linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
                 multipleActorsFetch();
             }
         };
@@ -133,8 +131,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                     binding.textViewDescription.setText("Nema informacija.");
                 }else{ binding.textViewDescription.setText(epgProgram.getDesc());}
                 */
-
-                Log.d(Constants.LOG, "icon: " + epgProgram.getIcon());
                 //.placeholder(R.drawable.picture_template)
                 if (epgProgram.getIcon().contains("epg.bnet.hr/images/")) {
                   binding.imageViewProgram.setImageResource(R.drawable.no_photo);
@@ -147,7 +143,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                         @Override
                         public void onError(Exception e) {
                             if (binding != null) {
-                                Log.d(Constants.LOG2, "onError: " + e.toString());
                                 binding.imageViewProgram.setImageResource(R.drawable.no_photo);
                             }
                         }
@@ -186,7 +181,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d(Constants.LOG, "titles!: " + titlesList.toString());
         }
         return titlesList;
     }
@@ -217,11 +211,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            Log.d(Constants.LOG, "writers!: " + writers.toString());
-            Log.d(Constants.LOG, "directors!: " + directors.toString());
-            Log.d(Constants.LOG, "actors!: " + actors.toString());
-
-
         }
     }
 
@@ -256,7 +245,6 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             public void onChanged(Resource<ActorSearchResponse.ActorSearch> actorSearchResource) {
                 if (actorSearchResource.getStatus() == Status.SUCCESS && actorSearchResource.getData() != null) {
                     epgDetailsViewModel.getLiveActorSearchResult().removeObserver(this);
-                    Log.d(Constants.LOG, "actorSearchResource: " + actorSearchResource.getData().getName() + " , " + actorSearchResource.getData().getId());
                     actorSearchList.add(actorSearchResource.getData());
                     actorSearchAdapter.notifyItemInserted(actorSearchList.size() - 1);
                     isLoading.setValue(false);

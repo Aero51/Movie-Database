@@ -198,6 +198,36 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
+
+            <TextView
+                android:id="@+id/director_static_text_view"
+                style="@style/DetailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Director:" />
+
+            <TextView
+                android:id="@+id/director_text_view"
+                style="@style/DetailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="James Michaels" />
+
+            <TextView
+                android:id="@+id/writers_static_text_view"
+                style="@style/DetailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Writers:" />
+
+            <TextView
+                android:id="@+id/writers_text_view"
+                style="@style/DetailField"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="Patrick Oreilly" />
+
+
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"

@@ -77,7 +77,6 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
         val handler = Handler()
         handler.postDelayed({
             //Do something after 100ms
-            //   Log.d(Constants.LOG, "runnable runned! " );
         }, 3000)
 
         return binding!!.root
@@ -106,7 +105,6 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
         moviesViewModel.topRatedMoviesDataValidationCheck()
 
         moviesViewModel!!.topRatedResultsPagedList?.observe(viewLifecycleOwner, { top_rated_results ->
-            Log.d(Constants.LOG, "topRated MoviesFragment  onChanged list size: " + top_rated_results.size)
             topRatedAdapter!!.submitList(top_rated_results)
             /*
                 if (top_rated_results.isEmpty()) {
@@ -127,17 +125,15 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
             } else {
                 top_rated_movies_page.page
             }
-            Log.d(Constants.LOG, "topRated MoviesFragment onChanged movie_page: $page_number")
         })
         moviesViewModel!!.topRatedMoviesNetworkState.observe(viewLifecycleOwner, {
-            // Log.d(Constants.LOG, "MainActivity onChanged network state: "+networkState.getMsg());
             //topRatedAdapter.setNetworkState(networkState);
         })
     }
 
     private fun registerPopularMoviesObservers() {
         moviesViewModel.popularMoviesDataValidationCheck()
-        moviesViewModel!!.popularResultsPagedList?.observe(viewLifecycleOwner, { popularMovies -> //Log.d(Constants.LOG, "popular MoviesFragment  onChanged list size: " + popularMovies.size());
+        moviesViewModel!!.popularResultsPagedList?.observe(viewLifecycleOwner, { popularMovies ->
             popularAdapter!!.submitList(popularMovies)
         })
         moviesViewModel!!.popularLiveMoviePage.observe(viewLifecycleOwner, { popularMoviesPage ->
@@ -147,14 +143,12 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
             } else {
                 popularMoviesPage.page
             }
-            Log.d(Constants.LOG, "popular MoviesFragment onChanged movie_page: $page_number")
         })
     }
 
     private fun registerNowPlayingMoviesObservers() {
         moviesViewModel.nowPlayingMoviesDataValidationCheck()
         moviesViewModel!!.nowPlayingResultsPagedList?.observe(viewLifecycleOwner, { now_playing_results ->
-            Log.d(Constants.LOG, "now playing MoviesFragment  onChanged list size: " + now_playing_results.size)
             nowPlayingAdapter!!.submitList(now_playing_results)
             /*
                 if (top_rated_results.isEmpty()) {
@@ -173,10 +167,8 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
             } else {
                 now_playing_movies_page.page
             }
-            Log.d(Constants.LOG, "now playing MoviesFragment onChanged movie_page: $page_number")
         })
         moviesViewModel!!.nowPlayingMoviesNetworkState.observe(viewLifecycleOwner, {
-            // Log.d(Constants.LOG, "MainActivity onChanged network state: "+networkState.getMsg());
             //topRatedAdapter.setNetworkState(networkState);
         })
     }
@@ -185,7 +177,6 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
         //to check if data is more then week old, then app should refresh with new data from network
         moviesViewModel.upcomingMoviesDataValidationCheck()
         moviesViewModel!!.upcomingResultsPagedList?.observe(viewLifecycleOwner, { upcoming_results ->
-            Log.d(Constants.LOG, "upcoming MoviesFragment  onChanged list size: " + upcoming_results.size)
             upcomingAdapter!!.submitList(upcoming_results)
         })
         moviesViewModel!!.upcomingLiveMoviePage.observe(viewLifecycleOwner, { upcoming_movies_page ->
@@ -195,10 +186,8 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
             } else {
                 upcoming_movies_page.page
             }
-            Log.d(Constants.LOG, "upcoming MoviesFragment onChanged movie_page: $page_number")
         })
         moviesViewModel!!.upcomingMoviesNetworkState.observe(viewLifecycleOwner, {
-            // Log.d(Constants.LOG, "MainActivity onChanged network state: "+networkState.getMsg());
             //upcomingAdapter.setNetworkState(networkState);
         })
     }
@@ -206,7 +195,6 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
     private fun registerMovieGenresObservers() {
         moviesViewModel!!.moviesGenres.observe(viewLifecycleOwner, { (status, data) ->
             if (status === Status.SUCCESS) {
-                Log.d(Constants.LOG, "MovieGenresObservers list size  " + data!!.size)
                 val movieGenresAdapter = MovieGenresAdapter(data,this)
                 binding!!.movieGenresRecyclerViewHorizontal.adapter = movieGenresAdapter
             }
@@ -221,9 +209,7 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
         public void OnItemClick(TopRatedMovie result, int position) {
             //  this.OnObjectItemClick(result,position);
             sharedViewModel.changeToTopRatedMovieFragment(position, result);
-            Log.d(Constants.LOG, "TopRatedMovie OnItemClick title: "+result.getTitle());
             //Movie movie= transformTopRatedMovie(result);
-            Log.d(Constants.LOG, "Movie title "+movie.getTitle()+" , vote average"+ movie.getVote_average());
         }
 
         @Override

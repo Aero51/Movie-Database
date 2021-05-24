@@ -96,7 +96,6 @@ public class TvShowActorFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
-                Log.d(Constants.LOG, "Toolbar clicked!");
                 showBackButton(true);
             }
         });
@@ -118,11 +117,9 @@ public class TvShowActorFragment extends Fragment {
 
 
     private void registerActorObservers(Integer actorId) {
-        Log.d(Constants.LOG, "registerActorObservers cast: " + actorId);
         viewModel.getActorDetails(actorId).observe(getViewLifecycleOwner(), new Observer<Resource<Actor>>() {
             @Override
             public void onChanged(Resource<Actor> actorResource) {
-                Log.d(Constants.LOG, " status: " + actorResource.getStatus() + " list size: " + " ,message: " + actorResource.getMessage());
                 if (actorResource.getStatus() == Status.SUCCESS) {
                     Actor actor = actorResource.getData();
                     actorName=actor.getName();
@@ -144,7 +141,6 @@ public class TvShowActorFragment extends Fragment {
             @Override
             public void onChanged(Resource<List<ActorImagesResponse.ActorImage>> listResource) {
                 if (listResource.getData() != null) {
-                    Log.d(Constants.LOG, " status: " + listResource.getStatus() + " list size: " + listResource.getData().size() + " ,message: " + listResource.getMessage());
                     //ActorImagesAdapter adapter = new ActorImagesAdapter(getContext(), listResource.getData());
                     //binding.actorImagesRecyclerView.setAdapter(adapter);
                     adapter.renewItems(listResource.getData());
@@ -156,7 +152,6 @@ public class TvShowActorFragment extends Fragment {
             public void onChanged(Resource<TvShowsWithPerson> tvShowsWithPersonResource) {
                 if(tvShowsWithPersonResource.getData()!=null) {
                     tvShowsWithPersonCastAdapter.setList(tvShowsWithPersonResource.component2().getCast());
-                    Log.d("nikola", " list size: " + tvShowsWithPersonResource.getData().getCast().size());
                 }
             }
         });

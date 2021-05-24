@@ -29,7 +29,6 @@ class MovieFavoritesAdapter(private val movieFavouritesList: List<MovieFavourite
         val movieFavourite = movieFavouritesList[position]
         holder.titleTextView.text = movieFavourite.original_title
         val imageUrl: String = BASE_IMAGE_URL + POSTER_SIZE_W154 + movieFavourite.poster_path
-        Log.d("nikola", "imageUrl: " +imageUrl)
         Picasso.get().load(imageUrl).fit().centerCrop().into(holder.imageView, object : Callback {
             override fun onSuccess() {}
             override fun onError(e: Exception) {

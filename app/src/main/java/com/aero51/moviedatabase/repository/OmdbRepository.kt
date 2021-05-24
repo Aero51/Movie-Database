@@ -17,17 +17,14 @@ class OmdbRepository(
     init {
         database = Database.getInstance(application)
         omdbDao = database._omdb_dao
-        Log.d(Constants.LOG2, "OmdbRepository constructor!")
     }
 
 
     fun loadOmdbBytitle(movie_title: String): LiveData<Resource<OmdbModel>> {
-        Log.d(Constants.LOG, "loadOmdbMovieBytitle title: $movie_title")
         //return ActorNetworkBoundResource(executors, application, actor_id).asLiveData()
         return object : NetworkBoundResource<OmdbModel, OmdbModel>(executors) {
 
             override fun shouldFetch(data: OmdbModel?): Boolean {
-                Log.d(Constants.LOG, "shouldFetch data==null: " + (data == null).toString())
                 return data == null
             }
 
@@ -43,7 +40,6 @@ class OmdbRepository(
             override fun saveCallResult(item: OmdbModel) {
                 //this is executed on background thread
                 omdbDao.insertOmdbMovieDetails(item)
-                Log.d(Constants.LOG, "saveCallResult movie title: " +item.title)
             }
         }.asLiveData()
     }

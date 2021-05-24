@@ -48,7 +48,6 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, NowPlayi
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
             Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY, queryString, MOVIES_SEARCH_FIRST_PAGE);
-            Log.d(Constants.LOG, "load initial MovieSearchDataSource ");
             List<NowPlayingMoviesPage.NowPlayingMovie> list_of_results = searchMovies(call);
             callback.onResult(list_of_results, null, MOVIES_SEARCH_FIRST_PAGE + 1);
 
@@ -56,7 +55,6 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, NowPlayi
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, NowPlayingMoviesPage.NowPlayingMovie> callback) {
-        Log.d(Constants.LOG, "Load before: " + params.key);
     }
 
     @Override
@@ -65,7 +63,6 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, NowPlayi
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
             Call<MovieSearchResult> call = theMovieDbApi.getMoviesSearch(TMDB_API_KEY, queryString, params.key);
-            Log.d(Constants.LOG, "load after MovieSearchDataSource:params.key " + params.key);
             List<NowPlayingMoviesPage.NowPlayingMovie> list_of_results = searchMovies(call);
             callback.onResult(list_of_results, params.key + 1);
 
@@ -76,7 +73,6 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, NowPlayi
         try {
             Response<MovieSearchResult> response = call.execute();
             if (!response.isSuccessful()) {
-                Log.d(Constants.LOG, "Response unsuccesful: " + response.code());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                 return null;
             }
@@ -85,7 +81,6 @@ public class MovieSearchDataSource extends PageKeyedDataSource<Integer, NowPlayi
             list_of_results = movieSearchResult.getResults();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d(Constants.LOG, "call failure  IOException : " + e.getMessage());
             networkState.postValue(new NetworkState(NetworkState.Status.FAILED, e.getMessage()));
         }
         return list_of_results;

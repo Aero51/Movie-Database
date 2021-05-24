@@ -281,7 +281,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchToEpgTvDetailsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                Log.d(Constants.LOG, " main activity getSingleLiveShouldSwitchToEpgTvDetailsFragment on changed");
 
                 epgDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgDetailsFragment.class.getSimpleName(), null) {
                     @Override
@@ -423,7 +422,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchTvShowDetailsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                Log.d(Constants.LOG, "Main activity getSingleLiveShouldSwitchTvShowDetailsFragment!");
                 tvShowDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowDetailsFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
@@ -588,7 +586,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     @Override
     protected void onStop() {
-        Log.d(Constants.LOG, " onStop: ");
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt("Saved ActorFragment back navigation", actorFragmentBackPosition);

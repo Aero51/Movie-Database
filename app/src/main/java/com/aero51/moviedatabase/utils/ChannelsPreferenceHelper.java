@@ -52,8 +52,6 @@ public class ChannelsPreferenceHelper {
         completeChannelList.addAll(processChannelGroup(prefs, prePopulatedChannels.getEntertainmentList(), ENTERTAINMENT_CHANNELS_PREFERENCE));
         completeChannelList.addAll(processChannelGroup(prefs, prePopulatedChannels.getCroatianExpandedList(), CROATIAN_EXPANDED_CHANNELS_PREFERENCE));
 
-        Log.d(Constants.LOG2, "FINAL LIST SIZE: "+completeChannelList.size());
-
         return completeChannelList;
     }
 
@@ -68,7 +66,6 @@ public class ChannelsPreferenceHelper {
         for (int i = 0; i < channelGroupList.size(); i++) {
             for (int j = 0; j < unsortedSelectionList.size(); j++) {
                 if (channelGroupList.get(i).getName().equals(unsortedSelectionList.get(j))) {
-                    //Log.d(Constants.LOG2, i + " , " + unsortedSelectionList.get(j));
                     processedChannelsList.add(channelGroupList.get(i));
                 }
 

@@ -8,12 +8,9 @@ import com.aero51.moviedatabase.repository.CreditsRepository
 import com.aero51.moviedatabase.repository.DetailsRepository
 import com.aero51.moviedatabase.repository.OmdbRepository
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel
-import com.aero51.moviedatabase.repository.model.tmdb.credits.Actor
+import com.aero51.moviedatabase.repository.model.tmdb.credits.*
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesResponse.ActorImage
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
-import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
-import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowCredits
-import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
@@ -36,25 +33,24 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     fun getMovieCast(movie_id: Int): LiveData<Resource<List<MovieCast>>> {
         return creditsRepository.loadMovieCastById(movie_id)
     }
+    fun getMovieCrew(movie_id: Int): LiveData<Resource<List<MovieCredits.MovieCrew>>> {
+        return creditsRepository.loadMovieCrewById(movie_id)
+    }
     fun getTvShowCast(tv_show_id: Int): LiveData<Resource<List<TvShowCredits.TvShowCast>>> {
         return creditsRepository.loadTvShowCastById(tv_show_id)
     }
 
     fun getActorDetails(actor_id: Int): LiveData<Resource<Actor>> {
-        Log.d(Constants.LOG, "DetailsViewModel getActorDetails id: $actor_id")
         return creditsRepository.loadActorById(actor_id)
     }
 
     fun getActorImages(actor_id: Int): LiveData<Resource<List<ActorImage>>> {
-        Log.d(Constants.LOG, "DetailsViewModel getActorImages actor id: $actor_id")
         return creditsRepository.loadActorImagesByActorId(actor_id)
     }
     fun getMoviesWithPerson(person_id: Int): LiveData<Resource<MoviesWithPerson>> {
-        Log.d(Constants.LOG, "DetailsViewModel getMoviesWithPerson person_id: $person_id")
         return creditsRepository.loadMoviesByActorId(person_id)
     }
     fun getTvShowsWithPerson(person_id: Int): LiveData<Resource<TvShowsWithPerson>> {
-        Log.d(Constants.LOG, "DetailsViewModel getTvShowsWithPerson person_id: $person_id")
         return creditsRepository.loadTvShowsByActorId(person_id)
     }
 

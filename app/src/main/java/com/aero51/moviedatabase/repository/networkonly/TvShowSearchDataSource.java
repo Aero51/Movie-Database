@@ -40,14 +40,12 @@ public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShowS
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
         Call<TvShowSearchResult> call = theMovieDbApi.getTvShowsSearch(TMDB_API_KEY, queryString, TV_SHOW_SEARCH_FIRST_PAGE);
-        Log.d(Constants.LOG, "load initial TvShowSearchDataSource");
         List<TvShowSearchResult.TvShow> list_of_results = searchTvShows(call);
         callback.onResult(list_of_results, null, TV_SHOW_SEARCH_FIRST_PAGE + 1);
     }
 
     @Override
     public void loadBefore(@NonNull LoadParams<Integer> params, @NonNull LoadCallback<Integer, TvShowSearchResult.TvShow> callback) {
-        Log.d(Constants.LOG, "Load before: " + params.key);
     }
 
     @Override
@@ -57,7 +55,6 @@ public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShowS
         TheMovieDbApi theMovieDbApi = RetrofitInstance.getTmdbApiService();
 
         Call<TvShowSearchResult> call = theMovieDbApi.getTvShowsSearch(TMDB_API_KEY, queryString, params.key);
-        Log.d(Constants.LOG, "load after TvShowSearchDataSource:params.key " + params.key);
         List<TvShowSearchResult.TvShow> list_of_results = searchTvShows(call);
         callback.onResult(list_of_results, params.key + 1);
     }
@@ -68,7 +65,6 @@ public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShowS
         try {
             Response<TvShowSearchResult> response = call.execute();
             if (!response.isSuccessful()) {
-                Log.d(Constants.LOG, "Response unsuccesful: " + response.code());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                 return null;
             }
@@ -77,7 +73,6 @@ public class TvShowSearchDataSource extends PageKeyedDataSource<Integer, TvShowS
             list_of_results = tvShowSearchResult.getResults();
         } catch (IOException e) {
             e.printStackTrace();
-            Log.d(Constants.LOG, "call failure  IOException : " + e.getMessage());
             networkState.postValue(new NetworkState(NetworkState.Status.FAILED, e.getMessage()));
         }
         return list_of_results;

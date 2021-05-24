@@ -142,7 +142,6 @@ class TvShowsRepository(private val application: Application, private val execut
     suspend fun checkIfTvShowsByGenreNeedsRefresh(genreId: Int) {
         val tvShowByGenre = genresDao.getFirstTvShowByGenre(genreId)
         if (tvShowByGenre != null) {
-            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + tvShowByGenre.timestamp)
             val currentTime: Long = System.currentTimeMillis()
             if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= tvShowByGenre.timestamp){
                 // TODO    refresh implemented, need to clean it
@@ -155,7 +154,6 @@ class TvShowsRepository(private val application: Application, private val execut
     suspend fun checkIfPopularTvShowsNeedsRefresh() {
         val popularTvShow = popularTvShowsDao.getFirstPopularTvShow()
         if (popularTvShow != null) {
-            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + popularTvShow.timestamp)
             val currentTime: Long = System.currentTimeMillis()
             if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= popularTvShow.timestamp){
                 // TODO    refresh implemented, need to clean it
@@ -168,7 +166,6 @@ class TvShowsRepository(private val application: Application, private val execut
     suspend fun checkIfTrendingTvShowsNeedsRefresh() {
         val trendingTvShow = trendingTvShowsDao.getFirstTrendingTvShow()
         if (trendingTvShow != null) {
-            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + trendingTvShow.timestamp)
             val currentTime: Long = System.currentTimeMillis()
             if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= trendingTvShow.timestamp){
                 // TODO    refresh implemented, need to clean it
@@ -182,7 +179,6 @@ class TvShowsRepository(private val application: Application, private val execut
     suspend fun checkIfAiringTvShowsNeedsRefresh() {
         val airingTvShow = airingTvShowsDao.getFirstAiringTvShow()
         if (airingTvShow != null) {
-            Log.d(Constants.LOG2, "MoviesRepository timestamp: " + airingTvShow.timestamp)
             val currentTime: Long = System.currentTimeMillis()
             if((currentTime - Constants.ONE_WEEK_IN_MILLIS) >= airingTvShow.timestamp){
                 // TODO    refresh implemented, need to clean it

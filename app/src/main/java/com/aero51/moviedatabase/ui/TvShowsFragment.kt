@@ -64,8 +64,6 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
         binding!!.tvShowGenresRecyclerViewHorizontal.isNestedScrollingEnabled = false
         val genreslinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.tvShowGenresRecyclerViewHorizontal.layoutManager = genreslinearLayoutManager
-
-        Log.d(Constants.LOG2, "hasEpgTvFragmentFinishedLoading: $hasEpgTvFragmentFinishedLoading")
         if(hasEpgTvFragmentFinishedLoading){
             registerObservers()
         }else{
@@ -81,7 +79,7 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
     }
 
     private fun registerHasEpgTvFragmentFinishedLoadingObserver() {
-        sharedViewModel!!.hasEpgTvFragmentFinishedLoading.observe(viewLifecycleOwner, Observer { aBoolean -> //Log.d(Constants.LOG, "getHasEpgTvFragmentFinishedLoading: " + aBoolean);
+        sharedViewModel!!.hasEpgTvFragmentFinishedLoading.observe(viewLifecycleOwner, Observer { aBoolean ->
             hasEpgTvFragmentFinishedLoading = aBoolean
             if (hasEpgTvFragmentFinishedLoading) {
                 registerObservers()
@@ -107,9 +105,8 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
             } else {
                 popularTvShowsPage.page
             }
-            Log.d(Constants.LOG, "popular Tv shows Fragment onChanged popular tv show page: $page_number")
         })
-        tvShowsViewModel!!.tvPopularResultsPagedList!!.observe(viewLifecycleOwner) { popularMovies -> //Log.d(Constants.LOG, "popular Tv shows Fragment  onChanged list size: " + popularMovies.size());
+        tvShowsViewModel!!.tvPopularResultsPagedList!!.observe(viewLifecycleOwner) { popularMovies ->
             popularAdapter!!.submitList(popularMovies)
         }
     }
@@ -124,7 +121,6 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
             } else {
                 airingTvShowsPage.page
             }
-            Log.d(Constants.LOG, "airing Tv shows Fragment onChanged tv_page: $page_number")
         })
     }
 
@@ -138,14 +134,12 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
             } else {
                 trendingTvShowsPage.page
             }
-            Log.d(Constants.LOG, "trending Tv shows Fragment onChanged tv_page: $page_number")
         })
     }
 
     private fun registerTvShowGenresObservers() {
         tvShowsViewModel!!.tvShowsGenres.observe(viewLifecycleOwner, Observer<Resource<List<TvShowGenre?>>> { (status, data) ->
             if (status === Status.SUCCESS) {
-                Log.d(Constants.LOG, "TvShowGenresObserver list size  " + data!!.size)
                 val tvShowGenresAdapter = TvShowGenresAdapter(data, this)
                 binding!!.tvShowGenresRecyclerViewHorizontal.adapter = tvShowGenresAdapter
             }
@@ -154,11 +148,9 @@ class TvShowsFragment : Fragment(), ObjectClickListener, GenreObjectClickListene
 
     override fun onObjectItemClick(tvShow: Any, position: Int) {
         sharedViewModel.changeToTvShowDetailsFragment(tvShow,position)
-        Log.d(Constants.LOG, "TvShowsFragment onObjectItemClick position: $position")
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        Log.d(Constants.LOG, " TvShowsFragment onGenreItemClick position: $position")
         sharedViewModel.changeToTvShowsByGenreListFragment(genreId, position)
     }
 }

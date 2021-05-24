@@ -49,7 +49,7 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                   }
                   @Override
                   protected Fragment createFragment() {
-                      Log.d(Constants.LOG2, "Parcelable.Creator createFragment! ");
+
                       MovieDetailsFragment tvShowsFragment=new MovieDetailsFragment();
                       return tvShowsFragment;
                   }
@@ -190,11 +190,9 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         }
         final FragmentIdentifier fragmentIdentifier = fragmentIdentifiers.get(position);
         // Do we already have this fragment?
-        //Log.d(Constants.LOG, " position: " + position);
         final String name = fragmentIdentifier.fragmentTag;
         Fragment fragment = fragmentManager.findFragmentByTag(name);
         if (fragment != null) {
-            //  Log.d(Constants.LOG, " instantiateItem fragment != null position:" +position);
             currentTransaction.attach(fragment);
         } else {
             fragment = fragmentIdentifier.newFragment();

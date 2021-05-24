@@ -112,7 +112,6 @@ public class NowPlayingMoviesPagedListAdapter extends PagedListAdapter<NowPlayin
         public void onClick(View v) {
             if (itemClickListener != null&& adapterPosition != RecyclerView.NO_POSITION) {
                 itemClickListener.onObjectItemClick(result, adapterPosition); // call the onClick in the OnItemClickListener
-                Log.d(Constants.LOG, " Item clicked inside now playing holder : " + adapterPosition);
             }
         }
     }

@@ -71,8 +71,6 @@ public class EpgViewModel extends AndroidViewModel {
         double currentTime = currentDate.getTime();
         //double percentage = (currentValue - minValue) / (maxValue - minValue);
         double percentage = (((currentTime - startTime) / (stopTime - startTime)) * 100);
-        //  Log.d(Constants.LOG, "startTime: " + startTime+", stopTime: "+stopTime+" , currentTime: "+currentTime);
-        //  Log.d(Constants.LOG, "percentage: " + percentage);
         item.setNowPlayingPercentage((int) percentage);
 
         return item;

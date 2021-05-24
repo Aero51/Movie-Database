@@ -69,7 +69,6 @@ data class ApiSuccessResponse<T>(
                 try {
                     Integer.parseInt(matcher.group(1))
                 } catch (ex: NumberFormatException) {
-                    Log.d(Constants.LOG,"cannot parse next page from %s "+  next);
                     //Timber.w("cannot parse next page from %s", next)
                     null
                 }

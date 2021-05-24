@@ -39,7 +39,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentTvShowDetailsBinding.inflate(inflater, container, false)
-        // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
         //cover_image_view = getActivity().findViewById(R.id.expandedImage);
         binding!!.castRecyclerView.setHasFixedSize(true)
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -65,7 +64,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
-            Log.d(Constants.LOG, "Toolbar clicked!")
             //showBackButton(false)
         }
         showBackButton(true)
@@ -94,7 +92,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     private fun registerTvShowCastObserver(tvShowId: Int) {
         detailsViewModel!!.getTvShowCast(tvShowId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
             if (data != null) {
-                Log.d(Constants.LOG, " status: " + status + " list size: " + data.size)
                 tvShowCastAdapter = TvShowCastAdapter(context, data)
                 tvShowCastAdapter!!.setClickListener { view: View, actorId: Int, position: Int -> onItemClick(view, actorId, position) }
                 binding!!.castRecyclerView.adapter = tvShowCastAdapter
@@ -106,9 +103,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
         //TODO  upcoming movies are not yet present on omd api
         detailsViewModel!!.getOmbdDetails(tvShowTitle).observe(viewLifecycleOwner, Observer { (status, data, errorMsg) ->
             if (data != null && status == Status.SUCCESS) {
-                Log.d("nikola", "imdbRating: " + (data.imdbRating))
-                //Log.d("nikola", "ratings: " + (data.ratings?.get(0)?.source) + " , " + data.ratings?.get(0)?.value)
-
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
                 val tvShowRatingsList = data.ratings
                 if (tvShowRatingsList != null) {
@@ -133,8 +127,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
         detailsViewModel?.getVideosForTvShow(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
             if (videosList != null && videosList.status == Status.SUCCESS) {
                 for (tvShowVideo in videosList.data!!) {
-                    Log.d("nikola", "movie video  : " + tvShowVideo.name + " ,site: " + tvShowVideo.site)
-
                 }
                 videosGlobalList = videosList.data
                 val adapter = YouTubeTvShowVideoAdapter(requireContext(), videosGlobalList)
@@ -147,8 +139,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     private fun registerTvShowDetailsObserver(tvShowId: Int) {
         //TODO  put tvShowDetails.data  in variable
         detailsViewModel?.getDetailsForTvShow(tvShowId)?.observe(viewLifecycleOwner, Observer { tvShowDetails ->
-            Log.d("nikola", "tvShowDetails.message:" + tvShowDetails.message)
-            Log.d("nikola", "tvShowDetails.status:" + tvShowDetails.status)
             if (tvShowDetails != null && tvShowDetails.status == Status.SUCCESS) {
 
                 binding?.originalTitleTextView?.text = tvShowDetails.data?.original_name.toString()
@@ -160,8 +150,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
                     runtime.let { runtimes.add(it) }
                 }
                 binding?.runtimeTextView?.text = StringHelper.joinInts(", ", runtimes) + " minuta"
-                Log.d("nikola", "genres size:" + tvShowDetails.data?.genres?.size)
-
                 val tvShowGenresAdapter = tvShowDetails.data?.genres?.let { TvShowGenresAdapter(it, this) }
                 binding?.movieGenresRecyclerViewHorizontal?.adapter = tvShowGenresAdapter
 
@@ -200,7 +188,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        Log.d("nikola", "onGenreItemClick genre Item clicked: " + genreId + " ,position: " + position)
         sharedViewModel?.changeToTvShowsByGenreListFragment(genreId, position)
     }
 }

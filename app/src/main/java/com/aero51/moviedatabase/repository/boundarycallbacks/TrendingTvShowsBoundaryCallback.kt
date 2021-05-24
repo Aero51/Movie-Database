@@ -34,19 +34,16 @@ class TrendingTvShowsBoundaryCallback(application: Application?, private val exe
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        //Log.d(Constants.LOG, "trending tv shows onzeroitemsloaded");
         fetchTrendingTvShows(TV_SHOWS_FIRST_PAGE)
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: TrendingTvShow) {
         super.onItemAtFrontLoaded(itemAtFront)
-        Log.d(Constants.LOG, "trending tv shows onItemAtFrontLoaded,item:" + itemAtFront.name)
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: TrendingTvShow) {
         super.onItemAtEndLoaded(itemAtEnd)
         val page_number = current_Tv_shows_page.value!!.page + 1
-        //Log.d(Constants.LOG, "trending tv shows onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchTrendingTvShows(page_number)
     }
 
@@ -57,18 +54,15 @@ class TrendingTvShowsBoundaryCallback(application: Application?, private val exe
         call.enqueue(object : Callback<TrendingTvShowsPage?> {
             override fun onResponse(call: Call<TrendingTvShowsPage?>, response: Response<TrendingTvShowsPage?>) {
                 if (!response.isSuccessful) {
-                    Log.d(Constants.LOG, "trending tv shows Response unsuccesful: " + response.code())
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, response.message()))
                     return
                 }
-                Log.d(Constants.LOG, "trending tv shows Response ok: " + response.code())
                 val mTrendingTvShows = response.body()
                 insertListToDb(mTrendingTvShows)
                 networkState.postValue(NetworkState.LOADED)
             }
 
             override fun onFailure(call: Call<TrendingTvShowsPage?>, t: Throwable) {
-                Log.d(Constants.LOG, "trending tv shows onFailure: " + t.message)
                 networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
             }
         })

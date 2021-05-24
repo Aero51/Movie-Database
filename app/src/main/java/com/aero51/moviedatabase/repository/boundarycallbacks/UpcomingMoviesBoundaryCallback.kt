@@ -36,19 +36,16 @@ class UpcomingMoviesBoundaryCallback(application: Application?, private val exec
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        //Log.d(Constants.LOG, "upcomingMovies onzeroitemsloaded");
         fetchUpcomingMovies(MOVIES_FIRST_PAGE)
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: UpcomingMovie) {
         super.onItemAtFrontLoaded(itemAtFront)
-        Log.d(Constants.LOG, "upcomingMovies onItemAtFrontLoaded,item:" + itemAtFront.title)
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: UpcomingMovie) {
         super.onItemAtEndLoaded(itemAtEnd)
         val page_number = current_movie_page.value!!.page + 1
-        Log.d(Constants.LOG, "upcomingMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchUpcomingMovies(page_number)
     }
 
@@ -59,18 +56,15 @@ class UpcomingMoviesBoundaryCallback(application: Application?, private val exec
         call.enqueue(object : Callback<UpcomingMoviesPage?> {
             override fun onResponse(call: Call<UpcomingMoviesPage?>, response: Response<UpcomingMoviesPage?>) {
                 if (!response.isSuccessful) {
-                    Log.d(Constants.LOG, "upcomingMovies Response unsuccesful: " + response.code())
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, response.message()))
                     return
                 }
-                Log.d(Constants.LOG, "upcomingMovies Response ok: " + response.code())
                 val upcomingMoviesPage = response.body()
                 insertListToDb(upcomingMoviesPage)
                 networkState.postValue(NetworkState.LOADED)
             }
 
             override fun onFailure(call: Call<UpcomingMoviesPage?>, t: Throwable) {
-                Log.d(Constants.LOG, "upcomingMovies onFailure: " + t.message)
                 networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
             }
         })

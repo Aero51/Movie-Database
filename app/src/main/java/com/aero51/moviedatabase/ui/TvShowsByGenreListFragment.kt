@@ -58,7 +58,6 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
-            Log.d(Constants.LOG, "Toolbar clicked!")
             showBackButton(false)
         }
 */
@@ -78,7 +77,6 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
         binding?.progressBar?.setVisibility(View.VISIBLE)
         sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
             this.genreId=genreId
-            Log.d(Constants.LOG2,"GenreListFragment  genreId: "+genreId)
             tvShowsViewModel.tvShowsByGenreDataValidationCheck(genreId)
             registerMoviesByGenrePagedListObserver(genreId)
             registerMoviesByGenrePage()
@@ -89,7 +87,6 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
         tvShowsViewModel.getTvShowsByGenre(genreId)?.observe(viewLifecycleOwner, Observer { pagedList ->
             binding?.progressBar?.setVisibility(View.GONE)
             tvShowsByGenreAdapter.submitList(pagedList)
-            Log.d(Constants.LOG2,"registerMoviesByGenrePagedListObserver list size: "+pagedList.size)
         })
     }
 
@@ -101,7 +98,6 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
             } else {
                 moviesByGenrePage.page
             }
-            Log.d(Constants.LOG, "GenreListFragment onChanged page: $page_number")
         })
     }
 

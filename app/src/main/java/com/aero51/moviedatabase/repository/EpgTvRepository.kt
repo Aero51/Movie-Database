@@ -24,12 +24,10 @@ class EpgTvRepository(private val application: Application, private val executor
         database = Database.getInstance(application)
         epgTvDao = database._epg_tv_dao
         creditsDao = database._credits_dao
-        Log.d(Constants.LOG2, "EpgProgramsForChannelNetworkBoundResource constructor!")
     }
 
 
     fun loadProgramsForChannel(channelName: String): LiveData<Resource<List<EpgProgram>>> {
-        Log.d(Constants.LOG, "EpgTvRepository load other channel programs: $channelName")
         //return EpgProgramsForChannelNetworkBoundResource(executors, application, channelName).asLiveData()
         return  object  : NetworkBoundResource<List<EpgProgram>, List<EpgProgram>>(executors){
 
@@ -43,7 +41,6 @@ class EpgTvRepository(private val application: Application, private val executor
                     var programStartTime: Date? = null
                     try {
                         currentTime = Calendar.getInstance().time
-                        // Log.d(Constants.LOG2, "currentTime! "+currentTime.getTime());
                         programStartTime = SimpleDateFormat("yyyyMMddHHmmSS").parse(data[data.size - 1].start)
                     } catch (e: ParseException) {
                         e.printStackTrace()
@@ -56,17 +53,14 @@ class EpgTvRepository(private val application: Application, private val executor
                 if (noData == true || isGreater == false) {
                     shouldFetch = true
                 }
-                //Log.d(Constants.LOG,data.get(data.size()-1).getStart());
                 return shouldFetch
             }
 
             override fun loadFromDb(): LiveData<List<EpgProgram>> {
-                Log.d(Constants.LOG2, "loadFromDb channel name: $channelName")
                 return epgTvDao.getLiveDataProgramsForChannel(channelName)
             }
 
             override fun createCall(): LiveData<ApiResponse<List<EpgProgram>>> {
-                Log.d(Constants.LOG, "EpgTv channel:$channelName ,get programs createCall ")
                 val epgApi = RetrofitInstance.getEpgApiService()
                 return epgApi.getLiveProgramsForChannel(channelName)
             }
@@ -79,13 +73,11 @@ class EpgTvRepository(private val application: Application, private val executor
     }
 
     fun loadActorSearch(actor_name: String): LiveData<Resource<ActorSearch>> {
-        Log.d(Constants.LOG, "EpgTvRepository loadActorSearch: $actor_name")
         //return ActorSearchNetworkBoundResource(executors, application, actor_name).asLiveData()
         return  object  : NetworkBoundResource<ActorSearchResponse, ActorSearchResponse.ActorSearch>(executors){
 
 
             override fun shouldFetch(data: ActorSearch?): Boolean {
-                Log.d(Constants.LOG, "shouldFetch data==null: " + (data == null).toString())
                 return data == null
             }
 

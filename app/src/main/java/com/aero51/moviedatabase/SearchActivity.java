@@ -51,7 +51,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void onPageSelected(int position) {
-                Log.d(Constants.LOG2, "onPageSelected: " + position);
                 if (searchQuery == null) searchQuery = "";
                 switch (position) {
                     //MovieSearchFragment
@@ -151,7 +150,6 @@ public class SearchActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Log.d(Constants.LOG, " onQueryTextSubmit: " + query);
                 searchQuery = query;
                 execSelectedFragmentSearch();
                 return false;
@@ -159,7 +157,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Log.d(Constants.LOG, " onQueryTextChange: " + newText);
                 searchQuery = newText;
                 execSelectedFragmentSearch();
                 return false;

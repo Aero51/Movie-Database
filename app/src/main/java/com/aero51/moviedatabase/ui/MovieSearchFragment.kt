@@ -45,6 +45,5 @@ class MovieSearchFragment : Fragment(), ObjectClickListener {
     }
 
     override fun onObjectItemClick(movie: Any, position: Int) {
-        Log.d(Constants.LOG, "MovieSearchFragment OnItemClick on position:$position")
     }
 }

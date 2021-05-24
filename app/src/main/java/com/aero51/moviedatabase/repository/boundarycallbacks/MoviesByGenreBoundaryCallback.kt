@@ -35,19 +35,16 @@ class MoviesByGenreBoundaryCallback (application: Application?, private val exec
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        //Log.d(Constants.LOG, "MoviesByGenre onzeroitemsloaded");
         fetchMoviesByGenre(Constants.MOVIES_FIRST_PAGE)
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: MoviesByGenrePage.MovieByGenre) {
         super.onItemAtFrontLoaded(itemAtFront)
-        Log.d(Constants.LOG, "MoviesByGenre onItemAtFrontLoaded,item:" + itemAtFront.title)
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: MoviesByGenrePage.MovieByGenre) {
         super.onItemAtEndLoaded(itemAtEnd)
         val page_number = current_page.value!!.page + 1
-        //Log.d(Constants.LOG, "MoviesByGenre onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchMoviesByGenre(page_number)
     }
 
@@ -59,11 +56,9 @@ class MoviesByGenreBoundaryCallback (application: Application?, private val exec
         call.enqueue(object : Callback<MoviesByGenrePage> {
             override fun onResponse(call: Call<MoviesByGenrePage>, response: Response<MoviesByGenrePage>) {
                 if (!response.isSuccessful) {
-                    Log.d(Constants.LOG, "MoviesByGenre Response unsuccesful: " + response.code())
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, response.message()))
                     return
                 }
-                Log.d(Constants.LOG, "MoviesByGenre Response ok: " + response.code())
                 val mMoviesByGenre = response.body()
                 if (mMoviesByGenre != null) {
                     insertListToDb(mMoviesByGenre)
@@ -72,7 +67,6 @@ class MoviesByGenreBoundaryCallback (application: Application?, private val exec
             }
 
             override fun onFailure(call: Call<MoviesByGenrePage>, t: Throwable) {
-                Log.d(Constants.LOG, "MoviesByGenre onFailure: " + t.message)
                 networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
             }
         })

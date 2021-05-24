@@ -1,5 +1,6 @@
 package com.aero51.moviedatabase.ui
 
+
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -27,6 +28,7 @@ import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
+import com.google.firebase.crashlytics.internal.model.ImmutableList
 import com.squareup.picasso.Picasso
 
 class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
@@ -44,7 +46,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentMovieDetailsBinding.inflate(inflater, container, false)
-        // Log.d(Constants.LOG, "TopRatedMovieDetailsFragment onCreateView " );
         //cover_image_view = getActivity().findViewById(R.id.expandedImage);
         binding!!.castRecyclerView.setHasFixedSize(true)
         val castLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -72,7 +73,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
-            Log.d("nikolaus", "Toolbar clicked!")
             //showBackButton(false)
         }
         showBackButton(true)
@@ -93,7 +93,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
     private fun registerSharedViewModelObserver() {
         sharedViewModel!!.liveDataMovie.observe(viewLifecycleOwner, Observer { movie ->
             binding!!.title.text = movie.title
-            binding!!.releaseYear.text= movie.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it,"yyyy-MM-dd","yyyy") }
+            binding!!.releaseYear.text = movie.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "yyyy") }
             binding!!.overview.text = movie.overview
             binding!!.tmdbRating.text = movie.vote_average.toString()
             val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path
@@ -101,24 +101,35 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
             Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.coverImageView)
             Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
             binding!!.coverImageView.visibility = View.VISIBLE
-            registerMovieCastObserver(movie.id)
+            registerMovieCastAndCrewObserver(movie.id)
             registerOmdbMovieDetailsObserver(movie.title)
             registerMovieVideosObserver(movie.id)
             registerMovieDetailsObserver(movie.id)
             isMovieFavourite(movie.id)
-            Log.d("nikola", "registerSharedViewModelObserver movieId: " + movie.id)
-
-
         })
     }
 
-    private fun registerMovieCastObserver(movieId: Int) {
+    private fun registerMovieCastAndCrewObserver(movieId: Int) {
         detailsViewModel!!.getMovieCast(movieId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
-            if (data != null) {
-                Log.d(Constants.LOG, " status: " + status + " list size: " + data.size)
+            if (data != null && status == Status.SUCCESS) {
                 movieCastAdapter = MovieCastAdapter(data)
                 movieCastAdapter!!.setClickListener { view: View, actorId: Int, position: Int -> onItemClick(view, actorId, position) }
                 binding!!.castRecyclerView.adapter = movieCastAdapter
+            }
+        })
+        detailsViewModel!!.getMovieCrew(movieId).observe(viewLifecycleOwner, Observer { (status, data) -> // movieDetailsViewModel.getMovieCast(topRatedMovieId).removeObserver(this);
+            if (data != null && status == Status.SUCCESS) {
+                var directors: MutableList<String> = mutableListOf()
+                var writers: MutableList<String> = mutableListOf()
+                for (person in data) {
+                    if (person.job.equals("Director")) {
+                        person.name?.let { directors.add(it) }
+                    } else if (person.job.equals("Writer") || person.job.equals("Story")) {
+                        person.name?.let { writers.add(it) }
+                    }
+                }
+                binding?.directorTextView?.text = StringHelper.joinStrings(",", directors)
+                binding?.writersTextView?.text = StringHelper.joinStrings(",", writers)
             }
         })
 
@@ -128,9 +139,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         //TODO  upcoming movies are not yet present on omd api
         detailsViewModel!!.getOmbdDetails(movieTitle).observe(viewLifecycleOwner, Observer { (status, data) ->
             if (data != null && status == Status.SUCCESS) {
-                Log.d("nikola", "imdbRating: " + (data?.imdbRating))
-                //Log.d("nikola", "ratings: " + (data?.ratings?.get(0)?.source) + " , " + data?.ratings?.get(0)?.value)
-
                 //TODO   implement hiding of different rating text views (drawables) based if they are present in the list
                 val movieRatingsList = data.ratings
                 if (movieRatingsList != null) {
@@ -155,10 +163,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         // TODO   implement traversing trough list to exclude Vimeo videos
         detailsViewModel?.getVideosForMovie(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
             if (videosList != null && videosList.status == Status.SUCCESS) {
-                for (movieVideo in videosList.data!!) {
-                    Log.d("nikola", "movie video  : " + movieVideo.name + " ,site: " + movieVideo.site)
-
-                }
                 videosGlobalList = videosList.data
                 val adapter = YouTubeMovieVideoAdapter(requireContext(), videosGlobalList)
                 binding?.youtubeRecyclerView?.adapter = adapter
@@ -171,7 +175,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
 
         detailsViewModel?.getDetailsForMovie(movieId)?.observe(viewLifecycleOwner, Observer { movieDetails ->
             if (movieDetails != null && movieDetails.status == Status.SUCCESS) {
-                Log.d("nikola", "MovieDetailsObserver videosList.status revenue: " + (movieDetails.data?.revenue))
 
                 binding!!.originalTitleTextView.text = movieDetails.data?.original_title
                 binding!!.releasedTextView.text = movieDetails.data?.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
@@ -182,12 +185,11 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
 
 
                 val productionCompanies: MutableList<String> = mutableListOf()
-                for(production_company in movieDetails.data?.production_companies!!){
+                for (production_company in movieDetails.data?.production_companies!!) {
                     production_company.name?.let { productionCompanies.add(it) }
                 }
-                binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ",productionCompanies)
+                binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ", productionCompanies)
                 //setFavouriteOnClickListener(tvShowDetails.data!!)
-
 
 
                 val movieGenresAdapter = movieDetails.data?.genres?.let { MovieGenresAdapter(it, this) }
@@ -232,7 +234,6 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        Log.d("nikola", "onGenreItemClick genre Item clicked: " + genreId + " ,position: " + position)
         sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId, position)
     }
 

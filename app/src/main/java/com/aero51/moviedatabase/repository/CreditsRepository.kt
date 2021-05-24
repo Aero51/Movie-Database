@@ -19,11 +19,9 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
     init {
         database = Database.getInstance(application)
         creditsDao = database._credits_dao
-        Log.d(Constants.LOG2, "CreditsRepository constructor!")
     }
 
     fun loadMovieCastById(movie_id: Int): LiveData<Resource<List<MovieCast>>> {
-        Log.d(Constants.LOG, "loadCastByMovieId id: $movie_id")
         //return CastNetworkBoundResource(executors, application, movie_id).asLiveData()
         return object : NetworkBoundResource<MovieCredits, List<MovieCast>>(executors) {
 
@@ -42,16 +40,36 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
 
             override fun saveCallResult(item: MovieCredits) {
                 //this is executed on background thread
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id)
                 database.runInTransaction { creditsDao.insertMovCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.movieCast?.size
-                        ?: 0))
+            }
+        }.asLiveData()
+    }
+    fun loadMovieCrewById(movie_id: Int): LiveData<Resource<List<MovieCredits.MovieCrew>>> {
+
+        //return CastNetworkBoundResource(executors, application, movie_id).asLiveData()
+        return object : NetworkBoundResource<MovieCredits, List<MovieCredits.MovieCrew>>(executors) {
+
+            override fun shouldFetch(data: List<MovieCredits.MovieCrew>?): Boolean {
+                return data!!.size == 0
+            }
+
+            override fun loadFromDb(): LiveData<List<MovieCredits.MovieCrew>> {
+                return creditsDao.getMovieCrew(movie_id)
+            }
+
+            override fun createCall(): LiveData<ApiResponse<MovieCredits>> {
+                val theMovieDbApi = RetrofitInstance.getTmdbApiService()
+                return theMovieDbApi.getLiveMovieCredits(movie_id, Constants.TMDB_API_KEY)
+            }
+
+            override fun saveCallResult(item: MovieCredits) {
+                //this is executed on background thread
+                //Not saving to db because loadMovieCastById() performs that
             }
         }.asLiveData()
     }
 
     fun loadTvShowCastById(tv_show_id: Int): LiveData<Resource<List<TvShowCredits.TvShowCast>>> {
-        Log.d(Constants.LOG, "loadCastByTvShowId id: $tv_show_id")
         //return CastNetworkBoundResource(executors, application, movie_id).asLiveData()
         return object : NetworkBoundResource<TvShowCredits, List<TvShowCredits.TvShowCast>>(executors) {
 
@@ -71,19 +89,15 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: TvShowCredits) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertTvCredits(item) }
-                Log.d(Constants.LOG, "saveCallResult movie id: " + item.id + " ,cast size: " + (item.tvShowCast?.size
-                        ?: 0))
             }
         }.asLiveData()
     }
 
     fun loadActorById(actor_id: Int): LiveData<Resource<Actor>> {
-        Log.d(Constants.LOG, "loadActorById id: $actor_id")
         //return ActorNetworkBoundResource(executors, application, actor_id).asLiveData()
         return object : NetworkBoundResource<Actor, Actor>(executors) {
 
             override fun shouldFetch(data: Actor?): Boolean {
-                Log.d(Constants.LOG, "shouldFetch data==null: " + (data == null).toString())
                 return data == null
             }
 
@@ -99,13 +113,11 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: Actor) {
                 //this is executed on background thread
                 creditsDao.insertActor(item)
-                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id)
             }
         }.asLiveData()
     }
 
     fun loadActorImagesByActorId(actor_id: Int): LiveData<Resource<List<ActorImage>>> {
-        Log.d(Constants.LOG, "loadActorImagesByActorId  actor id: $actor_id")
         //return ActorImagesNetworkBoundResource(executors, application, actor_id).asLiveData()
         return object : NetworkBoundResource<ActorImagesResponse, List<ActorImagesResponse.ActorImage>>(executors) {
 
@@ -125,14 +137,11 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: ActorImagesResponse) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertActorImagesResponse(item) }
-                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id + " ,images list  size: " + (item.images?.size
-                        ?: 0))
             }
         }.asLiveData()
     }
 
     fun loadMoviesByActorId(actor_id: Int): LiveData<Resource<MoviesWithPerson>> {
-        Log.d(Constants.LOG, "loadMoviesByActorId  actor id: $actor_id")
         return object : NetworkBoundResource<MoviesWithPerson, MoviesWithPerson>(executors) {
 
             override fun shouldFetch(data: MoviesWithPerson?): Boolean {
@@ -151,12 +160,10 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: MoviesWithPerson) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertMoviesWithPerson(item) }
-                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id)
             }
         }.asLiveData()
     }
     fun loadTvShowsByActorId(actor_id: Int): LiveData<Resource<TvShowsWithPerson>> {
-        Log.d(Constants.LOG, "loadTvShowsByActorId  actor id: $actor_id")
         return object : NetworkBoundResource<TvShowsWithPerson, TvShowsWithPerson>(executors) {
 
             override fun shouldFetch(data: TvShowsWithPerson?): Boolean {
@@ -175,7 +182,6 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             override fun saveCallResult(item: TvShowsWithPerson) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertTvShowsWithPerson(item) }
-                Log.d(Constants.LOG, "saveCallResult actor id: " + item.id)
             }
         }.asLiveData()
     }

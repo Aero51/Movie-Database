@@ -47,21 +47,18 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
     @Override
     public void onZeroItemsLoaded() {
         super.onZeroItemsLoaded();
-        //Log.d(Constants.LOG, "topRatedMovies onzeroitemsloaded");
         fetchTopRatedMovies(MOVIES_FIRST_PAGE);
     }
 
     @Override
     public void onItemAtFrontLoaded(@NonNull TopRatedMoviesPage.TopRatedMovie itemAtFront) {
         super.onItemAtFrontLoaded(itemAtFront);
-        Log.d(Constants.LOG, "topRatedMovies onItemAtFrontLoaded,item:" + itemAtFront.getTitle());
     }
 
     @Override
     public void onItemAtEndLoaded(@NonNull TopRatedMoviesPage.TopRatedMovie itemAtEnd) {
         super.onItemAtEndLoaded(itemAtEnd);
         Integer page_number = current_movie_page.getValue().getPage() + 1;
-        //Log.d(Constants.LOG, "topRatedMovies onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchTopRatedMovies(page_number);
     }
 
@@ -73,11 +70,9 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
             @Override
             public void onResponse(Call<TopRatedMoviesPage> call, Response<TopRatedMoviesPage> response) {
                 if (!response.isSuccessful()) {
-                    Log.d(Constants.LOG, "topRatedMovies Response unsuccesful: " + response.code());
                     networkState.postValue(new NetworkState(NetworkState.Status.FAILED, response.message()));
                     return;
                 }
-                Log.d(Constants.LOG, "topRatedMovies Response ok: " + response.code());
                 TopRatedMoviesPage mTopRatedMovies = response.body();
                 insertListToDb(mTopRatedMovies);
                 networkState.postValue(NetworkState.LOADED);
@@ -85,7 +80,6 @@ public class TopRatedMoviesBoundaryCallback extends PagedList.BoundaryCallback<T
 
             @Override
             public void onFailure(Call<TopRatedMoviesPage> call, Throwable t) {
-                Log.d(Constants.LOG, "topRatedMovies onFailure: " + t.getMessage());
                 networkState.postValue(new NetworkState(NetworkState.Status.FAILED, t.getMessage()));
             }
         });

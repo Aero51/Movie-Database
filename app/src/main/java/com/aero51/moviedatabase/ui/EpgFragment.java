@@ -93,7 +93,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         setUpRecyclerView();
         //sharedViewModel.setHasEpgTvFragmentFinishedLoading(true);
         showBackButton(false);
-        //Log.d(Constants.LOG2, "EpgTvFragment before: " );
 
         return binding.getRoot();
     }
@@ -123,7 +122,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         scrollListener = new EndlessRecyclerViewScrollListener(5,linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
-                Log.d(Constants.LOG, "EndlessRecyclerViewScrollListener page: " + page + " total items count: " + totalItemsCount);
                 fetchProgramsForMultipleChannels();
             }
         };
@@ -166,7 +164,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
-                Log.d(Constants.LOG, "EpgTvFragment onChanged channelName: " + channelName + " ,status: " + listResource.getStatus() + " ,message: " + listResource.getMessage());
                 if (listResource.getStatus() == Status.LOADING) {
                     if (!isNetworkAvailable()) {
                         showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_INDEFINITE);
@@ -200,7 +197,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
 
     @Override
     public void onItemClick(ChannelWithPrograms channelWithPrograms) {
-        Log.d(Constants.LOG, "channel item clicked: " + channelWithPrograms.getChannel().getName());
         sharedViewModel.changeToEpgAllProgramsFragment(channelWithPrograms);
     }
 

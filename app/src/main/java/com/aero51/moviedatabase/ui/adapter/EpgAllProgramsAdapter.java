@@ -71,13 +71,9 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
             binding.getRoot().setOnClickListener(this);
         }
 
-
         @Override
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
-            Log.d(Constants.LOG, "EpgAllProgramsAdapter onClick " + adapter_position);
-
-
         }
     }
 

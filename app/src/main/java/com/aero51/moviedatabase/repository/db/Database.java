@@ -123,8 +123,6 @@ public abstract class Database extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-            Log.d(Constants.LOG, "RoomDatabase.Callback roomCallback onCreate  ");
-
         }
     };
 

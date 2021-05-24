@@ -67,7 +67,6 @@ class TvShowsByGenrePagedListAdapter(private val itemClickListener: ObjectClickL
         override fun onClick(v: View) {
             if (itemClickListener != null && adapterposition != RecyclerView.NO_POSITION) {
                 itemClickListener.onObjectItemClick(result, adapterposition) // call the onClick in the OnItemClickListener
-                Log.d(Constants.LOG, " Item clicked inside popular holder : $adapterposition")
             }
         }
 

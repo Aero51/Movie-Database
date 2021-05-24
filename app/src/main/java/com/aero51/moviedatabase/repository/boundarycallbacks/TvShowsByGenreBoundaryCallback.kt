@@ -36,19 +36,16 @@ class TvShowsByGenreBoundaryCallback (application: Application?, private val exe
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        //Log.d(Constants.LOG, "TvShowsByGenreBoundaryCallback onzeroitemsloaded");
         fetchMoviesByGenre(Constants.MOVIES_FIRST_PAGE)
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: TvShowsByGenrePage.TvShowByGenre) {
         super.onItemAtFrontLoaded(itemAtFront)
-        Log.d(Constants.LOG, "TvShowsByGenreBoundaryCallback onItemAtFrontLoaded,item:" + itemAtFront.title)
     }
 
     override fun onItemAtEndLoaded(itemAtEnd: TvShowsByGenrePage.TvShowByGenre) {
         super.onItemAtEndLoaded(itemAtEnd)
         val page_number = current_page.value!!.page + 1
-        //Log.d(Constants.LOG, "TvShowsByGenreBoundaryCallback onItemAtEndLoaded,item:" + itemAtEnd.getTitle() + " ,page: " + page_number);
         fetchMoviesByGenre(page_number)
     }
 
@@ -73,11 +70,9 @@ class TvShowsByGenreBoundaryCallback (application: Application?, private val exe
         call.enqueue(object : Callback<TvShowsByGenrePage> {
             override fun onResponse(call: Call<TvShowsByGenrePage>, response: Response<TvShowsByGenrePage>) {
                 if (!response.isSuccessful) {
-                    Log.d(Constants.LOG, "TvShowsByGenreBoundaryCallback Response unsuccesful: " + response.code())
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, response.message()))
                     return
                 }
-                Log.d(Constants.LOG, "TvShowsByGenreBoundaryCallback Response ok: " + response.code())
                 val mMoviesByGenre = response.body()
                 if (mMoviesByGenre != null) {
                     insertListToDb(mMoviesByGenre)
@@ -86,7 +81,6 @@ class TvShowsByGenreBoundaryCallback (application: Application?, private val exe
             }
 
             override fun onFailure(call: Call<TvShowsByGenrePage>, t: Throwable) {
-                Log.d(Constants.LOG, "TvShowsByGenreBoundaryCallback onFailure: " + t.message)
                 networkState.postValue(NetworkState(NetworkState.Status.FAILED, t.message))
             }
         })

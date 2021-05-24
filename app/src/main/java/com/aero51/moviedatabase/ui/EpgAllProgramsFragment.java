@@ -65,7 +65,6 @@ public class EpgAllProgramsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
-                Log.d(Constants.LOG, "Toolbar clicked!");
                 showBackButton(false);
             }
         });
