@@ -163,7 +163,7 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         // TODO   implement traversing trough list to exclude Vimeo videos
         detailsViewModel?.getVideosForMovie(movieId)?.observe(viewLifecycleOwner, Observer { videosList ->
             if (videosList != null && videosList.status == Status.SUCCESS) {
-                videosGlobalList = videosList.data
+                videosGlobalList = videosList.data!!
                 val adapter = YouTubeMovieVideoAdapter(requireContext(), videosGlobalList)
                 binding?.youtubeRecyclerView?.adapter = adapter
 

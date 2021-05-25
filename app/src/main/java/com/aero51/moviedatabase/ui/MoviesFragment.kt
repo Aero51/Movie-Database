@@ -195,7 +195,8 @@ class MoviesFragment : Fragment(), ObjectClickListener,GenreObjectClickListener 
     private fun registerMovieGenresObservers() {
         moviesViewModel!!.moviesGenres.observe(viewLifecycleOwner, { (status, data) ->
             if (status === Status.SUCCESS) {
-                val movieGenresAdapter = MovieGenresAdapter(data,this)
+                //TODO   correctly implement not null data
+                val movieGenresAdapter = MovieGenresAdapter(data!!,this)
                 binding!!.movieGenresRecyclerViewHorizontal.adapter = movieGenresAdapter
             }
         })
