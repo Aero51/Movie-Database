@@ -84,7 +84,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             @Override
             public void onClick(View view) {
                 getActivity().onBackPressed();
-                showBackButton(false);
+                //showBackButton(false);
             }
         });
 
