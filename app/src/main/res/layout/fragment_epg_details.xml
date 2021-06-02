@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg"
     tools:context=".ui.EpgDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
@@ -11,99 +12,99 @@
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:scrollbars="none">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    <ImageView
-        android:id="@+id/image_view_channel"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:src="@drawable/ic_launcher_background" />
-
-
-    <TextView
-        android:id="@+id/text_view_title_primary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/image_view_channel"
-        android:text="Title cro"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-        <TextView
-            android:id="@+id/text_view_title_secondary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/image_view_channel"
-            android:layout_below="@+id/text_view_title_primary"
-            android:text="Title secondary"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <TextView
-        android:id="@+id/text_view_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/text_view_title_secondary"
-        android:layout_toRightOf="@+id/image_view_channel"
-        android:ellipsize="end"
-        android:text="Date"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
-
-    <TextView
-        android:id="@+id/text_view_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/image_view_channel"
-        android:ellipsize="end"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:text="Description"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-        <ImageView
-            android:id="@+id/image_view_program"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_below="@+id/text_view_description"
-            android:src="@drawable/ic_launcher_background" />
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/image_view_channel"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/ic_launcher_background" />
 
 
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@+id/image_view_program"
-            android:layout_marginBottom="5dp"
-            android:background="@color/grey" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/actor_search_recycler_view"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/divider"/>
+            <TextView
+                android:id="@+id/text_view_title_primary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/image_view_channel"
+                android:text="Title cro"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <TextView
-            android:id="@+id/text_view_directors"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/actor_search_recycler_view"
-            android:ellipsize="end"
-            android:text="Režiser"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        <TextView
-            android:id="@+id/text_view_writers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/text_view_directors"
-            android:ellipsize="end"
-            android:text="Pisci"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-        <View
-            android:id="@+id/divider2"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
-            android:layout_below="@+id/text_view_writers"
-            android:background="@color/grey" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/text_view_title_secondary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/image_view_channel"
+                android:layout_below="@+id/text_view_title_primary"
+                android:text="Title secondary"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+            <TextView
+                android:id="@+id/text_view_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_title_secondary"
+                android:layout_toRightOf="@+id/image_view_channel"
+                android:ellipsize="end"
+                android:text="Date"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+
+            <TextView
+                android:id="@+id/text_view_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_view_channel"
+                android:ellipsize="end"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="Description"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
+            <ImageView
+                android:id="@+id/image_view_program"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:layout_below="@+id/text_view_description"
+                android:src="@drawable/ic_launcher_background" />
+
+
+            <View
+                android:id="@+id/divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@+id/image_view_program"
+                android:layout_marginBottom="5dp"
+                android:background="@color/grey" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/actor_search_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider"/>
+
+            <TextView
+                android:id="@+id/text_view_directors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/actor_search_recycler_view"
+                android:ellipsize="end"
+                android:text="Režiser"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <TextView
+                android:id="@+id/text_view_writers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/text_view_directors"
+                android:ellipsize="end"
+                android:text="Pisci"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="5dp"
+                android:layout_below="@+id/text_view_writers"
+                android:background="@color/grey" />
+        </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

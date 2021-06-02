@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@drawable/bg"
     tools:context=".MainActivity">
 
 
@@ -38,7 +38,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Popular"
-                android:textSize="14sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/top_rated_movies_recycler_view_horizontal"
@@ -64,7 +64,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Popular"
-                android:textSize="14sp"
+                android:textSize="16sp"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popular_movies_recycler_view_horizontal"
@@ -82,14 +83,15 @@
 
 
             <TextView
-            android:id="@+id/text_view_genres_static"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="Žanrovi:"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+                android:id="@+id/text_view_genres_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Žanrovi:"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/movie_genres_recycler_view_horizontal"
@@ -114,7 +116,8 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Top"
-                android:textSize="14sp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -140,6 +143,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="Top"
                 android:textSize="14sp"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView

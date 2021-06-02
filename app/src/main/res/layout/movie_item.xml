@@ -7,30 +7,33 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="2dp"
     app:cardCornerRadius="8dp"
-    app:cardBackgroundColor="@color/grey">
+    app:cardBackgroundColor="@color/dark_gray"
+    >
 
     <RelativeLayout
         android:layout_width="150dp"
         android:layout_height="280dp"
-        android:padding="2dp">
+        >
 
         <TextView
             android:id="@+id/text_view_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:ellipsize="end"
             android:maxLines="2"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
             android:text="Title"
-            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@color/primaryText" />
+            android:textSize="16sp"
+            android:textColor="@color/white" />
         <ImageView
             android:id="@+id/image_view_program"
             android:layout_width="match_parent"
             android:layout_height="230dp"
             android:layout_alignParentBottom="true"
-
-             />
+            />
 
 
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey">
+    android:background="@drawable/bg">
 
     <RelativeLayout
         android:id="@+id/main_container"
@@ -179,7 +179,6 @@
                     android:id="@+id/overview_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/light_grey"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -193,6 +192,7 @@
                         android:id="@+id/overview"
                         style="@style/DetailField"
                         android:layout_width="match_parent"
+                        android:textColor="@color/grey"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>
@@ -204,12 +204,14 @@
                 style="@style/DetailField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 android:text="Director:" />
 
             <TextView
                 android:id="@+id/director_text_view"
                 style="@style/DetailField"
                 android:layout_width="match_parent"
+                android:layout_marginStart="4dp"
                 android:layout_height="wrap_content"
                 tools:text="James Michaels" />
 
@@ -217,6 +219,7 @@
                 android:id="@+id/writers_static_text_view"
                 style="@style/DetailField"
                 android:layout_width="match_parent"
+                android:layout_marginStart="8dp"
                 android:layout_height="wrap_content"
                 android:text="Writers:" />
 
@@ -225,6 +228,7 @@
                 style="@style/DetailField"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
                 tools:text="Patrick Oreilly" />
 
 
@@ -259,6 +263,7 @@
             android:layout_marginTop="10dp"
             android:text="Žanrovi:"
             android:textSize="14sp"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -282,7 +287,7 @@
 
         <TextView
             android:id="@+id/information_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/activityMainDivider3"
             android:layout_marginStart="10dp"
@@ -293,7 +298,7 @@
 
         <TextView
             android:id="@+id/original_title_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/information_static_text_view"
             android:layout_marginStart="10dp"
@@ -307,15 +312,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/information_static_text_view"
-            android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_toEndOf="@id/original_title_static_text_view"
             android:textColor="@color/white"
             tools:text="naslov filma" />
 
 
         <TextView
             android:id="@+id/released_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/original_title_static_text_view"
             android:layout_marginStart="10dp"
@@ -329,8 +335,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/original_title_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
             android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/released_static_text_view"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
             tools:text="2021" />
@@ -338,7 +345,7 @@
 
         <TextView
             android:id="@+id/runtime_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/released_static_text_view"
             android:layout_marginStart="10dp"
@@ -352,16 +359,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/released_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/runtime_static_text_view"
+            android:layout_marginStart="8dp"
             android:textColor="@color/white"
             tools:text="120 minutes" />
 
 
         <TextView
             android:id="@+id/budget_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/runtime_static_text_view"
             android:layout_marginStart="10dp"
@@ -375,15 +383,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/runtime_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@id/budget_static_text_view"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
+            android:text="abccccc"
+            android:layout_marginStart="8dp"
             android:textColor="@color/white"
             tools:text="100$" />
 
         <TextView
             android:id="@+id/revenue_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/budget_static_text_view"
             android:layout_marginStart="10dp"
@@ -397,8 +407,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/budget_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
             android:layout_centerInParent="true"
+            android:layout_toEndOf="@id/revenue_static_text_view"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white"
@@ -406,7 +417,7 @@
 
         <TextView
             android:id="@+id/production_companies_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/revenue_static_text_view"
             android:layout_marginStart="10dp"
@@ -421,9 +432,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/revenue_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
             android:layout_centerInParent="true"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@id/production_companies_static_text_view"
+            android:layout_marginStart="8dp"
             android:layout_marginBottom="10dp"
             android:textColor="@color/white"
             tools:text="Warner bros" />
@@ -452,6 +464,7 @@
             android:id="@+id/youtube_recycler_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:layout_below="@+id/trailers_static_text_view" />
 
 

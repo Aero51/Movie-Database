@@ -166,7 +166,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 if (listResource.getStatus() == Status.LOADING) {
                     if (!isNetworkAvailable()) {
-                        showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_INDEFINITE);
+                        showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_LONG);
                     }
                 } else if (listResource.getData().size() > 0 && listResource.getStatus() == Status.SUCCESS) {
                     binding.epgProgressBar.setVisibility(View.GONE);

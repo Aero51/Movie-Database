@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@drawable/bg"
     tools:context=".ui.EpgFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -22,7 +22,7 @@
                 android:layout_centerInParent="true"
                 android:scaleX="1.50"
                 android:scaleY="1.50"
-                 />
+                />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_epg_parent"

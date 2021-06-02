@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey"
+    android:background="@drawable/bg"
     android:orientation="vertical"
     tools:context=".ui.MovieActorFragment">
 
@@ -23,7 +23,7 @@
                 android:id="@+id/poster_image_view"
                 android:layout_width="150dp"
                 android:layout_height="200dp"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:scaleType="centerCrop" />
 
@@ -35,7 +35,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_toEndOf="@+id/poster_image_view"
                 android:text="Actor name"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textSize="16sp"
                 android:textColor="@color/primaryText" />
 
             <TextView
@@ -44,10 +44,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_view_actor_name"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/poster_image_view"
                 android:text="Birthday"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
                 android:textColor="@color/primaryText" />
 
             <TextView
@@ -56,10 +55,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_view_actor_birthday"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/poster_image_view"
                 android:text="Place of birth"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textColor="@color/primaryText" />
 
             <TextView
@@ -69,7 +67,7 @@
                 android:layout_below="@+id/poster_image_view"
                 android:layout_alignParentStart="true"
                 android:text="homepage"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/primaryText" />
 
             <TextView
@@ -79,7 +77,7 @@
                 android:layout_below="@+id/text_view_actor_homepage"
                 android:layout_alignParentStart="true"
                 android:text="imdb"
-                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:layout_marginStart="8dp"
                 android:textColor="@color/primaryText" />
 
             <androidx.cardview.widget.CardView
@@ -97,7 +95,7 @@
                     android:id="@+id/biography_ll_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/light_grey"
+                    android:background="@color/dark_gray"
                     android:orientation="vertical"
                     android:padding="10dp">
 
@@ -106,10 +104,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentStart="true"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginEnd="10dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
                         android:text="biography"
-                        android:textColor="@color/primaryText" />
+                        android:textColor="@color/white" />
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -117,12 +115,13 @@
                 android:id="@+id/text_view_starred_in"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_marginStart="8dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@+id/biography_card_view"
                 android:text="Starred in"
                 android:textSize="14sp"
+                android:textColor="@color/white"
                 android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/starred_in_recycler_view_horizontal"

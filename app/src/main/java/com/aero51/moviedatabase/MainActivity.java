@@ -94,7 +94,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 Log.d(Constants.LOG2, "first time version run ");
                 break;
             case FIRST_TIME:
-                // TODO show a tutorial
                 Log.d(Constants.LOG2, "first time  run ");
                 TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
                 String countryCodeValue = tm.getNetworkCountryIso();
