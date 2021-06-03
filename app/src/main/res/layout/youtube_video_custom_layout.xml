@@ -4,7 +4,7 @@
     android:layout_width="300dp"
     android:layout_height="200dp"
     android:layout_marginEnd="10dp"
-    android:background="@color/dark_gray"
+    android:background="@color/dark_green_transparent"
     app:contentPadding="10dp">
 
 
@@ -15,7 +15,7 @@
             android:layout_width="300dp"
             android:layout_height="160dp"
             android:gravity="center_horizontal"
-            android:background="@color/dark_gray"
+            android:background="@color/dark_green"
             android:contentDescription="Description test"
             android:scaleType="centerCrop" />
 

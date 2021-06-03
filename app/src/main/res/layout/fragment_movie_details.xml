@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg">
@@ -173,7 +174,8 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
-                android:background="@color/white">
+                card_view:cardBackgroundColor="@color/light_green_transparent"
+                >
 
                 <LinearLayout
                     android:id="@+id/overview_container"
@@ -192,7 +194,7 @@
                         android:id="@+id/overview"
                         style="@style/DetailField"
                         android:layout_width="match_parent"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/primaryText"
                         android:layout_height="wrap_content" />
 
                 </LinearLayout>

@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginBottom="5dp"
-        android:background="@color/grey" />
+        android:background="@color/light_green" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/people_recycler_view"
         android:layout_width="match_parent"
@@ -29,5 +29,5 @@
         android:layout_height="1dp"
         android:layout_marginBottom="5dp"
         android:layout_below="@+id/card_view"
-        android:background="@color/grey" />
+        android:background="@color/light_green" />
 </FrameLayout>

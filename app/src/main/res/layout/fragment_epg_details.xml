@@ -75,7 +75,7 @@
                 android:layout_height="1dp"
                 android:layout_below="@+id/image_view_program"
                 android:layout_marginBottom="5dp"
-                android:background="@color/grey" />
+                android:background="@color/light_green" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/actor_search_recycler_view"
                 android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
                 android:layout_below="@+id/text_view_writers"
-                android:background="@color/grey" />
+                android:background="@color/light_green" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

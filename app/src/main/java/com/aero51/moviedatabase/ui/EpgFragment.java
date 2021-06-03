@@ -165,10 +165,12 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 if (listResource.getStatus() == Status.LOADING) {
+                    Log.d("nikola","Status.LOADING");
                     if (!isNetworkAvailable()) {
                         showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_LONG);
                     }
                 } else if (listResource.getData().size() > 0 && listResource.getStatus() == Status.SUCCESS) {
+                    Log.d("nikola","Status.SUCCESS");
                     binding.epgProgressBar.setVisibility(View.GONE);
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.getData());
@@ -177,6 +179,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                     isLoading.setValue(false);
 
                 } else if (listResource.getStatus() == Status.ERROR) {
+                    Log.d("nikola","Status.ERROR: "+listResource.getMessage());
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     //happens when epg server is restarting
                     if (listResource.getMessage().equals("timeout")) {

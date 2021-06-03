@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -39,7 +39,7 @@
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                android:background="@color/dark_gray"
+                android:background="@color/dark_green_transparent"
                 app:layout_collapseMode="pin"
                 app:layout_scrollFlags="scroll|enterAlways|snap" />
         </com.google.android.material.appbar.CollapsingToolbarLayout>
@@ -49,26 +49,16 @@
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar"
-        android:layout_above="@+id/view"
         android:isScrollContainer="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:id="@+id/view"
-        android:layout_above="@id/bottom_navigation"
-        android:background="#ffffff"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/grey"
-        app:itemBackground="@color/dark_gray"
-        android:elevation="10dp"
-        android:layout_alignParentBottom="true"
+        android:background="@color/light_green"
+        app:itemBackground="@color/dark_green"
         app:labelVisibilityMode="labeled"
         app:itemIconTint="@drawable/bottom_navigation_color_selector"
         app:itemTextColor="@drawable/bottom_navigation_color_selector"
@@ -97,4 +87,4 @@
             app:abb_tabs="@menu/menu_bottom_navigation"
             app:abb_selectedIndex="0" />
              -->
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
