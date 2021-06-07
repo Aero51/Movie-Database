@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_green">
+    android:background="@drawable/bg">
 
     <RelativeLayout
         android:id="@+id/main_container"
@@ -172,14 +172,14 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@color/white"
+                app:cardBackgroundColor="@color/light_green_transparent"
                 >
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="10dp"
-                    android:background="@color/light_grey">
+                    android:padding="10dp">
 
 
 
@@ -242,6 +242,7 @@
             android:layout_below="@+id/details_linear_layout"
             android:text="Žanrovi:"
             android:textSize="14sp"
+            android:textColor="@color/primaryText"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -276,7 +277,7 @@
 
         <TextView
             android:id="@+id/original_title_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/information_static_text_view"
             android:layout_marginStart="10dp"
@@ -290,16 +291,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/information_static_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
             tools:text="naslov serije" />
 
 
 
         <TextView
             android:id="@+id/released_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/original_title_static_text_view"
             android:textColor="@color/white"
@@ -313,10 +315,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/original_title_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
             tools:text="2021" />
 
         <TextView
@@ -335,15 +336,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/released_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
             tools:text="17" />
 
         <TextView
             android:id="@+id/number_of_seasons_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_episodes_text_view"
             android:textColor="@color/white"
@@ -357,7 +357,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_episodes_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_centerInParent="true"
@@ -366,7 +366,7 @@
 
         <TextView
             android:id="@+id/runtime_static_text_view"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_seasons_text_view"
             android:layout_marginStart="10dp"
@@ -380,7 +380,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_seasons_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_centerInParent="true"
@@ -403,10 +403,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/runtime_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:layout_marginTop="10dp"
             android:textColor="@color/white"
-            android:layout_centerInParent="true"
             tools:text="David Chase" />
 
         <TextView
@@ -425,11 +424,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/created_by_static_text_view"
-            android:layout_alignStart="@+id/original_title_text_view"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_centerInParent="true"
             tools:text="Warner bros" />
 
         <View

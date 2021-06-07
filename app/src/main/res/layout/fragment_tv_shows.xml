@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_green"
+    android:background="@drawable/bg"
     tools:context=".MainActivity">
 
 
@@ -39,6 +39,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="Popular"
                 android:textSize="14sp"
+                android:textColor="@color/primaryText"
                 android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
@@ -63,6 +64,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:text="Popular"
+                android:textColor="@color/primaryText"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -98,6 +100,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/primaryText"
                 android:text="Popular"
                 android:textSize="14sp"
                 android:textStyle="bold" />

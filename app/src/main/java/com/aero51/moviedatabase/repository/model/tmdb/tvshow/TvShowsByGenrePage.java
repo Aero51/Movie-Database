@@ -5,8 +5,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage;
-
 import java.io.Serializable;
 import java.util.List;
 
@@ -73,9 +71,9 @@ public class TvShowsByGenrePage {
         private boolean adult;
         private String backdrop_path;
         private String original_language;
-        private String original_title;
+        private String original_name;
         private List<Integer> genre_ids;
-        private String title;
+        private String name;
         private Double vote_average;
         private String overview;
         private String release_date;
@@ -123,16 +121,16 @@ public class TvShowsByGenrePage {
             return original_language;
         }
 
-        public String getOriginal_title() {
-            return original_title;
+        public String getOriginal_name() {
+            return original_name;
         }
 
         public List<Integer> getGenre_ids() {
             return genre_ids;
         }
 
-        public String getTitle() {
-            return title;
+        public String getName() {
+            return name;
         }
 
         public Double getVote_average() {
@@ -191,16 +189,16 @@ public class TvShowsByGenrePage {
             this.original_language = original_language;
         }
 
-        public void setOriginal_title(String original_title) {
-            this.original_title = original_title;
+        public void setOriginal_name(String original_name) {
+            this.original_name = original_name;
         }
 
         public void setGenre_ids(List<Integer> genre_ids) {
             this.genre_ids = genre_ids;
         }
 
-        public void setTitle(String title) {
-            this.title = title;
+        public void setName(String name) {
+            this.name = name;
         }
 
         public void setVote_average(Double vote_average) {

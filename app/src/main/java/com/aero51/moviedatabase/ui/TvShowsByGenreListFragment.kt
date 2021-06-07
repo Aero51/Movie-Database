@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentGenreListBinding
 import com.aero51.moviedatabase.ui.adapter.TvShowsByGenrePagedListAdapter
-import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.aero51.moviedatabase.viewmodel.TvShowsViewModel
@@ -78,19 +76,19 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
         sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
             this.genreId=genreId
             tvShowsViewModel.tvShowsByGenreDataValidationCheck(genreId)
-            registerMoviesByGenrePagedListObserver(genreId)
-            registerMoviesByGenrePage()
+            registerTvShowsByGenrePagedListObserver(genreId)
+            registerTvShowsByGenrePage()
 
         })
     }
-    private fun registerMoviesByGenrePagedListObserver(genreId: Int) {
+    private fun registerTvShowsByGenrePagedListObserver(genreId: Int) {
         tvShowsViewModel.getTvShowsByGenre(genreId)?.observe(viewLifecycleOwner, Observer { pagedList ->
             binding?.progressBar?.setVisibility(View.GONE)
             tvShowsByGenreAdapter.submitList(pagedList)
         })
     }
 
-    private fun registerMoviesByGenrePage(){
+    private fun registerTvShowsByGenrePage(){
         tvShowsViewModel.tvShowsByGenrePage.observe(viewLifecycleOwner, Observer { moviesByGenrePage ->
             val page_number: Int
             page_number = if (moviesByGenrePage == null) {
@@ -103,7 +101,7 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
 
 
     override fun onObjectItemClick(movie: Any?, position: Int) {
-        TODO("Not yet implemented")
+        sharedViewModel.changeToTvShowDetailsFragment(movie, position)
     }
 
     fun showBackButton(show: Boolean) {

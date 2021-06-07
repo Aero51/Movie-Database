@@ -11,10 +11,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage.PopularMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.TopRatedMoviesPage.TopRatedMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.UpcomingMoviesPage.UpcomingMovie
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TrendingTvShowsPage
-import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShow
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.*
 import com.aero51.moviedatabase.utils.SingleLiveEvent
 import com.google.gson.Gson
 
@@ -109,6 +106,9 @@ class SharedViewModel : ViewModel() {
         if (tvShowObject is AiringTvShowsPage.AiringTvShow) {
             val airingTvShow = tvShowObject as AiringTvShowsPage.AiringTvShow
             tvShow = transformAiringTvShow(airingTvShow)
+        }
+        if (tvShowObject is TvShowsByGenrePage.TvShowByGenre) {
+            tvShow = transformTvShowByGenre(tvShowObject)
         }
 
         tvShowIndex = position
@@ -228,5 +228,8 @@ class SharedViewModel : ViewModel() {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }
-
+    private fun transformTvShowByGenre(original: TvShowsByGenrePage.TvShowByGenre?): TvShow {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
 }

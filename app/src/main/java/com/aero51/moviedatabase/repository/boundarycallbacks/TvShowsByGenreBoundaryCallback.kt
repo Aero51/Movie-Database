@@ -8,7 +8,6 @@ import androidx.paging.PagedList
 import com.aero51.moviedatabase.repository.db.Database
 import com.aero51.moviedatabase.repository.db.GenresDao
 import com.aero51.moviedatabase.repository.model.NetworkState
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowsByGenrePage
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.AppExecutors
@@ -36,7 +35,7 @@ class TvShowsByGenreBoundaryCallback (application: Application?, private val exe
 
     override fun onZeroItemsLoaded() {
         super.onZeroItemsLoaded()
-        fetchMoviesByGenre(Constants.MOVIES_FIRST_PAGE)
+        fetchTvShowsByGenre(Constants.MOVIES_FIRST_PAGE)
     }
 
     override fun onItemAtFrontLoaded(itemAtFront: TvShowsByGenrePage.TvShowByGenre) {
@@ -46,11 +45,11 @@ class TvShowsByGenreBoundaryCallback (application: Application?, private val exe
     override fun onItemAtEndLoaded(itemAtEnd: TvShowsByGenrePage.TvShowByGenre) {
         super.onItemAtEndLoaded(itemAtEnd)
         val page_number = current_page.value!!.page + 1
-        fetchMoviesByGenre(page_number)
+        fetchTvShowsByGenre(page_number)
     }
 
 
-    fun fetchMoviesByGenre(pageNumber: Int) {
+    fun fetchTvShowsByGenre(pageNumber: Int) {
         networkState.postValue(NetworkState.LOADING)
         val theMovieDbApi = RetrofitInstance.getTmdbApiService()
         //to exclude animation tv shows from results except if animation genre is selected
@@ -73,9 +72,9 @@ class TvShowsByGenreBoundaryCallback (application: Application?, private val exe
                     networkState.postValue(NetworkState(NetworkState.Status.FAILED, response.message()))
                     return
                 }
-                val mMoviesByGenre = response.body()
-                if (mMoviesByGenre != null) {
-                    insertListToDb(mMoviesByGenre)
+                val mTvShowsByGenre = response.body()
+                if (mTvShowsByGenre != null) {
+                    insertListToDb(mTvShowsByGenre)
                 }
                 networkState.postValue(NetworkState.LOADED)
             }

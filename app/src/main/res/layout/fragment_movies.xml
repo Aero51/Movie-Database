@@ -37,6 +37,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:textColor="@color/primaryText"
                 android:text="Popular"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -65,7 +66,7 @@
                 android:layout_marginBottom="10dp"
                 android:text="Popular"
                 android:textSize="16sp"
-                android:textColor="@color/white"
+                android:textColor="@color/primaryText"
                 android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/popular_movies_recycler_view_horizontal"

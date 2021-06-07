@@ -4,9 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    card_view:cardCornerRadius="8dp"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="4dp"
+    card_view:cardCornerRadius="4dp"
     card_view:cardBackgroundColor="@color/light_green_transparent"
     card_view:cardUseCompatPadding="true">
 

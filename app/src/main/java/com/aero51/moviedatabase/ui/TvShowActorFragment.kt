@@ -94,14 +94,14 @@ class TvShowActorFragment : Fragment() {
                 Picasso.get().load(imageUrl).fit().centerCrop().into(binding!!.posterImageView)
             }
         })
-        viewModel!!.getActorImages(actorId).observe(viewLifecycleOwner, { (_, data) ->
+        viewModel!!.getActorImages(actorId).observe(viewLifecycleOwner, { (status, data) ->
             if (data != null) {
                 //ActorImagesAdapter adapter = new ActorImagesAdapter(getContext(), listResource.getData());
                 //binding.actorImagesRecyclerView.setAdapter(adapter);
                 adapter!!.renewItems(data)
             }
         })
-        viewModel!!.getTvShowsWithPerson(actorId).observe(viewLifecycleOwner, { (_, data) ->
+        viewModel!!.getTvShowsWithPerson(actorId).observe(viewLifecycleOwner, { (status, data) ->
             if (data != null) {
                 tvShowsWithPersonCastAdapter!!.setList(data.cast)
             }
