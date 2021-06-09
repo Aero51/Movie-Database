@@ -17,7 +17,7 @@
 
         <activity android:name=".SearchActivity"
             android:launchMode="singleTop"
-            android:theme="@style/MovieDatabaseTheme">
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.aero51.moviedatabase.MainActivity" />

@@ -71,10 +71,13 @@ class MovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Gen
         registerSharedViewModelObserver()
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
+
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
             //showBackButton(false)
         }
+
+
         showBackButton(true)
         return binding!!.root
     }

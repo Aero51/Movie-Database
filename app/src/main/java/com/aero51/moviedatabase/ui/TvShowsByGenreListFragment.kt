@@ -41,7 +41,7 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
         binding!!.genreListRecyclerView.setHasFixedSize(true)
         tvShowsByGenreAdapter = TvShowsByGenrePagedListAdapter(this)
         binding!!.genreListRecyclerView.adapter = tvShowsByGenreAdapter
-        binding!!.genreListRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding!!.genreListRecyclerView.layoutManager = GridLayoutManager(context, 2)
         binding!!.genreListRecyclerView.itemAnimator=null
 
 

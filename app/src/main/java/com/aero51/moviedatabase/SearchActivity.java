@@ -2,7 +2,9 @@ package com.aero51.moviedatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.viewpager.widget.ViewPager;
 
@@ -11,6 +13,18 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
+import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
+import com.aero51.moviedatabase.ui.EpgDetailsFragment;
+import com.aero51.moviedatabase.ui.EpgFragment;
+import com.aero51.moviedatabase.ui.FavouritesFragment;
+import com.aero51.moviedatabase.ui.MovieActorFragment;
+import com.aero51.moviedatabase.ui.MovieDetailsFragment;
+import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
+import com.aero51.moviedatabase.ui.MoviesFragment;
+import com.aero51.moviedatabase.ui.TvShowActorFragment;
+import com.aero51.moviedatabase.ui.TvShowDetailsFragment;
+import com.aero51.moviedatabase.ui.TvShowsByGenreListFragment;
+import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
 import com.aero51.moviedatabase.ui.ListsSearchFragment;
 import com.aero51.moviedatabase.ui.MovieSearchFragment;
@@ -18,6 +32,7 @@ import com.aero51.moviedatabase.ui.PeopleSearchFragment;
 import com.aero51.moviedatabase.ui.TvShowsSearchFragment;
 import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.viewmodel.SearchViewModel;
+import com.aero51.moviedatabase.viewmodel.SharedViewModel;
 import com.google.android.material.tabs.TabLayout;
 
 public class SearchActivity extends AppCompatActivity {
@@ -27,8 +42,10 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier peopleSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier listsSearchFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
 
     private SearchViewModel searchViewModel;
+    private SharedViewModel sharedViewModel;
     private String searchQuery;
 
     @Override
@@ -43,6 +60,12 @@ public class SearchActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
         initFirstFragmentIdentifiers();
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
+        sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
+        registerShouldSwitchMovieFragmentsObservers();
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -137,6 +160,59 @@ public class SearchActivity extends AppCompatActivity {
         dynamicFragmentPagerAdapter.addFragment(tvShowsSearchFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(peopleSearchFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(listsSearchFragmentIdentifier);
+    }
+    private void registerShouldSwitchMovieFragmentsObservers() {
+
+        sharedViewModel.getSingleLiveShouldSwitchMovieDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                movieDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MovieDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+
+                replaceFragment(0, movieDetailsFragmentIdentifier);
+                viewPager.setCurrentItem(0);
+            }
+        });
+    }
+
+    private void replaceFragment(int index, DynamicFragmentPagerAdapter.FragmentIdentifier fragmentIdentifier) {
+        dynamicFragmentPagerAdapter.replaceFragment(index, fragmentIdentifier);
+        //required for custom view pager to work properly
+        viewPager.setAdapter(null);
+        viewPager.setAdapter(dynamicFragmentPagerAdapter);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //implement for each tab
+        int currentViewPagerItem = viewPager.getCurrentItem();
+        Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
+        Log.d("nikola", " currentViewPagerItem: " + currentViewPagerItem);
+        String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
+
+        switch (currentViewPagerItem) {
+            case 0:
+                if (currentFragmentTag.equals(MovieSearchFragment.class.getSimpleName())) {
+                    super.onBackPressed();
+                }else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName())) {
+                    replaceFragment(0, moviesSearchFragmentIdentifier);
+                    viewPager.setCurrentItem(0);
+                }
+                break;
+
+
+        }
+
+
     }
 
     @Override

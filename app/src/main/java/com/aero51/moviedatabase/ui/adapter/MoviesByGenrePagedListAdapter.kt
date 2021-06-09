@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
-import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
 import com.aero51.moviedatabase.utils.ObjectClickListener
@@ -23,7 +21,7 @@ class MoviesByGenrePagedListAdapter(private val itemClickListener: ObjectClickLi
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.movie_by_genre_grid_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.media_by_genre_grid_item, parent, false)
         val viewHolder = GenreMovieHolder(view, itemClickListener)
         return viewHolder
     }

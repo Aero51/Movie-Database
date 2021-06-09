@@ -21,7 +21,7 @@ class TvShowsByGenrePagedListAdapter(private val itemClickListener: ObjectClickL
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val view = layoutInflater.inflate(R.layout.movie_item, parent, false)
+        val view = layoutInflater.inflate(R.layout.media_by_genre_grid_item, parent, false)
         val viewHolder = GenreTvShowHolder(view, itemClickListener)
         return viewHolder
     }
