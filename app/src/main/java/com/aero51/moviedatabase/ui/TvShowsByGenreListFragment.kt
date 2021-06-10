@@ -27,22 +27,28 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
 
     private var binding: FragmentGenreListBinding? = null
     private lateinit var tvShowsByGenreAdapter: TvShowsByGenrePagedListAdapter
-    private var genreId: Int=0
+    private var genreId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        tvShowsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(TvShowsViewModel::class.java)
+        tvShowsViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        ).get(TvShowsViewModel::class.java)
 
     }
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentGenreListBinding.inflate(inflater, container, false)
         binding!!.genreListRecyclerView.setHasFixedSize(true)
         tvShowsByGenreAdapter = TvShowsByGenrePagedListAdapter(this)
         binding!!.genreListRecyclerView.adapter = tvShowsByGenreAdapter
         binding!!.genreListRecyclerView.layoutManager = GridLayoutManager(context, 2)
-        binding!!.genreListRecyclerView.itemAnimator=null
+        binding!!.genreListRecyclerView.itemAnimator = null
 
 
         binding!!.pullToRefresh.setOnRefreshListener {
@@ -60,11 +66,11 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
         }
 */
 
-
+/*
         showToolbar(true)
         showBackButton(true)
         showBottomNavigation(true)
-
+*/
         registerSharedViewModelObserver()
 
         return binding!!.root
@@ -74,29 +80,33 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
     private fun registerSharedViewModelObserver() {
         binding?.progressBar?.setVisibility(View.VISIBLE)
         sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
-            this.genreId=genreId
+            this.genreId = genreId
             tvShowsViewModel.tvShowsByGenreDataValidationCheck(genreId)
             registerTvShowsByGenrePagedListObserver(genreId)
             registerTvShowsByGenrePage()
 
         })
     }
+
     private fun registerTvShowsByGenrePagedListObserver(genreId: Int) {
-        tvShowsViewModel.getTvShowsByGenre(genreId)?.observe(viewLifecycleOwner, Observer { pagedList ->
-            binding?.progressBar?.setVisibility(View.GONE)
-            tvShowsByGenreAdapter.submitList(pagedList)
-        })
+        tvShowsViewModel.getTvShowsByGenre(genreId)
+            ?.observe(viewLifecycleOwner, Observer { pagedList ->
+                binding?.progressBar?.setVisibility(View.GONE)
+                tvShowsByGenreAdapter.submitList(pagedList)
+            })
     }
 
-    private fun registerTvShowsByGenrePage(){
-        tvShowsViewModel.tvShowsByGenrePage.observe(viewLifecycleOwner, Observer { moviesByGenrePage ->
-            val page_number: Int
-            page_number = if (moviesByGenrePage == null) {
-                0
-            } else {
-                moviesByGenrePage.page
-            }
-        })
+    private fun registerTvShowsByGenrePage() {
+        tvShowsViewModel.tvShowsByGenrePage.observe(
+            viewLifecycleOwner,
+            Observer { moviesByGenrePage ->
+                val page_number: Int
+                page_number = if (moviesByGenrePage == null) {
+                    0
+                } else {
+                    moviesByGenrePage.page
+                }
+            })
     }
 
 
@@ -109,18 +119,21 @@ class TvShowsByGenreListFragment : Fragment(), ObjectClickListener {
             (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(show)
         }
     }
+
     private fun showToolbar(isShown: Boolean) {
         val appBarLayout: AppBarLayout = requireActivity().findViewById(R.id.app_bar)
         appBarLayout.setExpanded(isShown, true)
     }
 
     private fun showBottomNavigation(isShown: Boolean) {
-        val bottomNavigationView = requireActivity().findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
+        val bottomNavigationView =
+            requireActivity().findViewById<View>(R.id.bottom_navigation) as BottomNavigationView
         val layoutParams = bottomNavigationView.layoutParams
         if (layoutParams is CoordinatorLayout.LayoutParams) {
             val behavior = layoutParams.behavior
             if (behavior is HideBottomViewOnScrollBehavior<*>) {
-                val hideShowBehavior = behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
+                val hideShowBehavior =
+                    behavior as HideBottomViewOnScrollBehavior<BottomNavigationView>
                 if (isShown) {
                     hideShowBehavior.slideUp(bottomNavigationView)
                 } else {

@@ -110,6 +110,9 @@ class SharedViewModel : ViewModel() {
         if (tvShowObject is TvShowsByGenrePage.TvShowByGenre) {
             tvShow = transformTvShowByGenre(tvShowObject)
         }
+        if (tvShowObject is TvShowSearchResult.TvShow) {
+            tvShow = transformTvShowSearchResult(tvShowObject)
+        }
 
         tvShowIndex = position
         liveTvShow.setValue(tvShow)
@@ -229,6 +232,10 @@ class SharedViewModel : ViewModel() {
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }
     private fun transformTvShowByGenre(original: TvShowsByGenrePage.TvShowByGenre?): TvShow {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
+    private fun transformTvShowSearchResult(original: TvShowSearchResult.TvShow?): TvShow {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }

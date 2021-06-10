@@ -12,14 +12,15 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
+import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class TvShowsPagedListAdapter : PagedListAdapter<TvShowSearchResult.TvShow, TvShowsPagedListAdapter.ViewHolder>(DIFF_CALLBACK) {
+class TvShowsPagedListAdapter(private val itemClickListener: ObjectClickListener) : PagedListAdapter<TvShowSearchResult.TvShow, TvShowsPagedListAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.movie_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view,itemClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -37,27 +38,29 @@ class TvShowsPagedListAdapter : PagedListAdapter<TvShowSearchResult.TvShow, TvSh
     }
 
     // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder internal constructor(itemView: View, itemClickListener: ObjectClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val imageView: ImageView
-
+        private val itemClickListener: ObjectClickListener?
         //private TextView textViewPosition;
         val textViewtitle: TextView
         override fun onClick(view: View) {
             val adapter_position = bindingAdapterPosition
+            if (itemClickListener != null && bindingAdapterPosition != RecyclerView.NO_POSITION) {
+
+                itemClickListener.onObjectItemClick(getItem(bindingAdapterPosition), bindingAdapterPosition) // call the onClick in the OnItemClickListener
+            }
         }
 
         init {
             imageView = itemView.findViewById(R.id.image_view_program)
             //textViewPosition = itemView.findViewById(R.id.text_view_position);
             textViewtitle = itemView.findViewById(R.id.text_view_title)
+            this.itemClickListener = itemClickListener
             itemView.setOnClickListener(this)
         }
     }
 
-    // parent activity will implement this method to respond to click events
-    interface ItemClickListener {
-        fun onItemClick(position: Int)
-    }
+
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<TvShowSearchResult.TvShow> = object : DiffUtil.ItemCallback<TvShowSearchResult.TvShow>() {

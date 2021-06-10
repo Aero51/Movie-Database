@@ -25,7 +25,6 @@
             <!--app:layout_scrollFlags="scroll|exitUntilCollapsed"-->
             <!--app:layout_scrollFlags="scroll|enterAlways|snap"-->
 
-
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

@@ -44,6 +44,13 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier listsSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
 
+    private DynamicFragmentPagerAdapter.FragmentIdentifier movieActorFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentFromMovieDetailsIdentifier;
+
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowDetailsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvActorFragmentIdentifier;
+
     private SearchViewModel searchViewModel;
     private SharedViewModel sharedViewModel;
     private String searchQuery;
@@ -62,6 +69,7 @@ public class SearchActivity extends AppCompatActivity {
         searchViewModel = new ViewModelProvider(this).get(SearchViewModel.class);
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         registerShouldSwitchMovieFragmentsObservers();
+        registerShouldSwitchTvShowFragmentsObservers();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -182,7 +190,108 @@ public class SearchActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(0);
             }
         });
+
+        sharedViewModel.getSingleLiveShouldSwitchMoviesByGenreListFragmentFromMovieDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                moviesByGenreListFragmentFromMovieDetailsIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment", null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MoviesByGenreListFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, moviesByGenreListFragmentFromMovieDetailsIdentifier);
+                viewPager.setCurrentItem(0);
+            }
+        });
+
+        sharedViewModel.getSingleLiveShouldSwitchMovieActorFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                movieActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieActorFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MovieActorFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, movieActorFragmentIdentifier);
+                viewPager.setCurrentItem(0);
+            }
+        });
     }
+    private void registerShouldSwitchTvShowFragmentsObservers() {
+
+        sharedViewModel.getSingleLiveShouldSwitchTvShowDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                tvShowDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowDetailsFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TvShowDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(1, tvShowDetailsFragmentIdentifier);
+                viewPager.setCurrentItem(1);
+            }
+        });
+
+
+        sharedViewModel.getSingleLiveShouldSwitchTvShowsByGenreListFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                tvShowsByGenreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsByGenreListFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TvShowsByGenreListFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(1, tvShowsByGenreListFragmentIdentifier);
+                viewPager.setCurrentItem(1);
+            }
+        });
+
+        sharedViewModel.getSingleLiveShouldSwitchTvActorFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                tvActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowActorFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TvShowActorFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(1, tvActorFragmentIdentifier);
+                viewPager.setCurrentItem(1);
+            }
+        });
+
+    }
+
+
 
     private void replaceFragment(int index, DynamicFragmentPagerAdapter.FragmentIdentifier fragmentIdentifier) {
         dynamicFragmentPagerAdapter.replaceFragment(index, fragmentIdentifier);
@@ -206,9 +315,30 @@ public class SearchActivity extends AppCompatActivity {
                 }else if (currentFragmentTag.equals(MovieDetailsFragment.class.getSimpleName())) {
                     replaceFragment(0, moviesSearchFragmentIdentifier);
                     viewPager.setCurrentItem(0);
+                }else if (currentFragmentTag.equals(MovieActorFragment.class.getSimpleName())) {
+                    replaceFragment(0, movieDetailsFragmentIdentifier);
+                    viewPager.setCurrentItem(0);
+                } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment")) {
+                    replaceFragment(0, movieDetailsFragmentIdentifier);
+                    viewPager.setCurrentItem(0);
+                } break;
+
+
+            case 1:
+                if (currentFragmentTag.equals(TvShowsSearchFragment.class.getSimpleName())) {
+                    super.onBackPressed();
+                } else if (currentFragmentTag.equals(TvShowDetailsFragment.class.getSimpleName())) {
+                    replaceFragment(1, tvShowsSearchFragmentIdentifier);
+                    viewPager.setCurrentItem(1);
+
+                } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName())) {
+                    replaceFragment(1, tvShowDetailsFragmentIdentifier);
+                    viewPager.setCurrentItem(1);
+                } else if (currentFragmentTag.equals(TvShowActorFragment.class.getSimpleName())) {
+                    replaceFragment(1, tvShowDetailsFragmentIdentifier);
+                    viewPager.setCurrentItem(1);
                 }
                 break;
-
 
         }
 

@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +12,19 @@ import com.aero51.moviedatabase.databinding.FragmentTvShowsSearchBinding
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage.NowPlayingMovie
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter
 import com.aero51.moviedatabase.utils.NowPlayingItemClickListener
+import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
+import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
-class TvShowsSearchFragment : Fragment(), NowPlayingItemClickListener {
+class TvShowsSearchFragment : Fragment(), ObjectClickListener {
     private var binding: FragmentTvShowsSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private var tvShowsSearchPagedListAdapter: TvShowsPagedListAdapter? = null
+    private lateinit var sharedViewModel: SharedViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         searchViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +32,7 @@ class TvShowsSearchFragment : Fragment(), NowPlayingItemClickListener {
         // Inflate the layout for this fragment
         binding = FragmentTvShowsSearchBinding.inflate(inflater, container, false)
         binding!!.tvShowsSearchRecyclerView.setHasFixedSize(true)
-        tvShowsSearchPagedListAdapter = TvShowsPagedListAdapter()
+        tvShowsSearchPagedListAdapter = TvShowsPagedListAdapter(this)
         binding!!.tvShowsSearchRecyclerView.adapter = tvShowsSearchPagedListAdapter
         binding!!.tvShowsSearchRecyclerView.layoutManager = GridLayoutManager(context, 3)
         registerTvShowsSearchObserver()
@@ -43,5 +48,10 @@ class TvShowsSearchFragment : Fragment(), NowPlayingItemClickListener {
         searchViewModel!!.tvShowSearchResult.observe(viewLifecycleOwner, { tvShows -> tvShowsSearchPagedListAdapter!!.submitList(tvShows) })
     }
 
-    override fun OnItemClick(result: NowPlayingMovie, position: Int) {}
+    override fun onObjectItemClick(tvShow: Any?, position: Int) {
+        Log.d("nikola","onObjectItemClick "+position)
+        sharedViewModel.changeToTvShowDetailsFragment(tvShow, position)
+    }
+
+
 }

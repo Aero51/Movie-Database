@@ -11,15 +11,15 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse.ActorSearch
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
+import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 
-class PeopleSearchPagedListAdapter : PagedListAdapter<ActorSearch, PeopleSearchPagedListAdapter.ViewHolder>(DIFF_CALLBACK) {
-    private var mClickListener: MovieCastAdapter.ItemClickListener? = null
+class PeopleSearchPagedListAdapter(private val itemClickListener: ObjectClickListener) : PagedListAdapter<ActorSearch, PeopleSearchPagedListAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.actor_search_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view,itemClickListener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -29,30 +29,26 @@ class PeopleSearchPagedListAdapter : PagedListAdapter<ActorSearch, PeopleSearchP
         holder.textViewRealName.text = person.name
     }
 
-    inner class ViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder internal constructor(itemView: View, itemClickListener: ObjectClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         var castProfileImageView: CircleImageView
         var textViewRealName: TextView
-        override fun onClick(view: View) {
-            val adapter_position = bindingAdapterPosition
-            if (mClickListener != null) mClickListener!!.onItemClick(view, getItem(adapter_position)!!.id, adapter_position)
-        }
-
+        private val itemClickListener: ObjectClickListener?
         init {
             castProfileImageView = itemView.findViewById(R.id.actor_profile_image_view)
             textViewRealName = itemView.findViewById(R.id.text_view_actor_search_name)
+            this.itemClickListener = itemClickListener
             itemView.setOnClickListener(this)
         }
+        override fun onClick(view: View) {
+            val adapter_position = bindingAdapterPosition
+            if (itemClickListener != null) {
+                itemClickListener.onObjectItemClick(getItem(adapter_position), adapter_position)
+            } // call the onClick in the OnItemClickListener
+        }
+
+
     }
 
-    // allows clicks events to be caught
-    fun setClickListener(itemClickListener: MovieCastAdapter.ItemClickListener?) {
-        mClickListener = itemClickListener
-    }
-
-    // parent activity will implement this method to respond to click events
-    interface ItemClickListener {
-        fun onItemClick(view: View?, actorId: Int?, position: Int)
-    }
 
     companion object {
         private val DIFF_CALLBACK: DiffUtil.ItemCallback<ActorSearch> = object : DiffUtil.ItemCallback<ActorSearch>() {
