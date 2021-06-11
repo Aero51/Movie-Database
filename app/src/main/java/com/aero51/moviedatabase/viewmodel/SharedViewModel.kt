@@ -33,6 +33,7 @@ class SharedViewModel : ViewModel() {
     private val shouldSwitchEpgActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMovieActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvActorFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchMovieAndTvShowActorFragment = SingleLiveEvent<Boolean>()
     private var castIndex: Int? = null
     private val liveGenreId = MutableLiveData<Int>()
     private val shouldSwitchMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
@@ -161,6 +162,13 @@ class SharedViewModel : ViewModel() {
         shouldSwitchTvShowsByGenreListFragment.value = true
     }
 
+    fun changeToMoviesAndTvShowsActorFragment(position: Int?, actorId: Int) {
+        castIndex = position
+        liveActorId.value = actorId
+        shouldSwitchMovieAndTvShowActorFragment.value = true
+    }
+
+
     val liveDataActorId: LiveData<Int>
         get() = liveActorId
 
@@ -184,6 +192,9 @@ class SharedViewModel : ViewModel() {
 
     val singleLiveShouldSwitchTvShowsByGenreListFragment: LiveData<Boolean>
         get() = shouldSwitchTvShowsByGenreListFragment
+
+    val singleLiveShouldSwitchMoviesAndTvShowsActorFragment: LiveData<Boolean>
+        get() = shouldSwitchMovieAndTvShowActorFragment
 
     fun setHasEpgTvFragmentFinishedLoading(hasEpgTvFragmentFinishedLoading: Boolean) {
         this.hasEpgTvFragmentFinishedLoading.value = hasEpgTvFragmentFinishedLoading

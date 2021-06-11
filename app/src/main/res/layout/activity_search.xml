@@ -42,9 +42,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/tablayout"
         android:background="@color/dark_green"
-        app:tabTextColor="@color/black"
-        app:tabSelectedTextColor="@color/white"
-        app:tabIndicatorColor="@color/blue"
+        app:tabTextColor="@color/light_green"
+        app:tabSelectedTextColor="@color/primaryText"
+        app:tabIndicatorColor="@color/white"
         android:minHeight="?attr/actionBarSize"
        >
 

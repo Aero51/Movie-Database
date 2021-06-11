@@ -13,18 +13,13 @@ import android.util.Log;
 import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
-import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
-import com.aero51.moviedatabase.ui.EpgDetailsFragment;
-import com.aero51.moviedatabase.ui.EpgFragment;
-import com.aero51.moviedatabase.ui.FavouritesFragment;
 import com.aero51.moviedatabase.ui.MovieActorFragment;
+import com.aero51.moviedatabase.ui.MoviesAndTvShowsActorFragment;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
-import com.aero51.moviedatabase.ui.MoviesFragment;
 import com.aero51.moviedatabase.ui.TvShowActorFragment;
 import com.aero51.moviedatabase.ui.TvShowDetailsFragment;
 import com.aero51.moviedatabase.ui.TvShowsByGenreListFragment;
-import com.aero51.moviedatabase.ui.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
 import com.aero51.moviedatabase.ui.ListsSearchFragment;
 import com.aero51.moviedatabase.ui.MovieSearchFragment;
@@ -51,6 +46,8 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvActorFragmentIdentifier;
 
+    private DynamicFragmentPagerAdapter.FragmentIdentifier moviesAndTvShowsActorFragmentIdentifier;
+
     private SearchViewModel searchViewModel;
     private SharedViewModel sharedViewModel;
     private String searchQuery;
@@ -70,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         registerShouldSwitchMovieFragmentsObservers();
         registerShouldSwitchTvShowFragmentsObservers();
+        registerShouldSwitchMoviesAndTvShowsFragmentsObservers();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -291,7 +289,27 @@ public class SearchActivity extends AppCompatActivity {
 
     }
 
+    private void registerShouldSwitchMoviesAndTvShowsFragmentsObservers() {
+        sharedViewModel.getSingleLiveShouldSwitchMoviesAndTvShowsActorFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                moviesAndTvShowsActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesAndTvShowsActorFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MoviesAndTvShowsActorFragment();
+                    }
 
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(2, moviesAndTvShowsActorFragmentIdentifier);
+                viewPager.setCurrentItem(2);
+            }
+        });
+
+    }
 
     private void replaceFragment(int index, DynamicFragmentPagerAdapter.FragmentIdentifier fragmentIdentifier) {
         dynamicFragmentPagerAdapter.replaceFragment(index, fragmentIdentifier);
@@ -321,7 +339,8 @@ public class SearchActivity extends AppCompatActivity {
                 } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment")) {
                     replaceFragment(0, movieDetailsFragmentIdentifier);
                     viewPager.setCurrentItem(0);
-                } break;
+                }
+                break;
 
 
             case 1:
@@ -339,6 +358,18 @@ public class SearchActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(1);
                 }
                 break;
+
+            case 2:
+                if (currentFragmentTag.equals(PeopleSearchFragment.class.getSimpleName())) {
+                    super.onBackPressed();
+                } else if (currentFragmentTag.equals(MoviesAndTvShowsActorFragment.class.getSimpleName())) {
+                    replaceFragment(2, peopleSearchFragmentIdentifier);
+                    viewPager.setCurrentItem(2);
+                }
+                break;
+
+
+
 
         }
 

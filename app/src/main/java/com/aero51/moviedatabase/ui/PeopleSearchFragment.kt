@@ -10,16 +10,19 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentPeopleSearchBinding
 import com.aero51.moviedatabase.ui.adapter.PeopleSearchPagedListAdapter
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.ActorClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
+import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
-class PeopleSearchFragment : Fragment(), ObjectClickListener {
+class PeopleSearchFragment : Fragment(), ActorClickListener {
     private var binding: FragmentPeopleSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private var peopleAdapter: PeopleSearchPagedListAdapter? = null
+    private lateinit var sharedViewModel: SharedViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         searchViewModel = ViewModelProvider(requireActivity()).get(SearchViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -43,8 +46,10 @@ class PeopleSearchFragment : Fragment(), ObjectClickListener {
         searchViewModel!!.peopleSearchResult.observe(viewLifecycleOwner, { actorSearches -> peopleAdapter!!.submitList(actorSearches) })
     }
 
-    override fun onObjectItemClick(actor: Any?, position: Int) {
-        Log.d("nikola","position: "+position)
-
+    override fun onActorItemClick(actorId: Int, position: Int) {
+        Log.d("nikola","position: "+position+" ,actorId: "+actorId)
+        sharedViewModel.changeToMoviesAndTvShowsActorFragment(position,actorId)
     }
+
+
 }
