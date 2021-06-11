@@ -34,12 +34,17 @@ class MovieActorFragment : Fragment() {
     private var moviesWithPersonCastAdapter: MoviesWithPersonCastAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(DetailsViewModel::class.java)
+        viewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        ).get(DetailsViewModel::class.java)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
         binding = FragmentActorBinding.inflate(inflater, container, false)
         adapter = SliderImageAdapter(context)
@@ -54,11 +59,14 @@ class MovieActorFragment : Fragment() {
         binding!!.imageSlider.startAutoCycle()
         binding!!.starredInRecyclerViewHorizontal.setHasFixedSize(true)
         binding!!.starredInRecyclerViewHorizontal.isNestedScrollingEnabled = false
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val linearLayoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInRecyclerViewHorizontal.layoutManager = linearLayoutManager
         moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter()
         binding!!.starredInRecyclerViewHorizontal.adapter = moviesWithPersonCastAdapter
-        sharedViewModel!!.liveDataActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
+        sharedViewModel!!.liveDataMovieActorId.observe(
+            viewLifecycleOwner,
+            { actorId -> registerActorObservers(actorId) })
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
@@ -85,7 +93,12 @@ class MovieActorFragment : Fragment() {
             if (status === Status.SUCCESS) {
                 actorName = actor!!.name
                 binding!!.textViewActorName.text = actorName
-                binding!!.textViewActorBirthday.text = formatDateStringToDefaultLocale(actor.birthday, "yyyy-MM-dd", "dd MMMM yyyy")
+                binding!!.textViewActorBirthday.text = actor.birthday?.let { formatDateStringToDefaultLocale(
+                            it,
+                            "yyyy-MM-dd",
+                            "dd MMMM yyyy"
+                        )
+                    }
                 binding!!.textViewActorPlaceOfBirth.text = actor.place_of_birth
                 binding!!.textViewActorHomepage.text = actor.homepage
                 binding!!.textViewImdb.text = actor.id.toString()

@@ -12,11 +12,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentActorBinding
+import com.aero51.moviedatabase.databinding.FragmentMovieAndTvShowActorBinding
+import com.aero51.moviedatabase.ui.adapter.MoviesWithPersonCastAdapter
 import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter
 import com.aero51.moviedatabase.ui.adapter.TvShowsWithPersonCastAdapter
-import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
-import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
-import com.aero51.moviedatabase.utils.DateHelper.Companion.formatDateStringToDefaultLocale
+import com.aero51.moviedatabase.utils.Constants
+import com.aero51.moviedatabase.utils.DateHelper
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
@@ -25,23 +26,25 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class TvShowActorFragment : Fragment() {
+class EpgMoviesAndTvShowsActorFragment : Fragment() {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
-    private var binding: FragmentActorBinding? = null
+    private var binding: FragmentMovieAndTvShowActorBinding? = null
     private var adapter: SliderImageAdapter? = null
     private var actorName: String? = null
+    private var moviesWithPersonCastAdapter: MoviesWithPersonCastAdapter? = null
     private var tvShowsWithPersonCastAdapter: TvShowsWithPersonCastAdapter? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(DetailsViewModel::class.java)
+        viewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(
+            DetailsViewModel::class.java)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        binding = FragmentActorBinding.inflate(inflater, container, false)
+        binding = FragmentMovieAndTvShowActorBinding.inflate(inflater, container, false)
         adapter = SliderImageAdapter(context)
         binding!!.imageSlider.setSliderAdapter(adapter!!)
         binding!!.imageSlider.setIndicatorAnimation(IndicatorAnimationType.WORM) //set indicator animation by using SliderLayout.IndicatorAnimations. :WORM or THIN_WORM or COLOR or DROP or FILL or NONE or SCALE or SCALE_DOWN or SLIDE and SWAP!!
@@ -52,18 +55,24 @@ class TvShowActorFragment : Fragment() {
         binding!!.imageSlider.scrollTimeInSec = 3
         binding!!.imageSlider.isAutoCycle = true
         binding!!.imageSlider.startAutoCycle()
-        binding!!.starredInRecyclerViewHorizontal.setHasFixedSize(true)
-        binding!!.starredInRecyclerViewHorizontal.isNestedScrollingEnabled = false
-        val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding!!.starredInRecyclerViewHorizontal.layoutManager = linearLayoutManager
+        binding!!.starredInMoviesRecyclerViewHorizontal.setHasFixedSize(true)
+        binding!!.starredInMoviesRecyclerViewHorizontal.isNestedScrollingEnabled = false
+        val moviesLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.starredInMoviesRecyclerViewHorizontal.layoutManager = moviesLinearLayoutManager
+        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter()
+        binding!!.starredInMoviesRecyclerViewHorizontal.adapter = moviesWithPersonCastAdapter
+
+        val tvShowsLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        binding!!.starredInTvShowsRecyclerViewHorizontal.layoutManager = tvShowsLinearLayoutManager
         tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter()
-        binding!!.starredInRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
-        sharedViewModel!!.liveDataTvShowActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
+        binding!!.starredInTvShowsRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
+
+        sharedViewModel!!.liveDataEpgActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
             requireActivity().onBackPressed()
-            showBackButton(true)
+            //showBackButton(true);
         }
         showBackButton(true)
         return binding!!.root
@@ -85,21 +94,31 @@ class TvShowActorFragment : Fragment() {
             if (status === Status.SUCCESS) {
                 actorName = actor!!.name
                 binding!!.textViewActorName.text = actorName
-                binding!!.textViewActorBirthday.text =
-                    actor.birthday?.let { formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
+                binding!!.textViewActorBirthday.text = actor.birthday?.let {
+                    DateHelper.formatDateStringToDefaultLocale(
+                        it,
+                        "yyyy-MM-dd",
+                        "dd MMMM yyyy"
+                    )
+                }
                 binding!!.textViewActorPlaceOfBirth.text = actor.place_of_birth
                 binding!!.textViewActorHomepage.text = actor.homepage
                 binding!!.textViewImdb.text = actor.id.toString()
                 binding!!.textViewBiography.text = actor.biography
-                val imageUrl: String = BASE_IMAGE_URL + PROFILE_SIZE_W185 + actor.profile_path
+                val imageUrl: String = Constants.BASE_IMAGE_URL + Constants.PROFILE_SIZE_W185 + actor.profile_path
                 Picasso.get().load(imageUrl).fit().centerCrop().into(binding!!.posterImageView)
             }
         })
-        viewModel!!.getActorImages(actorId).observe(viewLifecycleOwner, { (status, data) ->
+        viewModel!!.getActorImages(actorId).observe(viewLifecycleOwner, { (_, data) ->
             if (data != null) {
                 //ActorImagesAdapter adapter = new ActorImagesAdapter(getContext(), listResource.getData());
                 //binding.actorImagesRecyclerView.setAdapter(adapter);
                 adapter!!.renewItems(data)
+            }
+        })
+        viewModel!!.getMoviesWithPerson(actorId).observe(viewLifecycleOwner, { (_, data) ->
+            if (data != null) {
+                moviesWithPersonCastAdapter!!.setList(data.cast)
             }
         })
         viewModel!!.getTvShowsWithPerson(actorId).observe(viewLifecycleOwner, { (status, data) ->

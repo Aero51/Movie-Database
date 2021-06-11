@@ -29,7 +29,10 @@ class SharedViewModel : ViewModel() {
     private val shouldSwitchTvShowDetailFragment = SingleLiveEvent<Boolean>()
     private var movieIndex: Int? = null
     private var tvShowIndex: Int? = null
-    private val liveActorId = MutableLiveData<Int>()
+    private val liveEpgActorId = MutableLiveData<Int>()
+    private val liveMovieActorId = MutableLiveData<Int>()
+    private val liveTvShowActorId = MutableLiveData<Int>()
+    private val liveMovieAndTvShowActorSearchId = MutableLiveData<Int>()
     private val shouldSwitchEpgActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMovieActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvActorFragment = SingleLiveEvent<Boolean>()
@@ -134,17 +137,17 @@ class SharedViewModel : ViewModel() {
 
     fun changeToEpgActorFragment(position: Int?, actorId: Int) {
         castIndex = position
-        liveActorId.value = actorId
+        liveEpgActorId.value = actorId
         shouldSwitchEpgActorFragment.value = true
     }
     fun changeToMovieActorFragment(position: Int?, actorId: Int) {
         castIndex = position
-        liveActorId.value = actorId
+        liveMovieActorId.value = actorId
         shouldSwitchMovieActorFragment.value = true
     }
     fun changeToTvActorFragment(position: Int?, actorId: Int) {
         castIndex = position
-        liveActorId.value = actorId
+        liveTvShowActorId.value = actorId
         shouldSwitchTvActorFragment.value = true
     }
 
@@ -164,13 +167,23 @@ class SharedViewModel : ViewModel() {
 
     fun changeToMoviesAndTvShowsActorFragment(position: Int?, actorId: Int) {
         castIndex = position
-        liveActorId.value = actorId
+        liveMovieAndTvShowActorSearchId.value = actorId
         shouldSwitchMovieAndTvShowActorFragment.value = true
     }
 
 
-    val liveDataActorId: LiveData<Int>
-        get() = liveActorId
+
+    val liveDataEpgActorId: LiveData<Int>
+        get() = liveEpgActorId
+
+    val liveDataMovieActorId: LiveData<Int>
+        get() = liveMovieActorId
+
+    val liveDataTvShowActorId: LiveData<Int>
+        get() = liveTvShowActorId
+
+    val liveDataMovieAndTvShowActorSearchId: LiveData<Int>
+        get() = liveMovieAndTvShowActorSearchId
 
     val singleLiveShouldSwitchEpgActorFragment: LiveData<Boolean>
         get() = shouldSwitchEpgActorFragment

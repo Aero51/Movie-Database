@@ -14,7 +14,7 @@ import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.MovieActorFragment;
-import com.aero51.moviedatabase.ui.MoviesAndTvShowsActorFragment;
+import com.aero51.moviedatabase.ui.MoviesAndTvShowsActorSearchFragment;
 import com.aero51.moviedatabase.ui.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.TvShowActorFragment;
@@ -293,10 +293,10 @@ public class SearchActivity extends AppCompatActivity {
         sharedViewModel.getSingleLiveShouldSwitchMoviesAndTvShowsActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                moviesAndTvShowsActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesAndTvShowsActorFragment.class.getSimpleName(), null) {
+                moviesAndTvShowsActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MoviesAndTvShowsActorSearchFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return new MoviesAndTvShowsActorFragment();
+                        return new MoviesAndTvShowsActorSearchFragment();
                     }
 
                     @Override
@@ -362,7 +362,7 @@ public class SearchActivity extends AppCompatActivity {
             case 2:
                 if (currentFragmentTag.equals(PeopleSearchFragment.class.getSimpleName())) {
                     super.onBackPressed();
-                } else if (currentFragmentTag.equals(MoviesAndTvShowsActorFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(MoviesAndTvShowsActorSearchFragment.class.getSimpleName())) {
                     replaceFragment(2, peopleSearchFragmentIdentifier);
                     viewPager.setCurrentItem(2);
                 }

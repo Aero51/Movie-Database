@@ -5,13 +5,13 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "actor")
 class Actor (
-    var birthday: String,
+    var birthday: String?,
     @PrimaryKey(autoGenerate = false)
     var id: Int,
     var name: String,
     var biography: String,
-    var place_of_birth: String,
-    var profile_path: String,
-    var imdb_id: String,
+    var place_of_birth: String?,
+    var profile_path: String?,
+    var imdb_id: String?,
     var homepage: String?
 ){}

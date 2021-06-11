@@ -25,7 +25,7 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class MoviesAndTvShowsActorFragment : Fragment() {
+class MoviesAndTvShowsActorSearchFragment : Fragment() {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentMovieAndTvShowActorBinding? = null
@@ -66,7 +66,7 @@ class MoviesAndTvShowsActorFragment : Fragment() {
         tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter()
         binding!!.starredInTvShowsRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
 
-        sharedViewModel!!.liveDataActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
+        sharedViewModel!!.liveDataMovieAndTvShowActorSearchId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {
@@ -93,11 +93,13 @@ class MoviesAndTvShowsActorFragment : Fragment() {
             if (status === Status.SUCCESS) {
                 actorName = actor!!.name
                 binding!!.textViewActorName.text = actorName
-                binding!!.textViewActorBirthday.text = DateHelper.formatDateStringToDefaultLocale(
-                    actor.birthday,
-                    "yyyy-MM-dd",
-                    "dd MMMM yyyy"
-                )
+                binding!!.textViewActorBirthday.text = actor.birthday?.let {
+                    DateHelper.formatDateStringToDefaultLocale(
+                        it,
+                        "yyyy-MM-dd",
+                        "dd MMMM yyyy"
+                    )
+                }
                 binding!!.textViewActorPlaceOfBirth.text = actor.place_of_birth
                 binding!!.textViewActorHomepage.text = actor.homepage
                 binding!!.textViewImdb.text = actor.id.toString()

@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import com.aero51.moviedatabase.ui.EpgMoviesAndTvShowsActorFragment;
 import com.aero51.moviedatabase.ui.MovieActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.FavouritesFragment;
@@ -313,14 +314,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(0, epgAllProgramsFragmentIdentifier);
             }
         });
-//TODO when actor fragment is open in tv guide , movies and tv shows switching between them shows last opened
         sharedViewModel.getSingleLiveShouldSwitchEpgActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                epgActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier("Epg" + MovieActorFragment.class.getSimpleName(), null) {
+                epgActorFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgMoviesAndTvShowsActorFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
-                        return new MovieActorFragment();
+                        return new EpgMoviesAndTvShowsActorFragment();
                     }
 
                     @Override
@@ -494,7 +494,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     replaceFragment(0, epgFragmentIdentifier);
                 } else if (currentFragmentTag.equals(EpgAllProgramsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgFragmentIdentifier);
-                } else if (currentFragmentTag.equals("Epg" + MovieActorFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgMoviesAndTvShowsActorFragment.class.getSimpleName())) {
                     replaceFragment(0, epgDetailsFragmentIdentifier);
                     //customViewPager.setCurrentItem(1);
                 }
