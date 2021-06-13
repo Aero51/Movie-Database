@@ -18,6 +18,7 @@ import com.google.gson.Gson
 class SharedViewModel : ViewModel() {
     private val liveEpgProgram = MutableLiveData<EpgProgram>()
     private val shouldSwitchToEpgDetailsFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchToEpgDetailsFragmentFromEpgAllProgramsFragment = SingleLiveEvent<Boolean>()
     private var epgIndex: Int? = null
     private val liveChannelWithPrograms = MutableLiveData<ChannelWithPrograms>()
     private val shouldSwitchToEpgAllProgramsFragment = SingleLiveEvent<Boolean>()
@@ -55,12 +56,20 @@ class SharedViewModel : ViewModel() {
         liveEpgProgram.value = epgProgram
         shouldSwitchToEpgDetailsFragment.value = true
     }
+    fun changeToEpgDetailsFragmentFromEpgAllProgramsFragment(index: Int?, epgProgram: EpgProgram) {
+        epgIndex = index
+        liveEpgProgram.value = epgProgram
+        shouldSwitchToEpgDetailsFragmentFromEpgAllProgramsFragment.value = true
+    }
 
     val liveDataProgram: LiveData<EpgProgram>
         get() = liveEpgProgram
 
     val singleLiveShouldSwitchToEpgTvDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchToEpgDetailsFragment
+
+    val singleLiveShouldSwitchToEpgTvDetailsFragmentFromEpgAllProgramsFragment: LiveData<Boolean>
+        get() = shouldSwitchToEpgDetailsFragmentFromEpgAllProgramsFragment
 
     fun changeToEpgAllProgramsFragment(channelWithPrograms: ChannelWithPrograms) {
         liveChannelWithPrograms.value = channelWithPrograms

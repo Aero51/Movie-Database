@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,18 +12,27 @@ import com.aero51.moviedatabase.databinding.EpgAllProgramsItemBinding;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.utils.Constants;
+import com.aero51.moviedatabase.utils.ProgramItemClickListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAdapter.EpgAllProgramsViewHolder> {
 
     private ChannelWithPrograms channelWithPrograms;
     private SimpleDateFormat fromUser;
     private SimpleDateFormat myFormat;
+    private ProgramItemClickListener mClickListener;
 
-    public EpgAllProgramsAdapter(ChannelWithPrograms channelWithPrograms) {
+    public EpgAllProgramsAdapter(ChannelWithPrograms channelWithPrograms,  ProgramItemClickListener clickListener) {
         this.channelWithPrograms = channelWithPrograms;
+        this.mClickListener = clickListener;
         fromUser = new SimpleDateFormat("yyyyMMddHHmmSS");
         myFormat = new SimpleDateFormat("HH:mm");
     }
@@ -37,7 +45,7 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
 
     @Override
     public void onBindViewHolder(@NonNull EpgAllProgramsAdapter.EpgAllProgramsViewHolder holder, int position) {
-      holder.binding.tvEpgAllProgramsPosition.setText(String.valueOf(position));
+      //holder.binding.tvEpgAllProgramsPosition.setText(String.valueOf(position));
       EpgProgram epgProgram= channelWithPrograms.getProgramsList().get(position);
         try {
             String reformattedStartString = myFormat.format(fromUser.parse(epgProgram.getStart()));
@@ -45,7 +53,14 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        holder.binding.tvEpgAllProgramsTitle.setText(epgProgram.getTitle());
+        List<String> titles=extractJsonTitles(epgProgram.getTitle());
+        holder.binding.tvEpgAllProgramsTitlePrimary.setText(titles.get(0));
+        if(titles.size()>1){
+            holder.binding.tvEpgAllProgramsTitleSecondary.setText(titles.get(1));
+        }else{
+            holder.binding.tvEpgAllProgramsTitleSecondary.setText("");
+        }
+
         holder.binding.tvEpgAllProgramsCategory.setText(epgProgram.getCategory());
 
         holder.binding.allProgramsProgressBar.setProgress(0);
@@ -61,6 +76,25 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
         return channelWithPrograms.getProgramsList().size();
     }
 
+    private List<String> extractJsonTitles(String titles) {
+
+        List<String> titlesList = new ArrayList<>();
+        if (titles != null) {
+            try {
+                JSONObject jsonObjTitles = new JSONObject(titles);
+                JSONArray ja_titles = jsonObjTitles.getJSONArray("Titles");
+
+                for (int i = 0; i < ja_titles.length(); i++) {
+                    titlesList.add(ja_titles.getString(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return titlesList;
+    }
+
+
 
     public class EpgAllProgramsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         EpgAllProgramsItemBinding binding;
@@ -74,6 +108,8 @@ public class EpgAllProgramsAdapter extends RecyclerView.Adapter<EpgAllProgramsAd
         @Override
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
+            mClickListener.onItemClick(adapter_position,channelWithPrograms.getProgramsList().get(adapter_position).getDb_id(),channelWithPrograms.getProgramsList().get(adapter_position));
+
         }
     }
 

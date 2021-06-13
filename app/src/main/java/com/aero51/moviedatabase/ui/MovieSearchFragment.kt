@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,12 +8,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentMovieSearchBinding
 import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter
-import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.ObjectClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
+import com.google.android.material.appbar.AppBarLayout
+
 
 class MovieSearchFragment : Fragment(), ObjectClickListener {
     private var binding: FragmentMovieSearchBinding? = null
@@ -36,6 +37,7 @@ class MovieSearchFragment : Fragment(), ObjectClickListener {
         binding!!.moviesSearchRecyclerView.adapter = moviesSearchAdapter
         binding!!.moviesSearchRecyclerView.layoutManager = GridLayoutManager(context, 3)
         registerMovieSearchObserver()
+        //showToolbar(true)
         showBackButton(true)
         return binding!!.root
     }
@@ -45,6 +47,11 @@ class MovieSearchFragment : Fragment(), ObjectClickListener {
         binding = null
     }
 
+
+    private fun showToolbar(isShown: Boolean) {
+        val appBarLayout: AppBarLayout = requireActivity().findViewById(R.id.app_bar)
+        appBarLayout.setExpanded(isShown, true)
+    }
     fun showBackButton(show: Boolean) {
         if (activity is AppCompatActivity) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(show)

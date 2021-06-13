@@ -21,7 +21,6 @@ import com.aero51.moviedatabase.ui.TvShowActorFragment;
 import com.aero51.moviedatabase.ui.TvShowDetailsFragment;
 import com.aero51.moviedatabase.ui.TvShowsByGenreListFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
-import com.aero51.moviedatabase.ui.ListsSearchFragment;
 import com.aero51.moviedatabase.ui.MovieSearchFragment;
 import com.aero51.moviedatabase.ui.PeopleSearchFragment;
 import com.aero51.moviedatabase.ui.TvShowsSearchFragment;
@@ -36,7 +35,6 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier peopleSearchFragmentIdentifier;
-    private DynamicFragmentPagerAdapter.FragmentIdentifier listsSearchFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
 
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieActorFragmentIdentifier;
@@ -147,25 +145,12 @@ public class SearchActivity extends AppCompatActivity {
                 return 0;
             }
         };
-        listsSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(ListsSearchFragment.class.getSimpleName(), null) {
-            @Override
-            protected Fragment createFragment() {
-                ListsSearchFragment listsSearchFragment = new ListsSearchFragment();
 
-                return listsSearchFragment;
-            }
-
-            @Override
-            public int describeContents() {
-                return 0;
-            }
-        };
 
 
         dynamicFragmentPagerAdapter.addFragment(moviesSearchFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(tvShowsSearchFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(peopleSearchFragmentIdentifier);
-        dynamicFragmentPagerAdapter.addFragment(listsSearchFragmentIdentifier);
     }
     private void registerShouldSwitchMovieFragmentsObservers() {
 

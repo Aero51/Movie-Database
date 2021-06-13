@@ -61,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter dynamicFragmentPagerAdapter;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifierFromEpgAllProgramsFragment;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgAllProgramsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsFragmentIdentifier;
@@ -297,6 +298,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             }
         });
 
+        sharedViewModel.getSingleLiveShouldSwitchToEpgTvDetailsFragmentFromEpgAllProgramsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                epgDetailsFragmentIdentifierFromEpgAllProgramsFragment = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgDetailsFragment.class.getSimpleName()+"FromEpgAllProgramsFragment",null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new EpgDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, epgDetailsFragmentIdentifierFromEpgAllProgramsFragment);
+            }
+        });
+
         sharedViewModel.getSingleLiveShouldSwitchToEpgAllProgramsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -492,12 +511,16 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     super.onBackPressed();
                 } else if (currentFragmentTag.equals(EpgDetailsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgFragmentIdentifier);
-                } else if (currentFragmentTag.equals(EpgAllProgramsFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgDetailsFragment.class.getSimpleName()+"FromEpgAllProgramsFragment")) {
+                    replaceFragment(0, epgAllProgramsFragmentIdentifier);
+                }
+                else if (currentFragmentTag.equals(EpgAllProgramsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgFragmentIdentifier);
                 } else if (currentFragmentTag.equals(EpgMoviesAndTvShowsActorFragment.class.getSimpleName())) {
                     replaceFragment(0, epgDetailsFragmentIdentifier);
                     //customViewPager.setCurrentItem(1);
                 }
+
                 break;
 
             case 1:

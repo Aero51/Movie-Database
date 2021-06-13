@@ -1,60 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp"
     android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:orientation="vertical">
+    android:paddingRight="5dp">
 
 
     <ProgressBar
         android:id="@+id/all_programs_progress_bar"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
-        android:layout_height="130dp"
-        android:layout_alignLeft="@+id/tv_epg_tv_child_title"
-        android:layout_alignRight="@+id/tv_epg_tv_child_title"
-        android:progressDrawable="@drawable/progress_background"
+        android:layout_height="150dp"
+        android:layout_alignLeft="@+id/tv_epg_all_programs_title_primary"
+        android:layout_alignRight="@+id/tv_epg_all_programs_title_primary"
         android:max="100"
-        android:progress="0" />
+        android:progress="0"
+        android:progressDrawable="@drawable/progress_background" />
 
-
-    <TextView
-        android:id="@+id/tv_epg_all_programs_position"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#00000000"
-        android:padding="5dp"
-        android:text="position"/>
     <TextView
         android:id="@+id/tv_epg_all_programs_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_epg_all_programs_position"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:background="@drawable/back"
         android:padding="5dp"
-        android:text="10-22"/>
+        android:text="10-22"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/primaryText" />
 
     <TextView
-        android:id="@+id/tv_epg_all_programs_title"
+        android:id="@+id/tv_epg_all_programs_title_primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_epg_all_programs_start"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:background="#00000000"
         android:padding="5dp"
-        android:text="Title"/>
+        android:text="Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/primaryText" />
+
+    <TextView
+        android:id="@+id/tv_epg_all_programs_title_secondary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_epg_all_programs_title_primary"
+        android:background="#00000000"
+        android:padding="5dp"
+        android:text="Title"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="@color/primaryText" />
+
 
     <TextView
         android:id="@+id/tv_epg_all_programs_category"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tv_epg_all_programs_title"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:layout_below="@+id/tv_epg_all_programs_title_secondary"
         android:background="#00000000"
         android:padding="5dp"
-        android:text="Category"/>
+        android:text="Category"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        android:textColor="@color/primaryText" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tv_epg_all_programs_category"
+        android:layout_marginBottom="4dp"
+        android:background="@color/light_green" />
+
 
 </RelativeLayout>

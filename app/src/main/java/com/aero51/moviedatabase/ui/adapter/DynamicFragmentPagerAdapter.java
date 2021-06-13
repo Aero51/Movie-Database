@@ -134,8 +134,6 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
                 return "Serije";
             case 2:
                 return "Osobe";
-            case 3:
-                return "Liste";
 
         }
         return null;

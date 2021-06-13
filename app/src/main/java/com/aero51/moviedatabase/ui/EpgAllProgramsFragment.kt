@@ -13,10 +13,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentEpgAllProgramsBinding
+import com.aero51.moviedatabase.repository.model.epg.EpgProgram
 import com.aero51.moviedatabase.ui.adapter.EpgAllProgramsAdapter
+import com.aero51.moviedatabase.utils.ProgramItemClickListener
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
-class EpgAllProgramsFragment : Fragment() {
+class EpgAllProgramsFragment : Fragment(), ProgramItemClickListener {
     private var binding: FragmentEpgAllProgramsBinding? = null
     private var sharedViewModel: SharedViewModel? = null
     private val recycler_view_all_programs: RecyclerView? = null
@@ -34,7 +36,7 @@ class EpgAllProgramsFragment : Fragment() {
         binding!!.allProgramsRecyclerView.layoutManager = linearLayoutManager
         binding!!.allProgramsRecyclerView.addItemDecoration(DividerItemDecoration(context, linearLayoutManager.orientation))
         sharedViewModel!!.liveDataChannelWithPrograms.observe(viewLifecycleOwner, { channelWithPrograms ->
-            val adapter = EpgAllProgramsAdapter(channelWithPrograms)
+            val adapter = EpgAllProgramsAdapter(channelWithPrograms,this)
             binding!!.allProgramsRecyclerView.adapter = adapter
             binding!!.allProgramsRecyclerView.scrollToPosition(channelWithPrograms.nearestTimePosition!!)
         })
@@ -57,5 +59,11 @@ class EpgAllProgramsFragment : Fragment() {
         if (activity is AppCompatActivity) {
             (activity as AppCompatActivity?)!!.supportActionBar!!.setDisplayHomeAsUpEnabled(show)
         }
+    }
+
+    override fun onItemClick(position: Int, db_id: Int, epgProgram: EpgProgram?) {
+        //intentional crash
+        // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
+        sharedViewModel!!.changeToEpgDetailsFragmentFromEpgAllProgramsFragment(position, epgProgram!!)
     }
 }
