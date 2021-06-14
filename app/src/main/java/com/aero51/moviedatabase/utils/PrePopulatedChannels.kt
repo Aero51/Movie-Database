@@ -39,7 +39,6 @@ class PrePopulatedChannels {
         prepopulateMovieList()
         prepopulateDocumentaryList()
         prepopulateNewsList()
-        prepopulateMusicList()
         prepopulateChildrenList()
         prepopulateBosnianList()
         prepopulateSerbianList()
@@ -88,6 +87,10 @@ class PrePopulatedChannels {
         channel.display_name = "RTL Kockica"
         croatianExpandedList.add(channel)
         channel = EpgChannel()
+        channel.name = "cmc"
+        channel.display_name = "CMC"
+        croatianExpandedList.add(channel)
+        channel = EpgChannel()
         channel.name = "z1"
         channel.display_name = "Z1"
         croatianExpandedList.add(channel)
@@ -123,14 +126,6 @@ class PrePopulatedChannels {
         channel.name = "laudatotv"
         channel.display_name = "Laudato TV"
         croatianExpandedList.add(channel)
-        channel = EpgChannel()
-        channel.name = "mrezazg"
-        channel.display_name = "MrezaZG"
-        croatianExpandedList.add(channel)
-        channel = EpgChannel()
-        channel.name = "mrezast"
-        channel.display_name = "MrezaST"
-        croatianExpandedList.add(channel)
     }
 
     private fun prepopulateEntertainmentList() {
@@ -153,26 +148,6 @@ class PrePopulatedChannels {
         channel = EpgChannel()
         channel.name = "pinkreality"
         channel.display_name = "Pink Reality"
-        entertainmentList.add(channel)
-        channel = EpgChannel()
-        channel.name = "fineliving"
-        channel.display_name = "Fine Living"
-        entertainmentList.add(channel)
-        channel = EpgChannel()
-        channel.name = "woman"
-        channel.display_name = "Woman"
-        entertainmentList.add(channel)
-        channel = EpgChannel()
-        channel.name = "pinkfashion"
-        channel.display_name = "Pink Fashion"
-        entertainmentList.add(channel)
-        channel = EpgChannel()
-        channel.name = "pinkstyle"
-        channel.display_name = "Pink Style"
-        entertainmentList.add(channel)
-        channel = EpgChannel()
-        channel.name = "pinkshow"
-        channel.display_name = "Pink Show"
         entertainmentList.add(channel)
     }
 
@@ -282,13 +257,6 @@ class PrePopulatedChannels {
         channel.display_name = "KinoTV"
         movieList.add(channel)
         channel = EpgChannel()
-        channel.name = "filmboxplus"
-        channel.display_name = "FilmBox Plus"
-        movieList.add(channel)
-        channel = EpgChannel()
-        channel.name = "filmboxextra"
-        channel.display_name = "FilmBox Extra"
-        movieList.add(channel)
         channel = EpgChannel()
         channel.name = "diva"
         channel.display_name = "DIVA"
@@ -377,10 +345,6 @@ class PrePopulatedChannels {
         channel.display_name = "Discovery Channel"
         documentaryList.add(channel)
         channel = EpgChannel()
-        channel.name = "discoverysci"
-        channel.display_name = "Discovery Science"
-        documentaryList.add(channel)
-        channel = EpgChannel()
         channel.name = "animalplanet"
         channel.display_name = "Animal Planet"
         documentaryList.add(channel)
@@ -408,14 +372,6 @@ class PrePopulatedChannels {
         channel.name = "crimeinvestigation"
         channel.display_name = "Crime & Investigations"
         documentaryList.add(channel)
-        channel = EpgChannel()
-        channel.name = "dokutv"
-        channel.display_name = "Doku TV"
-        documentaryList.add(channel)
-        channel = EpgChannel()
-        channel.name = "planetearth"
-        channel.display_name = "Planet Earth"
-        documentaryList.add(channel)
     }
 
     private fun prepopulateNewsList() {
@@ -439,33 +395,6 @@ class PrePopulatedChannels {
         channel.name = "cnbc"
         channel.display_name = "CNBC"
         newsList.add(channel)
-    }
-
-    private fun prepopulateMusicList() {
-        var channel = EpgChannel()
-        channel.name = "cmc"
-        channel.display_name = "CMC"
-        musicList.add(channel)
-        channel = EpgChannel()
-        channel.name = "jugoton"
-        channel.display_name = "Jugoton"
-        musicList.add(channel)
-        channel = EpgChannel()
-        channel.name = "dmc"
-        channel.display_name = "DMC"
-        musicList.add(channel)
-        channel = EpgChannel()
-        channel.name = "mtvlive"
-        channel.display_name = "MTV Live HD"
-        musicList.add(channel)
-        channel = EpgChannel()
-        channel.name = "mtvbase"
-        channel.display_name = "MTV Base"
-        musicList.add(channel)
-        channel = EpgChannel()
-        channel.name = "mtvmusic"
-        channel.display_name = "MTV Music"
-        musicList.add(channel)
     }
 
     private fun prepopulateChildrenList() {
@@ -493,18 +422,6 @@ class PrePopulatedChannels {
         channel.name = "disney"
         channel.display_name = "Disney Channel"
         childrenList.add(channel)
-        channel = EpgChannel()
-        channel.name = "disneyxd"
-        channel.display_name = "Disney XD"
-        childrenList.add(channel)
-        channel = EpgChannel()
-        channel.name = "pikaboo"
-        channel.display_name = "Pikaboo"
-        childrenList.add(channel)
-        channel = EpgChannel()
-        channel.name = "vavoom"
-        channel.display_name = "Vavoom"
-        childrenList.add(channel)
     }
 
     private fun prepopulateBosnianList() {
@@ -525,28 +442,12 @@ class PrePopulatedChannels {
         channel.display_name = "OBN"
         bosnianList.add(channel)
         channel = EpgChannel()
-        channel.name = "pinkbh"
-        channel.display_name = "Pink BH"
-        bosnianList.add(channel)
-        channel = EpgChannel()
         channel.name = "bntv"
         channel.display_name = "BN Televizija"
         bosnianList.add(channel)
         channel = EpgChannel()
-        channel.name = "tktuzla"
-        channel.display_name = "TV TK Tuzla"
-        bosnianList.add(channel)
-        channel = EpgChannel()
-        channel.name = "rtrs"
-        channel.display_name = "RTRS"
-        bosnianList.add(channel)
-        channel = EpgChannel()
         channel.name = "pinkm"
         channel.display_name = "Pink M"
-        bosnianList.add(channel)
-        channel = EpgChannel()
-        channel.name = "cinematv"
-        channel.display_name = "Cinema TV"
         bosnianList.add(channel)
     }
 
@@ -574,10 +475,6 @@ class PrePopulatedChannels {
         channel = EpgChannel()
         channel.name = "rtv1"
         channel.display_name = "RTV 1"
-        serbianList.add(channel)
-        channel = EpgChannel()
-        channel.name = "rtv2"
-        channel.display_name = "RTV 2"
         serbianList.add(channel)
         channel = EpgChannel()
         channel.name = "pink1"
@@ -634,26 +531,6 @@ class PrePopulatedChannels {
         channel.display_name = "Arena Sport 6"
         sportsList.add(channel)
         channel = EpgChannel()
-        channel.name = "skhd"
-        channel.display_name = "SportKlub HD"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "sk1"
-        channel.display_name = "SportKlub 1"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "sk2"
-        channel.display_name = "SportKlub 2"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "sk3"
-        channel.display_name = "SportKlub 3"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "sk4"
-        channel.display_name = "SportKlub 4"
-        sportsList.add(channel)
-        channel = EpgChannel()
         channel.name = "eurosport1"
         channel.display_name = "EuroSport 1"
         sportsList.add(channel)
@@ -662,32 +539,12 @@ class PrePopulatedChannels {
         channel.display_name = "EuroSport 2"
         sportsList.add(channel)
         channel = EpgChannel()
-        channel.name = "fightbox"
-        channel.display_name = "FightBox"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "fightchannel"
-        channel.display_name = "Fight Channel"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "fightnetwork"
-        channel.display_name = "Fight Network"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "extremesports"
-        channel.display_name = "Extreme Sports"
-        sportsList.add(channel)
-        channel = EpgChannel()
         channel.name = "nauticalchannel"
         channel.display_name = "Nautical Channel"
         sportsList.add(channel)
         channel = EpgChannel()
         channel.name = "kreatortv"
         channel.display_name = "Kreator TV"
-        sportsList.add(channel)
-        channel = EpgChannel()
-        channel.name = "loviribolov"
-        channel.display_name = "Lov i Ribolov"
         sportsList.add(channel)
     }
 

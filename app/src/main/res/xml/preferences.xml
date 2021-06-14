@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.preference.PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
     <SwitchPreference
         android:defaultValue="true"
@@ -81,13 +82,6 @@
         android:summary="Odaberi sa liste"
         android:title="Informativni kanali" />
 
-    <MultiSelectListPreference
-        android:dependency="example_checkbox"
-        android:entries="@array/list_preference_entries"
-        android:entryValues="@array/list_preference_values"
-        android:key="music_channels_multi_select_list"
-        android:summary="Odaberi sa liste"
-        android:title="Glazbeni kanali" />
 
     <MultiSelectListPreference
         android:dependency="example_checkbox"

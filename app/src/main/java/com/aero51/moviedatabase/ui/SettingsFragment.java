@@ -48,7 +48,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         populateMultiSelectListPrefs(prePopulatedChannels.getSportsList(), SPORTS_CHANNELS_PREFERENCE);
         populateMultiSelectListPrefs(prePopulatedChannels.getDocumentaryList(), DOCUMENTARY_CHANNELS_PREFERENCE);
         populateMultiSelectListPrefs(prePopulatedChannels.getNewsList(), NEWS_CHANNELS_PREFERENCE);
-        populateMultiSelectListPrefs(prePopulatedChannels.getMusicList(), MUSIC_CHANNELS_PREFERENCE);
         populateMultiSelectListPrefs(prePopulatedChannels.getChildrenList(), CHILDREN_CHANNELS_PREFERENCE);
         populateMultiSelectListPrefs(prePopulatedChannels.getEntertainmentList(), ENTERTAINMENT_CHANNELS_PREFERENCE);
         populateMultiSelectListPrefs(prePopulatedChannels.getCroatianExpandedList(), CROATIAN_EXPANDED_CHANNELS_PREFERENCE);

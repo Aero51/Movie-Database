@@ -2,6 +2,7 @@ package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,10 +56,14 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
     @Override
     public void onBindViewHolder(@NonNull EpgTvViewHolder holder, int position) {
         ChannelWithPrograms currentChannelChildItem = programsForChannellList.get(position);
-        Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + channelList.get(position).getName());
+        //Log.d("nikola","programsForChannellList: "+programsForChannellList.get(position).getProgramsList().get(0).getChannel());
+
+        //Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + channelList.get(position).getName());
+        Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + programsForChannellList.get(position).getProgramsList().get(0).getChannel());
         Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(holder.binding.imageViewChannel);
 
-        holder.binding.textViewChannelName.setText(channelList.get(position).getDisplay_name());
+        //holder.binding.textViewChannelName.setText(channelList.get(position).getDisplay_name());
+        holder.binding.textViewChannelName.setText(programsForChannellList.get(position).getProgramsList().get(0).getChannel_display_name());
         holder.binding.rvChild.setRecycledViewPool(viewPool);
 
         holder.epgChildAdapter.setList(currentChannelChildItem);
@@ -105,7 +110,11 @@ public class EpgAdapter extends RecyclerView.Adapter<EpgAdapter.EpgTvViewHolder>
         public void onClick(View v) {
             Integer adapter_position = getBindingAdapterPosition();
             ChannelWithPrograms channelWithPrograms = programsForChannellList.get(adapter_position);
-            channelWithPrograms.setChannel(channelList.get(adapter_position));
+            EpgChannel epgChannel= new EpgChannel();
+            epgChannel.setName(channelWithPrograms.getProgramsList().get(0).getChannel());
+            epgChannel.setDisplay_name(channelWithPrograms.getProgramsList().get(0).getChannel_display_name());
+            //channelWithPrograms.setChannel(channelList.get(adapter_position));
+            channelWithPrograms.setChannel(epgChannel);
             channelItemClickListener.onItemClick(channelWithPrograms);
         }
     }

@@ -27,7 +27,6 @@ import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.ui.adapter.EpgAdapter;
 import com.aero51.moviedatabase.utils.ChannelItemClickListener;
 import com.aero51.moviedatabase.utils.ChannelsPreferenceHelper;
-import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.ProgramItemClickListener;
 import com.aero51.moviedatabase.utils.Resource;
@@ -64,7 +63,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        channelList = ChannelsPreferenceHelper.extractChannels();
         epgViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(getActivity().getApplication())).get(EpgViewModel.class);
         sharedViewModel = new ViewModelProvider(getActivity()).get(SharedViewModel.class);
 
@@ -100,7 +98,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        binding=null;
+        binding = null;
     }
 
     private void showBackButton(boolean show) {
@@ -111,7 +109,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
 
 
     private void setUpRecyclerView() {
-
+        channelList = ChannelsPreferenceHelper.extractChannels();
         linearLayoutManager = new SpeedyLinearLayoutManager(getContext(), SpeedyLinearLayoutManager.VERTICAL, false);
         binding.recyclerViewEpgParent.setLayoutManager(linearLayoutManager);
 
@@ -119,7 +117,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgAdapter = new EpgAdapter(getContext(), channelList, programsForChannellList, this, this);
         binding.recyclerViewEpgParent.setAdapter(epgAdapter);
 
-        scrollListener = new EndlessRecyclerViewScrollListener(5,linearLayoutManager) {
+        scrollListener = new EndlessRecyclerViewScrollListener(5, linearLayoutManager) {
             @Override
             public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
                 fetchProgramsForMultipleChannels();
@@ -145,8 +143,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                 if (!loading) {
                     int adapterItemCount = epgAdapter.getItemCount();
                     if (adapterItemCount < temp + 5 && channelList.size() > adapterItemCount) {
-                        registerGetProgramsForChannel(channelList.get(adapterItemCount).getName());
-
+                        registerGetProgramsForChannel(adapterItemCount);
                     } else {
                         binding.recyclerViewEpgParent.addOnScrollListener(scrollListener);
                         //for notifying movie fragment that this one has finished loading
@@ -159,27 +156,36 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         });
     }
 
-    private void registerGetProgramsForChannel(String channelName) {
+    private void registerGetProgramsForChannel(Integer adapterItemCount) {
         isLoading.setValue(true);
-        epgViewModel.getProgramsForChannel(channelName).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
+        epgViewModel.getProgramsForChannel(channelList.get(adapterItemCount).getName()).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 if (listResource.getStatus() == Status.LOADING) {
-                    Log.d("nikola","Status.LOADING");
+                    Log.d("nikola", "Status.LOADING");
                     if (!isNetworkAvailable()) {
                         showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_LONG);
                     }
-                } else if (listResource.getData().size() > 0 && listResource.getStatus() == Status.SUCCESS) {
-                    Log.d("nikola","Status.SUCCESS");
+                } else if (listResource.getStatus() == Status.SUCCESS) {
+                    Log.d("nikola", "Status.SUCCESS");
                     binding.epgProgressBar.setVisibility(View.GONE);
                     epgViewModel.getResourceLiveData().removeObserver(this);
-                    ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.getData());
-                    programsForChannellList.add(item);
-                    epgAdapter.notifyItemInserted(programsForChannellList.size() - 1);
+                    if (listResource.getData().size() > 0) {
+                        ChannelWithPrograms item = epgViewModel.calculateTimeStuff(listResource.getData());
+                        programsForChannellList.add(item);
+                        epgAdapter.notifyItemInserted(programsForChannellList.size() - 1);
+                    } else {
+                        if (adapterItemCount > 0) {
+                            channelList.remove(adapterItemCount - 1);
+                        } else {
+                                channelList.clear();
+                        }
+                    }
+
                     isLoading.setValue(false);
 
                 } else if (listResource.getStatus() == Status.ERROR) {
-                    Log.d("nikola","Status.ERROR: "+listResource.getMessage());
+                    Log.d("nikola", "Status.ERROR: " + listResource.getMessage());
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     //happens when epg server is restarting
                     if (listResource.getMessage().equals("timeout")) {
