@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.databinding.MediaWithPersonItemBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson;
+import com.aero51.moviedatabase.utils.MovieClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,9 +19,10 @@ import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 public class MoviesWithPersonCastAdapter extends RecyclerView.Adapter<MoviesWithPersonCastAdapter.ViewHolder> {
 
     private List<MoviesWithPerson.Cast> movieCastList;
-    private MoviesWithPersonCastAdapter.ItemClickListener mClickListener;
+    private MovieClickListener mClickListener;
 
-    public MoviesWithPersonCastAdapter() {
+    public MoviesWithPersonCastAdapter(MovieClickListener itemClickListener) {
+        this.mClickListener = itemClickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -70,7 +72,7 @@ public class MoviesWithPersonCastAdapter extends RecyclerView.Adapter<MoviesWith
         public void onClick(View view) {
             Integer adapter_position = getBindingAdapterPosition();
             if (mClickListener != null)
-                mClickListener.onItemClick(view, getItem(adapter_position).getId(), adapter_position);
+                mClickListener.onMovieItemClick( getItem(adapter_position), adapter_position);
         }
     }
 
@@ -79,14 +81,5 @@ public class MoviesWithPersonCastAdapter extends RecyclerView.Adapter<MoviesWith
         return movieCastList.get(id);
     }
 
-    // allows clicks events to be caught
-    //TODO implement click listener
-    public void setClickListener(MoviesWithPersonCastAdapter.ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
 
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, Integer actorId, int position);
-    }
 }

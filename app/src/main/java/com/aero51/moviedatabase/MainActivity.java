@@ -26,21 +26,26 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.aero51.moviedatabase.ui.EpgMoviesAndTvShowsActorFragment;
-import com.aero51.moviedatabase.ui.MovieActorFragment;
+import com.aero51.moviedatabase.ui.epg.EpgMovieDetailsFragment;
+import com.aero51.moviedatabase.ui.epg.EpgMoviesAndTvShowsActorFragment;
+import com.aero51.moviedatabase.ui.epg.EpgMoviesByGenreListFragment;
+import com.aero51.moviedatabase.ui.epg.EpgTvShowDetailsFragment;
+import com.aero51.moviedatabase.ui.epg.EpgTvShowsByGenreListFragment;
+import com.aero51.moviedatabase.ui.movies.MovieActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.FavouritesFragment;
-import com.aero51.moviedatabase.ui.MoviesByGenreListFragment;
-import com.aero51.moviedatabase.ui.MovieDetailsFragment;
-import com.aero51.moviedatabase.ui.TvShowActorFragment;
-import com.aero51.moviedatabase.ui.TvShowDetailsFragment;
-import com.aero51.moviedatabase.ui.TvShowsByGenreListFragment;
-import com.aero51.moviedatabase.ui.TvShowsFragment;
+import com.aero51.moviedatabase.ui.movies.MovieDetailsFragmentSecond;
+import com.aero51.moviedatabase.ui.movies.MoviesByGenreListFragment;
+import com.aero51.moviedatabase.ui.movies.MovieDetailsFragment;
+import com.aero51.moviedatabase.ui.tvshows.TvShowActorFragment;
+import com.aero51.moviedatabase.ui.tvshows.TvShowDetailsFragment;
+import com.aero51.moviedatabase.ui.tvshows.TvShowsByGenreListFragment;
+import com.aero51.moviedatabase.ui.tvshows.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
-import com.aero51.moviedatabase.ui.EpgAllProgramsFragment;
-import com.aero51.moviedatabase.ui.EpgDetailsFragment;
-import com.aero51.moviedatabase.ui.EpgFragment;
-import com.aero51.moviedatabase.ui.MoviesFragment;
+import com.aero51.moviedatabase.ui.epg.EpgAllProgramsFragment;
+import com.aero51.moviedatabase.ui.epg.EpgDetailsFragment;
+import com.aero51.moviedatabase.ui.epg.EpgFragment;
+import com.aero51.moviedatabase.ui.movies.MoviesFragment;
 import com.aero51.moviedatabase.utils.ChannelsPreferenceHelper;
 import com.aero51.moviedatabase.utils.CheckAppStart;
 import com.aero51.moviedatabase.utils.Constants;
@@ -63,16 +68,21 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgDetailsFragmentIdentifierFromEpgAllProgramsFragment;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgAllProgramsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgMovieDetailsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvShowDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier favouritesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifierFromMovieActorFragment;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentFromMovieDetailsIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgMoviesByGenreListFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvShowsByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowDetailsFragmentIdentifier;
     private FirebaseAnalytics mFirebaseAnalytics;
     private SharedViewModel sharedViewModel;
@@ -351,6 +361,78 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 //customViewPager.setCurrentItem(0);
             }
         });
+        sharedViewModel.getSingleLiveShouldSwitchEpgMovieDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                epgMovieDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgMovieDetailsFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new EpgMovieDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, epgMovieDetailsFragmentIdentifier);
+                //customViewPager.setCurrentItem(0);
+            }
+        });
+        sharedViewModel.getSingleLiveShouldSwitchEpgTvShowDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                epgTvShowDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgTvShowDetailsFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new EpgTvShowDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, epgTvShowDetailsFragmentIdentifier);
+                //customViewPager.setCurrentItem(0);
+            }
+        });
+        sharedViewModel.getSingleLiveShouldSwitchEpgMoviesByGenreListFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                epgMoviesByGenreListFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgMoviesByGenreListFragment.class.getSimpleName(),null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new EpgMoviesByGenreListFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, epgMoviesByGenreListFragmentIdentifier);
+            }
+        });
+        sharedViewModel.getSingleLiveShouldSwitchEpgTvShowsByGenreListFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                epgTvShowsByGenreListFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgTvShowsByGenreListFragment.class.getSimpleName(),null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new EpgTvShowsByGenreListFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(0, epgTvShowsByGenreListFragmentIdentifier);
+            }
+        });
+
+
 
     }
 
@@ -375,7 +457,25 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(1);
             }
         });
+        sharedViewModel.getSingleLiveShouldSwitchMovieDetailsFragmentFromMovieActorFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                movieDetailsFragmentIdentifierFromMovieActorFragment = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsFragmentSecond.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MovieDetailsFragmentSecond();
+                    }
 
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+
+                replaceFragment(1, movieDetailsFragmentIdentifierFromMovieActorFragment);
+                customViewPager.setCurrentItem(1);
+            }
+        });
 
         sharedViewModel.getSingleLiveShouldSwitchMoviesByGenreListFragment().observe(this, new Observer<Boolean>() {
             @Override
@@ -518,7 +618,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     replaceFragment(0, epgFragmentIdentifier);
                 } else if (currentFragmentTag.equals(EpgMoviesAndTvShowsActorFragment.class.getSimpleName())) {
                     replaceFragment(0, epgDetailsFragmentIdentifier);
-                    //customViewPager.setCurrentItem(1);
+                }else if (currentFragmentTag.equals(EpgMovieDetailsFragment.class.getSimpleName())) {
+                    replaceFragment(0, epgActorFragmentIdentifier);
+                }else if (currentFragmentTag.equals(EpgTvShowDetailsFragment.class.getSimpleName())) {
+                    replaceFragment(0, epgActorFragmentIdentifier);
+                }else if (currentFragmentTag.equals(EpgMoviesByGenreListFragment.class.getSimpleName())) {
+                    replaceFragment(0, epgMovieDetailsFragmentIdentifier);
+                }else if (currentFragmentTag.equals(EpgTvShowsByGenreListFragment.class.getSimpleName())) {
+                    replaceFragment(0, epgTvShowDetailsFragmentIdentifier);
                 }
 
                 break;
@@ -537,6 +644,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     customViewPager.setCurrentItem(1);
                 } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment")) {
                     replaceFragment(1, movieDetailsFragmentIdentifier);
+                    customViewPager.setCurrentItem(1);
+                }else if (currentFragmentTag.equals(MovieDetailsFragmentSecond.class.getSimpleName())) {
+                    replaceFragment(1, movieActorFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
                 }
                 break;

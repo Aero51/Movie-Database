@@ -13,11 +13,11 @@ import com.aero51.moviedatabase.repository.model.NetworkState
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.AiringTvShowsPage.AiringTvShow
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class AiringTvShowsPagedListAdapter(private val itemClickListener: ObjectClickListener) : PagedListAdapter<AiringTvShow, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class AiringTvShowsPagedListAdapter(private val itemClickListener: MovieClickListener) : PagedListAdapter<AiringTvShow, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     private val networkState: NetworkState? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class AiringTvShowsPagedListAdapter(private val itemClickListener: ObjectClickLi
         (holder as AiringTvShowHolder).bindTo(currentResult, position)
     }
 
-    class AiringTvShowHolder(itemView: View, itemClickListener: ObjectClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class AiringTvShowHolder(itemView: View, itemClickListener: MovieClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var result: AiringTvShow? = null
         private var mposition = 0
         private val imageView: ImageView
@@ -38,7 +38,7 @@ class AiringTvShowsPagedListAdapter(private val itemClickListener: ObjectClickLi
         //private TextView textViewPosition;
         private val textViewtitle: TextView
         private val textViewVoteAverage: TextView? = null
-        private val itemClickListener: ObjectClickListener?
+        private val itemClickListener: MovieClickListener?
 
         init {
             imageView = itemView.findViewById(R.id.image_view_program)
@@ -66,7 +66,7 @@ class AiringTvShowsPagedListAdapter(private val itemClickListener: ObjectClickLi
 
         override fun onClick(v: View) {
             if (itemClickListener != null && mposition != RecyclerView.NO_POSITION) {
-                itemClickListener.onObjectItemClick(result, mposition) // call the onClick in the OnItemClickListener
+                itemClickListener.onMovieItemClick(result, mposition) // call the onClick in the OnItemClickListener
             }
         }
 

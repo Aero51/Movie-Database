@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/bg"
-    tools:context=".ui.EpgDetailsFragment">
+    tools:context=".ui.epg.EpgDetailsFragment">
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/main_container"

@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tv_shows_with_person")
-class TvShowsWithPerson(
+class TvShowWithPerson(
         @PrimaryKey(autoGenerate = true)
         val db_id: Int,
         val cast: List<Cast>,

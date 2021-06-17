@@ -12,11 +12,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowsByGenrePage
 import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class TvShowsByGenrePagedListAdapter(private val itemClickListener: ObjectClickListener): PagedListAdapter<TvShowsByGenrePage.TvShowByGenre, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class TvShowsByGenrePagedListAdapter(private val itemClickListener: MovieClickListener): PagedListAdapter<TvShowsByGenrePage.TvShowByGenre, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -32,14 +32,14 @@ class TvShowsByGenrePagedListAdapter(private val itemClickListener: ObjectClickL
     }
 
 
-    class GenreTvShowHolder(itemView: View, itemClickListener: ObjectClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class GenreTvShowHolder(itemView: View, itemClickListener: MovieClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var result: TvShowsByGenrePage.TvShowByGenre? = null
         private var adapterposition = 0
         private val imageView: ImageView
         //private val textViewPosition: TextView
         private val textViewtitle: TextView
         private val textViewVoteAverage: TextView? = null
-        private val itemClickListener: ObjectClickListener?
+        private val itemClickListener: MovieClickListener?
 
         init {
             imageView = itemView.findViewById(R.id.image_view_program)
@@ -69,7 +69,7 @@ class TvShowsByGenrePagedListAdapter(private val itemClickListener: ObjectClickL
 
         override fun onClick(v: View) {
             if (itemClickListener != null && adapterposition != RecyclerView.NO_POSITION) {
-                itemClickListener.onObjectItemClick(result, adapterposition) // call the onClick in the OnItemClickListener
+                itemClickListener.onMovieItemClick(result, adapterposition) // call the onClick in the OnItemClickListener
             }
         }
 

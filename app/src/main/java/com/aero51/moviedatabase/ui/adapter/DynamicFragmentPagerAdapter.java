@@ -6,7 +6,6 @@ import android.os.BadParcelableException;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -19,10 +18,6 @@ import androidx.viewpager.widget.PagerAdapter;
 
 
 import com.aero51.moviedatabase.MainActivity;
-import com.aero51.moviedatabase.ui.EpgFragment;
-import com.aero51.moviedatabase.ui.MovieDetailsFragment;
-import com.aero51.moviedatabase.ui.TvShowsFragment;
-import com.aero51.moviedatabase.utils.Constants;
 
 import java.util.ArrayList;
 

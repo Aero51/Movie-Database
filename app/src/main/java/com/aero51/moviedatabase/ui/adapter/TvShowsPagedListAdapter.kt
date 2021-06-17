@@ -12,11 +12,11 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class TvShowsPagedListAdapter(private val itemClickListener: ObjectClickListener) : PagedListAdapter<TvShowSearchResult.TvShow, TvShowsPagedListAdapter.ViewHolder>(DIFF_CALLBACK) {
+class TvShowsPagedListAdapter(private val itemClickListener: MovieClickListener) : PagedListAdapter<TvShowSearchResult.TvShow, TvShowsPagedListAdapter.ViewHolder>(DIFF_CALLBACK) {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val view = layoutInflater.inflate(R.layout.movie_item, parent, false)
@@ -38,16 +38,16 @@ class TvShowsPagedListAdapter(private val itemClickListener: ObjectClickListener
     }
 
     // stores and recycles views as they are scrolled off screen
-    inner class ViewHolder internal constructor(itemView: View, itemClickListener: ObjectClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class ViewHolder internal constructor(itemView: View, itemClickListener: MovieClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         val imageView: ImageView
-        private val itemClickListener: ObjectClickListener?
+        private val itemClickListener: MovieClickListener?
         //private TextView textViewPosition;
         val textViewtitle: TextView
         override fun onClick(view: View) {
             val adapter_position = bindingAdapterPosition
             if (itemClickListener != null && bindingAdapterPosition != RecyclerView.NO_POSITION) {
 
-                itemClickListener.onObjectItemClick(getItem(bindingAdapterPosition), bindingAdapterPosition) // call the onClick in the OnItemClickListener
+                itemClickListener.onMovieItemClick(getItem(bindingAdapterPosition), bindingAdapterPosition) // call the onClick in the OnItemClickListener
             }
         }
 

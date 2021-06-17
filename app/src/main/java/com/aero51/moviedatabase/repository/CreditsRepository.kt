@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.repository
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.aero51.moviedatabase.repository.db.CreditsDao
 import com.aero51.moviedatabase.repository.db.Database
@@ -163,23 +162,23 @@ class CreditsRepository     // databaseCanQueryOnMainThread = MoviesDatabase.get
             }
         }.asLiveData()
     }
-    fun loadTvShowsByActorId(actor_id: Int): LiveData<Resource<TvShowsWithPerson>> {
-        return object : NetworkBoundResource<TvShowsWithPerson, TvShowsWithPerson>(executors) {
+    fun loadTvShowsByActorId(actor_id: Int): LiveData<Resource<TvShowWithPerson>> {
+        return object : NetworkBoundResource<TvShowWithPerson, TvShowWithPerson>(executors) {
 
-            override fun shouldFetch(data: TvShowsWithPerson?): Boolean {
+            override fun shouldFetch(data: TvShowWithPerson?): Boolean {
                 return data == null
             }
 
-            override fun loadFromDb(): LiveData<TvShowsWithPerson> {
+            override fun loadFromDb(): LiveData<TvShowWithPerson> {
                 return creditsDao.getTvShowsWithPerson(actor_id)
             }
 
-            override fun createCall(): LiveData<ApiResponse<TvShowsWithPerson>> {
+            override fun createCall(): LiveData<ApiResponse<TvShowWithPerson>> {
                 val theMovieDbApi = RetrofitInstance.getTmdbApiService()
                 return theMovieDbApi.getLiveTvShowsWithPerson(actor_id, Constants.TMDB_API_KEY)
             }
 
-            override fun saveCallResult(item: TvShowsWithPerson) {
+            override fun saveCallResult(item: TvShowWithPerson) {
                 //this is executed on background thread
                 database.runInTransaction { creditsDao.insertTvShowsWithPerson(item) }
             }

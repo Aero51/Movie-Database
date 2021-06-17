@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.tvshows
 
 import android.graphics.Color
 import android.os.Bundle
@@ -56,7 +56,7 @@ class TvShowActorFragment : Fragment() {
         binding!!.starredInRecyclerViewHorizontal.isNestedScrollingEnabled = false
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInRecyclerViewHorizontal.layoutManager = linearLayoutManager
-        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter()
+        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter(null)
         binding!!.starredInRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
         sharedViewModel!!.liveDataTvShowActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar

@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.search
 
 import android.os.Bundle
 import android.util.Log
@@ -9,14 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentTvShowsSearchBinding
-import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage.NowPlayingMovie
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter
-import com.aero51.moviedatabase.utils.NowPlayingItemClickListener
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
-class TvShowsSearchFragment : Fragment(), ObjectClickListener {
+class TvShowsSearchFragment : Fragment(),
+    MovieClickListener {
     private var binding: FragmentTvShowsSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private var tvShowsSearchPagedListAdapter: TvShowsPagedListAdapter? = null
@@ -48,7 +47,8 @@ class TvShowsSearchFragment : Fragment(), ObjectClickListener {
         searchViewModel!!.tvShowSearchResult.observe(viewLifecycleOwner, { tvShows -> tvShowsSearchPagedListAdapter!!.submitList(tvShows) })
     }
 
-    override fun onObjectItemClick(tvShow: Any?, position: Int) {
+
+    override fun onMovieItemClick(tvShow: Any?, position: Int) {
         Log.d("nikola","onObjectItemClick "+position)
         sharedViewModel.changeToTvShowDetailsFragment(tvShow, position)
     }

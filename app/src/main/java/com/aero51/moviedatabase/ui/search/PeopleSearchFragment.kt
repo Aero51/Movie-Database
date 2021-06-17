@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.search
 
 import android.os.Bundle
 import android.util.Log

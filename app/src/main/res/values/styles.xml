@@ -55,21 +55,27 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="DialogStyleLight.Custom" parent="MovieDatabaseTheme">
+    <style name="PreferenceScreen" parent="MovieDatabaseTheme">
         <item name="android:textColor">@color/primaryText</item>
-        <item name="android:textColorSecondary">@color/primaryText</item>
-        <item name="android:textColorPrimary">@color/primaryText</item>
-        <item name="titleTextColor">@color/primaryText</item>
-        <item name="android:textColorAlertDialogListItem">@color/primaryText</item>
-        <item name="android:textCheckMark">@color/primaryText</item>
-        <item name="android:background">@color/light_green</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="colorAccent">#ffffff</item>
+        <item name="android:background">@color/dark_green</item>
+        <item name="android:dialogTheme">@style/AppTheme.Dialog</item>
+        <item name="android:alertDialogTheme">@style/AppTheme.Dialog</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dialog</item>
     </style>
 
     <style name="AppTheme.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:background">#212D3B</item>
-        <item name="colorPrimary">#61A3D7</item>
-        <item name="colorPrimaryDark">#8DB2D3</item>
-        <item name="colorAccent">#61A3D7</item>
+        <item name="android:textColor">@color/primaryText</item>
+        <item name="android:textColorPrimary">#ffffff</item>
+        <item name="colorPrimaryDark">@color/dark_green</item>
+        <item name="android:textColorSecondary">@color/primaryText</item>
+        <item name="android:background">@color/dark_green</item>
+        <item name="colorPrimary">@color/primaryText</item>
+        <item name="colorSecondary">@color/primaryText</item>
+        <item name="colorAccent">@color/primaryText</item>
+        <item name="colorButtonNormal">@color/primaryText</item>
+        <item name="textColorAlertDialogListItem">@color/white</item>
     </style>
 </resources>

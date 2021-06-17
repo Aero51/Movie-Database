@@ -1,7 +1,6 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.epg
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +13,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentGenreListBinding
 import com.aero51.moviedatabase.ui.adapter.MoviesByGenrePagedListAdapter
-import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.utils.Constants.LOG2
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
+class EpgMoviesByGenreListFragment : Fragment(),
+    MovieClickListener {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var moviesViewModel: MoviesViewModel
@@ -35,7 +33,8 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        moviesViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(MoviesViewModel::class.java)
+        moviesViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(
+            MoviesViewModel::class.java)
 
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -76,7 +75,7 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
 
     private fun registerSharedViewModelObserver() {
         binding?.progressBar?.setVisibility(View.VISIBLE)
-        sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
+        sharedViewModel.liveDataEpgGenreId.observe(viewLifecycleOwner, Observer { genreId ->
             this.genreId=genreId
             moviesViewModel.moviesByGenreDataValidationCheck(genreId)
             registerMoviesByGenrePagedListObserver(genreId)
@@ -92,20 +91,17 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
     }
 
     private fun registerMoviesByGenrePage(){
-       moviesViewModel.moviesByGenrePage.observe(viewLifecycleOwner, Observer {moviesByGenrePage ->
-           val page_number: Int
-           page_number = if (moviesByGenrePage == null) {
-               0
-           } else {
-               moviesByGenrePage.page
-           }
-       })
+        moviesViewModel.moviesByGenrePage.observe(viewLifecycleOwner, Observer {moviesByGenrePage ->
+            val page_number: Int
+            page_number = if (moviesByGenrePage == null) {
+                0
+            } else {
+                moviesByGenrePage.page
+            }
+        })
     }
 
 
-    override fun onObjectItemClick(movie: Any?, position: Int) {
-        sharedViewModel.changeToMoviedetailsFragment(movie, position)
-    }
 
     private fun showBackButton(show: Boolean) {
         if (activity is AppCompatActivity) {
@@ -136,6 +132,10 @@ class MoviesByGenreListFragment : Fragment(), ObjectClickListener {
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
+    }
+
+    override fun onMovieItemClick(movie: Any?, position: Int) {
+        sharedViewModel.changeToEpgMoviedetailsFragment(movie, position)
     }
 
 }

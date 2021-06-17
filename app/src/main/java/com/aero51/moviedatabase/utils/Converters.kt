@@ -4,7 +4,7 @@ import androidx.room.TypeConverter
 import com.aero51.moviedatabase.repository.model.omdb.OmdbModel.Ratings
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse.KnownFor
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
-import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse.MovieGenre
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
@@ -236,35 +236,35 @@ object Converters {
     }
     @JvmStatic
     @TypeConverter
-    fun toTvShowsWithPersonCrew(value: String?): List<TvShowsWithPerson.Crew>? {
+    fun toTvShowsWithPersonCrew(value: String?): List<TvShowWithPerson.Crew>? {
         if (value == null) {
             return null
         }
         val gson = Gson()
-        val type = object : TypeToken<List<TvShowsWithPerson.Crew>>() {}.type
+        val type = object : TypeToken<List<TvShowWithPerson.Crew>>() {}.type
         return gson.fromJson(value, type)
     }
 
     @JvmStatic
     @TypeConverter
-    fun fromTvShowsWithPersonCrew(crew: List<TvShowsWithPerson.Crew>): String {
+    fun fromTvShowsWithPersonCrew(crew: List<TvShowWithPerson.Crew>): String {
         val gson = Gson()
         return gson.toJson(crew)
     }
     @JvmStatic
     @TypeConverter
-    fun toTvShowsWithPersonCast(value: String?): List<TvShowsWithPerson.Cast>? {
+    fun toTvShowsWithPersonCast(value: String?): List<TvShowWithPerson.Cast>? {
         if (value == null) {
             return null
         }
         val gson = Gson()
-        val type = object : TypeToken<List<TvShowsWithPerson.Cast>>() {}.type
+        val type = object : TypeToken<List<TvShowWithPerson.Cast>>() {}.type
         return gson.fromJson(value, type)
     }
 
     @JvmStatic
     @TypeConverter
-    fun fromTvShowsWithPersonCast(cast: List<TvShowsWithPerson.Cast>): String {
+    fun fromTvShowsWithPersonCast(cast: List<TvShowWithPerson.Cast>): String {
         val gson = Gson()
         return gson.toJson(cast)
     }

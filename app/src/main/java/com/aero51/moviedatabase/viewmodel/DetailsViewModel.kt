@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.viewmodel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.aero51.moviedatabase.repository.CreditsRepository
@@ -15,7 +14,6 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.utils.AppExecutors
-import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.Resource
 import com.google.gson.Gson
 
@@ -50,7 +48,7 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
     fun getMoviesWithPerson(person_id: Int): LiveData<Resource<MoviesWithPerson>> {
         return creditsRepository.loadMoviesByActorId(person_id)
     }
-    fun getTvShowsWithPerson(person_id: Int): LiveData<Resource<TvShowsWithPerson>> {
+    fun getTvShowsWithPerson(person_id: Int): LiveData<Resource<TvShowWithPerson>> {
         return creditsRepository.loadTvShowsByActorId(person_id)
     }
 

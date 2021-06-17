@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.movies
 
 import android.graphics.Color
 import android.os.Bundle
@@ -17,6 +17,7 @@ import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
 import com.aero51.moviedatabase.utils.DateHelper.Companion.formatDateStringToDefaultLocale
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
@@ -25,7 +26,7 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class MovieActorFragment : Fragment() {
+class MovieActorFragment : Fragment(), MovieClickListener {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentActorBinding? = null
@@ -62,7 +63,7 @@ class MovieActorFragment : Fragment() {
         val linearLayoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInRecyclerViewHorizontal.layoutManager = linearLayoutManager
-        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter()
+        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter(this)
         binding!!.starredInRecyclerViewHorizontal.adapter = moviesWithPersonCastAdapter
         sharedViewModel!!.liveDataMovieActorId.observe(
             viewLifecycleOwner,
@@ -119,5 +120,10 @@ class MovieActorFragment : Fragment() {
                 moviesWithPersonCastAdapter!!.setList(data.cast)
             }
         })
+    }
+
+
+    override fun onMovieItemClick(movie: Any?, position: Int) {
+        sharedViewModel?.changeToMoviedetailsFragmentFromMovieActorFragment(movie, position)
     }
 }

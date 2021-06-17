@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.ui.epg;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

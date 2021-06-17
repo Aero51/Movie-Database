@@ -12,11 +12,11 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.ObjectClickListener
+import com.aero51.moviedatabase.utils.MovieClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class MoviesByGenrePagedListAdapter(private val itemClickListener: ObjectClickListener): PagedListAdapter<MoviesByGenrePage.MovieByGenre, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class MoviesByGenrePagedListAdapter(private val itemClickListener: MovieClickListener): PagedListAdapter<MoviesByGenrePage.MovieByGenre, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -32,14 +32,14 @@ class MoviesByGenrePagedListAdapter(private val itemClickListener: ObjectClickLi
     }
 
 
-    class GenreMovieHolder(itemView: View, itemClickListener: ObjectClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class GenreMovieHolder(itemView: View, itemClickListener: MovieClickListener?) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var result: MoviesByGenrePage.MovieByGenre? = null
         private var adapterposition = 0
         private val imageView: ImageView
         //private val textViewPosition: TextView
         private val textViewtitle: TextView
         private val textViewVoteAverage: TextView? = null
-        private val itemClickListener: ObjectClickListener?
+        private val itemClickListener: MovieClickListener?
 
         init {
             imageView = itemView.findViewById(R.id.image_view_program)
@@ -66,7 +66,7 @@ class MoviesByGenrePagedListAdapter(private val itemClickListener: ObjectClickLi
 
         override fun onClick(v: View) {
             if (itemClickListener != null && adapterposition != RecyclerView.NO_POSITION) {
-                itemClickListener.onObjectItemClick(result, adapterposition) // call the onClick in the OnItemClickListener
+                itemClickListener.onMovieItemClick(result, adapterposition) // call the onClick in the OnItemClickListener
             }
         }
 

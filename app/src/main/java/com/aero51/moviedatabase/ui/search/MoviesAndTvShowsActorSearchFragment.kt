@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.search
 
 import android.graphics.Color
 import android.os.Bundle
@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
-import com.aero51.moviedatabase.databinding.FragmentActorBinding
 import com.aero51.moviedatabase.databinding.FragmentMovieAndTvShowActorBinding
 import com.aero51.moviedatabase.ui.adapter.MoviesWithPersonCastAdapter
 import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter
@@ -26,7 +25,7 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class EpgMoviesAndTvShowsActorFragment : Fragment() {
+class MoviesAndTvShowsActorSearchFragment : Fragment() {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentMovieAndTvShowActorBinding? = null
@@ -59,15 +58,16 @@ class EpgMoviesAndTvShowsActorFragment : Fragment() {
         binding!!.starredInMoviesRecyclerViewHorizontal.isNestedScrollingEnabled = false
         val moviesLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInMoviesRecyclerViewHorizontal.layoutManager = moviesLinearLayoutManager
-        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter()
+        //TODO implement click listener
+        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter(null)
         binding!!.starredInMoviesRecyclerViewHorizontal.adapter = moviesWithPersonCastAdapter
 
         val tvShowsLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInTvShowsRecyclerViewHorizontal.layoutManager = tvShowsLinearLayoutManager
-        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter()
+        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter(null)
         binding!!.starredInTvShowsRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
 
-        sharedViewModel!!.liveDataEpgActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
+        sharedViewModel!!.liveDataMovieAndTvShowActorSearchId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
         //toolbar.setTitle("text");
         toolbar.setNavigationOnClickListener {

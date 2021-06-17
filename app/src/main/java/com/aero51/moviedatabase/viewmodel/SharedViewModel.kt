@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram
+import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage.NowPlayingMovie
@@ -26,8 +28,14 @@ class SharedViewModel : ViewModel() {
     private val otherChannelIndex: Int? = null
     private val liveMovie = MutableLiveData<Movie>()
     private val liveTvShow = MutableLiveData<TvShow>()
+    private val liveMovieFromActor = MutableLiveData<Movie>()
+    private val liveEpgMovie = MutableLiveData<Movie>()
+    private val liveEpgTvShow = MutableLiveData<TvShow>()
     private val shouldSwitchMovieDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowDetailFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchMovieDetailFragmentFromMovieActorFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchEpgMovieDetailFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchEpgTvShowDetailFragment = SingleLiveEvent<Boolean>()
     private var movieIndex: Int? = null
     private var tvShowIndex: Int? = null
     private val liveEpgActorId = MutableLiveData<Int>()
@@ -40,9 +48,12 @@ class SharedViewModel : ViewModel() {
     private val shouldSwitchMovieAndTvShowActorFragment = SingleLiveEvent<Boolean>()
     private var castIndex: Int? = null
     private val liveGenreId = MutableLiveData<Int>()
+    private val liveEpgGenreId = MutableLiveData<Int>()
     private val shouldSwitchMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMoviesByGenreListFragmentFromMovieDetailsFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowsByGenreListFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchEpgMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchEpgTvShowsByGenreListFragment = SingleLiveEvent<Boolean>()
     val hasEpgTvFragmentFinishedLoading = MutableLiveData<Boolean>()
 
     init {
@@ -100,10 +111,35 @@ class SharedViewModel : ViewModel() {
         if (movieObject is MoviesByGenrePage.MovieByGenre) {
             movie = transformMovieByGenre(movieObject)
         }
+        if (movieObject is MoviesWithPerson.Cast) {
+            movie = transformMovieWithPersonCast(movieObject)
+        }
         movieIndex = position
         liveMovie.value = movie
         shouldSwitchMovieDetailFragment.value = true
     }
+    fun changeToMoviedetailsFragmentFromMovieActorFragment(movieObject: Any?, position: Int?) {
+        var movie = Movie()
+
+        if (movieObject is MoviesWithPerson.Cast) {
+            movie = transformMovieWithPersonCast(movieObject)
+        }
+        movieIndex = position
+        liveMovieFromActor.value = movie
+        //liveMovie.value=movie
+        shouldSwitchMovieDetailFragmentFromMovieActorFragment.value = true
+    }
+    fun changeToEpgMoviedetailsFragment(movieObject: Any?, position: Int?) {
+        var movie = Movie()
+
+        if (movieObject is MoviesWithPerson.Cast) {
+            movie = transformMovieWithPersonCast(movieObject)
+        }
+        movieIndex = position
+        liveEpgMovie.value = movie
+        shouldSwitchEpgMovieDetailFragment.value = true
+    }
+
 
     //done like this to reduce code duplication(fragments, listeners, main activity identifiers
     fun changeToTvShowDetailsFragment(tvShowObject: Any?, position: Int?) {
@@ -132,14 +168,46 @@ class SharedViewModel : ViewModel() {
         shouldSwitchTvShowDetailFragment.setValue(true)
     }
 
+    fun changeToEpgTvShowDetailsFragment(tvShowObject: Any?, position: Int?) {
+        var tvShow = TvShow()
+        if (tvShowObject is TvShowWithPerson.Cast) {
+            val tvShowWithePersonCast = tvShowObject as TvShowWithPerson.Cast
+            tvShow = transformTvShowWithPersonCast(tvShowWithePersonCast)
+        }
+
+        tvShowIndex = position
+        liveEpgTvShow.setValue(tvShow)
+        shouldSwitchEpgTvShowDetailFragment.setValue(true)
+    }
+
     val liveDataMovie: LiveData<Movie>
         get() = liveMovie
+
 
     val liveDataTvShow: LiveData<TvShow>
         get() = liveTvShow
 
+    val liveDataEpgMovie: LiveData<Movie>
+        get() = liveEpgMovie
+
+    val liveDataEpgTvShow: LiveData<TvShow>
+        get() = liveEpgTvShow
+
+
+    val liveDataMovieFromMovieActorFragment: LiveData<Movie>
+        get() = liveMovieFromActor
+
     val singleLiveShouldSwitchMovieDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchMovieDetailFragment
+
+    val singleLiveShouldSwitchMovieDetailsFragmentFromMovieActorFragment: LiveData<Boolean>
+        get() = shouldSwitchMovieDetailFragmentFromMovieActorFragment
+
+    val singleLiveShouldSwitchEpgMovieDetailsFragment: LiveData<Boolean>
+        get() = shouldSwitchEpgMovieDetailFragment
+
+    val singleLiveShouldSwitchEpgTvShowDetailsFragment: LiveData<Boolean>
+        get() = shouldSwitchEpgTvShowDetailFragment
 
     val singleLiveShouldSwitchTvShowDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchTvShowDetailFragment
@@ -169,9 +237,18 @@ class SharedViewModel : ViewModel() {
         shouldSwitchMoviesByGenreListFragmentFromMovieDetailsFragment.value = true
     }
 
+    fun changeToEpgMoviesByGenreListFragment(genreId: Int, position: Int) {
+        liveEpgGenreId.value = genreId
+        shouldSwitchEpgMoviesByGenreListFragment.value = true
+    }
+
     fun changeToTvShowsByGenreListFragment(genreId: Int, position: Int?) {
         liveGenreId.value = genreId
         shouldSwitchTvShowsByGenreListFragment.value = true
+    }
+    fun changeToEpgTvShowsByGenreListFragment(genreId: Int, position: Int?) {
+        liveEpgGenreId.value = genreId
+        shouldSwitchEpgTvShowsByGenreListFragment.value = true
     }
 
     fun changeToMoviesAndTvShowsActorFragment(position: Int?, actorId: Int) {
@@ -206,6 +283,9 @@ class SharedViewModel : ViewModel() {
     val liveDataGenreId: LiveData<Int>
         get() = liveGenreId
 
+    val liveDataEpgGenreId: LiveData<Int>
+        get() = liveEpgGenreId
+
     val singleLiveShouldSwitchMoviesByGenreListFragment: LiveData<Boolean>
         get() = shouldSwitchMoviesByGenreListFragment
 
@@ -214,6 +294,12 @@ class SharedViewModel : ViewModel() {
 
     val singleLiveShouldSwitchTvShowsByGenreListFragment: LiveData<Boolean>
         get() = shouldSwitchTvShowsByGenreListFragment
+
+    val singleLiveShouldSwitchEpgMoviesByGenreListFragment: LiveData<Boolean>
+        get() = shouldSwitchEpgMoviesByGenreListFragment
+
+    val singleLiveShouldSwitchEpgTvShowsByGenreListFragment: LiveData<Boolean>
+        get() = shouldSwitchEpgTvShowsByGenreListFragment
 
     val singleLiveShouldSwitchMoviesAndTvShowsActorFragment: LiveData<Boolean>
         get() = shouldSwitchMovieAndTvShowActorFragment
@@ -250,6 +336,10 @@ class SharedViewModel : ViewModel() {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
+    private fun transformMovieWithPersonCast(original: MoviesWithPerson.Cast?): Movie {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), Movie::class.java)
+    }
 
 
     private fun transformPopularTvShow(original: PopularTvShowsPage.PopularTvShow?): TvShow {
@@ -269,6 +359,10 @@ class SharedViewModel : ViewModel() {
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }
     private fun transformTvShowSearchResult(original: TvShowSearchResult.TvShow?): TvShow {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
+    private fun transformTvShowWithPersonCast(original: TvShowWithPerson.Cast?): TvShow {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
     }

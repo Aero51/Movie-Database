@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui;
+package com.aero51.moviedatabase.ui.epg;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,7 +13,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +23,6 @@ import com.aero51.moviedatabase.databinding.FragmentEpgDetailsBinding;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse;
 import com.aero51.moviedatabase.ui.adapter.ActorSearchAdapter;
-import com.aero51.moviedatabase.utils.Constants;
 import com.aero51.moviedatabase.utils.EndlessRecyclerViewScrollListener;
 import com.aero51.moviedatabase.utils.Resource;
 import com.aero51.moviedatabase.utils.Status;

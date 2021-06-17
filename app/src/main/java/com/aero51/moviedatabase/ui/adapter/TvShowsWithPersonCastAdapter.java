@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +7,8 @@ import android.view.ViewGroup;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.databinding.MediaWithPersonItemBinding;
-import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowsWithPerson;
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowWithPerson;
+import com.aero51.moviedatabase.utils.TvShowClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -18,10 +18,11 @@ import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 
 public class TvShowsWithPersonCastAdapter extends RecyclerView.Adapter<TvShowsWithPersonCastAdapter.ViewHolder> {
 
-    private List<TvShowsWithPerson.Cast> tvShowCastList;
-    private MoviesWithPersonCastAdapter.ItemClickListener mClickListener;
+    private List<TvShowWithPerson.Cast> tvShowCastList;
+    private TvShowClickListener mClickListener;
 
-    public TvShowsWithPersonCastAdapter() {
+    public TvShowsWithPersonCastAdapter(TvShowClickListener clickListener) {
+        this.mClickListener = clickListener;
     }
 
     // inflates the row layout from xml when needed
@@ -33,7 +34,7 @@ public class TvShowsWithPersonCastAdapter extends RecyclerView.Adapter<TvShowsWi
     // binds the data to the TextView in each row
     @Override
     public void onBindViewHolder(TvShowsWithPersonCastAdapter.ViewHolder holder, int position) {
-        TvShowsWithPerson.Cast tvCast = tvShowCastList.get(position);
+        TvShowWithPerson.Cast tvCast = tvShowCastList.get(position);
         String imageUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + tvCast.getPoster_path();
         Picasso.get().load(imageUrl).into(holder.binding.imageViewMedia);
         holder.binding.textViewTitle.setText(tvCast.getName());
@@ -51,7 +52,7 @@ public class TvShowsWithPersonCastAdapter extends RecyclerView.Adapter<TvShowsWi
 
     }
 
-    public void setList(List<TvShowsWithPerson.Cast> tvCastList) {
+    public void setList(List<TvShowWithPerson.Cast> tvCastList) {
         this.tvShowCastList = tvCastList;
         notifyDataSetChanged();
     }
@@ -71,23 +72,16 @@ public class TvShowsWithPersonCastAdapter extends RecyclerView.Adapter<TvShowsWi
         public void onClick(View view) {
             Integer adapter_position = getBindingAdapterPosition();
             if (mClickListener != null)
-                mClickListener.onItemClick(view, getItem(adapter_position).getId(), adapter_position);
+                mClickListener.onTvShowItemClick(getItem(adapter_position), adapter_position);
         }
     }
 
     // convenience method for getting data at click position
-    private TvShowsWithPerson.Cast getItem(int id) {
+    private TvShowWithPerson.Cast getItem(int id) {
         return tvShowCastList.get(id);
     }
 
-    // allows clicks events to be caught
-    //TODO implement click listener
-    public void setClickListener(MoviesWithPersonCastAdapter.ItemClickListener itemClickListener) {
-        this.mClickListener = itemClickListener;
-    }
 
-    // parent activity will implement this method to respond to click events
-    public interface ItemClickListener {
-        void onItemClick(View view, Integer actorId, int position);
-    }
+
+
 }

@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.ui
+package com.aero51.moviedatabase.ui.epg
 
 import android.os.Bundle
 import android.view.LayoutInflater
