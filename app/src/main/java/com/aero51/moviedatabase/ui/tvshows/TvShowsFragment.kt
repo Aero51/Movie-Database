@@ -20,7 +20,7 @@ import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.aero51.moviedatabase.viewmodel.TvShowsViewModel
 
 class TvShowsFragment : Fragment(),
-    MovieClickListener, GenreObjectClickListener {
+    MediaClickListener, GenreObjectClickListener {
     private var binding: FragmentTvShowsBinding? = null
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var tvShowsViewModel: TvShowsViewModel
@@ -151,7 +151,7 @@ class TvShowsFragment : Fragment(),
         sharedViewModel.changeToTvShowsByGenreListFragment(genreId, position)
     }
 
-    override fun onMovieItemClick(tvShow: Any?, position: Int) {
+    override fun onMediaItemClick(tvShow: Any?, position: Int) {
         sharedViewModel.changeToTvShowDetailsFragment(tvShow,position)
     }
 }

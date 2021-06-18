@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentGenreListBinding
 import com.aero51.moviedatabase.ui.adapter.MoviesByGenrePagedListAdapter
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.google.android.material.appbar.AppBarLayout
@@ -21,7 +21,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class EpgMoviesByGenreListFragment : Fragment(),
-    MovieClickListener {
+    MediaClickListener {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var moviesViewModel: MoviesViewModel
@@ -134,7 +134,7 @@ class EpgMoviesByGenreListFragment : Fragment(),
         binding = null
     }
 
-    override fun onMovieItemClick(movie: Any?, position: Int) {
+    override fun onMediaItemClick(movie: Any?, position: Int) {
         sharedViewModel.changeToEpgMoviedetailsFragment(movie, position)
     }
 

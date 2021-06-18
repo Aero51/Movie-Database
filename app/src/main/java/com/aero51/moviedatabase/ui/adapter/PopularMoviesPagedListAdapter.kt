@@ -13,11 +13,11 @@ import com.aero51.moviedatabase.repository.model.NetworkState
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage.PopularMovie
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class PopularMoviesPagedListAdapter(private val itemClickListener: MovieClickListener) : PagedListAdapter<PopularMovie, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class PopularMoviesPagedListAdapter(private val itemClickListener: MediaClickListener) : PagedListAdapter<PopularMovie, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     private val networkState: NetworkState? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class PopularMoviesPagedListAdapter(private val itemClickListener: MovieClickLis
         (holder as PopularMovieHolder).bindTo(currentResult, position)
     }
 
-    class PopularMovieHolder(itemView: View, itemClickListener: MovieClickListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class PopularMovieHolder(itemView: View, itemClickListener: MediaClickListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var result: PopularMovie? = null
         private var mposition = 0
         private val imageView: ImageView = itemView.findViewById(R.id.image_view_program)
@@ -38,7 +38,7 @@ class PopularMoviesPagedListAdapter(private val itemClickListener: MovieClickLis
         //private TextView textViewPosition;
         private val textViewtitle: TextView = itemView.findViewById(R.id.text_view_title)
         private val textViewVoteAverage: TextView? = null
-        private val itemClickListener: MovieClickListener = itemClickListener
+        private val itemClickListener: MediaClickListener = itemClickListener
 
         init {
             itemView.setOnClickListener(this)
@@ -62,7 +62,7 @@ class PopularMoviesPagedListAdapter(private val itemClickListener: MovieClickLis
 
         override fun onClick(v: View) {
             if (itemClickListener != null && mposition != RecyclerView.NO_POSITION) {
-                itemClickListener.onMovieItemClick(result, mposition) // call the onClick in the OnItemClickListener
+                itemClickListener.onMediaItemClick(result, mposition) // call the onClick in the OnItemClickListener
             }
         }
 

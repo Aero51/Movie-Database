@@ -39,6 +39,7 @@ import com.aero51.moviedatabase.ui.movies.MoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.movies.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.tvshows.TvShowActorFragment;
 import com.aero51.moviedatabase.ui.tvshows.TvShowDetailsFragment;
+import com.aero51.moviedatabase.ui.tvshows.TvShowDetailsFragmentSecond;
 import com.aero51.moviedatabase.ui.tvshows.TvShowsByGenreListFragment;
 import com.aero51.moviedatabase.ui.tvshows.TvShowsFragment;
 import com.aero51.moviedatabase.ui.adapter.DynamicFragmentPagerAdapter;
@@ -75,11 +76,13 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier favouritesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifierFromMovieActorFragment;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowDetailsFragmentIdentifierFromTvShowActorFragment;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesByGenreListFragmentFromMovieDetailsIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentFromTvShowDetailsIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowsByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgMoviesByGenreListFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgTvShowsByGenreListFragmentIdentifier;
@@ -575,6 +578,24 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(2);
             }
         });
+        sharedViewModel.getSingleLiveShouldSwitchTvShowsByGenreListFragmentFromTvShowDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                tvShowsByGenreListFragmentFromTvShowDetailsIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsByGenreListFragment.class.getSimpleName()+"FromTvShowDetailsFragment", null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TvShowsByGenreListFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(2, tvShowsByGenreListFragmentFromTvShowDetailsIdentifier);
+                customViewPager.setCurrentItem(2);
+            }
+        });
 
         sharedViewModel.getSingleLiveShouldSwitchTvActorFragment().observe(this, new Observer<Boolean>() {
             @Override
@@ -594,6 +615,28 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 customViewPager.setCurrentItem(2);
             }
         });
+
+
+        sharedViewModel.getSingleLiveShouldSwitchTvShowDetailsFragmentFromTvShowActorFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                tvShowDetailsFragmentIdentifierFromTvShowActorFragment = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowDetailsFragmentSecond.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TvShowDetailsFragmentSecond();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+
+                replaceFragment(2, tvShowDetailsFragmentIdentifierFromTvShowActorFragment);
+                customViewPager.setCurrentItem(2);
+            }
+        });
+
 
     }
 
@@ -661,6 +704,12 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     replaceFragment(2, tvShowsFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
                 } else if (currentFragmentTag.equals(TvShowActorFragment.class.getSimpleName())) {
+                    replaceFragment(2, tvShowDetailsFragmentIdentifier);
+                    customViewPager.setCurrentItem(2);
+                }else if (currentFragmentTag.equals(TvShowDetailsFragmentSecond.class.getSimpleName())) {
+                    replaceFragment(2, tvActorFragmentIdentifier);
+                    customViewPager.setCurrentItem(2);
+                }else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName()+"FromTvShowDetailsFragment")) {
                     replaceFragment(2, tvShowDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
                 }

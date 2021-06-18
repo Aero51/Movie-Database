@@ -23,7 +23,8 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class EpgMoviesAndTvShowsActorFragment : Fragment(), MovieClickListener,TvShowClickListener {
+class EpgMoviesAndTvShowsActorFragment : Fragment(),
+    MediaClickListener,TvShowClickListener {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentMovieAndTvShowActorBinding? = null
@@ -126,7 +127,7 @@ class EpgMoviesAndTvShowsActorFragment : Fragment(), MovieClickListener,TvShowCl
         })
     }
 
-    override fun onMovieItemClick(movie: Any?, position: Int) {
+    override fun onMediaItemClick(movie: Any?, position: Int) {
         sharedViewModel?.changeToEpgMoviedetailsFragment(movie, position)
     }
 

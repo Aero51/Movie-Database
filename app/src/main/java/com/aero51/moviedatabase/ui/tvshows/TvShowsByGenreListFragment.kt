@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentGenreListBinding
 import com.aero51.moviedatabase.ui.adapter.TvShowsByGenrePagedListAdapter
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.aero51.moviedatabase.viewmodel.TvShowsViewModel
 import com.google.android.material.appbar.AppBarLayout
@@ -21,7 +21,7 @@ import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class TvShowsByGenreListFragment : Fragment(),
-    MovieClickListener {
+    MediaClickListener {
 
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var tvShowsViewModel: TvShowsViewModel
@@ -80,7 +80,7 @@ class TvShowsByGenreListFragment : Fragment(),
 
     private fun registerSharedViewModelObserver() {
         binding?.progressBar?.setVisibility(View.VISIBLE)
-        sharedViewModel.liveDataGenreId.observe(viewLifecycleOwner, Observer { genreId ->
+        sharedViewModel.liveDataTvShowGenreId.observe(viewLifecycleOwner, Observer { genreId ->
             this.genreId = genreId
             tvShowsViewModel.tvShowsByGenreDataValidationCheck(genreId)
             registerTvShowsByGenrePagedListObserver(genreId)
@@ -146,7 +146,7 @@ class TvShowsByGenreListFragment : Fragment(),
         binding = null
     }
 
-    override fun onMovieItemClick(movie: Any?, position: Int) {
+    override fun onMediaItemClick(movie: Any?, position: Int) {
         sharedViewModel.changeToTvShowDetailsFragment(movie, position)
     }
 

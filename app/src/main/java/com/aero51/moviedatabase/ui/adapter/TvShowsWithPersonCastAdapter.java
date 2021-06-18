@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.databinding.MediaWithPersonItemBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowWithPerson;
-import com.aero51.moviedatabase.utils.TvShowClickListener;
+import com.aero51.moviedatabase.utils.MediaClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import static com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154;
 public class TvShowsWithPersonCastAdapter extends RecyclerView.Adapter<TvShowsWithPersonCastAdapter.ViewHolder> {
 
     private List<TvShowWithPerson.Cast> tvShowCastList;
-    private TvShowClickListener mClickListener;
+    private MediaClickListener mClickListener;
 
-    public TvShowsWithPersonCastAdapter(TvShowClickListener clickListener) {
+    public TvShowsWithPersonCastAdapter(MediaClickListener clickListener) {
         this.mClickListener = clickListener;
     }
 
@@ -72,7 +72,7 @@ public class TvShowsWithPersonCastAdapter extends RecyclerView.Adapter<TvShowsWi
         public void onClick(View view) {
             Integer adapter_position = getBindingAdapterPosition();
             if (mClickListener != null)
-                mClickListener.onTvShowItemClick(getItem(adapter_position), adapter_position);
+                mClickListener.onMediaItemClick(getItem(adapter_position), adapter_position);
         }
     }
 

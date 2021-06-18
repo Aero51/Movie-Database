@@ -11,14 +11,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentMovieSearchBinding
 import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.google.android.material.appbar.AppBarLayout
 
 
 class MovieSearchFragment : Fragment(),
-    MovieClickListener {
+    MediaClickListener {
     private var binding: FragmentMovieSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private lateinit var sharedViewModel: SharedViewModel
@@ -63,7 +63,7 @@ class MovieSearchFragment : Fragment(),
         searchViewModel!!.movieSearchResult.observe(viewLifecycleOwner, { nowPlayingMovies -> moviesSearchAdapter!!.submitList(nowPlayingMovies) })
     }
 
-    override fun onMovieItemClick(movie: Any?, position: Int) {
+    override fun onMediaItemClick(movie: Any?, position: Int) {
         sharedViewModel.changeToMoviedetailsFragment(movie, position)
     }
 }

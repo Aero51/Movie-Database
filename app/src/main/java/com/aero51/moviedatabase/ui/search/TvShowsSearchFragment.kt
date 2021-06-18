@@ -10,12 +10,12 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentTvShowsSearchBinding
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
 class TvShowsSearchFragment : Fragment(),
-    MovieClickListener {
+    MediaClickListener {
     private var binding: FragmentTvShowsSearchBinding? = null
     private var searchViewModel: SearchViewModel? = null
     private var tvShowsSearchPagedListAdapter: TvShowsPagedListAdapter? = null
@@ -48,7 +48,7 @@ class TvShowsSearchFragment : Fragment(),
     }
 
 
-    override fun onMovieItemClick(tvShow: Any?, position: Int) {
+    override fun onMediaItemClick(tvShow: Any?, position: Int) {
         Log.d("nikola","onObjectItemClick "+position)
         sharedViewModel.changeToTvShowDetailsFragment(tvShow, position)
     }

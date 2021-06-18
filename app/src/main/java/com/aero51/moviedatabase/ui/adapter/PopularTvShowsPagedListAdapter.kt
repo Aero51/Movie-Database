@@ -13,11 +13,11 @@ import com.aero51.moviedatabase.repository.model.NetworkState
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.PopularTvShowsPage.PopularTvShow
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class PopularTvShowsPagedListAdapter(private val itemClickListener: MovieClickListener) : PagedListAdapter<PopularTvShow, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
+class PopularTvShowsPagedListAdapter(private val itemClickListener: MediaClickListener) : PagedListAdapter<PopularTvShow, RecyclerView.ViewHolder>(DIFF_CALLBACK) {
     private val networkState: NetworkState? = null
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,7 +30,7 @@ class PopularTvShowsPagedListAdapter(private val itemClickListener: MovieClickLi
         (holder as PopularTvShowHolder).bindTo(currentResult, position)
     }
 
-    class PopularTvShowHolder(itemView: View, itemClickListener: MovieClickListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    class PopularTvShowHolder(itemView: View, itemClickListener: MediaClickListener) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var result: PopularTvShow? = null
         private var mPosition = 0
         private val imageView: ImageView = itemView.findViewById(R.id.image_view_program)
@@ -38,7 +38,7 @@ class PopularTvShowsPagedListAdapter(private val itemClickListener: MovieClickLi
         //private TextView textViewPosition;
         private val textViewtitle: TextView = itemView.findViewById(R.id.text_view_title)
         private val textViewVoteAverage: TextView? = null
-        private val itemClickListener: MovieClickListener?
+        private val itemClickListener: MediaClickListener?
 
         init {
             //textViewPosition = itemView.findViewById(R.id.text_view_position);
@@ -63,7 +63,7 @@ class PopularTvShowsPagedListAdapter(private val itemClickListener: MovieClickLi
 
         override fun onClick(v: View) {
             if (itemClickListener != null && mPosition != RecyclerView.NO_POSITION) {
-                itemClickListener.onMovieItemClick(result, mPosition) // call the onClick in the OnItemClickListener
+                itemClickListener.onMediaItemClick(result, mPosition) // call the onClick in the OnItemClickListener
             }
         }
 

@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMoviesBinding
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.GenreObjectClickListener
-import com.aero51.moviedatabase.utils.MovieClickListener
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
 class MoviesFragment : Fragment(),
-    MovieClickListener,GenreObjectClickListener {
+    MediaClickListener,GenreObjectClickListener {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var moviesViewModel: MoviesViewModel
     private var topRatedAdapter: TopRatedMoviesPagedListAdapter? = null
@@ -224,7 +224,7 @@ class MoviesFragment : Fragment(),
         sharedViewModel.changeToMoviesByGenreListFragment(genreId,position)
     }
 
-    override fun onMovieItemClick(movie: Any?, position: Int) {
+    override fun onMediaItemClick(movie: Any?, position: Int) {
         sharedViewModel.changeToMoviedetailsFragment(movie, position)
     }
 

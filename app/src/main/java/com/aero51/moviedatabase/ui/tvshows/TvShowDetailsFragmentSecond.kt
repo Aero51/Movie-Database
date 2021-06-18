@@ -21,7 +21,7 @@ import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
+class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
     private var binding: FragmentTvShowDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var tvShowCastAdapter: TvShowCastAdapter? = null
@@ -55,7 +55,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
 
         binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
             startActivity(Intent(requireContext(), YoutubePlayerActivity::class.java)
-                    .putExtra("video_id", videosGlobalList[position].key))
+                .putExtra("video_id", videosGlobalList[position].key))
         }))
 
         registerSharedViewModelObserver()
@@ -70,7 +70,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataTvShow.observe(viewLifecycleOwner, Observer { tvShow ->
+        sharedViewModel!!.liveDataTvShowFromTvShowActorFragment.observe(viewLifecycleOwner, Observer { tvShow ->
             binding!!.title.text = tvShow.name
             binding!!.releaseYear.text= tvShow.first_air_date?.let { DateHelper.formatDateStringToDefaultLocale(it,"yyyy-MM-dd","yyyy") }
             binding!!.releaseDate.text = tvShow.id.toString()
@@ -187,6 +187,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel?.changeToTvShowsByGenreListFragmentFromTvShowDetailsFragment(genreId, position)
+        sharedViewModel?.changeToTvShowsByGenreListFragment(genreId, position)
     }
 }

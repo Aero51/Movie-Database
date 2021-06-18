@@ -17,6 +17,7 @@ import com.aero51.moviedatabase.ui.adapter.TvShowsWithPersonCastAdapter
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
 import com.aero51.moviedatabase.utils.DateHelper.Companion.formatDateStringToDefaultLocale
+import com.aero51.moviedatabase.utils.MediaClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
@@ -25,7 +26,7 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class TvShowActorFragment : Fragment() {
+class TvShowActorFragment : Fragment(), MediaClickListener {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentActorBinding? = null
@@ -56,7 +57,7 @@ class TvShowActorFragment : Fragment() {
         binding!!.starredInRecyclerViewHorizontal.isNestedScrollingEnabled = false
         val linearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInRecyclerViewHorizontal.layoutManager = linearLayoutManager
-        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter(null)
+        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter(this)
         binding!!.starredInRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
         sharedViewModel!!.liveDataTvShowActorId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
@@ -107,5 +108,9 @@ class TvShowActorFragment : Fragment() {
                 tvShowsWithPersonCastAdapter!!.setList(data.cast)
             }
         })
+    }
+
+    override fun onMediaItemClick(tv_show: Any?, position: Int) {
+        sharedViewModel?.changeToTvShowDetailsFragmentFromTvShowActorFragment(tv_show,position)
     }
 }
