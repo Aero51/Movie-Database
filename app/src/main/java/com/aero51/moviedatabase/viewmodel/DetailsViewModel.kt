@@ -12,6 +12,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorImagesRespons
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MovieCredits.MovieCast
 import com.aero51.moviedatabase.repository.model.tmdb.movie.*
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.utils.AppExecutors
 import com.aero51.moviedatabase.utils.Resource
@@ -71,10 +72,6 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         return detailsRepository.loadDetailsForTvShow(tv_show_id)
     }
 
-
-
-
-
     fun checkIfMovieIsFavourite(movieId: Int) : LiveData<MovieFavourite>{
         return detailsRepository.getMovieFavourites(movieId)
     }
@@ -88,9 +85,27 @@ class DetailsViewModel(application: Application) : AndroidViewModel(application)
         detailsRepository.deleteFavouriteMovie(movieFavourite)
     }
 
+
+    fun checkIfTvShowIsFavourite(tvShowId: Int) : LiveData<TvShowFavourite>{
+        return detailsRepository.getTvShowFavourites(tvShowId)
+    }
+
+    fun insertFavouriteTvShow(tvShow: TvShowDetailsResponse){
+        val tvShowFavourite = transformTvShowDetails(tvShow)
+        detailsRepository.insertFavouriteTvShow(tvShowFavourite)
+    }
+    fun deleteFavouriteTvShow(tvShow: TvShowDetailsResponse){
+        val tvShowFavourite = transformTvShowDetails(tvShow)
+        detailsRepository.deleteFavouriteTvShow(tvShowFavourite)
+    }
+
     private fun transformMovieDetails(movie: MovieDetailsResponse) :MovieFavourite{
         val gson = Gson()
         return gson.fromJson(gson.toJson(movie), MovieFavourite::class.java)
+    }
+    private fun transformTvShowDetails(tvShow: TvShowDetailsResponse) : TvShowFavourite {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(tvShow), TvShowFavourite::class.java)
     }
 
 }

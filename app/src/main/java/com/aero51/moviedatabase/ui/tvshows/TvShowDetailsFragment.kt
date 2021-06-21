@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -14,6 +15,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentTvShowDetailsBinding
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.ui.adapter.*
 import com.aero51.moviedatabase.utils.*
@@ -85,6 +88,7 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
             registerOmdbDetailsObserver(tvShow.name)
             registerTvShowVideosObserver(tvShow.id)
             registerTvShowDetailsObserver(tvShow.id)
+            isTvShowFavourite(tvShow.id )
         })
     }
 
@@ -164,11 +168,38 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
                 }
                 binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ", productionCompanies)
                 //setFavouriteOnClickListener(tvShowDetails.data!!)
-
+                setFavouriteOnClickListener(tvShowDetails.data!!)
 
             }
         })
     }
+
+    private fun isTvShowFavourite(tvShowId: Int) {
+        //Checking if already added to favourite
+
+        detailsViewModel?.checkIfTvShowIsFavourite(tvShowId)?.observe(viewLifecycleOwner, Observer {
+            binding?.addToFavouritesCheckBox!!.isChecked = it != null
+
+        })
+
+    }
+
+    private fun setFavouriteOnClickListener(tvShow: TvShowDetailsResponse) {
+        val addToFavoritesCheckBox = binding?.addToFavouritesCheckBox
+        addToFavoritesCheckBox!!.setOnClickListener {
+
+            if (addToFavoritesCheckBox.isChecked) {
+                detailsViewModel!!.insertFavouriteTvShow(tvShow)
+                Toast.makeText(context, tvShow.original_name + " dodan u listu favorita.", Toast.LENGTH_LONG).show();
+            } else {
+                detailsViewModel!!.deleteFavouriteTvShow(tvShow)
+                Toast.makeText(context, tvShow.original_name + " maknut iz liste favorita.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
+
 
 
     override fun onDestroyView() {

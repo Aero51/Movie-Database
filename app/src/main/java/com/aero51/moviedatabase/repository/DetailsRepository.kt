@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.repository
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.aero51.moviedatabase.repository.db.Database
 import com.aero51.moviedatabase.repository.db.FavouritesDao
@@ -11,6 +10,7 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.repository.retrofit.RetrofitInstance
 import com.aero51.moviedatabase.utils.*
@@ -156,13 +156,13 @@ class DetailsRepository(application: Application, private val executors: AppExec
 
     fun getMovieFavourites(movieId: Int): LiveData<MovieFavourite> {
         //Checking if already added to favourite
-        return favouritesDao.checkIfFavourite(movieId)
+        return favouritesDao.checkIfMovieFavourite(movieId)
     }
 
     fun insertFavouriteMovie(movie: MovieFavourite) {
 
         val runnable = Runnable {
-            favouritesDao.insertFavourite(movie)
+            favouritesDao.insertMovieFavourite(movie)
         }
         val diskRunnable = Runnable { database.runInTransaction(runnable) }
         executors.diskIO().execute(diskRunnable)
@@ -172,7 +172,34 @@ class DetailsRepository(application: Application, private val executors: AppExec
     fun deleteFavouriteMovie(movie: MovieFavourite) {
 
         val runnable = Runnable {
-            favouritesDao.deleteFavourite(movie)
+            favouritesDao.deleteMovieFavourite(movie)
+        }
+        val diskRunnable = Runnable { database.runInTransaction(runnable) }
+        executors.diskIO().execute(diskRunnable)
+
+    }
+
+
+
+    fun getTvShowFavourites(tvShowId: Int): LiveData<TvShowFavourite> {
+        //Checking if already added to favourite
+        return favouritesDao.checkIfTvShowFavourite(tvShowId)
+    }
+
+    fun insertFavouriteTvShow(tvShow: TvShowFavourite) {
+
+        val runnable = Runnable {
+            favouritesDao.insertTvShowFavourite(tvShow)
+        }
+        val diskRunnable = Runnable { database.runInTransaction(runnable) }
+        executors.diskIO().execute(diskRunnable)
+
+    }
+
+    fun deleteFavouriteTvShow(tvShow: TvShowFavourite) {
+
+        val runnable = Runnable {
+            favouritesDao.deleteTvShowFavourite(tvShow)
         }
         val diskRunnable = Runnable { database.runInTransaction(runnable) }
         executors.diskIO().execute(diskRunnable)

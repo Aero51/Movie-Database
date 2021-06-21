@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 
 import com.aero51.moviedatabase.repository.db.*
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowFavourite
 import com.aero51.moviedatabase.utils.AppExecutors
 
 class FavouritesRepository(private val application: Application, private val executors: AppExecutors) {
@@ -20,9 +21,10 @@ class FavouritesRepository(private val application: Application, private val exe
     }
 
     fun getFavoriteMovies(): LiveData<List<MovieFavourite>> {
-
-        return favouritesDao.loadAllFavourites()
-
+        return favouritesDao.loadAllMovieFavourites()
+    }
+    fun getFavoriteTvShows(): LiveData<List<TvShowFavourite>> {
+        return favouritesDao.loadAllTvShowFavourites()
     }
 
 }

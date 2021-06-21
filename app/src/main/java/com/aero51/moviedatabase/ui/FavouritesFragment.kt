@@ -1,6 +1,7 @@
 package com.aero51.moviedatabase.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentFavouritesBinding
 import com.aero51.moviedatabase.ui.adapter.MovieFavoritesAdapter
+import com.aero51.moviedatabase.ui.adapter.TvShowFavouritesAdapter
 import com.aero51.moviedatabase.utils.GenreObjectClickListener
 import com.aero51.moviedatabase.viewmodel.FavoritesViewModel
 
@@ -21,39 +23,64 @@ class FavouritesFragment : Fragment(), GenreObjectClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        favoritesViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(FavoritesViewModel::class.java)
+        favoritesViewModel = ViewModelProvider(
+            this,
+            ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
+        ).get(FavoritesViewModel::class.java)
     }
 
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentFavouritesBinding.inflate(inflater, container, false)
 
         binding!!.favouriteMoviesRecyclerViewHorizontal.setHasFixedSize(true)
         binding!!.favouriteTvShowsRecyclerViewHorizontal.setHasFixedSize(true)
         binding!!.favouriteMoviesRecyclerViewHorizontal.isNestedScrollingEnabled = false
         binding!!.favouriteTvShowsRecyclerViewHorizontal.isNestedScrollingEnabled = false
-        val moviesLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        val tvShowsLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val moviesLinearLayoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        val tvShowsLinearLayoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.favouriteMoviesRecyclerViewHorizontal.layoutManager = moviesLinearLayoutManager
         binding!!.favouriteTvShowsRecyclerViewHorizontal.layoutManager = tvShowsLinearLayoutManager
 
 
         getFavouriteMovies()
+        getFavouriteTvShows()
 
         return binding!!.root
     }
 
     private fun getFavouriteMovies() {
-        favoritesViewModel?.getFavoriteMovies()?.observe(viewLifecycleOwner, Observer { favoriteMovieList ->
+        favoritesViewModel?.getFavoriteMovies()
+            ?.observe(viewLifecycleOwner, Observer { favoriteMovieList ->
 
-            if (!favoriteMovieList.isEmpty()) {
+                if (!favoriteMovieList.isEmpty()) {
 
-              val movieFavoritesAdapter: MovieFavoritesAdapter = MovieFavoritesAdapter(favoriteMovieList,this)
-                binding?.favouriteMoviesRecyclerViewHorizontal?.adapter = movieFavoritesAdapter
+                    val movieFavoritesAdapter: MovieFavoritesAdapter =
+                        MovieFavoritesAdapter(favoriteMovieList, this)
+                    binding?.favouriteMoviesRecyclerViewHorizontal?.adapter = movieFavoritesAdapter
 
-            }
+                }
 
-        })
+            })
+    }
+
+    private fun getFavouriteTvShows() {
+        favoritesViewModel?.getFavoriteTvShows()
+            ?.observe(viewLifecycleOwner, Observer { favoriteTvShowList ->
+                if (!favoriteTvShowList.isEmpty()) {
+                    val tvShowFavoritesAdapter: TvShowFavouritesAdapter =
+                        TvShowFavouritesAdapter(favoriteTvShowList, this)
+                    binding?.favouriteTvShowsRecyclerViewHorizontal?.adapter =
+                        tvShowFavoritesAdapter
+                }
+
+            })
     }
 
 
