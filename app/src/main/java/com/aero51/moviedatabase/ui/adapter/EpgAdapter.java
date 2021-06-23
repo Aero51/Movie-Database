@@ -2,13 +2,9 @@ package com.aero51.moviedatabase.ui.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ConcatAdapter;
@@ -18,12 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.BuildConfig;
 import com.aero51.moviedatabase.R;
-import com.aero51.moviedatabase.databinding.ActorImageItemBinding;
 import com.aero51.moviedatabase.databinding.EpgParentItemBinding;
 import com.aero51.moviedatabase.repository.model.epg.EpgChannel;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
-import com.aero51.moviedatabase.utils.ChannelItemClickListener;
-import com.aero51.moviedatabase.utils.ProgramItemClickListener;
+import com.aero51.moviedatabase.ui.listeners.ChannelItemClickListener;
+import com.aero51.moviedatabase.ui.listeners.ProgramItemClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

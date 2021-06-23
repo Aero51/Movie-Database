@@ -1,4 +1,4 @@
-package com.aero51.moviedatabase.utils;
+package com.aero51.moviedatabase.ui.listeners;
 
 
 import android.content.Context;

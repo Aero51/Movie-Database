@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.databinding.MediaWithPersonItemBinding;
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson;
-import com.aero51.moviedatabase.utils.MediaClickListener;
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;

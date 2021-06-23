@@ -11,8 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.aero51.moviedatabase.databinding.EpgAllProgramsItemBinding;
 import com.aero51.moviedatabase.repository.model.epg.ChannelWithPrograms;
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram;
-import com.aero51.moviedatabase.utils.Constants;
-import com.aero51.moviedatabase.utils.ProgramItemClickListener;
+import com.aero51.moviedatabase.ui.listeners.ProgramItemClickListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;

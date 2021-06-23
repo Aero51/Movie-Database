@@ -15,12 +15,15 @@ import com.aero51.moviedatabase.ui.adapter.AiringTvShowsPagedListAdapter
 import com.aero51.moviedatabase.ui.adapter.PopularTvShowsPagedListAdapter
 import com.aero51.moviedatabase.ui.adapter.TrendingTvShowsPagedListAdapter
 import com.aero51.moviedatabase.ui.adapter.TvShowGenresAdapter
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.aero51.moviedatabase.viewmodel.TvShowsViewModel
 
 class TvShowsFragment : Fragment(),
-    MediaClickListener, GenreObjectClickListener {
+    MediaClickListener,
+    GenreObjectClickListener {
     private var binding: FragmentTvShowsBinding? = null
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var tvShowsViewModel: TvShowsViewModel

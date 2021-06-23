@@ -8,6 +8,7 @@ import com.aero51.moviedatabase.repository.model.epg.EpgProgram
 import com.aero51.moviedatabase.repository.model.tmdb.credits.MoviesWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowWithPerson
 import com.aero51.moviedatabase.repository.model.tmdb.movie.Movie
+import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MoviesByGenrePage
 import com.aero51.moviedatabase.repository.model.tmdb.movie.NowPlayingMoviesPage.NowPlayingMovie
 import com.aero51.moviedatabase.repository.model.tmdb.movie.PopularMoviesPage.PopularMovie
@@ -31,6 +32,7 @@ class SharedViewModel : ViewModel() {
     private val liveMovieFromActor = MutableLiveData<Movie>()
     private val liveTvShowFromActor = MutableLiveData<TvShow>()
     private val liveEpgMovie = MutableLiveData<Movie>()
+    private val liveFavoriteMovie = MutableLiveData<Movie>()
     private val liveEpgTvShow = MutableLiveData<TvShow>()
     private val shouldSwitchMovieDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowDetailFragment = SingleLiveEvent<Boolean>()
@@ -38,6 +40,7 @@ class SharedViewModel : ViewModel() {
     private val shouldSwitchTvShowDetailFragmentFromTvShowActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchEpgMovieDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchEpgTvShowDetailFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchFavoriteMovieDetailsFragment = SingleLiveEvent<Boolean>()
     private var movieIndex: Int? = null
     private var tvShowIndex: Int? = null
     private val liveEpgActorId = MutableLiveData<Int>()
@@ -194,6 +197,15 @@ class SharedViewModel : ViewModel() {
         shouldSwitchEpgTvShowDetailFragment.setValue(true)
     }
 
+    fun changeToFavouriteMoviedetailsFragment(movieFavourite: MovieFavourite, position: Int?) {
+
+        movieIndex = position
+        liveFavoriteMovie.value = transformMovieFavorite(movieFavourite)
+        shouldSwitchFavoriteMovieDetailsFragment.value = true
+    }
+
+
+
     val liveDataMovie: LiveData<Movie>
         get() = liveMovie
 
@@ -203,6 +215,9 @@ class SharedViewModel : ViewModel() {
 
     val liveDataEpgMovie: LiveData<Movie>
         get() = liveEpgMovie
+
+    val liveDataFavoriteMovie: LiveData<Movie>
+        get() = liveFavoriteMovie
 
     val liveDataEpgTvShow: LiveData<TvShow>
         get() = liveEpgTvShow
@@ -231,6 +246,9 @@ class SharedViewModel : ViewModel() {
 
     val singleLiveShouldSwitchTvShowDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchTvShowDetailFragment
+
+    val singleLiveShouldSwitchFavoriteMovieDetailsFragment: LiveData<Boolean>
+        get() = shouldSwitchFavoriteMovieDetailsFragment
 
     fun changeToEpgActorFragment(position: Int?, actorId: Int) {
         castIndex = position
@@ -395,5 +413,9 @@ class SharedViewModel : ViewModel() {
     private fun transformTvShowWithPersonCast(original: TvShowWithPerson.Cast?): TvShow {
         val gson = Gson()
         return gson.fromJson(gson.toJson(original), TvShow::class.java)
+    }
+    private fun transformMovieFavorite(original: MovieFavourite?): Movie {
+        val gson = Gson()
+        return gson.fromJson(gson.toJson(original), Movie::class.java)
     }
 }

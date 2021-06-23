@@ -15,6 +15,8 @@ import com.aero51.moviedatabase.databinding.FragmentMovieAndTvShowActorBinding
 import com.aero51.moviedatabase.ui.adapter.MoviesWithPersonCastAdapter
 import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter
 import com.aero51.moviedatabase.ui.adapter.TvShowsWithPersonCastAdapter
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.TvShowClickListener
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
@@ -24,7 +26,8 @@ import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
 class EpgMoviesAndTvShowsActorFragment : Fragment(),
-    MediaClickListener,TvShowClickListener {
+    MediaClickListener,
+    TvShowClickListener {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentMovieAndTvShowActorBinding? = null

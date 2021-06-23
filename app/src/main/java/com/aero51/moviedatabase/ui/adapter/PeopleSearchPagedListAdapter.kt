@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse.ActorSearch
-import com.aero51.moviedatabase.utils.ActorClickListener
+import com.aero51.moviedatabase.ui.listeners.ActorClickListener
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
 import com.squareup.picasso.Picasso

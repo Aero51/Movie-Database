@@ -17,7 +17,7 @@ import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
 import com.aero51.moviedatabase.utils.DateHelper.Companion.formatDateStringToDefaultLocale
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel

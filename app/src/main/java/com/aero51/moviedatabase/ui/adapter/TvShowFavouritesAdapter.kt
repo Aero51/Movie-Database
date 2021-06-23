@@ -10,13 +10,12 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowFavourite
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.GenreObjectClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 class TvShowFavouritesAdapter(
     private val tvShowFavouritesList: List<TvShowFavourite>,
-    private val mClickListener: GenreObjectClickListener
+    private val mClickListener: OnTvShowItemClickListener
 ) : RecyclerView.Adapter<TvShowFavouritesAdapter.ViewHolder>() {
 
     // inflates the row layout from xml when needed
@@ -53,13 +52,13 @@ class TvShowFavouritesAdapter(
         init {
             titleTextView = itemView.findViewById(R.id.text_view_title)
             imageView = itemView.findViewById(R.id.image_view_program)
-            //genreTextView.setOnClickListener(this)
+            itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
             val adapter_position = bindingAdapterPosition
-            tvShowFavouritesList[adapter_position].id?.let {
-                mClickListener.onGenreItemClick(
+            tvShowFavouritesList[adapter_position].let {
+                mClickListener.onTvShowItemClick(
                     it,
                     adapter_position
                 )
@@ -68,5 +67,7 @@ class TvShowFavouritesAdapter(
 
 
     } // convenience method for getting data at click position
-
+    interface OnTvShowItemClickListener {
+        fun onTvShowItemClick(tvShowFavourite: TvShowFavourite, position: Int)
+    }
 }

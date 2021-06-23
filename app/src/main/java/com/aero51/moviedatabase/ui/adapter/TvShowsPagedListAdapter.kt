@@ -12,7 +12,7 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowSearchResult
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 

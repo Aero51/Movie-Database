@@ -1,5 +1,4 @@
-package com.aero51.moviedatabase.ui.epg
-
+package com.aero51.moviedatabase.ui.favorites
 
 import android.content.Intent
 import android.os.Bundle
@@ -24,14 +23,11 @@ import com.aero51.moviedatabase.ui.adapter.YouTubeMovieVideoAdapter
 import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
 import com.aero51.moviedatabase.ui.listeners.RecyclerViewOnClickListener
 import com.aero51.moviedatabase.utils.*
-import com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780
-import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
-import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class EpgMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
+class FavoriteMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     GenreObjectClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
@@ -41,7 +37,8 @@ class EpgMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        detailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(DetailsViewModel::class.java)
+        detailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(
+            DetailsViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -101,13 +98,13 @@ class EpgMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataEpgMovie.observe(viewLifecycleOwner, Observer { movie ->
+        sharedViewModel!!.liveDataFavoriteMovie.observe(viewLifecycleOwner, Observer { movie ->
             binding!!.title.text = movie.title
             binding!!.releaseYear.text = movie.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "yyyy") }
             binding!!.overview.text = movie.overview
             binding!!.tmdbRating.text = movie.vote_average.toString()
-            val imageUrl: String = BASE_IMAGE_URL + BACKDROP_SIZE_W780 + movie.backdrop_path
-            val posterUrl = BASE_IMAGE_URL + POSTER_SIZE_W154 + movie.poster_path
+            val imageUrl: String = Constants.BASE_IMAGE_URL + Constants.BACKDROP_SIZE_W780 + movie.backdrop_path
+            val posterUrl = Constants.BASE_IMAGE_URL + Constants.POSTER_SIZE_W154 + movie.poster_path
             Picasso.get().load(imageUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.coverImageView)
             Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
             binding!!.coverImageView.visibility = View.VISIBLE
@@ -240,11 +237,11 @@ class EpgMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
 
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToEpgActorFragment(position, actorId)
+        sharedViewModel!!.changeToMovieActorFragment(position, actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel.changeToEpgMoviesByGenreListFragment(genreId, position)
+        sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId, position)
     }
 
 }

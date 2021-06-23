@@ -1,6 +1,5 @@
 package com.aero51.moviedatabase.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,10 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.POSTER_SIZE_W154
-import com.aero51.moviedatabase.utils.GenreObjectClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
-class MovieFavoritesAdapter(private val movieFavouritesList: List<MovieFavourite>, private val mClickListener: GenreObjectClickListener) : RecyclerView.Adapter<MovieFavoritesAdapter.ViewHolder>() {
+class MovieFavoritesAdapter(private val movieFavouritesList: List<MovieFavourite>, private val mClickListener: OnMovieItemClickListener) : RecyclerView.Adapter<MovieFavoritesAdapter.ViewHolder>() {
 
     // inflates the row layout from xml when needed
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -50,14 +48,17 @@ class MovieFavoritesAdapter(private val movieFavouritesList: List<MovieFavourite
         init {
             titleTextView = itemView.findViewById(R.id.text_view_title)
             imageView=itemView.findViewById(R.id.image_view_program)
-            //genreTextView.setOnClickListener(this)
+            itemView.setOnClickListener(this)
         }
         override fun onClick(v: View) {
-            val adapter_position = bindingAdapterPosition
-            mClickListener.onGenreItemClick(movieFavouritesList[adapter_position].id, adapter_position)
+            val adapterPosition = bindingAdapterPosition
+            mClickListener.onMovieItemClick(movieFavouritesList[adapterPosition], adapterPosition)
         }
 
 
     } // convenience method for getting data at click position
 
+    interface OnMovieItemClickListener {
+        fun onMovieItemClick(movieFavorite: MovieFavourite, position: Int)
+    }
 }

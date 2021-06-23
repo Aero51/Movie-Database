@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentPeopleSearchBinding
 import com.aero51.moviedatabase.ui.adapter.PeopleSearchPagedListAdapter
-import com.aero51.moviedatabase.utils.ActorClickListener
+import com.aero51.moviedatabase.ui.listeners.ActorClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 

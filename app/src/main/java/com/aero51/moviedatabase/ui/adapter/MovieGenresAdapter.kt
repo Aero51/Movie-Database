@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieGenresResponse.MovieGenre
-import com.aero51.moviedatabase.utils.GenreObjectClickListener
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
 
 class MovieGenresAdapter // private ActorImagesResponse.ActorImage getItem(int id) {
 //    return imagesList.get(id);
@@ -39,7 +39,7 @@ class MovieGenresAdapter // private ActorImagesResponse.ActorImage getItem(int i
 
         init {
             genreTextView = itemView.findViewById(R.id.tv_genre)
-            genreTextView.setOnClickListener(this)
+            itemView.setOnClickListener(this)
         }
         override fun onClick(v: View) {
             val adapter_position = bindingAdapterPosition

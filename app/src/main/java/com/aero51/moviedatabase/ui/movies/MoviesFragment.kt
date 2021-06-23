@@ -10,14 +10,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentMoviesBinding
 import com.aero51.moviedatabase.ui.adapter.*
-import com.aero51.moviedatabase.utils.GenreObjectClickListener
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.MoviesViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
 class MoviesFragment : Fragment(),
-    MediaClickListener,GenreObjectClickListener {
+    MediaClickListener,
+    GenreObjectClickListener {
     private lateinit var sharedViewModel: SharedViewModel
     private lateinit var moviesViewModel: MoviesViewModel
     private var topRatedAdapter: TopRatedMoviesPagedListAdapter? = null

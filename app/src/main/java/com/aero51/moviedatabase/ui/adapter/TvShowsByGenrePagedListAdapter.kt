@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowsByGenrePage
 import com.aero51.moviedatabase.utils.Constants
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 

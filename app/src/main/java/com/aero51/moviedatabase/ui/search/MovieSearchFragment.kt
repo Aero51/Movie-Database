@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentMovieSearchBinding
 import com.aero51.moviedatabase.ui.adapter.NowPlayingMoviesPagedListAdapter
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.google.android.material.appbar.AppBarLayout

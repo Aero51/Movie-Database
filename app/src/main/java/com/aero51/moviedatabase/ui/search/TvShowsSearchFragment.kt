@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentTvShowsSearchBinding
 import com.aero51.moviedatabase.ui.adapter.TvShowsPagedListAdapter
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.viewmodel.SearchViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 

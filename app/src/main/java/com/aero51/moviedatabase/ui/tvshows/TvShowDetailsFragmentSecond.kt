@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -14,14 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentTvShowDetailsBinding
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.ui.adapter.*
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
+import com.aero51.moviedatabase.ui.listeners.RecyclerViewOnClickListener
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
+class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener,
+    GenreObjectClickListener {
     private var binding: FragmentTvShowDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var tvShowCastAdapter: TvShowCastAdapter? = null
@@ -53,10 +58,16 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
         val youtubeLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.youtubeRecyclerView.layoutManager = youtubeLinearLayoutManager
 
-        binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
-            startActivity(Intent(requireContext(), YoutubePlayerActivity::class.java)
-                .putExtra("video_id", videosGlobalList[position].key))
-        }))
+        binding!!.youtubeRecyclerView.addOnItemTouchListener(
+            RecyclerViewOnClickListener(
+                requireContext(),
+                RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
+                    startActivity(
+                        Intent(requireContext(), YoutubePlayerActivity::class.java)
+                            .putExtra("video_id", videosGlobalList[position].key)
+                    )
+                })
+        )
 
         registerSharedViewModelObserver()
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
@@ -85,6 +96,7 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
             registerOmdbDetailsObserver(tvShow.name)
             registerTvShowVideosObserver(tvShow.id)
             registerTvShowDetailsObserver(tvShow.id)
+            isTvShowFavourite(tvShow.id )
         })
     }
 
@@ -163,13 +175,36 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
                     production_company.name?.let { productionCompanies.add(it) }
                 }
                 binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ", productionCompanies)
-                //setFavouriteOnClickListener(tvShowDetails.data!!)
-
+                setFavouriteOnClickListener(tvShowDetails.data!!)
 
             }
         })
     }
+    private fun isTvShowFavourite(tvShowId: Int) {
+        //Checking if already added to favourite
 
+        detailsViewModel?.checkIfTvShowIsFavourite(tvShowId)?.observe(viewLifecycleOwner, Observer {
+            binding?.addToFavouritesCheckBox!!.isChecked = it != null
+
+        })
+
+    }
+
+    private fun setFavouriteOnClickListener(tvShow: TvShowDetailsResponse) {
+        val addToFavoritesCheckBox = binding?.addToFavouritesCheckBox
+        addToFavoritesCheckBox!!.setOnClickListener {
+
+            if (addToFavoritesCheckBox.isChecked) {
+                detailsViewModel!!.insertFavouriteTvShow(tvShow)
+                Toast.makeText(context, tvShow.original_name + " dodan u listu favorita.", Toast.LENGTH_LONG).show();
+            } else {
+                detailsViewModel!!.deleteFavouriteTvShow(tvShow)
+                Toast.makeText(context, tvShow.original_name + " maknut iz liste favorita.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

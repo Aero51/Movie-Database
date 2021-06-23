@@ -17,7 +17,7 @@ import com.aero51.moviedatabase.ui.adapter.TvShowsWithPersonCastAdapter
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
 import com.aero51.moviedatabase.utils.Constants.PROFILE_SIZE_W185
 import com.aero51.moviedatabase.utils.DateHelper.Companion.formatDateStringToDefaultLocale
-import com.aero51.moviedatabase.utils.MediaClickListener
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.utils.Status
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
@@ -26,7 +26,8 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class TvShowActorFragment : Fragment(), MediaClickListener {
+class TvShowActorFragment : Fragment(),
+    MediaClickListener {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentActorBinding? = null

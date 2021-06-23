@@ -21,6 +21,8 @@ import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieVideosResponse
 import com.aero51.moviedatabase.ui.adapter.MovieCastAdapter
 import com.aero51.moviedatabase.ui.adapter.MovieGenresAdapter
 import com.aero51.moviedatabase.ui.adapter.YouTubeMovieVideoAdapter
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
+import com.aero51.moviedatabase.ui.listeners.RecyclerViewOnClickListener
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.utils.Constants.BACKDROP_SIZE_W780
 import com.aero51.moviedatabase.utils.Constants.BASE_IMAGE_URL
@@ -29,7 +31,8 @@ import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class MovieDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
+class MovieDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener,
+    GenreObjectClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var movieCastAdapter: MovieCastAdapter? = null
@@ -60,10 +63,16 @@ class MovieDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListene
         binding!!.movieGenresRecyclerViewHorizontal.layoutManager = genresLinearLayoutManager
 
 
-        binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
-            startActivity(Intent(requireContext(), YoutubePlayerActivity::class.java)
-                .putExtra("video_id", videosGlobalList[position].key))
-        }))
+        binding!!.youtubeRecyclerView.addOnItemTouchListener(
+            RecyclerViewOnClickListener(
+                requireContext(),
+                RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
+                    startActivity(
+                        Intent(requireContext(), YoutubePlayerActivity::class.java)
+                            .putExtra("video_id", videosGlobalList[position].key)
+                    )
+                })
+        )
 
 
         registerSharedViewModelObserver()

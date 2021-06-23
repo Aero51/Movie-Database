@@ -15,16 +15,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentTvShowDetailsBinding
-import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
 import com.aero51.moviedatabase.ui.adapter.*
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
+import com.aero51.moviedatabase.ui.listeners.RecyclerViewOnClickListener
 import com.aero51.moviedatabase.utils.*
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, GenreObjectClickListener {
+class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
+    GenreObjectClickListener {
     private var binding: FragmentTvShowDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
     private var tvShowCastAdapter: TvShowCastAdapter? = null
@@ -56,10 +58,16 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
         val youtubeLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.youtubeRecyclerView.layoutManager = youtubeLinearLayoutManager
 
-        binding!!.youtubeRecyclerView.addOnItemTouchListener(RecyclerViewOnClickListener(requireContext(), RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
-            startActivity(Intent(requireContext(), YoutubePlayerActivity::class.java)
-                    .putExtra("video_id", videosGlobalList[position].key))
-        }))
+        binding!!.youtubeRecyclerView.addOnItemTouchListener(
+            RecyclerViewOnClickListener(
+                requireContext(),
+                RecyclerViewOnClickListener.OnItemClickListener { view, position -> //start youtube player activity by passing selected video id via intent
+                    startActivity(
+                        Intent(requireContext(), YoutubePlayerActivity::class.java)
+                            .putExtra("video_id", videosGlobalList[position].key)
+                    )
+                })
+        )
 
         registerSharedViewModelObserver()
         val toolbar = requireActivity().findViewById<View>(R.id.toolbar) as Toolbar
@@ -167,7 +175,6 @@ class TvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener, Ge
                     production_company.name?.let { productionCompanies.add(it) }
                 }
                 binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ", productionCompanies)
-                //setFavouriteOnClickListener(tvShowDetails.data!!)
                 setFavouriteOnClickListener(tvShowDetails.data!!)
 
             }

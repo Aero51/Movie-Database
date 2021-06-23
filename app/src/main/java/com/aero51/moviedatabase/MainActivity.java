@@ -31,9 +31,10 @@ import com.aero51.moviedatabase.ui.epg.EpgMoviesAndTvShowsActorFragment;
 import com.aero51.moviedatabase.ui.epg.EpgMoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.epg.EpgTvShowDetailsFragment;
 import com.aero51.moviedatabase.ui.epg.EpgTvShowsByGenreListFragment;
+import com.aero51.moviedatabase.ui.favorites.FavoriteMovieDetailsFragment;
 import com.aero51.moviedatabase.ui.movies.MovieActorFragment;
 import com.aero51.moviedatabase.ui.CustomViewPager;
-import com.aero51.moviedatabase.ui.FavouritesFragment;
+import com.aero51.moviedatabase.ui.favorites.FavouritesFragment;
 import com.aero51.moviedatabase.ui.movies.MovieDetailsFragmentSecond;
 import com.aero51.moviedatabase.ui.movies.MoviesByGenreListFragment;
 import com.aero51.moviedatabase.ui.movies.MovieDetailsFragment;
@@ -76,6 +77,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     private DynamicFragmentPagerAdapter.FragmentIdentifier favouritesFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsFragmentIdentifierFromMovieActorFragment;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier favoriteMovieDetailsFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowDetailsFragmentIdentifierFromTvShowActorFragment;
     private DynamicFragmentPagerAdapter.FragmentIdentifier epgActorFragmentIdentifier;
     private DynamicFragmentPagerAdapter.FragmentIdentifier movieActorFragmentIdentifier;
@@ -231,6 +233,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         registerShouldSwitchEpgFragmentsObservers();
         registerShouldSwitchMovieFragmentsObservers();
         registerShouldSwitchTvShowFragmentsObservers();
+        registerShouldSwitchFavoriteFragmentsObservers();
         //transparentStatusAndNavigation();
     }
 
@@ -314,7 +317,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchToEpgTvDetailsFragmentFromEpgAllProgramsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                epgDetailsFragmentIdentifierFromEpgAllProgramsFragment = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgDetailsFragment.class.getSimpleName()+"FromEpgAllProgramsFragment",null) {
+                epgDetailsFragmentIdentifierFromEpgAllProgramsFragment = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgDetailsFragment.class.getSimpleName() + "FromEpgAllProgramsFragment", null) {
                     @Override
                     protected Fragment createFragment() {
                         return new EpgDetailsFragment();
@@ -403,7 +406,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchEpgMoviesByGenreListFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                epgMoviesByGenreListFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgMoviesByGenreListFragment.class.getSimpleName(),null) {
+                epgMoviesByGenreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgMoviesByGenreListFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
                         return new EpgMoviesByGenreListFragment();
@@ -420,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchEpgTvShowsByGenreListFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                epgTvShowsByGenreListFragmentIdentifier= new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgTvShowsByGenreListFragment.class.getSimpleName(),null) {
+                epgTvShowsByGenreListFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(EpgTvShowsByGenreListFragment.class.getSimpleName(), null) {
                     @Override
                     protected Fragment createFragment() {
                         return new EpgTvShowsByGenreListFragment();
@@ -434,7 +437,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 replaceFragment(0, epgTvShowsByGenreListFragmentIdentifier);
             }
         });
-
 
 
     }
@@ -581,7 +583,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         sharedViewModel.getSingleLiveShouldSwitchTvShowsByGenreListFragmentFromTvShowDetailsFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
-                tvShowsByGenreListFragmentFromTvShowDetailsIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsByGenreListFragment.class.getSimpleName()+"FromTvShowDetailsFragment", null) {
+                tvShowsByGenreListFragmentFromTvShowDetailsIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowsByGenreListFragment.class.getSimpleName() + "FromTvShowDetailsFragment", null) {
                     @Override
                     protected Fragment createFragment() {
                         return new TvShowsByGenreListFragment();
@@ -640,6 +642,26 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
 
     }
 
+    private void registerShouldSwitchFavoriteFragmentsObservers() {
+        sharedViewModel.getSingleLiveShouldSwitchFavoriteMovieDetailsFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                favoriteMovieDetailsFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(FavoriteMovieDetailsFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new FavoriteMovieDetailsFragment();
+                    }
+
+                    @Override
+                    public int describeContents() { return 0; }
+                };
+                replaceFragment(3, favoriteMovieDetailsFragmentIdentifier);
+                customViewPager.setCurrentItem(3);
+            }
+        });
+
+    }
+
 
     @Override
     public void onBackPressed() {
@@ -654,20 +676,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                     super.onBackPressed();
                 } else if (currentFragmentTag.equals(EpgDetailsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgFragmentIdentifier);
-                } else if (currentFragmentTag.equals(EpgDetailsFragment.class.getSimpleName()+"FromEpgAllProgramsFragment")) {
+                } else if (currentFragmentTag.equals(EpgDetailsFragment.class.getSimpleName() + "FromEpgAllProgramsFragment")) {
                     replaceFragment(0, epgAllProgramsFragmentIdentifier);
-                }
-                else if (currentFragmentTag.equals(EpgAllProgramsFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgAllProgramsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgFragmentIdentifier);
                 } else if (currentFragmentTag.equals(EpgMoviesAndTvShowsActorFragment.class.getSimpleName())) {
                     replaceFragment(0, epgDetailsFragmentIdentifier);
-                }else if (currentFragmentTag.equals(EpgMovieDetailsFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgMovieDetailsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgActorFragmentIdentifier);
-                }else if (currentFragmentTag.equals(EpgTvShowDetailsFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgTvShowDetailsFragment.class.getSimpleName())) {
                     replaceFragment(0, epgActorFragmentIdentifier);
-                }else if (currentFragmentTag.equals(EpgMoviesByGenreListFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgMoviesByGenreListFragment.class.getSimpleName())) {
                     replaceFragment(0, epgMovieDetailsFragmentIdentifier);
-                }else if (currentFragmentTag.equals(EpgTvShowsByGenreListFragment.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(EpgTvShowsByGenreListFragment.class.getSimpleName())) {
                     replaceFragment(0, epgTvShowDetailsFragmentIdentifier);
                 }
 
@@ -688,7 +709,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(MoviesByGenreListFragment.class.getSimpleName() + "FromMovieDetailsFragment")) {
                     replaceFragment(1, movieDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
-                }else if (currentFragmentTag.equals(MovieDetailsFragmentSecond.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(MovieDetailsFragmentSecond.class.getSimpleName())) {
                     replaceFragment(1, movieActorFragmentIdentifier);
                     customViewPager.setCurrentItem(1);
                 }
@@ -706,10 +727,10 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else if (currentFragmentTag.equals(TvShowActorFragment.class.getSimpleName())) {
                     replaceFragment(2, tvShowDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
-                }else if (currentFragmentTag.equals(TvShowDetailsFragmentSecond.class.getSimpleName())) {
+                } else if (currentFragmentTag.equals(TvShowDetailsFragmentSecond.class.getSimpleName())) {
                     replaceFragment(2, tvActorFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
-                }else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName()+"FromTvShowDetailsFragment")) {
+                } else if (currentFragmentTag.equals(TvShowsByGenreListFragment.class.getSimpleName() + "FromTvShowDetailsFragment")) {
                     replaceFragment(2, tvShowDetailsFragmentIdentifier);
                     customViewPager.setCurrentItem(2);
                 }
@@ -717,6 +738,9 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
             case 3:
                 if (currentFragmentTag.equals(FavouritesFragment.class.getSimpleName())) {
                     super.onBackPressed();
+                }else if (currentFragmentTag.equals(FavoriteMovieDetailsFragment.class.getSimpleName())) {
+                    replaceFragment(3, favouritesFragmentIdentifier);
+                    customViewPager.setCurrentItem(3);
                 }
         }
 

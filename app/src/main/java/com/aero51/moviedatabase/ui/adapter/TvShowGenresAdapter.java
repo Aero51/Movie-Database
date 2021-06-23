@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.aero51.moviedatabase.R;
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowGenresResponse;
-import com.aero51.moviedatabase.utils.GenreObjectClickListener;
+import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener;
 
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class TvShowGenresAdapter extends RecyclerView.Adapter<TvShowGenresAdapte
         ViewHolder(View itemView) {
             super(itemView);
             genreTextView =itemView.findViewById(R.id.tv_genre);
-            genreTextView.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         @Override

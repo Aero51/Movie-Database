@@ -15,7 +15,7 @@ import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentEpgAllProgramsBinding
 import com.aero51.moviedatabase.repository.model.epg.EpgProgram
 import com.aero51.moviedatabase.ui.adapter.EpgAllProgramsAdapter
-import com.aero51.moviedatabase.utils.ProgramItemClickListener
+import com.aero51.moviedatabase.ui.listeners.ProgramItemClickListener
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 
 class EpgAllProgramsFragment : Fragment(), ProgramItemClickListener {
