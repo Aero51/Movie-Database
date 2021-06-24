@@ -96,7 +96,7 @@ class FavouritesFragment : Fragment(),MovieFavoritesAdapter.OnMovieItemClickList
     }
 
     override fun onMovieItemClick(movieFavorite: MovieFavourite, position: Int) {
-        sharedViewModel.changeToFavouriteMoviedetailsFragment(movieFavorite,position)
+        sharedViewModel.changeToFavouriteMoviedetailsFragment(movieFavorite)
     }
 
     override fun onTvShowItemClick(tvShowFavourite: TvShowFavourite, position: Int) {

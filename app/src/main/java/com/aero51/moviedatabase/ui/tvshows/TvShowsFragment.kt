@@ -151,10 +151,10 @@ class TvShowsFragment : Fragment(),
 
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel.changeToTvShowsByGenreListFragment(genreId, position)
+        sharedViewModel.changeToTvShowsByGenreListFragment(genreId)
     }
 
     override fun onMediaItemClick(tvShow: Any?, position: Int) {
-        sharedViewModel.changeToTvShowDetailsFragment(tvShow,position)
+        sharedViewModel.changeToTvShowDetailsFragment(tvShow)
     }
 }

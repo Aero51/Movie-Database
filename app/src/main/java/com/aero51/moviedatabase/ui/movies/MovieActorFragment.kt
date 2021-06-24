@@ -125,6 +125,6 @@ class MovieActorFragment : Fragment(),
 
 
     override fun onMediaItemClick(movie: Any?, position: Int) {
-        sharedViewModel?.changeToMoviedetailsFragmentFromMovieActorFragment(movie, position)
+        sharedViewModel?.changeToMoviedetailsFragmentFromMovieActorFragment(movie)
     }
 }

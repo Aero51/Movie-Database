@@ -69,13 +69,11 @@ class SharedViewModel : ViewModel() {
     }
 
 
-    fun changeToEpgDetailsFragment(index: Int?, epgProgram: EpgProgram) {
-        epgIndex = index
+    fun changeToEpgDetailsFragment( epgProgram: EpgProgram) {
         liveEpgProgram.value = epgProgram
         shouldSwitchToEpgDetailsFragment.value = true
     }
-    fun changeToEpgDetailsFragmentFromEpgAllProgramsFragment(index: Int?, epgProgram: EpgProgram) {
-        epgIndex = index
+    fun changeToEpgDetailsFragmentFromEpgAllProgramsFragment( epgProgram: EpgProgram) {
         liveEpgProgram.value = epgProgram
         shouldSwitchToEpgDetailsFragmentFromEpgAllProgramsFragment.value = true
     }
@@ -101,7 +99,7 @@ class SharedViewModel : ViewModel() {
         get() = shouldSwitchToEpgAllProgramsFragment
 
     //done like this to reduce code duplication(fragments, listeners, main activity identifiers
-    fun changeToMoviedetailsFragment(movieObject: Any?, position: Int?) {
+    fun changeToMoviedetailsFragment(movieObject: Any?) {
         var movie = Movie()
         if (movieObject is TopRatedMovie) {
             movie = transformTopRatedMovie(movieObject)
@@ -121,45 +119,40 @@ class SharedViewModel : ViewModel() {
         if (movieObject is MoviesWithPerson.Cast) {
             movie = transformMovieWithPersonCast(movieObject)
         }
-        movieIndex = position
         liveMovie.value = movie
         shouldSwitchMovieDetailFragment.value = true
     }
-    fun changeToMoviedetailsFragmentFromMovieActorFragment(movieObject: Any?, position: Int?) {
+    fun changeToMoviedetailsFragmentFromMovieActorFragment(movieObject: Any?) {
         var movie = Movie()
 
         if (movieObject is MoviesWithPerson.Cast) {
             movie = transformMovieWithPersonCast(movieObject)
         }
-        movieIndex = position
         liveMovieFromActor.value = movie
-        //liveMovie.value=movie
         shouldSwitchMovieDetailFragmentFromMovieActorFragment.value = true
     }
-    fun changeToEpgMoviedetailsFragment(movieObject: Any?, position: Int?) {
+    fun changeToEpgMoviedetailsFragment(movieObject: Any?) {
         var movie = Movie()
 
         if (movieObject is MoviesWithPerson.Cast) {
             movie = transformMovieWithPersonCast(movieObject)
         }
-        movieIndex = position
         liveEpgMovie.value = movie
         shouldSwitchEpgMovieDetailFragment.value = true
     }
-    fun changeToTvShowDetailsFragmentFromTvShowActorFragment(tvShowObject: Any?, position: Int?) {
+    fun changeToTvShowDetailsFragmentFromTvShowActorFragment(tvShowObject: Any?) {
         var tv_show = TvShow()
 
         if (tvShowObject is TvShowWithPerson.Cast) {
             tv_show = transformTvShowWithPersonCast(tvShowObject)
         }
-        movieIndex = position
         liveTvShowFromActor.value = tv_show
         shouldSwitchTvShowDetailFragmentFromTvShowActorFragment.value = true
 
     }
 
     //done like this to reduce code duplication(fragments, listeners, main activity identifiers
-    fun changeToTvShowDetailsFragment(tvShowObject: Any?, position: Int?) {
+    fun changeToTvShowDetailsFragment(tvShowObject: Any?) {
         var tvShow = TvShow()
         if (tvShowObject is PopularTvShowsPage.PopularTvShow) {
             val popularTvShow = tvShowObject as PopularTvShowsPage.PopularTvShow
@@ -180,30 +173,31 @@ class SharedViewModel : ViewModel() {
             tvShow = transformTvShowSearchResult(tvShowObject)
         }
 
-        tvShowIndex = position
         liveTvShow.setValue(tvShow)
         shouldSwitchTvShowDetailFragment.setValue(true)
     }
 
-    fun changeToEpgTvShowDetailsFragment(tvShowObject: Any?, position: Int?) {
+    fun changeToEpgTvShowDetailsFragment(tvShowObject: Any?) {
         var tvShow = TvShow()
         if (tvShowObject is TvShowWithPerson.Cast) {
             val tvShowWithePersonCast = tvShowObject as TvShowWithPerson.Cast
             tvShow = transformTvShowWithPersonCast(tvShowWithePersonCast)
         }
 
-        tvShowIndex = position
         liveEpgTvShow.setValue(tvShow)
         shouldSwitchEpgTvShowDetailFragment.setValue(true)
     }
 
-    fun changeToFavouriteMoviedetailsFragment(movieFavourite: MovieFavourite, position: Int?) {
+    fun changeToFavouriteMoviedetailsFragment(movieFavourite: MovieFavourite) {
 
-        movieIndex = position
         liveFavoriteMovie.value = transformMovieFavorite(movieFavourite)
         shouldSwitchFavoriteMovieDetailsFragment.value = true
     }
+    fun changeToFavouriteTvShowdetailsFragment(movieFavourite: TvShowFavourite, position: Int?) {
 
+        //liveFavoriteMovie.value = transformMovieFavorite(movieFavourite)
+        shouldSwitchFavoriteMovieDetailsFragment.value = true
+    }
 
 
     val liveDataMovie: LiveData<Movie>
@@ -250,52 +244,48 @@ class SharedViewModel : ViewModel() {
     val singleLiveShouldSwitchFavoriteMovieDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchFavoriteMovieDetailsFragment
 
-    fun changeToEpgActorFragment(position: Int?, actorId: Int) {
-        castIndex = position
+    fun changeToEpgActorFragment( actorId: Int) {
         liveEpgActorId.value = actorId
         shouldSwitchEpgActorFragment.value = true
     }
-    fun changeToMovieActorFragment(position: Int?, actorId: Int) {
-        castIndex = position
+    fun changeToMovieActorFragment( actorId: Int) {
         liveMovieActorId.value = actorId
         shouldSwitchMovieActorFragment.value = true
     }
-    fun changeToTvActorFragment(position: Int?, actorId: Int) {
-        castIndex = position
+    fun changeToTvActorFragment( actorId: Int) {
         liveTvShowActorId.value = actorId
         shouldSwitchTvActorFragment.value = true
     }
 
-    fun changeToMoviesByGenreListFragment(genreId: Int, position: Int) {
+    fun changeToMoviesByGenreListFragment(genreId: Int) {
         liveMovieGenreId.value = genreId
         shouldSwitchMoviesByGenreListFragment.value = true
     }
-    fun changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId: Int, position: Int) {
+    fun changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId: Int) {
         liveMovieGenreId.value = genreId
         shouldSwitchMoviesByGenreListFragmentFromMovieDetailsFragment.value = true
     }
 
-    fun changeToTvShowsByGenreListFragmentFromTvShowDetailsFragment(genreId: Int, position: Int) {
+    fun changeToTvShowsByGenreListFragmentFromTvShowDetailsFragment(genreId: Int) {
         liveTvShowGenreId.value = genreId
         shouldSwitchTvShowsByGenreListFragmentFromTvShowDetailsFragment.value = true
     }
 
-    fun changeToEpgMoviesByGenreListFragment(genreId: Int, position: Int) {
+    fun changeToEpgMoviesByGenreListFragment(genreId: Int) {
         liveEpgGenreId.value = genreId
         shouldSwitchEpgMoviesByGenreListFragment.value = true
     }
 
-    fun changeToTvShowsByGenreListFragment(genreId: Int, position: Int?) {
+    fun changeToTvShowsByGenreListFragment(genreId: Int) {
         liveTvShowGenreId.value = genreId
         shouldSwitchTvShowsByGenreListFragment.value = true
     }
-    fun changeToEpgTvShowsByGenreListFragment(genreId: Int, position: Int?) {
+    fun changeToEpgTvShowsByGenreListFragment(genreId: Int) {
         liveEpgGenreId.value = genreId
         shouldSwitchEpgTvShowsByGenreListFragment.value = true
     }
 
-    fun changeToMoviesAndTvShowsActorFragment(position: Int?, actorId: Int) {
-        castIndex = position
+    fun changeToMoviesAndTvShowsActorFragment( actorId: Int) {
         liveMovieAndTvShowActorSearchId.value = actorId
         shouldSwitchMovieAndTvShowActorFragment.value = true
     }

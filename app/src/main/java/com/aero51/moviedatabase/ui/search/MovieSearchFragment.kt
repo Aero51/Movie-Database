@@ -64,6 +64,6 @@ class MovieSearchFragment : Fragment(),
     }
 
     override fun onMediaItemClick(movie: Any?, position: Int) {
-        sharedViewModel.changeToMoviedetailsFragment(movie, position)
+        sharedViewModel.changeToMoviedetailsFragment(movie)
     }
 }

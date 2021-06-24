@@ -147,7 +147,7 @@ class TvShowsByGenreListFragment : Fragment(),
     }
 
     override fun onMediaItemClick(movie: Any?, position: Int) {
-        sharedViewModel.changeToTvShowDetailsFragment(movie, position)
+        sharedViewModel.changeToTvShowDetailsFragment(movie)
     }
 
 }

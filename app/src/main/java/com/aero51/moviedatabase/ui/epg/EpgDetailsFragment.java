@@ -285,7 +285,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
     @Override
     public void onItemClick(ActorSearchResponse.ActorSearch actorSearch, int position) {
-        sharedViewModel.changeToEpgActorFragment(position, actorSearch.getId());
+        sharedViewModel.changeToEpgActorFragment( actorSearch.getId());
     }
 
 

@@ -218,10 +218,10 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
     }
 
     override fun onItemClick(view: View?, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToTvActorFragment(position, actorId)
+        sharedViewModel!!.changeToTvActorFragment( actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel?.changeToTvShowsByGenreListFragment(genreId, position)
+        sharedViewModel?.changeToTvShowsByGenreListFragment(genreId)
     }
 }

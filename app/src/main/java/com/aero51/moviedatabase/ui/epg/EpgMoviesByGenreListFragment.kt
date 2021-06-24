@@ -135,7 +135,7 @@ class EpgMoviesByGenreListFragment : Fragment(),
     }
 
     override fun onMediaItemClick(movie: Any?, position: Int) {
-        sharedViewModel.changeToEpgMoviedetailsFragment(movie, position)
+        sharedViewModel.changeToEpgMoviedetailsFragment(movie)
     }
 
 }

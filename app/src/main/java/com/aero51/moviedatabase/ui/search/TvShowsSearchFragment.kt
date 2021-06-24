@@ -50,7 +50,7 @@ class TvShowsSearchFragment : Fragment(),
 
     override fun onMediaItemClick(tvShow: Any?, position: Int) {
         Log.d("nikola","onObjectItemClick "+position)
-        sharedViewModel.changeToTvShowDetailsFragment(tvShow, position)
+        sharedViewModel.changeToTvShowDetailsFragment(tvShow)
     }
 
 

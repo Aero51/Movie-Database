@@ -192,10 +192,10 @@ class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     }
 
     override fun onItemClick(view: View?, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToEpgActorFragment(position, actorId)
+        sharedViewModel!!.changeToEpgActorFragment( actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel?.changeToEpgTvShowsByGenreListFragment(genreId, position)
+        sharedViewModel?.changeToEpgTvShowsByGenreListFragment(genreId)
     }
 }

@@ -240,11 +240,11 @@ class MovieDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListene
 
 
     override fun onItemClick(view: View, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToMovieActorFragment(position, actorId)
+        sharedViewModel!!.changeToMovieActorFragment( actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId, position)
+        sharedViewModel.changeToMoviesByGenreListFragmentFromMovieDetailsFragment(genreId)
     }
 
 }

@@ -200,7 +200,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         //intentional crash
         // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
-        sharedViewModel.changeToEpgDetailsFragment(position, epgProgram);
+        sharedViewModel.changeToEpgDetailsFragment( epgProgram);
 
     }
 

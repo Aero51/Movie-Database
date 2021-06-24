@@ -64,6 +64,6 @@ class EpgAllProgramsFragment : Fragment(), ProgramItemClickListener {
     override fun onItemClick(position: Int, db_id: Int, epgProgram: EpgProgram?) {
         //intentional crash
         // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
-        sharedViewModel!!.changeToEpgDetailsFragmentFromEpgAllProgramsFragment(position, epgProgram!!)
+        sharedViewModel!!.changeToEpgDetailsFragmentFromEpgAllProgramsFragment( epgProgram!!)
     }
 }

@@ -131,10 +131,10 @@ class EpgMoviesAndTvShowsActorFragment : Fragment(),
     }
 
     override fun onMediaItemClick(movie: Any?, position: Int) {
-        sharedViewModel?.changeToEpgMoviedetailsFragment(movie, position)
+        sharedViewModel?.changeToEpgMoviedetailsFragment(movie)
     }
 
     override fun onTvShowItemClick(tvShow: Any?, position: Int) {
-        sharedViewModel?.changeToEpgTvShowDetailsFragment(tvShow,position)
+        sharedViewModel?.changeToEpgTvShowDetailsFragment(tvShow)
     }
 }

@@ -112,6 +112,6 @@ class TvShowActorFragment : Fragment(),
     }
 
     override fun onMediaItemClick(tv_show: Any?, position: Int) {
-        sharedViewModel?.changeToTvShowDetailsFragmentFromTvShowActorFragment(tv_show,position)
+        sharedViewModel?.changeToTvShowDetailsFragmentFromTvShowActorFragment(tv_show)
     }
 }

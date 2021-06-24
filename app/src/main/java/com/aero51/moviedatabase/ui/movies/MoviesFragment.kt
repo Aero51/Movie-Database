@@ -222,11 +222,11 @@ class MoviesFragment : Fragment(),
 
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel.changeToMoviesByGenreListFragment(genreId,position)
+        sharedViewModel.changeToMoviesByGenreListFragment(genreId)
     }
 
     override fun onMediaItemClick(movie: Any?, position: Int) {
-        sharedViewModel.changeToMoviedetailsFragment(movie, position)
+        sharedViewModel.changeToMoviedetailsFragment(movie)
     }
 
 
