@@ -6,7 +6,7 @@ class TvShow {
     var first_air_date: String? = null
     var genre_ids: List<Int>? = null
     var id: Int = 0
-    var name: String = ""
+    var name: String? = null
     var origin_country: List<String>? = null
     var original_language: String? = null
     var original_name: String? = null

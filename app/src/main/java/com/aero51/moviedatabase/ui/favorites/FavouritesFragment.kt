@@ -1,7 +1,6 @@
 package com.aero51.moviedatabase.ui.favorites
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,10 +9,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.databinding.FragmentFavouritesBinding
-import com.aero51.moviedatabase.repository.model.tmdb.credits.ActorSearchResponse.ActorSearch
 import com.aero51.moviedatabase.repository.model.tmdb.movie.MovieFavourite
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowFavourite
-import com.aero51.moviedatabase.ui.adapter.ActorSearchAdapter
 import com.aero51.moviedatabase.ui.adapter.MovieFavoritesAdapter
 import com.aero51.moviedatabase.ui.adapter.TvShowFavouritesAdapter
 import com.aero51.moviedatabase.viewmodel.FavoritesViewModel
@@ -96,11 +93,11 @@ class FavouritesFragment : Fragment(),MovieFavoritesAdapter.OnMovieItemClickList
     }
 
     override fun onMovieItemClick(movieFavorite: MovieFavourite, position: Int) {
-        sharedViewModel.changeToFavouriteMoviedetailsFragment(movieFavorite)
+        sharedViewModel.changeToFavouriteMovieDetailsFragment(movieFavorite)
     }
 
     override fun onTvShowItemClick(tvShowFavourite: TvShowFavourite, position: Int) {
-        Log.d("nikola","tvShowFavourite: "+tvShowFavourite.original_name)
+        sharedViewModel.changeToFavouriteTvShowDetailsFragment(tvShowFavourite)
     }
 
 

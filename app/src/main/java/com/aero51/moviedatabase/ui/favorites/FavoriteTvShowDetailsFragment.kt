@@ -1,10 +1,11 @@
-package com.aero51.moviedatabase.ui.epg
+package com.aero51.moviedatabase.ui.favorites
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -14,16 +15,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.YoutubePlayerActivity
 import com.aero51.moviedatabase.databinding.FragmentTvShowDetailsBinding
+import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowDetailsResponse
 import com.aero51.moviedatabase.repository.model.tmdb.tvshow.TvShowVideoResponse
-import com.aero51.moviedatabase.ui.adapter.*
+import com.aero51.moviedatabase.ui.adapter.MovieCastAdapter
+import com.aero51.moviedatabase.ui.adapter.TvShowCastAdapter
+import com.aero51.moviedatabase.ui.adapter.TvShowGenresAdapter
+import com.aero51.moviedatabase.ui.adapter.YouTubeTvShowVideoAdapter
 import com.aero51.moviedatabase.ui.listeners.GenreObjectClickListener
 import com.aero51.moviedatabase.ui.listeners.RecyclerViewOnClickListener
-import com.aero51.moviedatabase.utils.*
+import com.aero51.moviedatabase.utils.Constants
+import com.aero51.moviedatabase.utils.DateHelper
+import com.aero51.moviedatabase.utils.Status
+import com.aero51.moviedatabase.utils.StringHelper
 import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
+class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     GenreObjectClickListener {
     private var binding: FragmentTvShowDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
@@ -34,7 +42,8 @@ class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
-        detailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(DetailsViewModel::class.java)
+        detailsViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)).get(
+            DetailsViewModel::class.java)
 
     }
 
@@ -79,7 +88,7 @@ class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataEpgTvShow.observe(viewLifecycleOwner, Observer { tvShow ->
+        sharedViewModel!!.liveDataFavoriteTvShow.observe(viewLifecycleOwner, Observer { tvShow ->
             binding!!.title.text = tvShow.name
             binding!!.releaseYear.text= tvShow.first_air_date?.let { DateHelper.formatDateStringToDefaultLocale(it,"yyyy-MM-dd","yyyy") }
             binding!!.releaseDate.text = tvShow.id.toString()
@@ -94,6 +103,7 @@ class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
             tvShow.name?.let { registerOmdbDetailsObserver(it) }
             registerTvShowVideosObserver(tvShow.id)
             registerTvShowDetailsObserver(tvShow.id)
+            isTvShowFavourite(tvShow.id)
         })
     }
 
@@ -172,12 +182,38 @@ class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
                     production_company.name?.let { productionCompanies.add(it) }
                 }
                 binding!!.productionCompaniesTextView.text = StringHelper.joinStrings(", ", productionCompanies)
-                //setFavouriteOnClickListener(tvShowDetails.data!!)
-
+                setFavouriteOnClickListener(tvShowDetails.data!!)
 
             }
         })
     }
+
+    private fun isTvShowFavourite(tvShowId: Int) {
+        //Checking if already added to favourite
+
+        detailsViewModel?.checkIfTvShowIsFavourite(tvShowId)?.observe(viewLifecycleOwner, Observer {
+            binding?.addToFavouritesCheckBox!!.isChecked = it != null
+
+        })
+
+    }
+
+    private fun setFavouriteOnClickListener(tvShow: TvShowDetailsResponse) {
+        val addToFavoritesCheckBox = binding?.addToFavouritesCheckBox
+        addToFavoritesCheckBox!!.setOnClickListener {
+
+            if (addToFavoritesCheckBox.isChecked) {
+                detailsViewModel!!.insertFavouriteTvShow(tvShow)
+                Toast.makeText(context, tvShow.original_name + " dodan u listu favorita.", Toast.LENGTH_LONG).show();
+            } else {
+                detailsViewModel!!.deleteFavouriteTvShow(tvShow)
+                Toast.makeText(context, tvShow.original_name + " maknut iz liste favorita.", Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
+
 
 
     override fun onDestroyView() {
@@ -192,10 +228,10 @@ class EpgTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
     }
 
     override fun onItemClick(view: View?, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToEpgActorFragment( actorId)
+        sharedViewModel!!.changeToTvActorFragment( actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel?.changeToEpgTvShowsByGenreListFragment(genreId)
+        sharedViewModel?.changeToTvShowsByGenreListFragmentFromTvShowDetailsFragment(genreId)
     }
 }

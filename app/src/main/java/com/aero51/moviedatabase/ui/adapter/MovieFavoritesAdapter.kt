@@ -25,7 +25,7 @@ class MovieFavoritesAdapter(private val movieFavouritesList: List<MovieFavourite
     // binds the data to the TextView in each row
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movieFavourite = movieFavouritesList[position]
-        holder.titleTextView.text = movieFavourite.original_title
+        holder.titleTextView.text = movieFavourite.title
         val imageUrl: String = BASE_IMAGE_URL + POSTER_SIZE_W154 + movieFavourite.poster_path
         Picasso.get().load(imageUrl).fit().centerCrop().into(holder.imageView, object : Callback {
             override fun onSuccess() {}

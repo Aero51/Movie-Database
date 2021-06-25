@@ -22,6 +22,7 @@ class TvShowFavourite {
     var episode_run_time: List<Int>? = null
     //TODO var next_episode_to_air: String? = null  array is needed
     var original_name: String? = null
+    var name: String? = null
     var number_of_episodes: Int? = null
     var number_of_seasons: Int? = null
     var status: String? = null

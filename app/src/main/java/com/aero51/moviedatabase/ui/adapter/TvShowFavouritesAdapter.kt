@@ -28,7 +28,7 @@ class TvShowFavouritesAdapter(
     // binds the data to the TextView in each row
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val tvShowFavourite = tvShowFavouritesList[position]
-        holder.titleTextView.text = tvShowFavourite.original_name
+        holder.titleTextView.text = tvShowFavourite.name
         val imageUrl: String = BASE_IMAGE_URL + POSTER_SIZE_W154 + tvShowFavourite.poster_path
         Picasso.get().load(imageUrl).fit().centerCrop().into(holder.imageView, object : Callback {
             override fun onSuccess() {}

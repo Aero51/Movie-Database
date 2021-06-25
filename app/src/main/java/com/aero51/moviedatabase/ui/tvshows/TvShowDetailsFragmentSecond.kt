@@ -93,7 +93,7 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
             Picasso.get().load(posterUrl).fit().centerCrop().placeholder(R.drawable.picture_template).into(binding!!.posterImageView)
             binding!!.coverImageView.visibility = View.VISIBLE
             registerTvShowCastObserver(tvShow.id)
-            registerOmdbDetailsObserver(tvShow.name)
+            tvShow.name?.let { registerOmdbDetailsObserver(it) }
             registerTvShowVideosObserver(tvShow.id)
             registerTvShowDetailsObserver(tvShow.id)
             isTvShowFavourite(tvShow.id )

@@ -27,7 +27,7 @@ import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class FavoriteMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
+class FavoriteMovieDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener,
     GenreObjectClickListener {
     private var binding: FragmentMovieDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
@@ -98,7 +98,7 @@ class FavoriteMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListe
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataFavoriteMovie.observe(viewLifecycleOwner, Observer { movie ->
+        sharedViewModel!!.liveDataFavoriteMovieFromGenreOrActor.observe(viewLifecycleOwner, Observer { movie ->
             binding!!.title.text = movie.title
             binding!!.releaseYear.text = movie.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "yyyy") }
             binding!!.overview.text = movie.overview
@@ -243,5 +243,4 @@ class FavoriteMovieDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListe
     override fun onGenreItemClick(genreId: Int, position: Int) {
         sharedViewModel.changeToFavoriteMoviesByGenreListFragment(genreId)
     }
-
 }
