@@ -101,7 +101,7 @@ class MovieDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListene
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataMovieFromMovieActorFragment.observe(viewLifecycleOwner, Observer { movie ->
+        sharedViewModel!!.liveDataMovieFromGenreOrActor.observe(viewLifecycleOwner, Observer { movie ->
             binding!!.title.text = movie.title
             binding!!.releaseYear.text = movie.release_date?.let { DateHelper.formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "yyyy") }
             binding!!.overview.text = movie.overview

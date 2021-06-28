@@ -47,7 +47,6 @@ class PeopleSearchFragment : Fragment(), ActorClickListener {
     }
 
     override fun onActorItemClick(actorId: Int, position: Int) {
-        Log.d("nikola","position: "+position+" ,actorId: "+actorId)
         sharedViewModel.changeToMoviesAndTvShowsActorFragment(actorId)
     }
 

@@ -26,18 +26,21 @@ class SharedViewModel : ViewModel() {
     private val shouldSwitchToEpgAllProgramsFragment = SingleLiveEvent<Boolean>()
     private val liveMovie = MutableLiveData<Movie>()
     private val liveTvShow = MutableLiveData<TvShow>()
-    private val liveMovieFromActor = MutableLiveData<Movie>()
+    private val liveMovieFromGenreOrActor = MutableLiveData<Movie>()
     private val liveTvShowFromActor = MutableLiveData<TvShow>()
     private val liveEpgMovie = MutableLiveData<Movie>()
     private val liveFavoriteMovie = MutableLiveData<Movie>()
     private val liveFavoriteTvShow = MutableLiveData<TvShow>()
     private val liveEpgTvShow = MutableLiveData<TvShow>()
     private val liveFavoriteMovieFromGenreOrActor = MutableLiveData<Movie>()
+    private val liveFavoriteTvShowFromGenreOrActor = MutableLiveData<TvShow>()
     private val shouldSwitchMovieDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMovieDetailFragmentFromMovieActorFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchMovieDetailFragmentFromMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowDetailFragmentFromTvShowActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchFavoriteMovieDetailFragmentFromMovieActorFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchFavoriteTvShowDetailFragmentFromTvShowActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchEpgMovieDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchEpgTvShowDetailFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchFavoriteMovieDetailsFragment = SingleLiveEvent<Boolean>()
@@ -46,24 +49,29 @@ class SharedViewModel : ViewModel() {
     private val liveMovieActorId = MutableLiveData<Int>()
     private val liveTvShowActorId = MutableLiveData<Int>()
     private val liveFavoriteMovieActorId = MutableLiveData<Int>()
+    private val liveFavoriteTvShowActorId = MutableLiveData<Int>()
     private val liveMovieAndTvShowActorSearchId = MutableLiveData<Int>()
     private val shouldSwitchEpgActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMovieActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchFavoriteMovieActorFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchFavoriteTvActorFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMovieAndTvShowActorFragment = SingleLiveEvent<Boolean>()
     private val liveMovieGenreId = MutableLiveData<Int>()
     private val liveTvShowGenreId = MutableLiveData<Int>()
     private val liveEpgGenreId = MutableLiveData<Int>()
     private val liveFavoriteMovieGenreId = MutableLiveData<Int>()
+    private val liveFavoriteTvShowGenreId = MutableLiveData<Int>()
     private val shouldSwitchMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchMoviesByGenreListFragmentFromMovieDetailsFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowsByGenreListFragmentFromTvShowDetailsFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchFavoriteMovieDetailsFragmentFromMovieByGenreFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchFavoriteTvShowDetailsFragmentFromTvShowByGenreFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchTvShowsByGenreListFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchEpgMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchEpgTvShowsByGenreListFragment = SingleLiveEvent<Boolean>()
     private val shouldSwitchFavoriteMoviesByGenreListFragment = SingleLiveEvent<Boolean>()
+    private val shouldSwitchFavoriteTvShowsByGenreListFragment = SingleLiveEvent<Boolean>()
     val hasEpgTvFragmentFinishedLoading = MutableLiveData<Boolean>()
 
     init {
@@ -131,9 +139,20 @@ class SharedViewModel : ViewModel() {
         if (movieObject is MoviesWithPerson.Cast) {
             movie = transformMovieWithPersonCast(movieObject)
         }
-        liveMovieFromActor.value = movie
+        liveMovieFromGenreOrActor.value = movie
         shouldSwitchMovieDetailFragmentFromMovieActorFragment.value = true
     }
+    fun changeToMovieDetailsFragmentFromMoviesByGenreListFragment(movieObject: Any?) {
+        var movie = Movie()
+        if (movieObject is MoviesByGenrePage.MovieByGenre) {
+            movie = transformMovieByGenre(movieObject)
+        }
+        liveMovieFromGenreOrActor.value=movie
+        shouldSwitchMovieDetailFragmentFromMoviesByGenreListFragment.value = true
+    }
+
+
+
     fun changeToFavoriteMovieDetailsFragmentFromMovieActorFragment(movieObject: Any?) {
         var movie = Movie()
 
@@ -208,6 +227,24 @@ class SharedViewModel : ViewModel() {
         liveFavoriteMovieFromGenreOrActor.value=movie
         shouldSwitchFavoriteMovieDetailsFragmentFromMovieByGenreFragment.value = true
     }
+    fun changeToFavouriteTvShowDetailsFragmentFromTvShowsByGenreListFragment(tvObject: Any?) {
+        var tvShow = TvShow()
+        if (tvObject is   TvShowsByGenrePage.TvShowByGenre) {
+            tvShow = transformTvShowByGenre(tvObject)
+        }
+        liveFavoriteTvShowFromGenreOrActor.value=tvShow
+        shouldSwitchFavoriteTvShowDetailsFragmentFromTvShowByGenreFragment.value = true
+    }
+    fun changeToFavoriteTvShowDetailsFragmentFromTvShowActorFragment(tvObject: Any?) {
+        var tvShow = TvShow()
+
+        if (tvObject is TvShowWithPerson.Cast) {
+            tvShow = transformTvShowWithPersonCast(tvObject)
+        }
+        liveFavoriteTvShowFromGenreOrActor.value = tvShow
+        shouldSwitchFavoriteTvShowDetailFragmentFromTvShowActorFragment.value = true
+    }
+
 
     fun changeToFavouriteMovieDetailsFragment(movieFavourite: MovieFavourite) {
 
@@ -243,9 +280,12 @@ class SharedViewModel : ViewModel() {
     val liveDataFavoriteMovieFromGenreOrActor: LiveData<Movie>
         get() = liveFavoriteMovieFromGenreOrActor
 
+    val liveDataFavoriteTvShowFromGenreOrActor: LiveData<TvShow>
+        get() = liveFavoriteTvShowFromGenreOrActor
 
-    val liveDataMovieFromMovieActorFragment: LiveData<Movie>
-        get() = liveMovieFromActor
+
+    val liveDataMovieFromGenreOrActor: LiveData<Movie>
+        get() = liveMovieFromGenreOrActor
 
     val liveDataTvShowFromTvShowActorFragment: LiveData<TvShow>
         get() = liveTvShowFromActor
@@ -257,6 +297,10 @@ class SharedViewModel : ViewModel() {
     val singleLiveShouldSwitchMovieDetailsFragmentFromMovieActorFragment: LiveData<Boolean>
         get() = shouldSwitchMovieDetailFragmentFromMovieActorFragment
 
+    val singleLiveShouldSwitchMovieDetailFragmentFromMoviesByGenreListFragment: LiveData<Boolean>
+        get() = shouldSwitchMovieDetailFragmentFromMoviesByGenreListFragment
+
+
     val singleLiveShouldSwitchTvShowDetailsFragmentFromTvShowActorFragment: LiveData<Boolean>
         get() = shouldSwitchTvShowDetailFragmentFromTvShowActorFragment
 
@@ -267,6 +311,11 @@ class SharedViewModel : ViewModel() {
     val singleLiveShouldSwitchFavoriteMovieDetailFragmentFromMovieActorFragment: LiveData<Boolean>
         get() = shouldSwitchFavoriteMovieDetailFragmentFromMovieActorFragment
 
+    val singleLiveShouldSwitchFavoriteTvShowDetailsFragmentFromTvShowByGenreFragment: LiveData<Boolean>
+        get() = shouldSwitchFavoriteTvShowDetailsFragmentFromTvShowByGenreFragment
+
+    val singleLiveShouldSwitchFavoriteTvShowDetailsFragmentFromTvShowActorFragment: LiveData<Boolean>
+        get() = shouldSwitchFavoriteTvShowDetailFragmentFromTvShowActorFragment
 
     val singleLiveShouldSwitchEpgMovieDetailsFragment: LiveData<Boolean>
         get() = shouldSwitchEpgMovieDetailFragment
@@ -311,6 +360,11 @@ class SharedViewModel : ViewModel() {
         shouldSwitchFavoriteMoviesByGenreListFragment.value = true
     }
 
+    fun changeToFavoriteTvShowsByGenreListFragment(genreId: Int) {
+        liveFavoriteTvShowGenreId.value = genreId
+        shouldSwitchFavoriteTvShowsByGenreListFragment.value = true
+    }
+
     fun changeToTvShowsByGenreListFragmentFromTvShowDetailsFragment(genreId: Int) {
         liveTvShowGenreId.value = genreId
         shouldSwitchTvShowsByGenreListFragmentFromTvShowDetailsFragment.value = true
@@ -338,6 +392,10 @@ class SharedViewModel : ViewModel() {
         liveFavoriteMovieActorId.value = actorId
         shouldSwitchFavoriteMovieActorFragment.value = true
     }
+    fun changeToFavoriteTvActorFragment( actorId: Int) {
+        liveFavoriteTvShowActorId.value = actorId
+        shouldSwitchFavoriteTvActorFragment.value = true
+    }
 
 
     val liveDataEpgActorId: LiveData<Int>
@@ -351,6 +409,10 @@ class SharedViewModel : ViewModel() {
 
     val liveDataFavoriteMovieActorId: LiveData<Int>
         get() = liveFavoriteMovieActorId
+
+    val liveDataFavoriteTvShowActorId: LiveData<Int>
+        get() = liveFavoriteTvShowActorId
+
 
     val liveDataMovieAndTvShowActorSearchId: LiveData<Int>
         get() = liveMovieAndTvShowActorSearchId
@@ -376,8 +438,16 @@ class SharedViewModel : ViewModel() {
     val liveDataFavoriteMovieGenreId: LiveData<Int>
         get() = liveFavoriteMovieGenreId
 
+    val liveDataFavoriteTvShowGenreId: LiveData<Int>
+        get() = liveFavoriteTvShowGenreId
+
+
     val singleLiveShouldSwitchFavoriteMovieActorFragment: LiveData<Boolean>
         get() = shouldSwitchFavoriteMovieActorFragment
+
+    val singleLiveShouldSwitchFavoriteTvActorFragment: LiveData<Boolean>
+        get() = shouldSwitchFavoriteTvActorFragment
+
 
     val singleLiveShouldSwitchMoviesByGenreListFragment: LiveData<Boolean>
         get() = shouldSwitchMoviesByGenreListFragment
@@ -399,6 +469,9 @@ class SharedViewModel : ViewModel() {
 
     val singleLiveShouldSwitchFavoriteMoviesByGenreListFragment: LiveData<Boolean>
         get() = shouldSwitchFavoriteMoviesByGenreListFragment
+
+    val singleLiveShouldSwitchFavoriteTvShowsByGenreListFragment: LiveData<Boolean>
+        get() = shouldSwitchFavoriteTvShowsByGenreListFragment
 
     val singleLiveShouldSwitchMoviesAndTvShowsActorFragment: LiveData<Boolean>
         get() = shouldSwitchMovieAndTvShowActorFragment

@@ -162,7 +162,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
                 if (listResource.getStatus() == Status.LOADING) {
-                    Log.d("nikola", "Status.LOADING");
                     if (!isNetworkAvailable()) {
                         showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_LONG);
                     }

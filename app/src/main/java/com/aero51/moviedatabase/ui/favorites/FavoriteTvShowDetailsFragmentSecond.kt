@@ -31,7 +31,8 @@ import com.aero51.moviedatabase.viewmodel.DetailsViewModel
 import com.aero51.moviedatabase.viewmodel.SharedViewModel
 import com.squareup.picasso.Picasso
 
-class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickListener,
+
+class FavoriteTvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListener,
     GenreObjectClickListener {
     private var binding: FragmentTvShowDetailsBinding? = null
     private var detailsViewModel: DetailsViewModel? = null
@@ -88,7 +89,7 @@ class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickList
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataFavoriteTvShow.observe(viewLifecycleOwner, Observer { tvShow ->
+        sharedViewModel!!.liveDataFavoriteTvShowFromGenreOrActor.observe(viewLifecycleOwner, Observer { tvShow ->
             binding!!.title.text = tvShow.name
             binding!!.releaseYear.text= tvShow.first_air_date?.let { DateHelper.formatDateStringToDefaultLocale(it,"yyyy-MM-dd","yyyy") }
             binding!!.releaseDate.text = tvShow.id.toString()
@@ -103,7 +104,7 @@ class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickList
             tvShow.name?.let { registerOmdbDetailsObserver(it) }
             registerTvShowVideosObserver(tvShow.id)
             registerTvShowDetailsObserver(tvShow.id)
-            isTvShowFavourite(tvShow.id)
+            isTvShowFavourite(tvShow.id )
         })
     }
 
@@ -187,7 +188,6 @@ class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickList
             }
         })
     }
-
     private fun isTvShowFavourite(tvShowId: Int) {
         //Checking if already added to favourite
 
@@ -214,8 +214,6 @@ class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickList
 
     }
 
-
-
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null
@@ -228,10 +226,10 @@ class FavoriteTvShowDetailsFragment : Fragment(), MovieCastAdapter.ItemClickList
     }
 
     override fun onItemClick(view: View?, actorId: Int, position: Int) {
-        sharedViewModel!!.changeToFavoriteTvActorFragment( actorId)
+        sharedViewModel!!.changeToTvActorFragment( actorId)
     }
 
     override fun onGenreItemClick(genreId: Int, position: Int) {
-        sharedViewModel?.changeToFavoriteTvShowsByGenreListFragment(genreId)
+        sharedViewModel?.changeToTvShowsByGenreListFragment(genreId)
     }
 }
