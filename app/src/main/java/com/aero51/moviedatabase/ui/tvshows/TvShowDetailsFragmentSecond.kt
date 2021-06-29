@@ -81,7 +81,7 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
     }
 
     private fun registerSharedViewModelObserver() {
-        sharedViewModel!!.liveDataTvShowFromTvShowActorFragment.observe(viewLifecycleOwner, Observer { tvShow ->
+        sharedViewModel!!.liveDataTvShowFromGenreOrActor.observe(viewLifecycleOwner, Observer { tvShow ->
             binding!!.title.text = tvShow.name
             binding!!.releaseYear.text= tvShow.first_air_date?.let { DateHelper.formatDateStringToDefaultLocale(it,"yyyy-MM-dd","yyyy") }
             binding!!.releaseDate.text = tvShow.id.toString()
