@@ -162,54 +162,19 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         actorFragmentBackPosition = sharedPrefPrivate.getInt("Saved ActorFragment back navigation", -1);
 
         customViewPager = findViewById(R.id.view_pager);
-        //customViewPager.setPagingEnabled(false);
         dynamicFragmentPagerAdapter = new DynamicFragmentPagerAdapter(getSupportFragmentManager(), MyApplication.getAppContext());
 
         customViewPager.setAdapter(dynamicFragmentPagerAdapter);
-        // getSupportActionBar().setDisplayShowTitleEnabled(false);
-        // getSupportActionBar().hide();
+
 
         //Initializing the bottomNavigationView
         bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
 
-/*
-        animatedBottomBar=(AnimatedBottomBar) findViewById(R.id.bottom_navigation);
-        animatedBottomBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
-            @Override
-            public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NotNull AnimatedBottomBar.Tab tab1) {
-                Log.d(Constants.LOG2, "onTabSelected: "+i1);
-                switch (i1) {
-                    case 0:
-                        viewPager.setCurrentItem(0);
-                        break;
-                    case 1:
-                        viewPager.setCurrentItem(1);
-                        break;
-                    case 2:
-                        viewPager.setCurrentItem(2);
-                        break;
-                }
-            }
 
-            @Override
-            public void onTabReselected(int i, @NotNull AnimatedBottomBar.Tab tab) {
-
-            }
-        });
-*/
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        //CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar_layout);
-        //collapsingToolbarLayout.setTitle(getTitle());
-
-        //for transparent status bar
-      /*  getWindow().setFlags(
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
-        );*/
 
 
         //tab layout not used anymore, instead bottom navigation view is used

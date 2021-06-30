@@ -14,9 +14,11 @@ import android.view.Menu;
 
 import com.aero51.moviedatabase.ui.CustomViewPager;
 import com.aero51.moviedatabase.ui.movies.MovieActorFragment;
+import com.aero51.moviedatabase.ui.search.MovieDetailsPeopleSearchFragment;
 import com.aero51.moviedatabase.ui.search.MoviesAndTvShowsActorSearchFragment;
 import com.aero51.moviedatabase.ui.movies.MovieDetailsFragment;
 import com.aero51.moviedatabase.ui.movies.MoviesByGenreListFragment;
+import com.aero51.moviedatabase.ui.search.TvShowDetailsPeopleSearchFragment;
 import com.aero51.moviedatabase.ui.tvshows.TvShowActorFragment;
 import com.aero51.moviedatabase.ui.tvshows.TvShowDetailsFragment;
 import com.aero51.moviedatabase.ui.tvshows.TvShowsByGenreListFragment;
@@ -45,6 +47,8 @@ public class SearchActivity extends AppCompatActivity {
     private DynamicFragmentPagerAdapter.FragmentIdentifier tvActorFragmentIdentifier;
 
     private DynamicFragmentPagerAdapter.FragmentIdentifier moviesAndTvShowsActorFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier movieDetailsPersonSearchFragmentIdentifier;
+    private DynamicFragmentPagerAdapter.FragmentIdentifier tvShowDetailsPersonSearchFragmentIdentifier;
 
     private SearchViewModel searchViewModel;
     private SharedViewModel sharedViewModel;
@@ -65,7 +69,7 @@ public class SearchActivity extends AppCompatActivity {
         sharedViewModel = new ViewModelProvider(this).get(SharedViewModel.class);
         registerShouldSwitchMovieFragmentsObservers();
         registerShouldSwitchTvShowFragmentsObservers();
-        registerShouldSwitchMoviesAndTvShowsFragmentsObservers();
+        registerShouldSwitchPersonFragmentsObservers();
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -145,8 +149,6 @@ public class SearchActivity extends AppCompatActivity {
                 return 0;
             }
         };
-
-
 
         dynamicFragmentPagerAdapter.addFragment(moviesSearchFragmentIdentifier);
         dynamicFragmentPagerAdapter.addFragment(tvShowsSearchFragmentIdentifier);
@@ -272,9 +274,10 @@ public class SearchActivity extends AppCompatActivity {
             }
         });
 
+
     }
 
-    private void registerShouldSwitchMoviesAndTvShowsFragmentsObservers() {
+    private void registerShouldSwitchPersonFragmentsObservers() {
         sharedViewModel.getSingleLiveShouldSwitchMoviesAndTvShowsActorFragment().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -293,6 +296,44 @@ public class SearchActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(2);
             }
         });
+        sharedViewModel.getSingleLiveShouldSwitchSearchMovieDetailFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                movieDetailsPersonSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(MovieDetailsPeopleSearchFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new MovieDetailsPeopleSearchFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(2, movieDetailsPersonSearchFragmentIdentifier);
+                viewPager.setCurrentItem(2);
+            }
+        });
+        sharedViewModel.getSingleLiveShouldSwitchSearchTvShowDetailFragment().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                tvShowDetailsPersonSearchFragmentIdentifier = new DynamicFragmentPagerAdapter.FragmentIdentifier(TvShowDetailsPeopleSearchFragment.class.getSimpleName(), null) {
+                    @Override
+                    protected Fragment createFragment() {
+                        return new TvShowDetailsPeopleSearchFragment();
+                    }
+
+                    @Override
+                    public int describeContents() {
+                        return 0;
+                    }
+                };
+                replaceFragment(2, tvShowDetailsPersonSearchFragmentIdentifier);
+                viewPager.setCurrentItem(2);
+            }
+        });
+
+
 
     }
 
@@ -350,11 +391,15 @@ public class SearchActivity extends AppCompatActivity {
                 } else if (currentFragmentTag.equals(MoviesAndTvShowsActorSearchFragment.class.getSimpleName())) {
                     replaceFragment(2, peopleSearchFragmentIdentifier);
                     viewPager.setCurrentItem(2);
+                }else if (currentFragmentTag.equals( MovieDetailsPeopleSearchFragment.class.getSimpleName())) {
+                    replaceFragment(2, moviesAndTvShowsActorFragmentIdentifier);
+                    viewPager.setCurrentItem(2);
+                }else if (currentFragmentTag.equals( TvShowDetailsPeopleSearchFragment.class.getSimpleName())) {
+                    replaceFragment(2, moviesAndTvShowsActorFragmentIdentifier);
+                    viewPager.setCurrentItem(2);
                 }
+
                 break;
-
-
-
 
         }
 
@@ -384,18 +429,7 @@ public class SearchActivity extends AppCompatActivity {
                 return false;
             }
         });
-        /*
-        // Associate searchable configuration with the SearchView
-        SearchManager searchManager =
-                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView =
-                (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(
-                searchManager.getSearchableInfo(getComponentName()));
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(new ComponentName(this, SearchActivity.class)));
-        searchView.setQueryHint(getResources().getString(R.string.search_hint));
 
-         */
         return super.onCreateOptionsMenu(menu);
     }
 

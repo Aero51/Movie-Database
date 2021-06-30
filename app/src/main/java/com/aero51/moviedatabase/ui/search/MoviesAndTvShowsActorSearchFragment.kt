@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.aero51.moviedatabase.R
 import com.aero51.moviedatabase.databinding.FragmentMovieAndTvShowActorBinding
+import com.aero51.moviedatabase.repository.model.tmdb.credits.TvShowWithPerson
 import com.aero51.moviedatabase.ui.adapter.MoviesWithPersonCastAdapter
 import com.aero51.moviedatabase.ui.adapter.SliderImageAdapter
 import com.aero51.moviedatabase.ui.adapter.TvShowsWithPersonCastAdapter
+import com.aero51.moviedatabase.ui.listeners.MediaClickListener
 import com.aero51.moviedatabase.utils.Constants
 import com.aero51.moviedatabase.utils.DateHelper
 import com.aero51.moviedatabase.utils.Status
@@ -25,7 +28,7 @@ import com.smarteist.autoimageslider.SliderAnimations
 import com.smarteist.autoimageslider.SliderView
 import com.squareup.picasso.Picasso
 
-class MoviesAndTvShowsActorSearchFragment : Fragment() {
+class MoviesAndTvShowsActorSearchFragment : Fragment(),MediaClickListener {
     private var viewModel: DetailsViewModel? = null
     private var sharedViewModel: SharedViewModel? = null
     private var binding: FragmentMovieAndTvShowActorBinding? = null
@@ -59,12 +62,12 @@ class MoviesAndTvShowsActorSearchFragment : Fragment() {
         val moviesLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInMoviesRecyclerViewHorizontal.layoutManager = moviesLinearLayoutManager
         //TODO implement click listener
-        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter(null)
+        moviesWithPersonCastAdapter = MoviesWithPersonCastAdapter(this)
         binding!!.starredInMoviesRecyclerViewHorizontal.adapter = moviesWithPersonCastAdapter
 
         val tvShowsLinearLayoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.starredInTvShowsRecyclerViewHorizontal.layoutManager = tvShowsLinearLayoutManager
-        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter(null)
+        tvShowsWithPersonCastAdapter = TvShowsWithPersonCastAdapter(this)
         binding!!.starredInTvShowsRecyclerViewHorizontal.adapter = tvShowsWithPersonCastAdapter
 
         sharedViewModel!!.liveDataMovieAndTvShowActorSearchId.observe(viewLifecycleOwner, { actorId -> registerActorObservers(actorId) })
@@ -126,5 +129,9 @@ class MoviesAndTvShowsActorSearchFragment : Fragment() {
                 tvShowsWithPersonCastAdapter!!.setList(data.cast)
             }
         })
+    }
+
+    override fun onMediaItemClick(media: Any?, position: Int) {
+        sharedViewModel?.changeToMediaDetailsFragment(media)
     }
 }
