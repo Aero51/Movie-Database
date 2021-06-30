@@ -1,5 +1,7 @@
-# Movie-Database
+# Tv-info
 Tv epg guide, movie and tv show database Mvvm, room db as single source of truth, retrofit,  live data, paging written in java using tmdb api and  my own epg api server
 
 
-![image](https://user-images.githubusercontent.com/2991113/104181908-de8da700-540f-11eb-833c-c1dfe7ef4268.png)
+![image](https://user-images.githubusercontent.com/2991113/124003946-cb7b8d00-d9d7-11eb-8336-10614824b6d7.jpg)
+![image](https://user-images.githubusercontent.com/2991113/124003941-ca4a6000-d9d7-11eb-90ea-d4078dd7ecd8.jpg)
+![image](https://user-images.githubusercontent.com/2991113/124003944-cb7b8d00-d9d7-11eb-964a-250c1ca126e3.jpg)
