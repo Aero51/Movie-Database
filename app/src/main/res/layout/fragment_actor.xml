@@ -71,15 +71,6 @@
                 android:layout_marginStart="8dp"
                 android:textColor="@color/primaryText" />
 
-            <TextView
-                android:id="@+id/text_view_imdb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/text_view_actor_homepage"
-                android:layout_alignParentStart="true"
-                android:text="imdb"
-                android:layout_marginStart="8dp"
-                android:textColor="@color/primaryText" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/biography_card_view"
@@ -90,7 +81,7 @@
                 android:layout_marginRight="10dp"
                 android:layout_marginBottom="10dp"
                 card_view:cardBackgroundColor="@color/light_green_transparent"
-                android:layout_below="@+id/text_view_imdb">
+                android:layout_below="@+id/text_view_actor_homepage">
 
                 <LinearLayout
                     android:id="@+id/biography_ll_container"
@@ -119,7 +110,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:layout_below="@+id/biography_card_view"
-                android:text="Starred in"
+                android:text="@string/starred_in"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:textStyle="bold" />

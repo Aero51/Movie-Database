@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Tv Info</string>
+
+
+
+
+
+
+    <string name="action_settings">Postavke</string>
+    <string name="search_title">Pretraži</string>
+    <string name="search_hint">Pretraži</string>
+    <string name="no_internet_message">Niste spojeni na internet.Spojite se i pokušajte ponovno.</string>
+    <string name="server_timeout_message">Greška u komunikaciji sa serverom.Pokušajte ponovno</string>
+
+
+    <string name="tab1">Tv vodič</string>
+    <string name="tab2">Filmovi</string>
+    <string name="tab3">Serije</string>
+    <string name="tab4">Favoriti</string>
+
+    <string-array name="list_preference_entries">
+        <item>Test</item>
+    </string-array>
+
+    <string-array name="list_preference_values">
+        <item>test </item>
+    </string-array>
+
+
+</resources>

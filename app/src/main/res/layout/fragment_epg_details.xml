@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/actor_search_recycler_view"
                 android:ellipsize="end"
-                android:text="Režiser"
+                tools:text="Režiser"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/primaryText" />
 
@@ -126,7 +126,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/text_view_directors"
                 android:ellipsize="end"
-                android:text="Pisci"
+                tools:text="Pisci"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="@color/primaryText" />
 

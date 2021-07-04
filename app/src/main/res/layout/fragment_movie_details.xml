@@ -184,10 +184,11 @@
                     android:padding="10dp">
 
                     <TextView
-                        style="@style/HeaderTextView"
+                        style="@style/DetailField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="overview" />
+                        android:text="@string/overview"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/overview"
@@ -211,7 +212,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
-                    android:text="Director:" />
+                    android:text="@string/director" />
 
                 <TextView
                     android:id="@+id/director_text_view"
@@ -232,7 +233,7 @@
                     android:layout_marginTop="10dp"
                     android:textStyle="bold"
                     android:layout_below="@+id/director_static_text_view"
-                    android:text="Writers:" />
+                    android:text="@string/writer" />
 
                 <TextView
                     android:id="@+id/writers_text_view"
@@ -278,7 +279,7 @@
             android:layout_below="@+id/details_linear_layout"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Žanrovi:"
+            android:text="@string/genres"
             android:textColor="@color/white"
             android:textSize="14sp"
             android:textStyle="bold" />
@@ -309,7 +310,7 @@
             android:layout_below="@+id/activityMainDivider3"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Informacije o filmu:"
+            android:text="@string/movie_information"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -320,7 +321,7 @@
             android:layout_below="@+id/information_static_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Orig. naslov:"
+            android:text="@string/original_title"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -343,7 +344,7 @@
             android:layout_below="@+id/original_title_static_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Izdano:"
+            android:text="@string/released"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -367,7 +368,7 @@
             android:layout_below="@+id/released_static_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Trajanje:"
+            android:text="@string/runtime"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -391,7 +392,7 @@
             android:layout_below="@+id/runtime_static_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Buđet:"
+            android:text="@string/budget"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -415,7 +416,7 @@
             android:layout_below="@+id/budget_static_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Prihod:"
+            android:text="@string/revenue"
             android:textColor="@color/white"
             android:textStyle="bold" />
 
@@ -473,7 +474,7 @@
             android:layout_below="@+id/divider3"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:text="Traileri:"
+            android:text="@string/trailers"
             android:textColor="@color/white"
             android:textStyle="bold" />
 

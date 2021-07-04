@@ -84,7 +84,6 @@ class TvShowDetailsFragmentSecond : Fragment(), MovieCastAdapter.ItemClickListen
         sharedViewModel!!.liveDataTvShowFromGenreOrActor.observe(viewLifecycleOwner, Observer { tvShow ->
             binding!!.title.text = tvShow.name
             binding!!.releaseYear.text= tvShow.first_air_date?.let { DateHelper.formatDateStringToDefaultLocale(it,"yyyy-MM-dd","yyyy") }
-            binding!!.releaseDate.text = tvShow.id.toString()
             binding!!.overview.text = tvShow.overview
             binding!!.tmdbRating.text = tvShow.vote_average.toString()
             val imageUrl: String = Constants.BASE_IMAGE_URL + Constants.BACKDROP_SIZE_W780 + tvShow.backdrop_path

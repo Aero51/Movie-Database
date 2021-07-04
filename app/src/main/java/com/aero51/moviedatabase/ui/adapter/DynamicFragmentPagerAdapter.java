@@ -18,6 +18,7 @@ import androidx.viewpager.widget.PagerAdapter;
 
 
 import com.aero51.moviedatabase.MainActivity;
+import com.aero51.moviedatabase.R;
 
 import java.util.ArrayList;
 
@@ -124,11 +125,11 @@ public class DynamicFragmentPagerAdapter extends PagerAdapter {
         switch (position) {
 
             case 0:
-                return "Filmovi";
+                return context.getResources().getString(R.string.movies);
             case 1:
-                return "Serije";
+                return context.getResources().getString(R.string.tv_shows);
             case 2:
-                return "Osobe";
+                return   context.getResources().getString(R.string.actors);
 
         }
         return null;

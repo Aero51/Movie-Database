@@ -5,11 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.search.TvShowsSearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="tv show  search fragment" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/tv_shows_search_recycler_view"

@@ -38,7 +38,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/primaryText"
-                android:text="Popular"
+                android:text="@string/top_rated_movies"
                 android:textSize="16sp"
                 android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
@@ -64,7 +64,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Popular"
+                android:text="@string/popular_movies"
                 android:textSize="16sp"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold" />
@@ -89,7 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Žanrovi:"
+                android:text="@string/movie_genres"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -116,7 +116,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Top"
+                android:text="@string/cinema_movies"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -142,7 +142,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Top"
+                android:text="@string/upcoming_movies"
                 android:textSize="14sp"
                 android:textColor="@color/white"
                 android:textStyle="bold" />
@@ -158,14 +158,5 @@
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/button_add_note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        android:layout_below="@+id/nestedScrollView"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="32dp" />
 
 </RelativeLayout>

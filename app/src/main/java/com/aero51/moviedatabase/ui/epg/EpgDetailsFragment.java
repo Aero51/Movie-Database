@@ -112,14 +112,14 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
             public void onChanged(EpgProgram epgProgram) {
                 // sharedViewModel.getLiveDataProgram().removeObserver(this);
                 extractJsonCredits(epgProgram.getCredits());
-                List<String> titlesList=extractJsonTitles(epgProgram.getTitle());
+                List<String> titlesList = extractJsonTitles(epgProgram.getTitle());
                 binding.textViewTitlePrimary.setText(titlesList.get(0));
-                if(titlesList.size()>1){
+                if (titlesList.size() > 1) {
                     binding.textViewTitleSecondary.setText(titlesList.get(1));
-                }else{
+                } else {
                     binding.textViewTitleSecondary.setText("");
                 }
-                if(epgProgram.getDate()==null)epgProgram.setDate("");
+                if (epgProgram.getDate() == null) epgProgram.setDate("");
                 binding.textViewDate.setText(epgProgram.getDate());
                 binding.textViewDescription.setText(epgProgram.getDesc());
                 //TODO   implement and test this:
@@ -131,7 +131,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 */
                 //.placeholder(R.drawable.picture_template)
                 if (epgProgram.getIcon().contains("epg.bnet.hr/images/")) {
-                  binding.imageViewProgram.setImageResource(R.drawable.no_photo);
+                    binding.imageViewProgram.setImageResource(R.drawable.no_photo);
                 } else {
                     Picasso.get().load(epgProgram.getIcon()).fit().centerCrop().into(binding.imageViewProgram, new Callback() {
                         @Override
@@ -149,10 +149,12 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
                 Uri picture_path = Uri.parse("android.resource://" + BuildConfig.APPLICATION_ID + "/drawable/" + epgProgram.getChannel());
                 Picasso.get().load(picture_path).placeholder(R.drawable.picture_template).into(binding.imageViewChannel);
 
-                binding.textViewDirectors.setText("Režiser: "+ StringHelper.Companion.joinStrings(", ", directors));
-                binding.textViewWriters.setText("Pisac: "+StringHelper.Companion.joinStrings(", ",writers));
-
-
+                if(directors.size()>0){
+                    binding.textViewDirectors.setText(getResources().getString(R.string.director) + StringHelper.Companion.joinStrings(", ", directors));
+                }
+                if(writers.size()>0) {
+                    binding.textViewWriters.setText(getResources().getString(R.string.writer) + StringHelper.Companion.joinStrings(", ", writers));
+                }
                 multipleActorsFetch();
             }
         });
@@ -182,6 +184,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
         }
         return titlesList;
     }
+
     private void extractJsonCredits(String credits) {
 
         writers = new ArrayList<>();
@@ -285,7 +288,7 @@ public class EpgDetailsFragment extends Fragment implements ActorSearchAdapter.I
 
     @Override
     public void onItemClick(ActorSearchResponse.ActorSearch actorSearch, int position) {
-        sharedViewModel.changeToEpgActorFragment( actorSearch.getId());
+        sharedViewModel.changeToEpgActorFragment(actorSearch.getId());
     }
 
 

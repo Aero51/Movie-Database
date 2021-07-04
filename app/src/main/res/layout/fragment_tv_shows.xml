@@ -37,7 +37,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Popular"
+                android:text="@string/popular_tv_shows"
                 android:textSize="14sp"
                 android:textColor="@color/primaryText"
                 android:textStyle="bold" />
@@ -63,7 +63,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Popular"
+                android:text="@string/trending_tv_shows"
                 android:textColor="@color/primaryText"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -82,7 +82,17 @@
                 android:layout_marginBottom="5dp"
                 android:background="#31C7C7CC" />
 
-
+            <TextView
+                android:id="@+id/text_view_genres_static"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/tv_show_genres"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/tv_show_genres_recycler_view_horizontal"
                 android:layout_width="match_parent"
@@ -101,7 +111,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/primaryText"
-                android:text="Popular"
+                android:text="@string/airing_tv_shows"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 

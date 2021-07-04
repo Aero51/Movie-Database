@@ -37,10 +37,6 @@ class MoviesFragment : Fragment(),
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentMoviesBinding.inflate(inflater, container, false)
-        binding!!.textViewTopRatedMovie.text = "Top rated movies:"
-        binding!!.textViewPopularMovie.text = "Popular movies:"
-        binding!!.textViewNowPlayingMovie.text = "Now playing movies:"
-        binding!!.textViewUpcomingMovie.text = "Upcoming movies:"
 
         //TextView emptyViewText = view.findViewById(R.id.empty_view);
         binding!!.topRatedMoviesRecyclerViewHorizontal.setHasFixedSize(true)

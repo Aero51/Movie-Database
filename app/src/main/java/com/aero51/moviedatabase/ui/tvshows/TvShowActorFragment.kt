@@ -91,7 +91,6 @@ class TvShowActorFragment : Fragment(),
                     actor.birthday?.let { formatDateStringToDefaultLocale(it, "yyyy-MM-dd", "dd MMMM yyyy") }
                 binding!!.textViewActorPlaceOfBirth.text = actor.place_of_birth
                 binding!!.textViewActorHomepage.text = actor.homepage
-                binding!!.textViewImdb.text = actor.id.toString()
                 binding!!.textViewBiography.text = actor.biography
                 val imageUrl: String = BASE_IMAGE_URL + PROFILE_SIZE_W185 + actor.profile_path
                 Picasso.get().load(imageUrl).fit().centerCrop().into(binding!!.posterImageView)

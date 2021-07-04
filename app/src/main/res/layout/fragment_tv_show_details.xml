@@ -26,60 +26,59 @@
             android:id="@+id/background_image_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:background="@drawable/circle"
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
-            />
+            android:background="@drawable/circle" />
+
         <CheckBox
             android:id="@+id/add_to_favourites_check_box"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
+            android:background="@drawable/like_icon"
             android:button="@null"
             android:checked="false"
             android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/like_icon" />
-
+            android:focusable="true" />
 
 
         <ImageView
             android:id="@+id/poster_image_view"
             android:layout_width="140dp"
             android:layout_height="220dp"
-            android:layout_marginTop="-110dp"
-            android:layout_marginStart="15dp"
             android:layout_below="@+id/cover_image_view"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="-110dp"
             android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="Movie Title"
+            android:layout_below="@+id/cover_image_view"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/poster_image_view"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="2"
-            android:layout_toEndOf="@+id/poster_image_view"
-            android:layout_below="@+id/cover_image_view"
             android:textColor="@color/primaryText"
-            android:layout_marginStart="10dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            tools:text="Tv show Title" />
 
         <TextView
             android:id="@+id/release_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            tools:text="2021"
+            android:layout_below="@+id/title"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/poster_image_view"
             android:ellipsize="end"
             android:gravity="center_horizontal"
             android:maxLines="2"
-            android:layout_below="@+id/title"
-            android:layout_toEndOf="@+id/poster_image_view"
             android:textColor="@color/primaryText"
-            android:layout_marginStart="10dp"
-            />
+            tools:text="2021" />
+
         <LinearLayout
             android:id="@+id/ratings_layout"
             android:layout_width="match_parent"
@@ -92,10 +91,10 @@
                 android:id="@+id/imdb_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="1"
                 android:drawableTop="@drawable/imdb_logo"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
@@ -110,10 +109,10 @@
                 android:id="@+id/rotten_tomatoes_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="1"
                 android:drawableTop="@drawable/rotten_tomatoes_logo"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
@@ -127,10 +126,10 @@
                 android:id="@+id/metacritic_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="1"
                 android:drawableTop="@drawable/metacritic_logo"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
@@ -143,10 +142,10 @@
                 android:id="@+id/tmdb_rating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
+                android:layout_weight="1"
                 android:drawableTop="@drawable/tmbd_logo"
                 android:drawablePadding="10dp"
                 android:ellipsize="end"
@@ -172,52 +171,39 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginBottom="16dp"
                 android:background="@color/white"
-                app:cardBackgroundColor="@color/light_green_transparent"
-                >
+                app:cardBackgroundColor="@color/light_green_transparent">
+
 
                 <LinearLayout
+                    android:id="@+id/overview_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="10dp">
-
-
+                    android:padding="10dp"
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/releaseDate"
+                        style="@style/DetailField"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:drawableLeft="@drawable/ic_calendar"
-                        android:drawablePadding="16dp"
-                        android:minHeight="48dp" />
+                        android:text="@string/overview"
+                        android:textStyle="bold" />
 
-                    <LinearLayout
-                        android:id="@+id/overview_container"
+                    <TextView
+                        android:id="@+id/overview"
+                        style="@style/DetailField"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:layout_height="wrap_content" />
 
-                        <TextView
-                            style="@style/HeaderTextView"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="overview" />
-
-                        <TextView
-                            android:id="@+id/overview"
-                            style="@style/DetailField"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
-
-                    </LinearLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_marginBottom="5dp"
                 android:background="@color/white" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cast_recycler_view"
                 android:layout_width="wrap_content"
@@ -227,8 +213,8 @@
                 android:id="@+id/divider2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginBottom="5dp"
                 android:layout_below="@+id/card_view"
+                android:layout_marginBottom="5dp"
                 android:background="@color/white" />
         </LinearLayout>
 
@@ -237,12 +223,12 @@
             android:id="@+id/text_view_genres_static"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/details_linear_layout"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_below="@+id/details_linear_layout"
-            android:text="Žanrovi:"
-            android:textSize="14sp"
+            android:text="@string/genres"
             android:textColor="@color/primaryText"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
@@ -251,8 +237,8 @@
             android:layout_height="50dp"
             android:layout_below="@+id/text_view_genres_static"
             android:layout_marginStart="10dp"
-            android:layout_marginBottom="15dp"
             android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
             android:orientation="horizontal" />
 
         <View
@@ -271,9 +257,9 @@
             android:layout_below="@+id/activityMainDivider3"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:text="@string/tv_show_information"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Informacije o seriji:" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/original_title_static_text_view"
@@ -282,21 +268,20 @@
             android:layout_below="@+id/information_static_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/original_title"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Orig. naslov:" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/original_title_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/information_static_text_view"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
             tools:text="naslov serije" />
-
 
 
         <TextView
@@ -304,20 +289,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/original_title_static_text_view"
-            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Izdano:" />
+            android:text="@string/released"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/released_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/original_title_static_text_view"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
             tools:text="2021" />
 
         <TextView
@@ -325,20 +310,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/released_text_view"
-            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Epizoda:" />
+            android:text="@string/epizodes"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/number_of_episodes_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/released_text_view"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
             tools:text="17" />
 
         <TextView
@@ -346,21 +331,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_episodes_text_view"
-            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Sezona:" />
+            android:text="@string/seasons"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/number_of_seasons_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_episodes_text_view"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
             tools:text="2" />
 
 
@@ -371,19 +356,19 @@
             android:layout_below="@+id/number_of_seasons_text_view"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
+            android:text="@string/runtime"
             android:textColor="@color/white"
-            android:textStyle="bold"
-            android:text="Trajanje:" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/runtime_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/number_of_seasons_text_view"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="10dp"
             android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
-            android:layout_marginTop="10dp"
-            android:layout_centerInParent="true"
             tools:text="120 minutes" />
 
 
@@ -392,19 +377,19 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/runtime_text_view"
-            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Kreator:" />
+            android:text="@string/created_by"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/created_by_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/runtime_text_view"
-            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
             android:textColor="@color/white"
             tools:text="David Chase" />
 
@@ -413,29 +398,29 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/created_by_static_text_view"
-            android:textColor="@color/white"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:textStyle="bold"
-            android:text="Produkcija:" />
+            android:text="@string/production"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/production_companies_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/created_by_static_text_view"
-            android:layout_toEndOf="@+id/original_title_static_text_view"
-            android:textColor="@color/white"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:layout_toEndOf="@+id/original_title_static_text_view"
+            android:textColor="@color/white"
             tools:text="Warner bros" />
 
         <View
             android:id="@+id/divider3"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginBottom="5dp"
             android:layout_below="@+id/production_companies_text_view"
+            android:layout_marginBottom="5dp"
             android:background="@color/white" />
 
 
@@ -444,17 +429,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/divider3"
-            android:textColor="@color/white"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="10dp"
-            android:textStyle="bold"
-            android:text="Traileri:" />
+            android:layout_marginTop="10dp"
+            android:text="@string/trailers"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/white"
+            android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/youtube_recycler_view"
-            android:layout_below="@+id/trailers_static_text_view"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/trailers_static_text_view" />
 
 
     </RelativeLayout>

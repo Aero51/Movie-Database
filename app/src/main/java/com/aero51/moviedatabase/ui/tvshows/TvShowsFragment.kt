@@ -42,9 +42,6 @@ class TvShowsFragment : Fragment(),
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentTvShowsBinding.inflate(inflater, container, false)
-        binding!!.textViewPopularTvShow.text = "Popular tv shows:"
-        binding!!.textViewAiringTvShow.text = "Airing tv shows:"
-        binding!!.textViewTrendingTvShow.text = "trending tv shows:"
         binding!!.popularTvShowsRecyclerViewHorizontal.setHasFixedSize(true)
         popularAdapter = PopularTvShowsPagedListAdapter(this)
         binding!!.popularTvShowsRecyclerViewHorizontal.adapter = popularAdapter
