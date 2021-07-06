@@ -166,7 +166,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                         showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_LONG);
                     }
                 } else if (listResource.getStatus() == Status.SUCCESS) {
-                    Log.d("nikola", "Status.SUCCESS");
                     binding.epgProgressBar.setVisibility(View.GONE);
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     if (listResource.getData().size() > 0) {
@@ -184,7 +183,6 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                     isLoading.setValue(false);
 
                 } else if (listResource.getStatus() == Status.ERROR) {
-                    Log.d("nikola", "Status.ERROR: " + listResource.getMessage());
                     epgViewModel.getResourceLiveData().removeObserver(this);
                     //happens when epg server is restarting
                     if (listResource.getMessage().equals("timeout")) {

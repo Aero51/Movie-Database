@@ -3,14 +3,14 @@
     <string name="app_name">Tv Info</string>
 
 
-    <string name="director">Režiser: </string>
+    <string name="director">Direktor: </string>
     <string name="writer">Pisac: </string>
 
     <string name="movies">Filmovi</string>
     <string name="tv_shows">Serije</string>
     <string name="actors">Glumci</string>
 
-    <string name="choose_from_list">Odaberi sa liste</string>
+    <string name="choose_from_list">Izaberi sa liste</string>
     <string name="croatian_basic_channels">Hrvatski osnovni kanali</string>
     <string name="serbian_channels">Srpski kanali</string>
     <string name="bosnian_channels">Bosanski kanali</string>
@@ -19,19 +19,19 @@
     <string name="sports_channels">Sportski kanali</string>
     <string name="documentary_channels">Dokumentarni kanali</string>
     <string name="news_channels">Informativni kanali</string>
-    <string name="children_channels">Dječji kanali</string>
+    <string name="children_channels">Dečiji kanali</string>
     <string name="entertainment_channels">Zabavni kanali</string>
     <string name="croatian_extra_channels">Hrvatski dodatni kanali</string>
 
-    <string name="top_rated_movies">Najbolje ocjenjeni filmovi:</string>
+    <string name="top_rated_movies">Najbolje ocenjeni filmovi:</string>
     <string name="popular_movies">Popularni filmovi:</string>
-    <string name="cinema_movies">Filmovi trenutno u kinima:</string>
+    <string name="cinema_movies">Filmovi u bioskopima:</string>
     <string name="upcoming_movies">Filmovi uskoro:</string>
     <string name="movie_genres">Filmski žanrovi:</string>
 
     <string name="popular_tv_shows">Popularne serije:</string>
     <string name="trending_tv_shows">Serije u trendu:</string>
-    <string name="airing_tv_shows">Serije koje se trenutno prikazuju:</string>
+    <string name="airing_tv_shows">Serije koje se trenutno emituju:</string>
     <string name="tv_show_genres">Žanrovi serija:</string>
 
     <string name="overview">Sadržaj</string>
@@ -41,7 +41,7 @@
     <string name="original_title">Orig. naslov: </string>
     <string name="released">Izdano:</string>
     <string name="runtime">Trajanje:</string>
-    <string name="budget">Buđet:</string>
+    <string name="budget">Budžet:</string>
     <string name="revenue">Prihod:</string>
     <string name="production">Produkcija:</string>
     <string name="trailers">Youtube najave:</string>
@@ -51,11 +51,11 @@
 
     <string name="starred_in">Glumio/la u:</string>
 
-    <string name="action_settings">Postavke</string>
+    <string name="action_settings">Podešavanje</string>
     <string name="search_title">Pretraži</string>
     <string name="search_hint">Pretraži</string>
-    <string name="no_internet_message">Niste spojeni na internet.Molimo spojite se i pokušajte ponovno.</string>
-    <string name="server_timeout_message">Greška u komunikaciji sa serverom.Molimo pokušajte ponovno.</string>
+    <string name="no_internet_message">Niste povezani na internet. Povežite se i pokušajte ponovo.</string>
+    <string name="server_timeout_message">Greška u komunikaciji sa serverom. Pokušajte ponovo.</string>
 
 
     <string name="tab1">Tv vodič</string>
@@ -70,5 +70,4 @@
     <string-array name="list_preference_values">
         <item>test </item>
     </string-array>
-
 </resources>

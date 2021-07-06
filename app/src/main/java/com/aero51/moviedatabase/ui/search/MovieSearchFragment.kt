@@ -36,7 +36,7 @@ class MovieSearchFragment : Fragment(),
         binding!!.moviesSearchRecyclerView.setHasFixedSize(true)
         moviesSearchAdapter = NowPlayingMoviesPagedListAdapter(this)
         binding!!.moviesSearchRecyclerView.adapter = moviesSearchAdapter
-        binding!!.moviesSearchRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding!!.moviesSearchRecyclerView.layoutManager = GridLayoutManager(context, 2)
         registerMovieSearchObserver()
         //showToolbar(true)
         showBackButton(true)

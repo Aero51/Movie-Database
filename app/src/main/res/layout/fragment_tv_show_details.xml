@@ -100,9 +100,8 @@
                 android:ellipsize="end"
                 android:gravity="center_horizontal"
                 android:maxLines="2"
-                android:text="Imdb rating"
                 android:textColor="@color/primaryText"
-                tools:text="imbd rating" />
+                tools:text="Imbd rating" />
 
 
             <TextView

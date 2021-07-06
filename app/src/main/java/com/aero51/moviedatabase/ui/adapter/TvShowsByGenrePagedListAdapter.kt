@@ -57,8 +57,6 @@ class TvShowsByGenrePagedListAdapter(private val itemClickListener: MediaClickLi
             textViewtitle.text = result!!.name
             val imageUrl: String = Constants.BASE_IMAGE_URL + Constants.POSTER_SIZE_W154 + result.poster_path
             // .placeholder(R.drawable.picture_template)
-            Log.d("nikola","title"+  result!!.original_name)
-            Log.d("nikola","imageUrl: "+  imageUrl)
             Picasso.get().load(imageUrl).fit().centerCrop().into(imageView, object : Callback {
                 override fun onSuccess() {}
                 override fun onError(e: Exception) {

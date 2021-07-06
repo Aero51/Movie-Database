@@ -16,19 +16,22 @@ class DateHelper {
             } catch (e: ParseException) {
                 e.printStackTrace()
             }
-            val defaultLocaleTargetFormat = SimpleDateFormat(newDateFormat, Locale("hr", "US"))
+            val language=Locale.getDefault().getLanguage();
+            val defaultLocaleTargetFormat = SimpleDateFormat(newDateFormat, Locale(language, "US"))
             return if(date != null)
                 defaultLocaleTargetFormat.format(date)
             else ""
         }
 
         fun getDefaultLocaleDateFromString(dateString: String,newDateFormat: String): Date {
-            val defaultLocaleTargetFormat= SimpleDateFormat(newDateFormat, Locale("en", "US"))
+            val language=Locale.getDefault().getLanguage();
+            val defaultLocaleTargetFormat= SimpleDateFormat(newDateFormat, Locale(language, "US"))
             val date = defaultLocaleTargetFormat.parse(dateString)
             return date
 
         }
         fun getDefaultLocaleStringfromDate(date: Date, newDateFormat: String): String {
+            val language=Locale.getDefault().getLanguage();
             var defaultLocaleTargetFormat= SimpleDateFormat(newDateFormat, Locale("en", "US"))
             return defaultLocaleTargetFormat.format(date)
         }

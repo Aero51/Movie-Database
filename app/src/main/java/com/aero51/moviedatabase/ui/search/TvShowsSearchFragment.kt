@@ -33,7 +33,7 @@ class TvShowsSearchFragment : Fragment(),
         binding!!.tvShowsSearchRecyclerView.setHasFixedSize(true)
         tvShowsSearchPagedListAdapter = TvShowsPagedListAdapter(this)
         binding!!.tvShowsSearchRecyclerView.adapter = tvShowsSearchPagedListAdapter
-        binding!!.tvShowsSearchRecyclerView.layoutManager = GridLayoutManager(context, 3)
+        binding!!.tvShowsSearchRecyclerView.layoutManager = GridLayoutManager(context, 2)
         registerTvShowsSearchObserver()
         return binding!!.root
     }
@@ -49,7 +49,6 @@ class TvShowsSearchFragment : Fragment(),
 
 
     override fun onMediaItemClick(tvShow: Any?, position: Int) {
-        Log.d("nikola","onObjectItemClick "+position)
         sharedViewModel.changeToTvShowDetailsFragment(tvShow)
     }
 
