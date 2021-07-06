@@ -62,6 +62,11 @@
     <string name="tab3">Tv shows</string>
     <string name="tab4">Favorites</string>
 
+
+
+    <string name="favorite_movies">Movies added to favorite list</string>
+    <string name="favorite_tv_shows">Tv shows added to favorite list</string>
+
     <string-array name="list_preference_entries">
         <item>Test</item>
     </string-array>

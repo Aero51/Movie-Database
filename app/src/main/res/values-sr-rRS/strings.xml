@@ -63,6 +63,10 @@
     <string name="tab3">Serije</string>
     <string name="tab4">Favoriti</string>
 
+
+    <string name="favorite_movies">Filmovi dodani na listu omiljenih</string>
+    <string name="favorite_tv_shows">Serije dodane na listu omiljenih</string>
+
     <string-array name="list_preference_entries">
         <item>Test</item>
     </string-array>

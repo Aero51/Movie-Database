@@ -201,6 +201,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         setSupportActionBar(toolbar);
 
 
+
         //tab layout not used anymore, instead bottom navigation view is used
         //TabLayout tabs = findViewById(R.id.tabs);
         //tabs.setupWithViewPager(viewPager);

@@ -54,6 +54,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     private List<EpgChannel> channelList;
 
     private EndlessRecyclerViewScrollListener scrollListener;
+    private Integer emptyCounter;
 
     public EpgFragment() {
         // Required empty public constructor
@@ -133,7 +134,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         isLoading = new MutableLiveData<>();
         isLoading.setValue(false);
         sharedViewModel.setHasEpgTvFragmentFinishedLoading(false);
-
+        emptyCounter = 0;
         binding.recyclerViewEpgParent.removeOnScrollListener(scrollListener);
         int temp = epgAdapter.getItemCount();
         isLoading.observe(getViewLifecycleOwner(), new Observer<Boolean>() {
@@ -143,7 +144,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                 if (!loading) {
                     int adapterItemCount = epgAdapter.getItemCount();
                     if (adapterItemCount < temp + 5 && channelList.size() > adapterItemCount) {
-                        registerGetProgramsForChannel(adapterItemCount);
+                            registerGetProgramsForChannel(adapterItemCount);
                     } else {
                         binding.recyclerViewEpgParent.addOnScrollListener(scrollListener);
                         //for notifying movie fragment that this one has finished loading
@@ -161,6 +162,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
         epgViewModel.getProgramsForChannel(channelList.get(adapterItemCount).getName()).observe(getViewLifecycleOwner(), new Observer<Resource<List<EpgProgram>>>() {
             @Override
             public void onChanged(Resource<List<EpgProgram>> listResource) {
+                Log.d("nikola", "onChanged: " + channelList.get(adapterItemCount).getName() + " status:" + listResource.getStatus());
                 if (listResource.getStatus() == Status.LOADING) {
                     if (!isNetworkAvailable()) {
                         showSnackbar(getResources().getString(R.string.no_internet_message), Snackbar.LENGTH_LONG);
@@ -175,8 +177,10 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
                     } else {
                         if (adapterItemCount > 0) {
                             channelList.remove(adapterItemCount - 1);
+                            Log.d("nikola", "channelList.remove ");
                         } else {
-                                channelList.clear();
+                            Log.d("nikola", "channelList.clear() ");
+                            channelList.remove(0);
                         }
                     }
 
@@ -197,7 +201,7 @@ public class EpgFragment extends Fragment implements ProgramItemClickListener, C
     public void onItemClick(int position, int db_id, EpgProgram epgProgram) {
         //intentional crash
         // Toast.makeText(null, "Crashed before shown.", Toast.LENGTH_SHORT).show();
-        sharedViewModel.changeToEpgDetailsFragment( epgProgram);
+        sharedViewModel.changeToEpgDetailsFragment(epgProgram);
 
     }
 
