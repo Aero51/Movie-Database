@@ -127,14 +127,14 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         switch (CheckAppStart.checkAppStart(getPackageManager(), getPackageName())) {
             case NORMAL:
                 // We don't want to get on the user's nerves
-                Log.d(Constants.LOG2, "not first time, normal  run. ");
+                //Log.d(Constants.LOG2, "not first time, normal  run. ");
                 break;
             case FIRST_TIME_VERSION:
-                // TODO show what's new
-                Log.d(Constants.LOG2, "first time version run ");
+
+                //Log.d(Constants.LOG2, "first time version run ");
                 break;
             case FIRST_TIME:
-                Log.d(Constants.LOG2, "first time  run ");
+                //Log.d(Constants.LOG2, "first time  run ");
                 TelephonyManager tm = (TelephonyManager) this.getSystemService(Context.TELEPHONY_SERVICE);
                 String countryCodeValue = tm.getNetworkCountryIso();
                 //populating channel preferences on first app run to avoid empty channels list
@@ -221,7 +221,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
                 } else {
                     bottomNavigationView.getMenu().getItem(0).setChecked(false);
                 }
-                Log.d(Constants.LOG2, "onPageSelected: " + position);
+                //Log.d(Constants.LOG2, "onPageSelected: " + position);
 
                 bottomNavigationView.getMenu().getItem(position).setChecked(true);
 
@@ -892,7 +892,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     public void onBackPressed() {
         //implement for each tab
         int currentViewPagerItem = customViewPager.getCurrentItem();
-        Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
+        //Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
 
         switch (currentViewPagerItem) {

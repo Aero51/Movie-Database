@@ -348,8 +348,8 @@ public class SearchActivity extends AppCompatActivity {
     public void onBackPressed() {
         //implement for each tab
         int currentViewPagerItem = viewPager.getCurrentItem();
-        Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
-        Log.d("nikola", " currentViewPagerItem: " + currentViewPagerItem);
+        //Log.d(Constants.LOG, " backstack count: " + getSupportFragmentManager().getBackStackEntryCount());
+        //Log.d("nikola", " currentViewPagerItem: " + currentViewPagerItem);
         String currentFragmentTag = dynamicFragmentPagerAdapter.getFragmentTagForPosition(currentViewPagerItem);
 
         switch (currentViewPagerItem) {
