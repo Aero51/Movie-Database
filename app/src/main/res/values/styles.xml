@@ -58,6 +58,7 @@
     <style name="PreferenceScreen" parent="MovieDatabaseTheme">
         <item name="android:textColor">@color/primaryText</item>
         <item name="android:textColorPrimary">#ffffff</item>
+        <item name="android:textColorSecondary">#ffffff</item>
         <item name="colorPrimaryDark">@color/dark_green</item>
         <item name="colorAccent">#ffffff</item>
         <item name="android:background">@color/dark_green</item>

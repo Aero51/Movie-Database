@@ -419,6 +419,7 @@ public class SearchActivity extends AppCompatActivity {
             public boolean onQueryTextSubmit(String query) {
                 searchQuery = query;
                 execSelectedFragmentSearch();
+                searchView.clearFocus();
                 return false;
             }
 

@@ -23,8 +23,8 @@ android {
         applicationId "com.aero51.moviedatabase"
         minSdkVersion 17
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 4
+        versionName "1.12"
         buildConfigField("String", "API_KEY", TMDB_API_KEY)
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

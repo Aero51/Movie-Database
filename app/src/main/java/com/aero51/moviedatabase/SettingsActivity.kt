@@ -8,9 +8,12 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        supportFragmentManager.beginTransaction()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
                 .replace(android.R.id.content, SettingsFragment())
                 .commit()
+
+        }
     }
 
     companion object {
